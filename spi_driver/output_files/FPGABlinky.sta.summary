@@ -1,0 +1,101 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1100mV 85C Model Setup 'spi:spi0|spi_clk'
+Slack : -4.929
+TNS   : -115.319
+
+Type  : Slow 1100mV 85C Model Setup 'CLOCK_50_B5B'
+Slack : -4.128
+TNS   : -49.688
+
+Type  : Slow 1100mV 85C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.288
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'CLOCK_50_B5B'
+Slack : 0.328
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
+Slack : -0.610
+TNS   : -32.226
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
+Slack : -0.538
+TNS   : -37.948
+
+Type  : Slow 1100mV 0C Model Setup 'spi:spi0|spi_clk'
+Slack : -5.237
+TNS   : -114.301
+
+Type  : Slow 1100mV 0C Model Setup 'CLOCK_50_B5B'
+Slack : -4.425
+TNS   : -54.269
+
+Type  : Slow 1100mV 0C Model Hold 'CLOCK_50_B5B'
+Slack : -0.162
+TNS   : -0.162
+
+Type  : Slow 1100mV 0C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.255
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
+Slack : -0.697
+TNS   : -32.328
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
+Slack : -0.538
+TNS   : -37.863
+
+Type  : Fast 1100mV 85C Model Setup 'CLOCK_50_B5B'
+Slack : -3.063
+TNS   : -10.829
+
+Type  : Fast 1100mV 85C Model Setup 'spi:spi0|spi_clk'
+Slack : -1.829
+TNS   : -42.976
+
+Type  : Fast 1100mV 85C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.038
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'CLOCK_50_B5B'
+Slack : 0.182
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
+Slack : -0.766
+TNS   : -17.084
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
+Slack : -0.005
+TNS   : -0.035
+
+Type  : Fast 1100mV 0C Model Setup 'CLOCK_50_B5B'
+Slack : -2.643
+TNS   : -9.524
+
+Type  : Fast 1100mV 0C Model Setup 'spi:spi0|spi_clk'
+Slack : -1.781
+TNS   : -37.936
+
+Type  : Fast 1100mV 0C Model Hold 'CLOCK_50_B5B'
+Slack : 0.002
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.046
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
+Slack : -0.820
+TNS   : -21.030
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
+Slack : 0.016
+TNS   : 0.000
+
+------------------------------------------------------------

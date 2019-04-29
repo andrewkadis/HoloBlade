@@ -1,0 +1,9 @@
+
+State Machine - |baseline_c5gx|spi:spi0|state_reg
+Name state_reg.LOWER_BYTE_TRANSFER state_reg.UPPER_BYTE_TRANSFER state_reg.UNLOAD_DATA state_reg.UNLOAD_LAST_BIT state_reg.LOAD state_reg.IDLE 
+state_reg.IDLE 0 0 0 0 0 0 
+state_reg.LOAD 0 0 0 0 1 1 
+state_reg.UNLOAD_LAST_BIT 0 0 0 1 0 1 
+state_reg.UNLOAD_DATA 0 0 1 0 0 1 
+state_reg.UPPER_BYTE_TRANSFER 0 1 0 0 0 1 
+state_reg.LOWER_BYTE_TRANSFER 1 0 0 0 0 1 
