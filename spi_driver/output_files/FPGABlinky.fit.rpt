@@ -1,5 +1,5 @@
 Fitter report for FPGABlinky
-Mon Apr 29 19:17:51 2019
+Tue Apr 30 10:05:06 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Fitter Summary                                                                ;
 +---------------------------------+---------------------------------------------+
-; Fitter Status                   ; Successful - Mon Apr 29 19:17:51 2019       ;
+; Fitter Status                   ; Successful - Tue Apr 30 10:05:06 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
@@ -404,7 +404,7 @@ refer to the applicable agreement for further details.
 +--------------+
 ; Pin-Out File ;
 +--------------+
-The pin-out file can be found in C:/Users/User/Documents/Dev/FPGA_Blinky/output_files/FPGABlinky.pin.
+The pin-out file can be found in C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/output_files/FPGABlinky.pin.
 
 
 +------------------------------------------------------------------------------------------+
@@ -2777,7 +2777,7 @@ Info (171004): Fitter is performing a Standard Fit compilation using maximum Fit
 Warning (292013): Feature LogicLock is only available with a valid subscription license. You can purchase a software subscription to gain full access to this feature.
 Warning (15714): Some pins have incomplete I/O assignments. Refer to the I/O Assignment Warnings report for details
 Info (184025): 1 differential I/O pins do not have complementary pins. As a result, the Fitter automatically creates the complementary pins.
-    Info (184026): differential I/O pin "CLOCK_125_p" does not have a complementary pin. As a result, the Fitter automatically creates the complementary pin "CLOCK_125_p(n)". File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 55
+    Info (184026): differential I/O pin "CLOCK_125_p" does not have a complementary pin. As a result, the Fitter automatically creates the complementary pin "CLOCK_125_p(n)". File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 55
 Info (184020): Starting Fitter periphery placement operations
 Info (11191): Automatically promoted 1 clock (1 global)
     Info (11162): CLOCK_50_B5B~inputCLKENA0 with 35 fanout uses global clock CLKCTRL_G10
@@ -2895,7 +2895,7 @@ Info (170193): Fitter routing operations beginning
 Info (170195): Router estimated average interconnect usage is 0% of the available device resources
     Info (170196): Router estimated peak interconnect usage is 1% of the available device resources in the region that extends from location X11_Y37 to location X22_Y48
 Info (170194): Fitter routing operations ending: elapsed time is 00:00:02
-Info (11888): Total time spent on timing analysis during the Fitter is 0.77 seconds.
+Info (11888): Total time spent on timing analysis during the Fitter is 0.80 seconds.
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
@@ -2903,150 +2903,150 @@ Info (334004): Delay annotation completed successfully
 Info (11801): Fitter post-fit operations ending: elapsed time is 00:00:07
 Warning (171167): Found invalid Fitter assignments. See the Ignored Assignments panel in the Fitter Compilation Report for more information.
 Warning (169064): Following 133 pins have no output enable or a GND or VCC output enable - later changes to this connectivity may change fitting results
-    Info (169065): Pin AUD_ADCLRCK has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 48
-    Info (169065): Pin AUD_BCLK has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 49
-    Info (169065): Pin AUD_DACLRCK has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 51
-    Info (169065): Pin GPIO[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[16] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[17] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[18] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[19] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[20] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[21] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[22] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[23] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[24] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[25] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[26] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[27] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[28] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[29] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[30] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[31] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[32] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[33] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[34] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[35] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin HSMC_D[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 113
-    Info (169065): Pin HSMC_D[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 113
-    Info (169065): Pin HSMC_D[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 113
-    Info (169065): Pin HSMC_D[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 113
-    Info (169065): Pin HSMC_RX_n[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[4] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[6] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_n[16] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 118
-    Info (169065): Pin HSMC_RX_p[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[4] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[6] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_RX_p[16] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 119
-    Info (169065): Pin HSMC_TX_n[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[4] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[6] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_n[16] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 120
-    Info (169065): Pin HSMC_TX_p[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[4] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[6] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin HSMC_TX_p[16] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 121
-    Info (169065): Pin I2C_SDA has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 126
-    Info (169065): Pin SD_CMD has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 145
-    Info (169065): Pin SD_DAT[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 146
-    Info (169065): Pin SD_DAT[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 146
-    Info (169065): Pin SD_DAT[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 146
-    Info (169065): Pin SD_DAT[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 146
-    Info (169065): Pin SRAM_D[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[4] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[6] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin SRAM_D[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 157
-    Info (169065): Pin GPIO[0] has a permanently enabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[2] has a permanently enabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[4] has a permanently enabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[6] has a permanently enabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-    Info (169065): Pin GPIO[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v Line: 80
-Info (144001): Generated suppressed messages file C:/Users/User/Documents/Dev/FPGA_Blinky/output_files/FPGABlinky.fit.smsg
+    Info (169065): Pin AUD_ADCLRCK has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 48
+    Info (169065): Pin AUD_BCLK has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 49
+    Info (169065): Pin AUD_DACLRCK has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 51
+    Info (169065): Pin GPIO[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[16] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[17] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[18] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[19] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[20] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[21] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[22] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[23] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[24] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[25] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[26] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[27] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[28] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[29] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[30] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[31] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[32] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[33] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[34] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[35] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin HSMC_D[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 113
+    Info (169065): Pin HSMC_D[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 113
+    Info (169065): Pin HSMC_D[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 113
+    Info (169065): Pin HSMC_D[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 113
+    Info (169065): Pin HSMC_RX_n[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[4] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[6] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_n[16] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 118
+    Info (169065): Pin HSMC_RX_p[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[4] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[6] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_RX_p[16] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 119
+    Info (169065): Pin HSMC_TX_n[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[4] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[6] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_n[16] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 120
+    Info (169065): Pin HSMC_TX_p[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[4] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[6] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin HSMC_TX_p[16] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 121
+    Info (169065): Pin I2C_SDA has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 126
+    Info (169065): Pin SD_CMD has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 145
+    Info (169065): Pin SD_DAT[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 146
+    Info (169065): Pin SD_DAT[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 146
+    Info (169065): Pin SD_DAT[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 146
+    Info (169065): Pin SD_DAT[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 146
+    Info (169065): Pin SRAM_D[0] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[1] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[2] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[3] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[4] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[5] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[6] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[7] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[9] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[10] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[11] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[12] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[13] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[14] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin SRAM_D[15] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
+    Info (169065): Pin GPIO[0] has a permanently enabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[2] has a permanently enabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[4] has a permanently enabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[6] has a permanently enabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Info (169065): Pin GPIO[8] has a permanently disabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+Info (144001): Generated suppressed messages file C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/output_files/FPGABlinky.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 94 warnings
-    Info: Peak virtual memory: 6667 megabytes
-    Info: Processing ended: Mon Apr 29 19:17:52 2019
+    Info: Peak virtual memory: 6662 megabytes
+    Info: Processing ended: Tue Apr 30 10:05:07 2019
     Info: Elapsed time: 00:00:29
-    Info: Total CPU time (on all processors): 00:00:59
+    Info: Total CPU time (on all processors): 00:01:00
 
 
 +----------------------------+
 ; Fitter Suppressed Messages ;
 +----------------------------+
-The suppressed messages can be found in C:/Users/User/Documents/Dev/FPGA_Blinky/output_files/FPGABlinky.fit.smsg.
+The suppressed messages can be found in C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/output_files/FPGABlinky.fit.smsg.
 
 

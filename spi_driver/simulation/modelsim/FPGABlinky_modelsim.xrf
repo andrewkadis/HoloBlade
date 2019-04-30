@@ -1,7 +1,7 @@
 vendor_name = ModelSim
-source_file = 1, C:/Users/User/Documents/Dev/FPGA_Blinky/baseline_c5gx.v
-source_file = 1, C:/Users/User/Documents/Dev/FPGA_Blinky/spi.v
-source_file = 1, C:/Users/User/Documents/Dev/FPGA_Blinky/db/FPGABlinky.cbx.xml
+source_file = 1, C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v
+source_file = 1, C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v
+source_file = 1, C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/db/FPGABlinky.cbx.xml
 design_name = baseline_c5gx
 instance = comp, \ADC_CONVST~output , ADC_CONVST~output, baseline_c5gx, 1
 instance = comp, \ADC_SCK~output , ADC_SCK~output, baseline_c5gx, 1

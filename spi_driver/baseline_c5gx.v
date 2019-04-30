@@ -208,8 +208,9 @@ reg[7:0] tx_addr_byte = 8'h00; // Test the Mode Register
 reg[7:0] tx_data_byte = 8'h00; // Data
 
 // RX Bytes
-wire[7:0] rx_buf_byte;
-assign LEDR[7:0] = rx_buf_byte;
+wire[7:0] rx_buf_byte_upper; // Unused
+wire[7:0] rx_buf_byte_lower;
+assign LEDR[7:0] = rx_buf_byte_lower;
 assign LEDR[8]   = spi_busy;
 
 // Read Register Button Press
@@ -267,7 +268,9 @@ spi spi0(
 	// Data Lines
 	.Tx_Upper_Byte(tx_addr_byte),
 	.Tx_Lower_Byte(tx_data_byte),
-	.Rx_Lower_Byte(rx_buf_byte),
+	.Rx_Upper_Byte(rx_buf_byte_upper),
+	.Rx_Lower_Byte(rx_buf_byte_lower),
+
 	
 	// System Signals
 	.sys_clk(CLOCK_50_B5B)
