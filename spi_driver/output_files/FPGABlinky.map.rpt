@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Tue Apr 30 10:04:37 2019
+Wed May 01 15:58:39 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -13,14 +13,14 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
   5. Analysis & Synthesis Source Files Read
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
-  8. State Machine - |baseline_c5gx|spi:spi0|state_reg
+  8. State Machine - |baseline_c5gx|SPI:spi0|state_reg
   9. Registers Removed During Synthesis
  10. Removed Registers Triggering Further Register Optimizations
  11. General Register Statistics
  12. Inverted Register Statistics
  13. Multiplexer Restructuring Statistics (Restructuring Performed)
- 14. Parameter Settings for User Entity Instance: spi:spi0
- 15. Port Connectivity Checks: "spi:spi0"
+ 14. Parameter Settings for User Entity Instance: SPI:spi0
+ 15. Port Connectivity Checks: "SPI:spi0"
  16. Post-Synthesis Netlist Statistics for Top Partition
  17. Elapsed Time Per Partition
  18. Analysis & Synthesis Messages
@@ -49,7 +49,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Tue Apr 30 10:04:37 2019       ;
+; Analysis & Synthesis Status     ; Successful - Wed May 01 15:58:39 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
@@ -188,14 +188,14 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+------------------+
 ; Resource                                    ; Usage            ;
 +---------------------------------------------+------------------+
-; Estimate of Logic utilization (ALMs needed) ; 47               ;
+; Estimate of Logic utilization (ALMs needed) ; 44               ;
 ;                                             ;                  ;
-; Combinational ALUT usage for logic          ; 75               ;
+; Combinational ALUT usage for logic          ; 74               ;
 ;     -- 7 input functions                    ; 0                ;
-;     -- 6 input functions                    ; 15               ;
-;     -- 5 input functions                    ; 8                ;
-;     -- 4 input functions                    ; 18               ;
-;     -- <=3 input functions                  ; 34               ;
+;     -- 6 input functions                    ; 10               ;
+;     -- 5 input functions                    ; 10               ;
+;     -- 4 input functions                    ; 17               ;
+;     -- <=3 input functions                  ; 37               ;
 ;                                             ;                  ;
 ; Dedicated logic registers                   ; 80               ;
 ;                                             ;                  ;
@@ -203,10 +203,10 @@ refer to the applicable agreement for further details.
 ;                                             ;                  ;
 ; Total DSP Blocks                            ; 0                ;
 ;                                             ;                  ;
-; Maximum fan-out node                        ; spi:spi0|spi_clk ;
+; Maximum fan-out node                        ; SPI:spi0|spi_clk ;
 ; Maximum fan-out                             ; 46               ;
-; Total fan-out                               ; 864              ;
-; Average fan-out                             ; 1.07             ;
+; Total fan-out                               ; 848              ;
+; Average fan-out                             ; 1.06             ;
 +---------------------------------------------+------------------+
 
 
@@ -215,15 +215,15 @@ refer to the applicable agreement for further details.
 +----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------+---------------+--------------+
 ; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name     ; Entity Name   ; Library Name ;
 +----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------+---------------+--------------+
-; |baseline_c5gx             ; 75 (28)             ; 80 (30)                   ; 0                 ; 0          ; 258  ; 0            ; |baseline_c5gx          ; baseline_c5gx ; work         ;
-;    |spi:spi0|              ; 47 (47)             ; 50 (50)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|spi:spi0 ; spi           ; work         ;
+; |baseline_c5gx             ; 74 (28)             ; 80 (30)                   ; 0                 ; 0          ; 258  ; 0            ; |baseline_c5gx          ; baseline_c5gx ; work         ;
+;    |SPI:spi0|              ; 46 (46)             ; 50 (50)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|SPI:spi0 ; SPI           ; work         ;
 +----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------+---------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
 Encoding Type:  One-Hot
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; State Machine - |baseline_c5gx|spi:spi0|state_reg                                                                                                                                   ;
+; State Machine - |baseline_c5gx|SPI:spi0|state_reg                                                                                                                                   ;
 +-------------------------------+-------------------------------+-------------------------------+-----------------------+---------------------------+----------------+----------------+
 ; Name                          ; state_reg.LOWER_BYTE_TRANSFER ; state_reg.UPPER_BYTE_TRANSFER ; state_reg.UNLOAD_DATA ; state_reg.UNLOAD_LAST_BIT ; state_reg.LOAD ; state_reg.IDLE ;
 +-------------------------------+-------------------------------+-------------------------------+-----------------------+---------------------------+----------------+----------------+
@@ -244,10 +244,10 @@ Encoding Type:  One-Hot
 ; tx_addr_byte[2..6]                     ; Merged with tx_addr_byte[1]            ;
 ; tx_data_byte[0,2..7]                   ; Merged with tx_addr_byte[1]            ;
 ; tx_addr_byte[1]                        ; Stuck at GND due to stuck port data_in ;
-; spi:spi0|tx_shift_reg[0]               ; Stuck at GND due to stuck port data_in ;
-; spi:spi0|state_reg~4                   ; Lost fanout                            ;
-; spi:spi0|state_reg~5                   ; Lost fanout                            ;
-; spi:spi0|state_reg~6                   ; Lost fanout                            ;
+; SPI:spi0|tx_shift_reg[0]               ; Stuck at GND due to stuck port data_in ;
+; SPI:spi0|state_reg~4                   ; Lost fanout                            ;
+; SPI:spi0|state_reg~5                   ; Lost fanout                            ;
+; SPI:spi0|state_reg~6                   ; Lost fanout                            ;
 ; Total Number of Removed Registers = 17 ;                                        ;
 +----------------------------------------+----------------------------------------+
 
@@ -257,7 +257,7 @@ Encoding Type:  One-Hot
 +-----------------+---------------------------+----------------------------------------+
 ; Register name   ; Reason for Removal        ; Registers Removed due to This Register ;
 +-----------------+---------------------------+----------------------------------------+
-; tx_addr_byte[1] ; Stuck at GND              ; spi:spi0|tx_shift_reg[0]               ;
+; tx_addr_byte[1] ; Stuck at GND              ; SPI:spi0|tx_shift_reg[0]               ;
 ;                 ; due to stuck port data_in ;                                        ;
 +-----------------+---------------------------+----------------------------------------+
 
@@ -282,7 +282,7 @@ Encoding Type:  One-Hot
 +----------------------------------------+---------+
 ; Inverted Register                      ; Fan out ;
 +----------------------------------------+---------+
-; spi:spi0|CS                            ; 2       ;
+; SPI:spi0|CS                            ; 2       ;
 ; Total number of inverted registers = 1 ;         ;
 +----------------------------------------+---------+
 
@@ -293,13 +293,14 @@ Encoding Type:  One-Hot
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output        ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------+
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[7]    ;
-; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector0 ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector2 ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |baseline_c5gx|SPI:spi0|Selector1 ;
+; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; No         ; |baseline_c5gx|SPI:spi0|Selector0 ;
+; 9:1                ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |baseline_c5gx|SPI:spi0|Selector2 ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------+
 
 
 +-------------------------------------------------------+
-; Parameter Settings for User Entity Instance: spi:spi0 ;
+; Parameter Settings for User Entity Instance: SPI:spi0 ;
 +-----------------+-------+-----------------------------+
 ; Parameter Name  ; Value ; Type                        ;
 +-----------------+-------+-----------------------------+
@@ -311,7 +312,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +-------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "spi:spi0"                                                                                    ;
+; Port Connectivity Checks: "SPI:spi0"                                                                                    ;
 +---------------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port          ; Type   ; Severity ; Details                                                                             ;
 +---------------+--------+----------+-------------------------------------------------------------------------------------+
@@ -330,22 +331,22 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     SCLR              ; 8                           ;
 ;     plain             ; 51                          ;
 ; arriav_io_obuf        ; 133                         ;
-; arriav_lcell_comb     ; 76                          ;
+; arriav_lcell_comb     ; 75                          ;
 ;     arith             ; 23                          ;
 ;         1 data inputs ; 22                          ;
 ;         2 data inputs ; 1                           ;
-;     normal            ; 53                          ;
+;     normal            ; 52                          ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 3                           ;
-;         2 data inputs ; 3                           ;
-;         3 data inputs ; 5                           ;
-;         4 data inputs ; 18                          ;
-;         5 data inputs ; 8                           ;
-;         6 data inputs ; 15                          ;
+;         2 data inputs ; 4                           ;
+;         3 data inputs ; 7                           ;
+;         4 data inputs ; 17                          ;
+;         5 data inputs ; 10                          ;
+;         6 data inputs ; 10                          ;
 ; boundary_port         ; 258                         ;
 ;                       ;                             ;
 ; Max LUT depth         ; 3.20                        ;
-; Average LUT depth     ; 1.00                        ;
+; Average LUT depth     ; 1.01                        ;
 +-----------------------+-----------------------------+
 
 
@@ -364,14 +365,14 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Tue Apr 30 10:04:29 2019
+    Info: Processing started: Wed May 01 15:58:30 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
 Info (12021): Found 1 design units, including 1 entities, in source file baseline_c5gx.v
     Info (12023): Found entity 1: baseline_c5gx File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 38
 Info (12021): Found 1 design units, including 1 entities, in source file spi.v
-    Info (12023): Found entity 1: spi File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 21
+    Info (12023): Found entity 1: SPI File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 21
 Info (12127): Elaborating entity "baseline_c5gx" for the top level hierarchy
 Warning (10230): Verilog HDL assignment warning at baseline_c5gx.v(193): truncated value with size 32 to match size of target (24) File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 193
 Warning (10034): Output port "HDMI_TX_D" at baseline_c5gx.v(93) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 93
@@ -400,19 +401,18 @@ Warning (10034): Output port "SRAM_OE_n" at baseline_c5gx.v(159) has no driver F
 Warning (10034): Output port "SRAM_UB_n" at baseline_c5gx.v(160) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 160
 Warning (10034): Output port "SRAM_WE_n" at baseline_c5gx.v(161) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 161
 Warning (10034): Output port "UART_TX" at baseline_c5gx.v(171) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 171
-Info (12128): Elaborating entity "spi" for hierarchy "spi:spi0" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 278
-Warning (10230): Verilog HDL assignment warning at spi.v(157): truncated value with size 32 to match size of target (4) File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 157
-Warning (10235): Verilog HDL Always Construct warning at spi.v(172): variable "enable" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 172
-Warning (10235): Verilog HDL Always Construct warning at spi.v(174): variable "start_transfer" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 174
-Warning (10235): Verilog HDL Always Construct warning at spi.v(180): variable "t" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 180
-Warning (10235): Verilog HDL Always Construct warning at spi.v(185): variable "t" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 185
-Warning (10235): Verilog HDL Always Construct warning at spi.v(194): variable "t" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 194
-Warning (10235): Verilog HDL Always Construct warning at spi.v(199): variable "t" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 199
-Warning (10235): Verilog HDL Always Construct warning at spi.v(222): variable "CS" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 222
-Warning (10235): Verilog HDL Always Construct warning at spi.v(223): variable "state_reg" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 223
-Info (10264): Verilog HDL Case Statement information at spi.v(242): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 242
-Info (10264): Verilog HDL Case Statement information at spi.v(269): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 269
-Info (10264): Verilog HDL Case Statement information at spi.v(293): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 293
+Info (12128): Elaborating entity "SPI" for hierarchy "SPI:spi0" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 278
+Warning (10230): Verilog HDL assignment warning at spi.v(156): truncated value with size 32 to match size of target (4) File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 156
+Warning (10235): Verilog HDL Always Construct warning at spi.v(171): variable "enable" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 171
+Warning (10235): Verilog HDL Always Construct warning at spi.v(173): variable "start_transfer" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 173
+Warning (10235): Verilog HDL Always Construct warning at spi.v(179): variable "t" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 179
+Warning (10235): Verilog HDL Always Construct warning at spi.v(192): variable "t" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 192
+Warning (10235): Verilog HDL Always Construct warning at spi.v(197): variable "t" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 197
+Warning (10235): Verilog HDL Always Construct warning at spi.v(220): variable "CS" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 220
+Warning (10235): Verilog HDL Always Construct warning at spi.v(221): variable "state_reg" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 221
+Info (10264): Verilog HDL Case Statement information at spi.v(240): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 240
+Info (10264): Verilog HDL Case Statement information at spi.v(267): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 267
+Info (10264): Verilog HDL Case Statement information at spi.v(291): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 291
 Warning (13034): The following nodes have both tri-state and non-tri-state drivers
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[2]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[4]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
@@ -675,10 +675,10 @@ Info (21057): Implemented 355 device resources after synthesis - the final resou
     Info (21059): Implemented 96 output pins
     Info (21060): Implemented 133 bidirectional pins
     Info (21061): Implemented 97 logic cells
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 290 warnings
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 289 warnings
     Info: Peak virtual memory: 4872 megabytes
-    Info: Processing ended: Tue Apr 30 10:04:37 2019
-    Info: Elapsed time: 00:00:08
-    Info: Total CPU time (on all processors): 00:00:17
+    Info: Processing ended: Wed May 01 15:58:39 2019
+    Info: Elapsed time: 00:00:09
+    Info: Total CPU time (on all processors): 00:00:18
 
 

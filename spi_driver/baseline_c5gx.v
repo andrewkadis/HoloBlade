@@ -249,7 +249,7 @@ end
 // Reset Line for SLM needs to be high
 assign GPIO[0] = 1;
 
-spi spi0(
+SPI spi0(
 	
 	// Control Signals
 	.enable(spi_enable),

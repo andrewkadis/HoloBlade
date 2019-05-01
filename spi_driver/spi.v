@@ -18,7 +18,7 @@
 // In order to perform a transfer, load up Tx_Addr_Byte and Tx_Data_Byte and set start_transfer
 // Check that a transfer is complete by polling the busy flag, after which the results can be read by reading Rx_Data_Byte
 
-module spi(
+module SPI(
 
 	// Control Signals
 	input wire enable,
@@ -123,7 +123,6 @@ reg[2:0] state_next = IDLE;
 	 
 // timer
 localparam LOAD_T   = 2; // Tsdsu >= 10ns setup time (pg. 21 datasheet), so hold for 2 spi cycles (2uS). Note that we have to wait 2 rather than 1 to avoid a synchronous rising edge/falling edge issue
-localparam UNLOAD_T = 1; // Need time to clock out the last bit which was read
 
 // Timeouts for states below, we minus 1 because addressing from 0 and minus 1 because of preparing on falling edge but sampling on rising edge
 localparam UPPER_BYTE_TRANSFER_T  = 1*WORD_WIDTH-2; // 1 Byte to send Address, take an extra 1 off for the LOAD stage
@@ -182,8 +181,7 @@ always @(state_reg) begin
 		  end
 		  
 		  UNLOAD_LAST_BIT: begin
-				if(t==UNLOAD_T) // Clock out the last bit from the read
-					state_next <= UNLOAD_DATA;
+				state_next <= UNLOAD_DATA; // Needs to be an auto transition to ensure we only get 1 posedge and 1 negedge
 		  end 
 		  
 		  UNLOAD_DATA: begin
@@ -297,7 +295,7 @@ always @(posedge spi_clk) begin
 		// Unloading at the end of a transfer
 		UNLOAD_LAST_BIT      : begin rx_shift_reg <= {rx_shift_reg[SHIFT_REG_WIDTH-2:0], MISO};               end	
 		UNLOAD_DATA          : begin Rx_Upper_Byte <= rx_shift_reg[15:8]; Rx_Lower_Byte <= rx_shift_reg[7:0]; end
-    endcase
+    endcase 
 	
 end
 

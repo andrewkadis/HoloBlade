@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(5CGXFC5C6F27) Path("C:/Users/User/Documents/Dev/FPGA_Blinky/output_files/") File("FPGABlinky.sof") MfrSpec(OpMask(1));
+		Device PartName(5CGXFC5C6F27) Path("C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/output_files/") File("FPGABlinky.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
