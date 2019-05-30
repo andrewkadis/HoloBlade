@@ -1,0 +1,170 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 560 416)
+	(text "uart" (rect 269 -1 284 11)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 400 20 412)(font "Arial" ))
+	(port
+		(pt 0 72)
+		(input)
+		(text "clk_clk" (rect 0 0 27 12)(font "Arial" (font_size 8)))
+		(text "clk_clk" (rect 4 61 46 72)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 240 72)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "reset_reset_n" (rect 0 0 56 12)(font "Arial" (font_size 8)))
+		(text "reset_reset_n" (rect 4 101 82 112)(font "Arial" (font_size 8)))
+		(line (pt 0 112)(pt 240 112)(line_width 1))
+	)
+	(port
+		(pt 0 152)
+		(input)
+		(text "rs232_0_avalon_rs232_slave_address" (rect 0 0 158 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_avalon_rs232_slave_address" (rect 4 141 208 152)(font "Arial" (font_size 8)))
+		(line (pt 0 152)(pt 240 152)(line_width 1))
+	)
+	(port
+		(pt 0 168)
+		(input)
+		(text "rs232_0_avalon_rs232_slave_chipselect" (rect 0 0 164 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_avalon_rs232_slave_chipselect" (rect 4 157 226 168)(font "Arial" (font_size 8)))
+		(line (pt 0 168)(pt 240 168)(line_width 1))
+	)
+	(port
+		(pt 0 184)
+		(input)
+		(text "rs232_0_avalon_rs232_slave_byteenable[3..0]" (rect 0 0 188 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_avalon_rs232_slave_byteenable[3..0]" (rect 4 173 262 184)(font "Arial" (font_size 8)))
+		(line (pt 0 184)(pt 240 184)(line_width 3))
+	)
+	(port
+		(pt 0 200)
+		(input)
+		(text "rs232_0_avalon_rs232_slave_read" (rect 0 0 143 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_avalon_rs232_slave_read" (rect 4 189 190 200)(font "Arial" (font_size 8)))
+		(line (pt 0 200)(pt 240 200)(line_width 1))
+	)
+	(port
+		(pt 0 216)
+		(input)
+		(text "rs232_0_avalon_rs232_slave_write" (rect 0 0 143 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_avalon_rs232_slave_write" (rect 4 205 196 216)(font "Arial" (font_size 8)))
+		(line (pt 0 216)(pt 240 216)(line_width 1))
+	)
+	(port
+		(pt 0 232)
+		(input)
+		(text "rs232_0_avalon_rs232_slave_writedata[31..0]" (rect 0 0 184 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_avalon_rs232_slave_writedata[31..0]" (rect 4 221 262 232)(font "Arial" (font_size 8)))
+		(line (pt 0 232)(pt 240 232)(line_width 3))
+	)
+	(port
+		(pt 0 288)
+		(input)
+		(text "rs232_0_clk_clk" (rect 0 0 66 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_clk_clk" (rect 4 277 94 288)(font "Arial" (font_size 8)))
+		(line (pt 0 288)(pt 240 288)(line_width 1))
+	)
+	(port
+		(pt 0 328)
+		(input)
+		(text "rs232_0_external_interface_RXD" (rect 0 0 136 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_external_interface_RXD" (rect 4 317 184 328)(font "Arial" (font_size 8)))
+		(line (pt 0 328)(pt 240 328)(line_width 1))
+	)
+	(port
+		(pt 0 384)
+		(input)
+		(text "rs232_0_reset_reset" (rect 0 0 84 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_reset_reset" (rect 4 373 118 384)(font "Arial" (font_size 8)))
+		(line (pt 0 384)(pt 240 384)(line_width 1))
+	)
+	(port
+		(pt 0 248)
+		(output)
+		(text "rs232_0_avalon_rs232_slave_readdata[31..0]" (rect 0 0 184 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_avalon_rs232_slave_readdata[31..0]" (rect 4 237 256 248)(font "Arial" (font_size 8)))
+		(line (pt 0 248)(pt 240 248)(line_width 3))
+	)
+	(port
+		(pt 0 344)
+		(output)
+		(text "rs232_0_external_interface_TXD" (rect 0 0 134 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_external_interface_TXD" (rect 4 333 184 344)(font "Arial" (font_size 8)))
+		(line (pt 0 344)(pt 240 344)(line_width 1))
+	)
+	(port
+		(pt 560 72)
+		(output)
+		(text "rs232_0_interrupt_irq" (rect 0 0 86 12)(font "Arial" (font_size 8)))
+		(text "rs232_0_interrupt_irq" (rect 451 61 577 72)(font "Arial" (font_size 8)))
+		(line (pt 560 72)(pt 320 72)(line_width 1))
+	)
+	(drawing
+		(text "clk" (rect 225 43 468 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 245 67 508 144)(font "Arial" (color 0 0 0)))
+		(text "reset" (rect 211 83 452 179)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "reset_n" (rect 245 107 532 224)(font "Arial" (color 0 0 0)))
+		(text "rs232_0_avalon_rs232_slave" (rect 69 123 294 259)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "address" (rect 245 147 532 304)(font "Arial" (color 0 0 0)))
+		(text "chipselect" (rect 245 163 550 336)(font "Arial" (color 0 0 0)))
+		(text "byteenable" (rect 245 179 550 368)(font "Arial" (color 0 0 0)))
+		(text "read" (rect 245 195 514 400)(font "Arial" (color 0 0 0)))
+		(text "write" (rect 245 211 520 432)(font "Arial" (color 0 0 0)))
+		(text "writedata" (rect 245 227 544 464)(font "Arial" (color 0 0 0)))
+		(text "readdata" (rect 245 243 538 496)(font "Arial" (color 0 0 0)))
+		(text "rs232_0_clk" (rect 169 259 404 531)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 245 283 508 576)(font "Arial" (color 0 0 0)))
+		(text "rs232_0_external_interface" (rect 80 299 316 611)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "RXD" (rect 245 323 508 656)(font "Arial" (color 0 0 0)))
+		(text "TXD" (rect 245 339 508 688)(font "Arial" (color 0 0 0)))
+		(text "rs232_0_interrupt" (rect 321 43 744 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "irq" (rect 306 67 630 144)(font "Arial" (color 0 0 0)))
+		(text "rs232_0_reset" (rect 155 355 388 723)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "reset" (rect 245 379 520 768)(font "Arial" (color 0 0 0)))
+		(text " uart " (rect 540 400 1116 810)(font "Arial" ))
+		(line (pt 240 32)(pt 320 32)(line_width 1))
+		(line (pt 320 32)(pt 320 400)(line_width 1))
+		(line (pt 240 400)(pt 320 400)(line_width 1))
+		(line (pt 240 32)(pt 240 400)(line_width 1))
+		(line (pt 241 52)(pt 241 76)(line_width 1))
+		(line (pt 242 52)(pt 242 76)(line_width 1))
+		(line (pt 241 92)(pt 241 116)(line_width 1))
+		(line (pt 242 92)(pt 242 116)(line_width 1))
+		(line (pt 241 132)(pt 241 252)(line_width 1))
+		(line (pt 242 132)(pt 242 252)(line_width 1))
+		(line (pt 241 268)(pt 241 292)(line_width 1))
+		(line (pt 242 268)(pt 242 292)(line_width 1))
+		(line (pt 241 308)(pt 241 348)(line_width 1))
+		(line (pt 242 308)(pt 242 348)(line_width 1))
+		(line (pt 319 52)(pt 319 76)(line_width 1))
+		(line (pt 318 52)(pt 318 76)(line_width 1))
+		(line (pt 241 364)(pt 241 388)(line_width 1))
+		(line (pt 242 364)(pt 242 388)(line_width 1))
+		(line (pt 0 0)(pt 560 0)(line_width 1))
+		(line (pt 560 0)(pt 560 416)(line_width 1))
+		(line (pt 0 416)(pt 560 416)(line_width 1))
+		(line (pt 0 0)(pt 0 416)(line_width 1))
+	)
+)

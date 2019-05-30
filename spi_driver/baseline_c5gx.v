@@ -248,6 +248,24 @@ end
 
 // Reset Line for SLM needs to be high
 assign GPIO[0] = 1;
+//assign GPIO[16] = CLOCK_50_B5B;
+//assign GPIO[35] = CLOCK_50_B5B;
+
+
+
+
+//always @(CLOCK_50_B5B) begin
+//
+//
+//
+//end
+
+
+
+
+//	half_clk <= ~half_clk;
+assign GPIO[35] = half_clk;
+
 
 SPI spi0(
 	
@@ -276,6 +294,12 @@ SPI spi0(
 	.sys_clk(CLOCK_50_B5B)
 	
 );
+
+//// Directly pipe out our clock signal
+//always @(CLOCK_50_B5B) begin
+//	
+//	GPIO[16] = CLOCK_50_B5B;
+//end
 
 endmodule
 

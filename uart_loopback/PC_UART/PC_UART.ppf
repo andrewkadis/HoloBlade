@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pinplan
+ variation_name="rs232_0"
+ megafunction_name="ALTERA_UP_AVALON_RS232"
+ intended_family="Cyclone V"
+ specifies="all_ports">
+ <global>
+  <pin name="clk" direction="input" scope="external" />
+  <pin name="reset" direction="input" scope="external" />
+  <pin name="from_uart_ready" direction="input" scope="external" />
+  <pin name="from_uart_data[7..0]" direction="output" scope="external" />
+  <pin name="from_uart_error" direction="output" scope="external" />
+  <pin name="from_uart_valid" direction="output" scope="external" />
+  <pin name="to_uart_data[7..0]" direction="input" scope="external" />
+  <pin name="to_uart_error" direction="input" scope="external" />
+  <pin name="to_uart_valid" direction="input" scope="external" />
+  <pin name="to_uart_ready" direction="output" scope="external" />
+  <pin name="UART_RXD" direction="input" scope="external" />
+  <pin name="UART_TXD" direction="output" scope="external" />
+ </global>
+</pinplan>

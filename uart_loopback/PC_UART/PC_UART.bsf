@@ -1,0 +1,148 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 432 288)
+	(text "PC_UART" (rect 186 -1 234 11)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 272 20 284)(font "Arial" ))
+	(port
+		(pt 432 72)
+		(input)
+		(text "from_uart_ready" (rect 0 0 70 12)(font "Arial" (font_size 8)))
+		(text "from_uart_ready" (rect 346 61 436 72)(font "Arial" (font_size 8)))
+		(line (pt 432 72)(pt 256 72)(line_width 1))
+	)
+	(port
+		(pt 0 72)
+		(input)
+		(text "to_uart_data[7..0]" (rect 0 0 70 12)(font "Arial" (font_size 8)))
+		(text "to_uart_data[7..0]" (rect 4 61 112 72)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 176 72)(line_width 3))
+	)
+	(port
+		(pt 0 88)
+		(input)
+		(text "to_uart_error" (rect 0 0 54 12)(font "Arial" (font_size 8)))
+		(text "to_uart_error" (rect 4 77 82 88)(font "Arial" (font_size 8)))
+		(line (pt 0 88)(pt 176 88)(line_width 1))
+	)
+	(port
+		(pt 0 104)
+		(input)
+		(text "to_uart_valid" (rect 0 0 51 12)(font "Arial" (font_size 8)))
+		(text "to_uart_valid" (rect 4 93 82 104)(font "Arial" (font_size 8)))
+		(line (pt 0 104)(pt 176 104)(line_width 1))
+	)
+	(port
+		(pt 0 160)
+		(input)
+		(text "clk" (rect 0 0 10 12)(font "Arial" (font_size 8)))
+		(text "clk" (rect 4 149 22 160)(font "Arial" (font_size 8)))
+		(line (pt 0 160)(pt 176 160)(line_width 1))
+	)
+	(port
+		(pt 0 200)
+		(input)
+		(text "UART_RXD" (rect 0 0 56 12)(font "Arial" (font_size 8)))
+		(text "UART_RXD" (rect 4 189 52 200)(font "Arial" (font_size 8)))
+		(line (pt 0 200)(pt 176 200)(line_width 1))
+	)
+	(port
+		(pt 0 256)
+		(input)
+		(text "reset" (rect 0 0 20 12)(font "Arial" (font_size 8)))
+		(text "reset" (rect 4 245 34 256)(font "Arial" (font_size 8)))
+		(line (pt 0 256)(pt 176 256)(line_width 1))
+	)
+	(port
+		(pt 432 88)
+		(output)
+		(text "from_uart_data[7..0]" (rect 0 0 83 12)(font "Arial" (font_size 8)))
+		(text "from_uart_data[7..0]" (rect 329 77 449 88)(font "Arial" (font_size 8)))
+		(line (pt 432 88)(pt 256 88)(line_width 3))
+	)
+	(port
+		(pt 432 104)
+		(output)
+		(text "from_uart_error" (rect 0 0 67 12)(font "Arial" (font_size 8)))
+		(text "from_uart_error" (rect 350 93 440 104)(font "Arial" (font_size 8)))
+		(line (pt 432 104)(pt 256 104)(line_width 1))
+	)
+	(port
+		(pt 432 120)
+		(output)
+		(text "from_uart_valid" (rect 0 0 64 12)(font "Arial" (font_size 8)))
+		(text "from_uart_valid" (rect 352 109 442 120)(font "Arial" (font_size 8)))
+		(line (pt 432 120)(pt 256 120)(line_width 1))
+	)
+	(port
+		(pt 0 120)
+		(output)
+		(text "to_uart_ready" (rect 0 0 57 12)(font "Arial" (font_size 8)))
+		(text "to_uart_ready" (rect 4 109 82 120)(font "Arial" (font_size 8)))
+		(line (pt 0 120)(pt 176 120)(line_width 1))
+	)
+	(port
+		(pt 0 216)
+		(output)
+		(text "UART_TXD" (rect 0 0 54 12)(font "Arial" (font_size 8)))
+		(text "UART_TXD" (rect 4 205 52 216)(font "Arial" (font_size 8)))
+		(line (pt 0 216)(pt 176 216)(line_width 1))
+	)
+	(drawing
+		(text "avalon_data_receive_source" (rect 257 43 670 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "ready" (rect 228 67 486 144)(font "Arial" (color 0 0 0)))
+		(text "data" (rect 235 83 494 176)(font "Arial" (color 0 0 0)))
+		(text "error" (rect 231 99 492 208)(font "Arial" (color 0 0 0)))
+		(text "valid" (rect 233 115 496 240)(font "Arial" (color 0 0 0)))
+		(text "avalon_data_transmit_sink" (rect 19 43 188 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "data" (rect 181 67 386 144)(font "Arial" (color 0 0 0)))
+		(text "error" (rect 181 83 392 176)(font "Arial" (color 0 0 0)))
+		(text "valid" (rect 181 99 392 208)(font "Arial" (color 0 0 0)))
+		(text "ready" (rect 181 115 392 240)(font "Arial" (color 0 0 0)))
+		(text "clk" (rect 161 131 340 275)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 181 155 380 320)(font "Arial" (color 0 0 0)))
+		(text "external_interface" (rect 72 171 252 355)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "RXD" (rect 181 195 380 400)(font "Arial" (color 0 0 0)))
+		(text "TXD" (rect 181 211 380 432)(font "Arial" (color 0 0 0)))
+		(text "reset" (rect 147 227 324 467)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "reset" (rect 181 251 392 512)(font "Arial" (color 0 0 0)))
+		(text " PC_UART " (rect 381 272 816 554)(font "Arial" ))
+		(line (pt 176 32)(pt 256 32)(line_width 1))
+		(line (pt 256 32)(pt 256 272)(line_width 1))
+		(line (pt 176 272)(pt 256 272)(line_width 1))
+		(line (pt 176 32)(pt 176 272)(line_width 1))
+		(line (pt 255 52)(pt 255 124)(line_width 1))
+		(line (pt 254 52)(pt 254 124)(line_width 1))
+		(line (pt 177 52)(pt 177 124)(line_width 1))
+		(line (pt 178 52)(pt 178 124)(line_width 1))
+		(line (pt 177 140)(pt 177 164)(line_width 1))
+		(line (pt 178 140)(pt 178 164)(line_width 1))
+		(line (pt 177 180)(pt 177 220)(line_width 1))
+		(line (pt 178 180)(pt 178 220)(line_width 1))
+		(line (pt 177 236)(pt 177 260)(line_width 1))
+		(line (pt 178 236)(pt 178 260)(line_width 1))
+		(line (pt 0 0)(pt 432 0)(line_width 1))
+		(line (pt 432 0)(pt 432 288)(line_width 1))
+		(line (pt 0 288)(pt 432 288)(line_width 1))
+		(line (pt 0 0)(pt 0 288)(line_width 1))
+	)
+)

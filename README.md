@@ -4,3 +4,4 @@ Provides Version Control + Traceability of Modules awaiting Integration into Mai
 
 Current Projects:
   - spi_driver: A High Reliability SPI Driver for the HDP-1280-2 on the Alterra Cyclone V Dev Board with a button pressing demo
+  - uart_loopback: A project which implements a 1152008N1 uart loopback
