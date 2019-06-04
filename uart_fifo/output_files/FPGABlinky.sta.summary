@@ -1,0 +1,149 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1100mV 85C Model Setup 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : -7.635
+TNS   : -99.741
+
+Type  : Slow 1100mV 85C Model Setup 'spi:spi0|spi_clk'
+Slack : -4.726
+TNS   : -79.063
+
+Type  : Slow 1100mV 85C Model Setup 'CLOCK_50_B5B'
+Slack : -4.129
+TNS   : -333.389
+
+Type  : Slow 1100mV 85C Model Hold 'CLOCK_50_B5B'
+Slack : -1.517
+TNS   : -1.517
+
+Type  : Slow 1100mV 85C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.222
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : 3.936
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
+Slack : -2.636
+TNS   : -213.367
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
+Slack : -0.538
+TNS   : -25.040
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : 0.385
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Setup 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : -7.928
+TNS   : -103.918
+
+Type  : Slow 1100mV 0C Model Setup 'spi:spi0|spi_clk'
+Slack : -4.939
+TNS   : -80.250
+
+Type  : Slow 1100mV 0C Model Setup 'CLOCK_50_B5B'
+Slack : -4.258
+TNS   : -329.498
+
+Type  : Slow 1100mV 0C Model Hold 'CLOCK_50_B5B'
+Slack : -1.740
+TNS   : -1.740
+
+Type  : Slow 1100mV 0C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.198
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : 4.062
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
+Slack : -2.636
+TNS   : -211.041
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
+Slack : -0.538
+TNS   : -25.005
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : 0.340
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Setup 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : -3.423
+TNS   : -41.933
+
+Type  : Fast 1100mV 85C Model Setup 'CLOCK_50_B5B'
+Slack : -2.679
+TNS   : -127.798
+
+Type  : Fast 1100mV 85C Model Setup 'spi:spi0|spi_clk'
+Slack : -1.731
+TNS   : -29.775
+
+Type  : Fast 1100mV 85C Model Hold 'CLOCK_50_B5B'
+Slack : -0.508
+TNS   : -0.508
+
+Type  : Fast 1100mV 85C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.044
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : 1.967
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
+Slack : -2.174
+TNS   : -138.295
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
+Slack : -0.025
+TNS   : -0.049
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : 0.430
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Setup 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : -3.307
+TNS   : -40.853
+
+Type  : Fast 1100mV 0C Model Setup 'CLOCK_50_B5B'
+Slack : -2.280
+TNS   : -100.259
+
+Type  : Fast 1100mV 0C Model Setup 'spi:spi0|spi_clk'
+Slack : -1.657
+TNS   : -27.325
+
+Type  : Fast 1100mV 0C Model Hold 'CLOCK_50_B5B'
+Slack : -0.615
+TNS   : -0.615
+
+Type  : Fast 1100mV 0C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.051
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : 1.941
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
+Slack : -2.174
+TNS   : -153.147
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
+Slack : 0.009
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff'
+Slack : 0.436
+TNS   : 0.000
+
+------------------------------------------------------------
