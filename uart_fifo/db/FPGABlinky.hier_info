@@ -1,16 +1,76 @@
 |baseline_c5gx
-ADC_CONVST <= <GND>
-ADC_SCK <= <GND>
-ADC_SDI <= <GND>
+ADC_CONVST << <GND>
+ADC_SCK << <GND>
+ADC_SDI << <GND>
 ADC_SDO => ~NO_FANOUT~
 AUD_ADCDAT => ~NO_FANOUT~
 AUD_ADCLRCK <> <UNC>
 AUD_BCLK <> <UNC>
-AUD_DACDAT <= <GND>
+AUD_DACDAT << <GND>
 AUD_DACLRCK <> <UNC>
-AUD_XCK <= <GND>
+AUD_XCK << <GND>
 CLOCK_125_p => ~NO_FANOUT~
-CLOCK_50_B5B => CLOCK_50_B5B.IN2
+CLOCK_50_B5B => spi:spi0.sys_clk
+CLOCK_50_B5B => PC_RX:pc_rx.i_clock
+CLOCK_50_B5B => uart_tx:pc_tx.i_Clock
+CLOCK_50_B5B => tx_byte_buf[24].CLK
+CLOCK_50_B5B => tx_byte_buf[25].CLK
+CLOCK_50_B5B => tx_byte_buf[26].CLK
+CLOCK_50_B5B => tx_byte_buf[27].CLK
+CLOCK_50_B5B => tx_byte_buf[28].CLK
+CLOCK_50_B5B => tx_byte_buf[29].CLK
+CLOCK_50_B5B => tx_byte_buf[30].CLK
+CLOCK_50_B5B => tx_byte_buf[31].CLK
+CLOCK_50_B5B => start_tx.CLK
+CLOCK_50_B5B => read_next_byte_cmd.CLK
+CLOCK_50_B5B => spi_enable.CLK
+CLOCK_50_B5B => tx_data_byte[0].CLK
+CLOCK_50_B5B => tx_data_byte[1].CLK
+CLOCK_50_B5B => tx_data_byte[2].CLK
+CLOCK_50_B5B => tx_data_byte[3].CLK
+CLOCK_50_B5B => tx_data_byte[4].CLK
+CLOCK_50_B5B => tx_data_byte[5].CLK
+CLOCK_50_B5B => tx_data_byte[6].CLK
+CLOCK_50_B5B => tx_data_byte[7].CLK
+CLOCK_50_B5B => tx_addr_byte[0].CLK
+CLOCK_50_B5B => tx_addr_byte[1].CLK
+CLOCK_50_B5B => tx_addr_byte[2].CLK
+CLOCK_50_B5B => tx_addr_byte[3].CLK
+CLOCK_50_B5B => tx_addr_byte[4].CLK
+CLOCK_50_B5B => tx_addr_byte[5].CLK
+CLOCK_50_B5B => tx_addr_byte[6].CLK
+CLOCK_50_B5B => tx_addr_byte[7].CLK
+CLOCK_50_B5B => start_transfer.CLK
+CLOCK_50_B5B => count1[0].CLK
+CLOCK_50_B5B => count1[1].CLK
+CLOCK_50_B5B => count1[2].CLK
+CLOCK_50_B5B => count1[3].CLK
+CLOCK_50_B5B => count1[4].CLK
+CLOCK_50_B5B => count1[5].CLK
+CLOCK_50_B5B => count1[6].CLK
+CLOCK_50_B5B => count1[7].CLK
+CLOCK_50_B5B => count1[8].CLK
+CLOCK_50_B5B => count1[9].CLK
+CLOCK_50_B5B => count1[10].CLK
+CLOCK_50_B5B => count1[11].CLK
+CLOCK_50_B5B => count1[12].CLK
+CLOCK_50_B5B => count1[13].CLK
+CLOCK_50_B5B => count1[14].CLK
+CLOCK_50_B5B => count1[15].CLK
+CLOCK_50_B5B => count1[16].CLK
+CLOCK_50_B5B => count1[17].CLK
+CLOCK_50_B5B => count1[18].CLK
+CLOCK_50_B5B => count1[19].CLK
+CLOCK_50_B5B => count1[20].CLK
+CLOCK_50_B5B => count1[21].CLK
+CLOCK_50_B5B => count1[22].CLK
+CLOCK_50_B5B => count1[23].CLK
+CLOCK_50_B5B => HEX0[0]~reg0.CLK
+CLOCK_50_B5B => HEX0[1]~reg0.CLK
+CLOCK_50_B5B => HEX0[2]~reg0.CLK
+CLOCK_50_B5B => HEX0[3]~reg0.CLK
+CLOCK_50_B5B => HEX0[4]~reg0.CLK
+CLOCK_50_B5B => HEX0[5]~reg0.CLK
 CLOCK_50_B6A => ~NO_FANOUT~
 CLOCK_50_B7A => ~NO_FANOUT~
 CLOCK_50_B8A => ~NO_FANOUT~
@@ -27,7 +87,7 @@ GPIO[9] <> <UNC>
 GPIO[10] <> GPIO[10]
 GPIO[11] <> GPIO[11]
 GPIO[12] <> GPIO[12]
-GPIO[13] <> <UNC>
+GPIO[13] <> GPIO[13]
 GPIO[14] <> <UNC>
 GPIO[15] <> <UNC>
 GPIO[16] <> <UNC>
@@ -50,59 +110,59 @@ GPIO[32] <> <UNC>
 GPIO[33] <> <UNC>
 GPIO[34] <> <UNC>
 GPIO[35] <> <UNC>
-HDMI_TX_CLK <= <GND>
-HDMI_TX_D[0] <= <GND>
-HDMI_TX_D[1] <= <GND>
-HDMI_TX_D[2] <= <GND>
-HDMI_TX_D[3] <= <GND>
-HDMI_TX_D[4] <= <GND>
-HDMI_TX_D[5] <= <GND>
-HDMI_TX_D[6] <= <GND>
-HDMI_TX_D[7] <= <GND>
-HDMI_TX_D[8] <= <GND>
-HDMI_TX_D[9] <= <GND>
-HDMI_TX_D[10] <= <GND>
-HDMI_TX_D[11] <= <GND>
-HDMI_TX_D[12] <= <GND>
-HDMI_TX_D[13] <= <GND>
-HDMI_TX_D[14] <= <GND>
-HDMI_TX_D[15] <= <GND>
-HDMI_TX_D[16] <= <GND>
-HDMI_TX_D[17] <= <GND>
-HDMI_TX_D[18] <= <GND>
-HDMI_TX_D[19] <= <GND>
-HDMI_TX_D[20] <= <GND>
-HDMI_TX_D[21] <= <GND>
-HDMI_TX_D[22] <= <GND>
-HDMI_TX_D[23] <= <GND>
-HDMI_TX_DE <= <GND>
-HDMI_TX_HS <= <GND>
+HDMI_TX_CLK << <GND>
+HDMI_TX_D[0] << <GND>
+HDMI_TX_D[1] << <GND>
+HDMI_TX_D[2] << <GND>
+HDMI_TX_D[3] << <GND>
+HDMI_TX_D[4] << <GND>
+HDMI_TX_D[5] << <GND>
+HDMI_TX_D[6] << <GND>
+HDMI_TX_D[7] << <GND>
+HDMI_TX_D[8] << <GND>
+HDMI_TX_D[9] << <GND>
+HDMI_TX_D[10] << <GND>
+HDMI_TX_D[11] << <GND>
+HDMI_TX_D[12] << <GND>
+HDMI_TX_D[13] << <GND>
+HDMI_TX_D[14] << <GND>
+HDMI_TX_D[15] << <GND>
+HDMI_TX_D[16] << <GND>
+HDMI_TX_D[17] << <GND>
+HDMI_TX_D[18] << <GND>
+HDMI_TX_D[19] << <GND>
+HDMI_TX_D[20] << <GND>
+HDMI_TX_D[21] << <GND>
+HDMI_TX_D[22] << <GND>
+HDMI_TX_D[23] << <GND>
+HDMI_TX_DE << <GND>
+HDMI_TX_HS << <GND>
 HDMI_TX_INT => ~NO_FANOUT~
-HDMI_TX_VS <= <GND>
-HEX0[0] <= HEX0[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[1] <= HEX0[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[2] <= HEX0[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[3] <= HEX0[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[4] <= HEX0[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[5] <= HEX0[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[6] <= <GND>
-HEX1[0] <= <GND>
-HEX1[1] <= <GND>
-HEX1[2] <= <GND>
-HEX1[3] <= <GND>
-HEX1[4] <= <GND>
-HEX1[5] <= <GND>
-HEX1[6] <= <GND>
+HDMI_TX_VS << <GND>
+HEX0[0] << HEX0[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[1] << HEX0[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[2] << HEX0[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[3] << HEX0[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[4] << HEX0[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[5] << HEX0[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[6] << <GND>
+HEX1[0] << <GND>
+HEX1[1] << <GND>
+HEX1[2] << <GND>
+HEX1[3] << <GND>
+HEX1[4] << <GND>
+HEX1[5] << <GND>
+HEX1[6] << <GND>
 HSMC_CLKIN0 => ~NO_FANOUT~
 HSMC_CLKIN_n[1] => ~NO_FANOUT~
 HSMC_CLKIN_n[2] => ~NO_FANOUT~
 HSMC_CLKIN_p[1] => ~NO_FANOUT~
 HSMC_CLKIN_p[2] => ~NO_FANOUT~
-HSMC_CLKOUT0 <= <GND>
-HSMC_CLKOUT_n[1] <= <GND>
-HSMC_CLKOUT_n[2] <= <GND>
-HSMC_CLKOUT_p[1] <= <GND>
-HSMC_CLKOUT_p[2] <= <GND>
+HSMC_CLKOUT0 << <GND>
+HSMC_CLKOUT_n[1] << <GND>
+HSMC_CLKOUT_n[2] << <GND>
+HSMC_CLKOUT_p[1] << <GND>
+HSMC_CLKOUT_p[2] << <GND>
 HSMC_D[0] <> <UNC>
 HSMC_D[1] <> <UNC>
 HSMC_D[2] <> <UNC>
@@ -175,7 +235,7 @@ HSMC_TX_p[13] <> <UNC>
 HSMC_TX_p[14] <> <UNC>
 HSMC_TX_p[15] <> <UNC>
 HSMC_TX_p[16] <> <UNC>
-I2C_SCL <= <GND>
+I2C_SCL << <GND>
 I2C_SDA <> <UNC>
 KEY[0] => spi:spi0.reset
 KEY[1] => always2.IN0
@@ -232,49 +292,49 @@ KEY[3] => tx_data_byte.OUTPUTSELECT
 KEY[3] => tx_data_byte.OUTPUTSELECT
 KEY[3] => tx_data_byte.OUTPUTSELECT
 KEY[3] => start_transfer.DATAA
-LEDG[0] <= LEDG[0]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDG[1] <= LEDG[1]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDG[2] <= LEDG[2]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDG[3] <= LEDG[3]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDG[4] <= LEDG[4]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDG[5] <= LEDG[5]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDG[6] <= LEDG[6]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDG[7] <= LEDG[7]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDR[0] <= LEDR[0]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDR[1] <= LEDR[1]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDR[2] <= LEDR[2]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDR[3] <= LEDR[3]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDR[4] <= LEDR[4]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDR[5] <= LEDR[5]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDR[6] <= LEDR[6]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDR[7] <= LEDR[7]$latch.DB_MAX_OUTPUT_PORT_TYPE
-LEDR[8] <= <GND>
-LEDR[9] <= <GND>
-SD_CLK <= <GND>
+LEDG[0] << <GND>
+LEDG[1] << <GND>
+LEDG[2] << <GND>
+LEDG[3] << <GND>
+LEDG[4] << <GND>
+LEDG[5] << <GND>
+LEDG[6] << <GND>
+LEDG[7] << <GND>
+LEDR[0] << <GND>
+LEDR[1] << <GND>
+LEDR[2] << <GND>
+LEDR[3] << <GND>
+LEDR[4] << <GND>
+LEDR[5] << <GND>
+LEDR[6] << <GND>
+LEDR[7] << <GND>
+LEDR[8] << <GND>
+LEDR[9] << <GND>
+SD_CLK << <GND>
 SD_CMD <> <UNC>
 SD_DAT[0] <> <UNC>
 SD_DAT[1] <> <UNC>
 SD_DAT[2] <> <UNC>
 SD_DAT[3] <> <UNC>
-SRAM_A[0] <= <GND>
-SRAM_A[1] <= <GND>
-SRAM_A[2] <= <GND>
-SRAM_A[3] <= <GND>
-SRAM_A[4] <= <GND>
-SRAM_A[5] <= <GND>
-SRAM_A[6] <= <GND>
-SRAM_A[7] <= <GND>
-SRAM_A[8] <= <GND>
-SRAM_A[9] <= <GND>
-SRAM_A[10] <= <GND>
-SRAM_A[11] <= <GND>
-SRAM_A[12] <= <GND>
-SRAM_A[13] <= <GND>
-SRAM_A[14] <= <GND>
-SRAM_A[15] <= <GND>
-SRAM_A[16] <= <GND>
-SRAM_A[17] <= <GND>
-SRAM_CE_n <= <GND>
+SRAM_A[0] << <GND>
+SRAM_A[1] << <GND>
+SRAM_A[2] << <GND>
+SRAM_A[3] << <GND>
+SRAM_A[4] << <GND>
+SRAM_A[5] << <GND>
+SRAM_A[6] << <GND>
+SRAM_A[7] << <GND>
+SRAM_A[8] << <GND>
+SRAM_A[9] << <GND>
+SRAM_A[10] << <GND>
+SRAM_A[11] << <GND>
+SRAM_A[12] << <GND>
+SRAM_A[13] << <GND>
+SRAM_A[14] << <GND>
+SRAM_A[15] << <GND>
+SRAM_A[16] << <GND>
+SRAM_A[17] << <GND>
+SRAM_CE_n << <GND>
 SRAM_D[0] <> <UNC>
 SRAM_D[1] <> <UNC>
 SRAM_D[2] <> <UNC>
@@ -291,10 +351,10 @@ SRAM_D[12] <> <UNC>
 SRAM_D[13] <> <UNC>
 SRAM_D[14] <> <UNC>
 SRAM_D[15] <> <UNC>
-SRAM_LB_n <= <GND>
-SRAM_OE_n <= <GND>
-SRAM_UB_n <= <GND>
-SRAM_WE_n <= <GND>
+SRAM_LB_n << <GND>
+SRAM_OE_n << <GND>
+SRAM_UB_n << <GND>
+SRAM_WE_n << <GND>
 SW[0] => ~NO_FANOUT~
 SW[1] => ~NO_FANOUT~
 SW[2] => ~NO_FANOUT~
@@ -305,8 +365,9 @@ SW[6] => ~NO_FANOUT~
 SW[7] => ~NO_FANOUT~
 SW[8] => ~NO_FANOUT~
 SW[9] => ~NO_FANOUT~
-UART_RX => UART_RX.IN1
-UART_TX <= uart_tx:pc_tx.o_Tx_Serial
+UART_RX => PC_RX:pc_rx.i_rx_serial
+UART_RX => GPIO[11].DATAIN
+UART_TX << uart_tx:pc_tx.o_Tx_Serial
 
 
 |baseline_c5gx|spi:spi0
@@ -373,7 +434,47 @@ sys_clk => spi_clk_counter[3].CLK
 sys_clk => spi_clk_counter[4].CLK
 
 
-|baseline_c5gx|uart_rx:pc_rx
+|baseline_c5gx|PC_RX:pc_rx
+i_clock => i_clock.IN2
+i_rx_serial => i_rx_serial.IN1
+i_read_next_byte_cmd => i_read_next_byte_cmd.IN1
+o_start_packet_sig <= <GND>
+o_fifo_output_byte[0] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[1] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[2] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[3] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[4] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[5] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[6] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[7] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[8] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[9] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[10] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[11] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[12] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[13] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[14] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[15] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[16] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[17] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[18] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[19] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[20] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[21] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[22] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[23] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[24] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[25] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[26] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[27] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[28] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[29] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[30] <= testFIFO:uart_rx_FIFO.q
+o_fifo_output_byte[31] <= testFIFO:uart_rx_FIFO.q
+o_fifo_is_empty_sig <= testFIFO:uart_rx_FIFO.empty
+
+
+|baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx
 i_Clock => r_Rx_Byte[0].CLK
 i_Clock => r_Rx_Byte[1].CLK
 i_Clock => r_Rx_Byte[2].CLK
@@ -411,7 +512,7 @@ o_Rx_Byte[6] <= r_Rx_Byte[6].DB_MAX_OUTPUT_PORT_TYPE
 o_Rx_Byte[7] <= r_Rx_Byte[7].DB_MAX_OUTPUT_PORT_TYPE
 
 
-|baseline_c5gx|testFIFO:uart_rx_FIFO
+|baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO
 clock => clock.IN1
 data[0] => data[0].IN1
 data[1] => data[1].IN1
@@ -484,7 +585,7 @@ q[30] <= scfifo:scfifo_component.q
 q[31] <= scfifo:scfifo_component.q
 
 
-|baseline_c5gx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component
+|baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component
 data[0] => scfifo_le91:auto_generated.data[0]
 data[1] => scfifo_le91:auto_generated.data[1]
 data[2] => scfifo_le91:auto_generated.data[2]
@@ -568,7 +669,7 @@ usedw[4] <= <GND>
 usedw[5] <= <GND>
 
 
-|baseline_c5gx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated
+|baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated
 clock => a_dpfifo_8691:dpfifo.clock
 data[0] => a_dpfifo_8691:dpfifo.data[0]
 data[1] => a_dpfifo_8691:dpfifo.data[1]
@@ -641,7 +742,7 @@ sclr => a_dpfifo_8691:dpfifo.sclr
 wrreq => a_dpfifo_8691:dpfifo.wreq
 
 
-|baseline_c5gx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo
+|baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo
 clock => altsyncram_j0i1:FIFOram.clock0
 clock => cntr_g2b:rd_ptr_msb.clock
 clock => cntr_t27:usedw_counter.clock
@@ -743,7 +844,7 @@ sclr => usedw_will_be_2.IN0
 wreq => valid_wreq.IN0
 
 
-|baseline_c5gx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram
+|baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram
 address_a[0] => ram_block1a0.PORTAADDR
 address_a[0] => ram_block1a1.PORTAADDR
 address_a[0] => ram_block1a2.PORTAADDR
@@ -1322,7 +1423,7 @@ wren_a => ram_block1a31.PORTAWE
 wren_a => ram_block1a31.ENA0
 
 
-|baseline_c5gx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cmpr_5l8:almost_full_comparer
+|baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cmpr_5l8:almost_full_comparer
 aeb <= aeb_result_wire[0].DB_MAX_OUTPUT_PORT_TYPE
 dataa[0] => data_wire[0].IN0
 dataa[1] => data_wire[0].IN0
@@ -1338,7 +1439,7 @@ datab[4] => data_wire[2].IN1
 datab[5] => data_wire[2].IN1
 
 
-|baseline_c5gx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cmpr_5l8:three_comparison
+|baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cmpr_5l8:three_comparison
 aeb <= aeb_result_wire[0].DB_MAX_OUTPUT_PORT_TYPE
 dataa[0] => data_wire[0].IN0
 dataa[1] => data_wire[0].IN0
@@ -1354,7 +1455,7 @@ datab[4] => data_wire[2].IN1
 datab[5] => data_wire[2].IN1
 
 
-|baseline_c5gx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb
+|baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb
 clock => counter_reg_bit[4].CLK
 clock => counter_reg_bit[3].CLK
 clock => counter_reg_bit[2].CLK
@@ -1374,7 +1475,7 @@ sclr => counter_reg_bit[1].SCLR
 sclr => counter_reg_bit[0].SCLR
 
 
-|baseline_c5gx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter
+|baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter
 clock => counter_reg_bit[5].CLK
 clock => counter_reg_bit[4].CLK
 clock => counter_reg_bit[3].CLK
@@ -1399,7 +1500,7 @@ updown => updown_other_bits.IN1
 updown => counter_comb_bita0.DATAF
 
 
-|baseline_c5gx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr
+|baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr
 clock => counter_reg_bit[5].CLK
 clock => counter_reg_bit[4].CLK
 clock => counter_reg_bit[3].CLK

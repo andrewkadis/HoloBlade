@@ -1,5 +1,5 @@
 Assembler report for FPGABlinky
-Tue Jun 04 13:58:32 2019
+Tue Jun 04 21:24:42 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -10,8 +10,8 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
   2. Assembler Summary
   3. Assembler Settings
   4. Assembler Generated Files
-  5. Assembler Device Options: C:/Users/User/Documents/Dev/awesome-board-support/uart_loopback/output_files/FPGABlinky.sof
-  6. Assembler Device Options: C:/Users/User/Documents/Dev/awesome-board-support/uart_loopback/output_files/FPGABlinky.pof
+  5. Assembler Device Options: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/output_files/FPGABlinky.sof
+  6. Assembler Device Options: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/output_files/FPGABlinky.pof
   7. Assembler Messages
 
 
@@ -38,7 +38,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Tue Jun 04 13:58:32 2019 ;
+; Assembler Status      ; Successful - Tue Jun 04 21:24:42 2019 ;
 ; Revision Name         ; FPGABlinky                            ;
 ; Top-level Entity Name ; baseline_c5gx                         ;
 ; Family                ; Cyclone V                             ;
@@ -53,35 +53,35 @@ refer to the applicable agreement for further details.
 +--------+---------+---------------+
 
 
-+---------------------------------------------------------------------------------------------+
-; Assembler Generated Files                                                                   ;
-+---------------------------------------------------------------------------------------------+
-; File Name                                                                                   ;
-+---------------------------------------------------------------------------------------------+
-; C:/Users/User/Documents/Dev/awesome-board-support/uart_loopback/output_files/FPGABlinky.sof ;
-; C:/Users/User/Documents/Dev/awesome-board-support/uart_loopback/output_files/FPGABlinky.pof ;
-+---------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------+
+; Assembler Generated Files                                                               ;
++-----------------------------------------------------------------------------------------+
+; File Name                                                                               ;
++-----------------------------------------------------------------------------------------+
+; C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/output_files/FPGABlinky.sof ;
+; C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/output_files/FPGABlinky.pof ;
++-----------------------------------------------------------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------+
-; Assembler Device Options: C:/Users/User/Documents/Dev/awesome-board-support/uart_loopback/output_files/FPGABlinky.sof ;
-+----------------+------------------------------------------------------------------------------------------------------+
-; Option         ; Setting                                                                                              ;
-+----------------+------------------------------------------------------------------------------------------------------+
-; JTAG usercode  ; 0x0081BD60                                                                                           ;
-; Checksum       ; 0x0081BD60                                                                                           ;
-+----------------+------------------------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------+
+; Assembler Device Options: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/output_files/FPGABlinky.sof ;
++----------------+--------------------------------------------------------------------------------------------------+
+; Option         ; Setting                                                                                          ;
++----------------+--------------------------------------------------------------------------------------------------+
+; JTAG usercode  ; 0x00816A5F                                                                                       ;
+; Checksum       ; 0x00816A5F                                                                                       ;
++----------------+--------------------------------------------------------------------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------+
-; Assembler Device Options: C:/Users/User/Documents/Dev/awesome-board-support/uart_loopback/output_files/FPGABlinky.pof ;
-+--------------------+--------------------------------------------------------------------------------------------------+
-; Option             ; Setting                                                                                          ;
-+--------------------+--------------------------------------------------------------------------------------------------+
-; JTAG usercode      ; 0x00000000                                                                                       ;
-; Checksum           ; 0xECC98F6D                                                                                       ;
-; Compression Ratio  ; 3                                                                                                ;
-+--------------------+--------------------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------+
+; Assembler Device Options: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/output_files/FPGABlinky.pof ;
++--------------------+----------------------------------------------------------------------------------------------+
+; Option             ; Setting                                                                                      ;
++--------------------+----------------------------------------------------------------------------------------------+
+; JTAG usercode      ; 0x00000000                                                                                   ;
+; Checksum           ; 0xECD1764B                                                                                   ;
+; Compression Ratio  ; 3                                                                                            ;
++--------------------+----------------------------------------------------------------------------------------------+
 
 
 +--------------------+
@@ -90,13 +90,13 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Tue Jun 04 13:58:25 2019
+    Info: Processing started: Tue Jun 04 21:24:35 2019
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 4854 megabytes
-    Info: Processing ended: Tue Jun 04 13:58:32 2019
+    Info: Peak virtual memory: 4848 megabytes
+    Info: Processing ended: Tue Jun 04 21:24:42 2019
     Info: Elapsed time: 00:00:07
     Info: Total CPU time (on all processors): 00:00:07
 

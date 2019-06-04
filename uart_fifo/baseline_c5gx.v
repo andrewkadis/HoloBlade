@@ -331,83 +331,134 @@ spi spi0(
 
 
 
-//////////////////////////
-//////// Uart RX /////////
-//////////////////////////
 
-//// Define UART I/O for Rx
-wire[7:0] pc_data_rx;
-// Pipe output to green LEDs
-//assign R[7:0] = pc_data_rx;
-// Check if byte has been RX'd - will be high for 1 cycle after a successfuly Rx
-wire rx_complete;
-assign GPIO[11] = rx_complete;
-// Assign UART_RX Data to Arduino GPIO7 for Debug
-//assign GPIO[10]  = UART_RX;
-// Testbench uses a 10 MHz clock
-// Want to interface to 115200 baud UART
-// 50000000 / 115200 = 87 Clocks Per Bit.
-parameter c_CLKS_PER_BIT    = 435;
-uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
 
-   .i_Clock(CLOCK_50_B5B),
-   .i_Rx_Serial(UART_RX),
-   .o_Rx_DV(rx_complete),
-   .o_Rx_Byte(pc_data_rx)
-	
- );
- 
-// When we receive data, put in FIFO
-// Pipe the most recent Byte into Green and the second oldest into Red
-wire[7:0] last_byte_rx;
-wire[7:0] second_last_byte_rx;
-// Temp buffers
-reg[7:0] last_byte_rx_buf        = 0;
-reg[7:0] second_last_byte_rx_buf = 0;
-//assign LEDG[7:0] = last_byte_rx;
-//assign LEDR[7:0] = second_last_byte_rx;
-// Control Signals
-reg wrreq_sig;
-reg rdreq_sig;
-wire empty_sig;
- 
-// Push into FIFO when we receive a byte
-always @(posedge CLOCK_50_B5B) begin
-	if(rx_complete==1) begin
-		second_last_byte_rx_buf = last_byte_rx_buf;
-		wrreq_sig = 1;
-	end else
-		wrreq_sig = 0;
-end
 
-// Push into FIFO when we receive a byte
-always @(empty_sig) begin
-	if(empty_sig==0) begin
-		rdreq_sig = 1;
-		last_byte_rx_buf = last_byte_rx;
-		LEDG[7:0] = last_byte_rx_buf;
-		LEDR[7:0] = second_last_byte_rx_buf;
-	end else
-		rdreq_sig = 0;
-end
- 
- // FIFO
-testFIFO uart_rx_FIFO(
+
+
+// PC_RX Module to receive UART Commands from PC
+PC_RX pc_rx(
+
 	// Control Signals
-	.clock(CLOCK_50_B5B),
-//	.sclr(sclr_sig),   // Reset FIFO
+	.i_clock(CLOCK_50_B5B),
 	
-	// Write Side
-	.data(pc_data_rx), // Input Data
-	.wrreq(wrreq_sig), // Write Data Valid, set High for 1 cycle to write current data
-	.full(full_sig),   // Full Flag
+	// PC-Side
+   .i_rx_serial(UART_RX),          // UART RX Line
 	
-	// Read Side
-	.rdreq(rdreq_sig), // Read Data Valid, set High for 1 cycle to read into current data
-	.q(last_byte_rx),  // Output Data
-	.empty(empty_sig)  // Empty Flag
-	
-	);
+	// DataManager-Side
+   .i_read_next_byte_cmd(read_next_byte_cmd), // Command to get next byte from FIFO, set high for 1 cycle
+	.o_start_packet_sig(start_packet_sign),    // Signal which goes high for 1 cycle to indicate that a packet has just started to be sent into the FIFO
+	.o_fifo_output_byte(fifo_output_byte),     // Current Byte output from the FIFO
+	.o_fifo_is_empty_sig(fifo_is_empty_sig)    // Signal to indicates whether or not the FIFO is empty
+	  
+//	.o_debug_out_1(GPIO[12]),
+//	.o_debug_out_2(GPIO[13])
+	  
+ );
+
+ 
+ 
+ 
+// DataManager contains the bulk of the clever parts, this is where packets are decoded and passed between different modules
+
+// Interfacing Signals
+// With PC_RX module
+reg read_next_byte_cmd = 0;
+wire start_packet_sign;
+wire[31:0] fifo_output_byte;
+wire fifo_is_empty_sig;
+//// TODO:
+//// When we receive data, put in FIFO
+//// Pipe the most recent Byte into Green and the second oldest into Red
+//wire[7:0] last_byte_rx;
+//wire[7:0] second_last_byte_rx;
+//// Temp buffers
+//reg[7:0] last_byte_rx_buf        = 0;
+//reg[7:0] second_last_byte_rx_buf = 0;
+////assign LEDG[7:0] = last_byte_rx;
+////assign LEDR[7:0] = second_last_byte_rx;
+//// Control Signals
+//reg wrreq_sig;
+//reg rdreq_sig;
+//wire empty_sig;
+
+////////////////////////////
+////////// Uart RX /////////
+////////////////////////////
+//
+////// Define UART I/O for Rx
+//wire[7:0] pc_data_rx;
+//// Pipe output to green LEDs
+////assign R[7:0] = pc_data_rx;
+//// Check if byte has been RX'd - will be high for 1 cycle after a successfuly Rx
+//wire rx_complete;
+//assign GPIO[11] = rx_complete;
+//// Assign UART_RX Data to Arduino GPIO7 for Debug
+////assign GPIO[10]  = UART_RX;
+//// Testbench uses a 10 MHz clock
+//// Want to interface to 115200 baud UART
+//// 50000000 / 115200 = 87 Clocks Per Bit.
+//parameter c_CLKS_PER_BIT    = 435;
+//uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
+//
+//   .i_Clock(CLOCK_50_B5B),
+//   .i_Rx_Serial(UART_RX),
+//   .o_Rx_DV(rx_complete),
+//   .o_Rx_Byte(pc_data_rx)
+//	
+// );
+// 
+//// When we receive data, put in FIFO
+//// Pipe the most recent Byte into Green and the second oldest into Red
+//wire[7:0] last_byte_rx;
+//wire[7:0] second_last_byte_rx;
+//// Temp buffers
+//reg[7:0] last_byte_rx_buf        = 0;
+//reg[7:0] second_last_byte_rx_buf = 0;
+////assign LEDG[7:0] = last_byte_rx;
+////assign LEDR[7:0] = second_last_byte_rx;
+//// Control Signals
+//reg wrreq_sig;
+//reg rdreq_sig;
+//wire empty_sig;
+// 
+//// Push into FIFO when we receive a byte
+//always @(posedge CLOCK_50_B5B) begin
+//	if(rx_complete==1) begin
+//		second_last_byte_rx_buf = last_byte_rx_buf;
+//		wrreq_sig = 1;
+//	end else
+//		wrreq_sig = 0;
+//end
+//
+//// Push into FIFO when we receive a byte
+//always @(empty_sig) begin
+//	if(empty_sig==0) begin
+//		rdreq_sig = 1;
+//		last_byte_rx_buf = last_byte_rx;
+//		LEDG[7:0] = last_byte_rx_buf;
+//		LEDR[7:0] = second_last_byte_rx_buf;
+//	end else
+//		rdreq_sig = 0;
+//end
+// 
+// // FIFO
+//testFIFO uart_rx_FIFO(
+//	// Control Signals
+//	.clock(CLOCK_50_B5B),
+////	.sclr(sclr_sig),   // Reset FIFO
+//	
+//	// Write Side
+//	.data(pc_data_rx), // Input Data
+//	.wrreq(wrreq_sig), // Write Data Valid, set High for 1 cycle to write current data
+//	.full(full_sig),   // Full Flag
+//	
+//	// Read Side
+//	.rdreq(rdreq_sig), // Read Data Valid, set High for 1 cycle to read into current data
+//	.q(last_byte_rx),  // Output Data
+//	.empty(empty_sig)  // Empty Flag
+//	
+//	);
 	
 
 	
@@ -420,30 +471,49 @@ testFIFO uart_rx_FIFO(
 //////////////////////////
 
 // Tx buffer
-wire[7:0] pc_data_tx;
+reg[31:0] tx_byte_buf;
 // Pipe data back for loopback
-assign pc_data_tx = pc_data_rx;
-// Assign UART_TX Data to Arduino GPIO7 for Debug
+//assign tx_byte_buf = fifo_output_byte;
+// Assign UART_TX and UART_RX Data to Arduino GPIO10+12 for Debug
 assign GPIO[10]  = UART_TX;
+reg debug_out;
+assign GPIO[11] = UART_RX;
+
+assign GPIO[12] = tx_done;//debug_out;
+assign GPIO[13] = read_next_byte_cmd;
 
 // Command to send data back over Tx for loop
 reg  start_tx  = 0;
 wire tx_done;
 // Pulse when we rx a byte
 always @(posedge CLOCK_50_B5B) begin
-	if(rx_complete==1)
+	// If bytes in buffer and TxUart not active, send another byte
+	if( (fifo_is_empty_sig==0) && (tx_done==0) ) begin
+		read_next_byte_cmd = 1;
 		start_tx = 1;
-	else
+		tx_byte_buf = fifo_output_byte;
+//		tx_byte_buf = fifo_output_byte;
+//		tx_byte_buf = 32'h88776655;
+		debug_out = 1;
+	end else begin
+		// Wait until inactive or need to send another byte
+		read_next_byte_cmd = 0;
 		start_tx = 0;
+		tx_byte_buf = 32'h55667788;
+		debug_out = 0;
+	end
 end
 //assign GPIO[10] = tx_done;
-assign GPIO[12] = start_tx;
+//assign GPIO[12] = start_tx;
 
+// Want to interface to 115200 baud UART with our 50 MHz clock
+// 50000000 / 115200 = 435 Clocks Per Bit.
+parameter c_CLKS_PER_BIT    = 435;
 uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 
 	.i_Clock(CLOCK_50_B5B),   // Clock
    .i_Tx_DV(start_tx),       // Command to start TX of individual Byte
-   .i_Tx_Byte(pc_data_tx),   // Byte of data to send
+   .i_Tx_Byte(tx_byte_buf[31:24]),  // Byte of data to send
    .o_Tx_Active(tx_done),    // Flag for whether or not UART is active
    .o_Tx_Serial(UART_TX),    // Output line for UART
    .o_Tx_Done()              // Flag which is high for 1 cycle after Tx Complete
