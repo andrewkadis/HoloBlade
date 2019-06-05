@@ -2,100 +2,228 @@
 Timing Analyzer Summary
 ------------------------------------------------------------
 
+Type  : Slow 1100mV 85C Model Setup 'uart_tx:pc_tx|r_Tx_Done'
+Slack : -5.013
+TNS   : -143.952
+
+Type  : Slow 1100mV 85C Model Setup 'bytes_tx_reset'
+Slack : -4.662
+TNS   : -4.662
+
 Type  : Slow 1100mV 85C Model Setup 'spi:spi0|spi_clk'
-Slack : -4.698
-TNS   : -76.333
+Slack : -4.423
+TNS   : -79.631
 
 Type  : Slow 1100mV 85C Model Setup 'CLOCK_50_B5B'
-Slack : -4.046
-TNS   : -342.354
-
-Type  : Slow 1100mV 85C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.277
-TNS   : 0.000
+Slack : -4.416
+TNS   : -523.699
 
 Type  : Slow 1100mV 85C Model Hold 'CLOCK_50_B5B'
-Slack : 0.313
+Slack : 0.292
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'uart_tx:pc_tx|r_Tx_Done'
+Slack : 0.353
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.636
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Hold 'bytes_tx_reset'
+Slack : 3.373
+TNS   : 0.000
+
+Type  : Slow 1100mV 85C Model Recovery 'uart_tx:pc_tx|r_Tx_Done'
+Slack : -1.777
+TNS   : -56.374
+
+Type  : Slow 1100mV 85C Model Removal 'uart_tx:pc_tx|r_Tx_Done'
+Slack : 0.779
 TNS   : 0.000
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.636
-TNS   : -250.133
+TNS   : -496.030
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
 Slack : -0.538
-TNS   : -24.693
+TNS   : -25.846
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'uart_tx:pc_tx|r_Tx_Done'
+Slack : -0.538
+TNS   : -25.738
+
+Type  : Slow 1100mV 85C Model Minimum Pulse Width 'bytes_tx_reset'
+Slack : 0.435
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Setup 'uart_tx:pc_tx|r_Tx_Done'
+Slack : -5.250
+TNS   : -150.188
+
+Type  : Slow 1100mV 0C Model Setup 'bytes_tx_reset'
+Slack : -4.794
+TNS   : -4.794
 
 Type  : Slow 1100mV 0C Model Setup 'spi:spi0|spi_clk'
-Slack : -4.914
-TNS   : -77.527
+Slack : -4.717
+TNS   : -80.894
 
 Type  : Slow 1100mV 0C Model Setup 'CLOCK_50_B5B'
-Slack : -4.213
-TNS   : -340.144
+Slack : -4.428
+TNS   : -510.320
 
 Type  : Slow 1100mV 0C Model Hold 'CLOCK_50_B5B'
-Slack : -0.140
-TNS   : -0.140
+Slack : -0.031
+TNS   : -0.031
+
+Type  : Slow 1100mV 0C Model Hold 'uart_tx:pc_tx|r_Tx_Done'
+Slack : 0.359
+TNS   : 0.000
 
 Type  : Slow 1100mV 0C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.293
+Slack : 0.580
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Hold 'bytes_tx_reset'
+Slack : 3.375
+TNS   : 0.000
+
+Type  : Slow 1100mV 0C Model Recovery 'uart_tx:pc_tx|r_Tx_Done'
+Slack : -1.785
+TNS   : -56.161
+
+Type  : Slow 1100mV 0C Model Removal 'uart_tx:pc_tx|r_Tx_Done'
+Slack : 0.752
 TNS   : 0.000
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.636
-TNS   : -248.619
+TNS   : -484.856
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
 Slack : -0.538
-TNS   : -24.535
+TNS   : -25.761
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'uart_tx:pc_tx|r_Tx_Done'
+Slack : -0.538
+TNS   : -25.724
+
+Type  : Slow 1100mV 0C Model Minimum Pulse Width 'bytes_tx_reset'
+Slack : 0.404
+TNS   : 0.000
 
 Type  : Fast 1100mV 85C Model Setup 'CLOCK_50_B5B'
-Slack : -2.793
-TNS   : -80.923
+Slack : -2.978
+TNS   : -165.402
+
+Type  : Fast 1100mV 85C Model Setup 'uart_tx:pc_tx|r_Tx_Done'
+Slack : -1.927
+TNS   : -55.195
+
+Type  : Fast 1100mV 85C Model Setup 'bytes_tx_reset'
+Slack : -1.789
+TNS   : -1.789
 
 Type  : Fast 1100mV 85C Model Setup 'spi:spi0|spi_clk'
-Slack : -1.701
-TNS   : -28.142
+Slack : -1.595
+TNS   : -31.289
 
-Type  : Fast 1100mV 85C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.073
+Type  : Fast 1100mV 85C Model Hold 'uart_tx:pc_tx|r_Tx_Done'
+Slack : 0.097
 TNS   : 0.000
 
 Type  : Fast 1100mV 85C Model Hold 'CLOCK_50_B5B'
-Slack : 0.179
+Slack : 0.100
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.264
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Hold 'bytes_tx_reset'
+Slack : 1.726
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Recovery 'uart_tx:pc_tx|r_Tx_Done'
+Slack : -1.079
+TNS   : -33.637
+
+Type  : Fast 1100mV 85C Model Removal 'uart_tx:pc_tx|r_Tx_Done'
+Slack : 0.335
 TNS   : 0.000
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.174
-TNS   : -156.795
+TNS   : -360.098
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
-Slack : 0.053
+Slack : 0.062
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'uart_tx:pc_tx|r_Tx_Done'
+Slack : 0.083
+TNS   : 0.000
+
+Type  : Fast 1100mV 85C Model Minimum Pulse Width 'bytes_tx_reset'
+Slack : 0.495
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Setup 'CLOCK_50_B5B'
-Slack : -2.396
-TNS   : -63.212
+Slack : -2.523
+TNS   : -129.879
+
+Type  : Fast 1100mV 0C Model Setup 'uart_tx:pc_tx|r_Tx_Done'
+Slack : -1.835
+TNS   : -52.654
+
+Type  : Fast 1100mV 0C Model Setup 'bytes_tx_reset'
+Slack : -1.706
+TNS   : -1.706
 
 Type  : Fast 1100mV 0C Model Setup 'spi:spi0|spi_clk'
-Slack : -1.627
-TNS   : -25.809
+Slack : -1.525
+TNS   : -28.816
 
 Type  : Fast 1100mV 0C Model Hold 'CLOCK_50_B5B'
-Slack : -0.014
-TNS   : -0.014
+Slack : -0.060
+TNS   : -0.281
+
+Type  : Fast 1100mV 0C Model Hold 'uart_tx:pc_tx|r_Tx_Done'
+Slack : 0.082
+TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.091
+Slack : 0.241
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Hold 'bytes_tx_reset'
+Slack : 1.665
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Recovery 'uart_tx:pc_tx|r_Tx_Done'
+Slack : -0.916
+TNS   : -28.537
+
+Type  : Fast 1100mV 0C Model Removal 'uart_tx:pc_tx|r_Tx_Done'
+Slack : 0.291
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.174
-TNS   : -176.053
+TNS   : -381.909
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
-Slack : 0.072
+Slack : 0.077
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'uart_tx:pc_tx|r_Tx_Done'
+Slack : 0.097
+TNS   : 0.000
+
+Type  : Fast 1100mV 0C Model Minimum Pulse Width 'bytes_tx_reset'
+Slack : 0.488
 TNS   : 0.000
 
 ------------------------------------------------------------

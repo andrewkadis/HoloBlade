@@ -471,41 +471,146 @@ wire fifo_is_empty_sig;
 //////////////////////////
 
 // Tx buffer
-reg[31:0] tx_byte_buf;
+
 // Pipe data back for loopback
 //assign tx_byte_buf = fifo_output_byte;
 // Assign UART_TX and UART_RX Data to Arduino GPIO10+12 for Debug
 assign GPIO[10]  = UART_TX;
-reg debug_out;
+reg debug_out_b;
+reg debug_out_y;
 assign GPIO[11] = UART_RX;
 
-//assign GPIO[12] = tx_done;//debug_out;
+assign GPIO[12] = start_tx;
+assign GPIO[13] = tx_done;
 //assign GPIO[13] = read_next_byte_cmd;
 
 // Command to send data back over Tx for loop
-reg  start_tx  = 0;
-wire tx_done;
+reg start_tx  = 0;
 // Pulse when we rx a byte
 always @(posedge CLOCK_50_B5B) begin
 	// If bytes in buffer and TxUart not active, send another byte
-	if( (fifo_is_empty_sig==0) && (tx_done==0) ) begin
+	if( (fifo_is_empty_sig==0) ) begin//&& (tx_done==0) ) begin
 		read_next_byte_cmd = 1;
-		start_tx = 1;
-		tx_byte_buf = fifo_output_word;
+//		send_next_byte = 1;
+		bytes_tx_reset = 1;
+		fifo_output_latched = fifo_output_word;
+		num_bytes_to_send = 4;
 //		tx_byte_buf = fifo_output_byte;
 //		tx_byte_buf = 32'h88776655;
-		debug_out = 1;
+//		debug_out = 1;
 	end else begin
 		// Wait until inactive or need to send another byte
 		read_next_byte_cmd = 0;
-		start_tx = 0;
-		tx_byte_buf = 0;
-		debug_out = 0;
+		bytes_tx_reset = 0;
+//		send_next_byte = 0;
+//		tx_byte_buf = 0;
+//		debug_out = 0;
 	end
 end
-//assign GPIO[10] = tx_done;
-//assign GPIO[12] = start_tx;
 
+
+
+
+
+
+
+// Want to send the 32-bit word as a sequence of 4 bytes
+// Counter to keep track of our 4 bytes
+//parameter BYTES_TX_COUNT   = 3'd4; // Count down from 4 to check for 4 bytes
+// TODO: The two lines below are a contention disaster waiting to happen. Works okay for 1 32bit transaction bt need to think about for more than 1...
+reg[31:0] num_bytes_to_send = 0;
+reg[31:0] num_bytes_remaining = 0;
+//reg[1:0]  bytes_tx_counter = BYTES_TX_COUNT; 
+reg       bytes_tx_reset   = 0;
+reg       send_next_byte   = 0;
+//reg       full_word_recv     = 0;
+reg[31:0] fifo_output_latched = 0;
+reg[31:0] tx_byte_buf_curr    = 0;
+reg[7:0]  tx_byte_output      = 0;
+
+always @(posedge CLOCK_50_B5B) begin
+
+   // Default unless we have received all 4 bytes
+//	full_word_recv = 0;
+//	start_tx = 0;
+//	debug_out_y = 0;
+//	debug_out_b = 0;
+	
+	// Only continue if TX is not active
+	// TODO: I think there is some horrendous race condition here where if tx is active and we get a reset, everything will just BARF as the command gets ignore...
+//	if(tx_active==0) begin
+
+		// Reset counter if required
+//		if(bytes_tx_reset) begin
+//			debug_out_b = 1;
+//			num_bytes_remaining = num_bytes_to_send-1;
+			// Send first byte (different to others as no shift here) whilst resetting
+//			tx_byte_buf_curr  = fifo_output_latched[31:0];
+//			tx_byte_output   = fifo_output_latched[31:24];
+//			tx_byte_buf_next  = { fifo_output_latched[23:0], 8'd0 };
+//			start_tx         = 1;
+			
+		if( (bytes_tx_reset) || (tx_done==1) && (num_bytes_remaining>0) ) begin
+			// Byte sent succussefully, send next
+//			debug_out_y = 1;
+			// Buffer our next byte into the shift register
+//			tx_byte_buf_curr  = tx_byte_buf_next;
+//			tx_byte_buf_curr = { tx_byte_buf_curr[23:0], 8'd0 };
+//			tx_byte_output   = tx_byte_buf_curr[31:24];
+			
+			 case (num_bytes_remaining)
+//				0       : tx_byte_output = fifo_output_latched[ 7: 0];
+				1       : tx_byte_output = fifo_output_latched[ 7: 0];
+				2       : tx_byte_output = fifo_output_latched[15: 8];
+				3       : tx_byte_output = fifo_output_latched[23:16];
+				4       : tx_byte_output = fifo_output_latched[31:24];
+				default : tx_byte_output = 8'h00; 
+			 endcase
+			
+			start_tx         = 1;
+			
+			// Have we received all four bytes?
+//			if(bytes_tx_counter==3'd0) begin
+//				full_word_recv = 1; // High for 1 cycle so we can send data to FIFO
+//			end
+			 
+		end else
+			start_tx = 0;
+	
+//	end
+
+end
+
+always @(posedge tx_done, posedge bytes_tx_reset) begin
+	if(bytes_tx_reset)
+		num_bytes_remaining = num_bytes_to_send;
+	else if (tx_done==1)
+		num_bytes_remaining = num_bytes_remaining-1;
+end
+
+//// Push to FIFO if ready
+//always @(posedge i_clock) begin
+//	if(full_word_recv) begin
+////		fifo_data_rx_buf      = pc_data_rx_word; // Data for FIFO
+////		i_write_next_byte_cmd = 1;          // Send data to FIFO
+//		bytes_tx_reset      = 1;          // Reset counter for next loop
+//	end else begin
+////		i_write_next_byte_cmd = 0;
+//		bytes_tx_reset      = 0;
+//	end
+//end
+
+
+
+
+
+
+
+
+
+// Control Flags for Tx UART
+wire tx_active;
+wire tx_done;
 // Want to interface to 115200 baud UART with our 50 MHz clock
 // 50000000 / 115200 = 435 Clocks Per Bit.
 parameter c_CLKS_PER_BIT    = 435;
@@ -513,10 +618,10 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 
 	.i_Clock(CLOCK_50_B5B),   // Clock
    .i_Tx_DV(start_tx),       // Command to start TX of individual Byte
-   .i_Tx_Byte(tx_byte_buf[31:24]),  // Byte of data to send
-   .o_Tx_Active(tx_done),    // Flag for whether or not UART is active
+   .i_Tx_Byte(tx_byte_output),  // Byte of data to send
+   .o_Tx_Active(tx_active),    // Flag for whether or not UART is active
    .o_Tx_Serial(UART_TX),    // Output line for UART
-   .o_Tx_Done()              // Flag which is high for 1 cycle after Tx Complete
+   .o_Tx_Done(tx_done)              // Flag which is high for 1 cycle after Tx Complete
 	  
  );
 
