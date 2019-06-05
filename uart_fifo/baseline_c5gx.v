@@ -348,7 +348,7 @@ PC_RX pc_rx(
 	// DataManager-Side
    .i_read_next_byte_cmd(read_next_byte_cmd), // Command to get next byte from FIFO, set high for 1 cycle
 	.o_start_packet_sig(start_packet_sign),    // Signal which goes high for 1 cycle to indicate that a packet has just started to be sent into the FIFO
-	.o_fifo_output_byte(fifo_output_byte),     // Current Byte output from the FIFO
+	.o_fifo_output_word(fifo_output_word),     // Current Byte output from the FIFO
 	.o_fifo_is_empty_sig(fifo_is_empty_sig)    // Signal to indicates whether or not the FIFO is empty
 	  
 //	.o_debug_out_1(GPIO[12]),
@@ -365,7 +365,7 @@ PC_RX pc_rx(
 // With PC_RX module
 reg read_next_byte_cmd = 0;
 wire start_packet_sign;
-wire[31:0] fifo_output_byte;
+wire[31:0] fifo_output_word;
 wire fifo_is_empty_sig;
 //// TODO:
 //// When we receive data, put in FIFO
@@ -479,8 +479,8 @@ assign GPIO[10]  = UART_TX;
 reg debug_out;
 assign GPIO[11] = UART_RX;
 
-assign GPIO[12] = tx_done;//debug_out;
-assign GPIO[13] = read_next_byte_cmd;
+//assign GPIO[12] = tx_done;//debug_out;
+//assign GPIO[13] = read_next_byte_cmd;
 
 // Command to send data back over Tx for loop
 reg  start_tx  = 0;
@@ -491,7 +491,7 @@ always @(posedge CLOCK_50_B5B) begin
 	if( (fifo_is_empty_sig==0) && (tx_done==0) ) begin
 		read_next_byte_cmd = 1;
 		start_tx = 1;
-		tx_byte_buf = fifo_output_byte;
+		tx_byte_buf = fifo_output_word;
 //		tx_byte_buf = fifo_output_byte;
 //		tx_byte_buf = 32'h88776655;
 		debug_out = 1;
@@ -499,7 +499,7 @@ always @(posedge CLOCK_50_B5B) begin
 		// Wait until inactive or need to send another byte
 		read_next_byte_cmd = 0;
 		start_tx = 0;
-		tx_byte_buf = 32'h55667788;
+		tx_byte_buf = 0;
 		debug_out = 0;
 	end
 end

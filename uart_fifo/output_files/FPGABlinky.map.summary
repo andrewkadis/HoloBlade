@@ -1,10 +1,10 @@
-Analysis & Synthesis Status : Successful - Tue Jun 04 21:24:00 2019
+Analysis & Synthesis Status : Successful - Wed Jun 05 12:00:43 2019
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : FPGABlinky
 Top-level Entity Name : baseline_c5gx
 Family : Cyclone V
 Logic utilization (in ALMs) : N/A
-Total registers : 165
+Total registers : 208
 Total pins : 258
 Total virtual pins : 0
 Total block memory bits : 512
