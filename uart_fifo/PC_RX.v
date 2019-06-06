@@ -167,8 +167,8 @@ wire[31:0] deserialised_data_word;
 // Control Signals
 wire pc_full_word_recv_sig;
 
-// Declare SERIALISER
-SERIALISER serialiser(
+// Declare DESERIALISER
+DESERIALISER deserialiser(
 
 	// Control Signals
    .i_clock(i_clock),

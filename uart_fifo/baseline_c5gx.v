@@ -330,7 +330,7 @@ wire fifo_is_empty_sig;
 // Pulse when we rx a byte
 always @(posedge CLOCK_50_B5B) begin
 	// If data in fifo and Serialiser is not active, start another serialisation sequence
-	if( (fifo_is_empty_sig==0) && (serialiser_is_busy==0) ) begin
+	if( (fifo_is_empty_sig==0) && (serial_is_busy_sig==0) ) begin
 	
 		// Get NExt word from FIFO
 		read_next_word_cmd = 1;
@@ -372,75 +372,100 @@ assign GPIO[11] = UART_RX;
 ////// Serialiser ////////
 //////////////////////////
 
-// Want to serialise the 32-bit word into a sequence of 4 bytes so we can Tx over the UART
-// Variables
-// Counter to keep track of how many bytes in a 4-byte sequence we have still to send
-reg[3:0] num_bytes_to_send = 3'd0;
-// Command to start serialising next word
-reg serialise_next_word_cmd = 0;
-// Flag to indicate whether or not our serialiser is currently active
-reg serialiser_is_busy = 0;
-// Buffer to latch the output from the FIFO until fully serialised
-reg[31:0] fifo_output_latched = 0;
+// Buffer for latching
+reg[31:0] fifo_output_latched = 0; 
+// Control Lines
+reg  serialise_next_word_cmd = 0;
+wire serial_is_busy_sig;
 
-// We use tx_done to drive our serialiser, but testing found that it can be high for 2 cycles
-// Hence we put an edge detector on tx_done to make it reliable
-reg tx_done_edge = 0;
-reg tx_done_prev = 0;
-always @(posedge CLOCK_50_B5B) begin
-	if( (tx_done_prev==0) && (tx_done==1) )
-		tx_done_edge = 1;
-	else
-		tx_done_edge = 0;
-	tx_done_prev = tx_done;
-end
+ SERIALISER serialiser(
 
-// Serialiser logic handled in the following combinational block
-always @(posedge CLOCK_50_B5B) begin
-
-	// Don't transmit by default
-	send_next_byte_cmd = 0;
-
-	if(serialise_next_word_cmd) begin
-		
-		// Start a Serialiser Sequence
-		serialiser_is_busy  = 1;
-		
-		// Send First byte in word
-		tx_byte_output     = fifo_output_latched[31:24];
-		send_next_byte_cmd = 1;
-		
-		// Set number of bytes to send
-		num_bytes_to_send = 3'd4; // Start at 4 as haven't sent any yet
-		
-	// Check if our byte has been sent whilst serialising
-	// Note that we use tx_active rather than tx_done as tx_done seems to go high for 2 cycles rather than 1
-	end else if ( (tx_done_edge==1) ) begin
+	// Control Signals
+	.i_clock(CLOCK_50_B5B),
 	
-		// Byte has been successfully sent, decrement
-		num_bytes_to_send = num_bytes_to_send-3'd1;
-		
-		// Have we sent all or bytes?
-		if(num_bytes_to_send>3'd0) begin
-		
-			// No, sent the next corresponding byte
-			case (num_bytes_to_send)
-				3'd0    : tx_byte_output = 8'h00; 
-				3'd1    : tx_byte_output = fifo_output_latched[ 7: 0];
-				3'd2    : tx_byte_output = fifo_output_latched[15: 8];
-				3'd3    : tx_byte_output = fifo_output_latched[23:16];
-				default : tx_byte_output = 8'hFF; 
-			endcase
-			send_next_byte_cmd = 1;
-			
-		end else begin
-			// Sent all our bytes, packet has been successfully serialised
-			serialiser_is_busy = 0;
-		end
-		
-	end
+	// Input-Side
+	.i_fifo_word_data(fifo_output_latched),           // Data from Uart
+	.i_serial_next_word_cmd(serialise_next_word_cmd), // New byte from Uart Received signal
+	.i_tx_byte_complete(tx_done),                     // Byte has been successfully Tx'd
+	
+	// Output-Side
+	.o_send_next_byte_cmd(send_next_byte_cmd),        // Flag to indicate whether or not the serialisation Unit is busy
+   .o_serial_data_byte(tx_byte_output),              // Data Output for FIFO
+   .o_serial_is_busy_sig(serial_is_busy_sig),        // Signal to indicate that serialse is complete
+	  
+ );
+ 
 
-end
+//
+//// Want to serialise the 32-bit word into a sequence of 4 bytes so we can Tx over the UART
+//// Variables
+//// Counter to keep track of how many bytes in a 4-byte sequence we have still to send
+//reg[3:0] num_bytes_to_send = 3'd0;
+//// Command to start serialising next word
+//reg serialise_next_word_cmd = 0;
+//// Flag to indicate whether or not our serialiser is currently active
+//reg serialiser_is_busy = 0;
+//// Buffer to latch the output from the FIFO until fully serialised
+//reg[31:0] fifo_output_latched = 0;
+//
+//// We use tx_done to drive our serialiser, but testing found that it can be high for 2 cycles
+//// Hence we put an edge detector on tx_done to make it reliable
+//reg tx_done_edge = 0;
+//reg tx_done_prev = 0;
+//always @(posedge CLOCK_50_B5B) begin
+//	if( (tx_done_prev==0) && (tx_done==1) )
+//		tx_done_edge = 1;
+//	else
+//		tx_done_edge = 0;
+//	tx_done_prev = tx_done;
+//end
+//
+//// Serialiser logic handled in the following combinational block
+//always @(posedge CLOCK_50_B5B) begin
+//
+//	// Don't transmit by default
+//	send_next_byte_cmd = 0;
+//
+//	if(serialise_next_word_cmd) begin
+//		
+//		// Start a Serialiser Sequence
+//		serialiser_is_busy  = 1;
+//		
+//		// Send First byte in word
+//		tx_byte_output     = fifo_output_latched[31:24];
+//		send_next_byte_cmd = 1;
+//		
+//		// Set number of bytes to send
+//		num_bytes_to_send = 3'd4; // Start at 4 as haven't sent any yet
+//		
+//	// Check if our byte has been sent whilst serialising
+//	// Note that we use tx_active rather than tx_done as tx_done seems to go high for 2 cycles rather than 1
+//	end else if ( (tx_done_edge==1) ) begin
+//	
+//		// Byte has been successfully sent, decrement
+//		num_bytes_to_send = num_bytes_to_send-3'd1;
+//		
+//		// Have we sent all or bytes?
+//		if(num_bytes_to_send>3'd0) begin
+//		
+//			// No, sent the next corresponding byte
+//			case (num_bytes_to_send)
+//				3'd0    : tx_byte_output = 8'h00; 
+//				3'd1    : tx_byte_output = fifo_output_latched[ 7: 0];
+//				3'd2    : tx_byte_output = fifo_output_latched[15: 8];
+//				3'd3    : tx_byte_output = fifo_output_latched[23:16];
+//				default : tx_byte_output = 8'hFF; 
+//			endcase
+//			send_next_byte_cmd = 1;
+//			
+//		end else begin
+//			// Sent all our bytes, packet has been successfully serialised
+//			serialiser_is_busy = 0;
+//		end
+//		
+//	end
+//
+//end
 
 
 
@@ -454,10 +479,10 @@ end
 //////// Uart TX /////////
 //////////////////////////
 
-// Command to send next byte over UART
-reg send_next_byte_cmd    = 0;
-// Byte to output from UART
-reg[7:0]  tx_byte_output  = 0;
+// Command to send next byte over UART - controlled by the Serialiser
+wire send_next_byte_cmd;
+// Byte to output from UART - controlled by the Serialiser
+wire[7:0] tx_byte_output;
 // Control Flags for Tx UART
 wire tx_active;
 wire tx_done;
