@@ -303,10 +303,10 @@ PC_RX pc_rx(
    .i_read_next_word_cmd(read_next_word_cmd), // Command to get next word from FIFO, set high for 1 cycle
 	.o_start_packet_sig(start_packet_sign),    // Signal which goes high for 1 cycle to indicate that a packet has just started to be sent into the FIFO
 	.o_fifo_output_word(fifo_output_word),     // Current Byte output from the FIFO
-	.o_fifo_is_empty_sig(fifo_is_empty_sig)    // Signal to indicates whether or not the FIFO is empty
+	.o_fifo_is_empty_sig(fifo_is_empty_sig),   // Signal to indicates whether or not the FIFO is empty
 	  
-//	.o_debug_out_1(GPIO[12]),
-//	.o_debug_out_2(GPIO[13])
+	.o_debug_out_b(GPIO[12]),
+	.o_debug_out_y(GPIO[13])
 	  
  );
 
@@ -366,9 +366,9 @@ reg debug_out_b;
 reg debug_out_y;
 assign GPIO[11] = UART_RX;
 // Blue
-assign GPIO[13] = serialise_next_word_cmd;
-// Yellow
-assign GPIO[12] = serialiser_is_busy;
+//assign GPIO[12] = serialise_next_word_cmd;
+//// Yellow
+//assign GPIO[13] = serialiser_is_busy;
 
 
 

@@ -1,0 +1,7 @@
+
+// Authors: A. Kadis
+// Date:    6th June 2019
+
+// PC_RX Encapsulates to functionality to receive UART data from a FTDI USB2 Chip
+// It handles, resync and sending data through a FIFO to be processed by teh DATA_MANAGER
+// Encapsualtes and manages a UART_RX_DRIVER and a UART_RX_FIFO
