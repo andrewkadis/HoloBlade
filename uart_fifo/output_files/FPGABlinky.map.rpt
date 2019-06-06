@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Thu Jun 06 17:28:17 2019
+Thu Jun 06 17:39:12 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -64,14 +64,14 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Thu Jun 06 17:28:16 2019       ;
+; Analysis & Synthesis Status     ; Successful - Thu Jun 06 17:39:12 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 239                                         ;
-; Total pins                      ; 258                                         ;
+; Total registers                 ; 240                                         ;
+; Total pins                      ; 72                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 2,048                                       ;
 ; Total DSP Blocks                ; 0                                           ;
@@ -222,7 +222,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------+
 ; Resource                                    ; Usage              ;
 +---------------------------------------------+--------------------+
-; Estimate of Logic utilization (ALMs needed) ; 135                ;
+; Estimate of Logic utilization (ALMs needed) ; 136                ;
 ;                                             ;                    ;
 ; Combinational ALUT usage for logic          ; 202                ;
 ;     -- 7 input functions                    ; 4                  ;
@@ -231,18 +231,18 @@ refer to the applicable agreement for further details.
 ;     -- 4 input functions                    ; 35                 ;
 ;     -- <=3 input functions                  ; 93                 ;
 ;                                             ;                    ;
-; Dedicated logic registers                   ; 239                ;
+; Dedicated logic registers                   ; 240                ;
 ;                                             ;                    ;
-; I/O pins                                    ; 258                ;
+; I/O pins                                    ; 72                 ;
 ; Total MLAB memory bits                      ; 0                  ;
 ; Total block memory bits                     ; 2048               ;
 ;                                             ;                    ;
 ; Total DSP Blocks                            ; 0                  ;
 ;                                             ;                    ;
 ; Maximum fan-out node                        ; CLOCK_50_B5B~input ;
-; Maximum fan-out                             ; 243                ;
-; Total fan-out                               ; 2292               ;
-; Average fan-out                             ; 2.04               ;
+; Maximum fan-out                             ; 244                ;
+; Total fan-out                               ; 2010               ;
+; Average fan-out                             ; 3.07               ;
 +---------------------------------------------+--------------------+
 
 
@@ -251,7 +251,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
 ; Compilation Hierarchy Node                  ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                              ; Entity Name     ; Library Name ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
-; |baseline_c5gx                              ; 202 (48)            ; 239 (84)                  ; 2048              ; 0          ; 258  ; 0            ; |baseline_c5gx                                                                                                                                   ; baseline_c5gx   ; work         ;
+; |baseline_c5gx                              ; 202 (48)            ; 240 (85)                  ; 2048              ; 0          ; 72   ; 0            ; |baseline_c5gx                                                                                                                                   ; baseline_c5gx   ; work         ;
 ;    |PC_RX:pc_rx|                            ; 79 (0)              ; 93 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx                                                                                                                       ; PC_RX           ; work         ;
 ;       |SERIALISER:serialiser|               ; 3 (3)               ; 35 (35)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|SERIALISER:serialiser                                                                                                 ; SERIALISER      ; work         ;
 ;       |testFIFO:uart_rx_FIFO|               ; 35 (0)              ; 29 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO                                                                                                 ; testFIFO        ; work         ;
@@ -366,7 +366,7 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 239   ;
+; Total registers                              ; 240   ;
 ; Number of registers using Synchronous Clear  ; 21    ;
 ; Number of registers using Synchronous Load   ; 8     ;
 ; Number of registers using Asynchronous Clear ; 11    ;
@@ -393,14 +393,14 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------+
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|num_bytes_to_send[0]                       ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|num_bytes_to_send[3]                       ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[7]                            ;
 ; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|uart_tx:pc_tx|r_Clock_Count[4]             ;
 ; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|tx_byte_output[5]                          ;
 ; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[0] ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|uart_tx:pc_tx|r_Bit_Index                  ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Bit_Index      ;
-; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector4                         ;
+; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector3                         ;
 ; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector2                         ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------+
 
@@ -562,14 +562,14 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 239                         ;
+; arriav_ff             ; 240                         ;
 ;     CLR               ; 11                          ;
 ;     ENA               ; 97                          ;
 ;     ENA SCLR          ; 20                          ;
 ;     ENA SLD           ; 8                           ;
 ;     SCLR              ; 1                           ;
-;     plain             ; 102                         ;
-; arriav_io_obuf        ; 133                         ;
+;     plain             ; 103                         ;
+; arriav_io_obuf        ; 36                          ;
 ; arriav_lcell_comb     ; 203                         ;
 ;     arith             ; 60                          ;
 ;         1 data inputs ; 54                          ;
@@ -584,11 +584,11 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;         4 data inputs ; 35                          ;
 ;         5 data inputs ; 23                          ;
 ;         6 data inputs ; 47                          ;
-; boundary_port         ; 258                         ;
+; boundary_port         ; 72                          ;
 ; stratixv_ram_block    ; 32                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 3.20                        ;
-; Average LUT depth     ; 1.23                        ;
+; Average LUT depth     ; 1.44                        ;
 +-----------------------+-----------------------------+
 
 
@@ -607,7 +607,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Thu Jun 06 17:28:09 2019
+    Info: Processing started: Thu Jun 06 17:39:03 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -625,7 +625,6 @@ Info (12021): Found 1 design units, including 1 entities, in source file pc_rx.v
     Info (12023): Found entity 1: PC_RX File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 10
 Info (12021): Found 1 design units, including 1 entities, in source file serialser.v
     Info (12023): Found entity 1: SERIALISER File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/serialser.v Line: 10
-Warning (10236): Verilog HDL Implicit Net warning at PC_RX.v(253): created implicit net for "is_fifo_full_sig" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 253
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(23): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 23
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(24): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 24
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(25): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 25
@@ -637,33 +636,10 @@ Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(27): Par
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(28): Parameter Declaration in module "uart_tx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 28
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(29): Parameter Declaration in module "uart_tx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 29
 Info (12127): Elaborating entity "baseline_c5gx" for the top level hierarchy
-Warning (10230): Verilog HDL assignment warning at baseline_c5gx.v(199): truncated value with size 32 to match size of target (24) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 199
-Warning (10034): Output port "HDMI_TX_D" at baseline_c5gx.v(93) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-Warning (10034): Output port "HEX0[6]" at baseline_c5gx.v(100) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 100
-Warning (10034): Output port "HEX1" at baseline_c5gx.v(103) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 103
-Warning (10034): Output port "HSMC_CLKOUT_n" at baseline_c5gx.v(111) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 111
-Warning (10034): Output port "HSMC_CLKOUT_p" at baseline_c5gx.v(112) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 112
+Warning (10230): Verilog HDL assignment warning at baseline_c5gx.v(188): truncated value with size 32 to match size of target (24) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 188
 Warning (10034): Output port "LEDG" at baseline_c5gx.v(132) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 132
 Warning (10034): Output port "LEDR" at baseline_c5gx.v(135) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 135
-Warning (10034): Output port "SRAM_A" at baseline_c5gx.v(155) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-Warning (10034): Output port "ADC_CONVST" at baseline_c5gx.v(41) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 41
-Warning (10034): Output port "ADC_SCK" at baseline_c5gx.v(42) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 42
-Warning (10034): Output port "ADC_SDI" at baseline_c5gx.v(43) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 43
-Warning (10034): Output port "AUD_DACDAT" at baseline_c5gx.v(50) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 50
-Warning (10034): Output port "AUD_XCK" at baseline_c5gx.v(52) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 52
-Warning (10034): Output port "HDMI_TX_CLK" at baseline_c5gx.v(92) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
-Warning (10034): Output port "HDMI_TX_DE" at baseline_c5gx.v(94) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 94
-Warning (10034): Output port "HDMI_TX_HS" at baseline_c5gx.v(95) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 95
-Warning (10034): Output port "HDMI_TX_VS" at baseline_c5gx.v(97) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 97
-Warning (10034): Output port "HSMC_CLKOUT0" at baseline_c5gx.v(110) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 110
-Warning (10034): Output port "I2C_SCL" at baseline_c5gx.v(125) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 125
-Warning (10034): Output port "SD_CLK" at baseline_c5gx.v(144) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 144
-Warning (10034): Output port "SRAM_CE_n" at baseline_c5gx.v(156) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 156
-Warning (10034): Output port "SRAM_LB_n" at baseline_c5gx.v(158) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 158
-Warning (10034): Output port "SRAM_OE_n" at baseline_c5gx.v(159) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 159
-Warning (10034): Output port "SRAM_UB_n" at baseline_c5gx.v(160) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 160
-Warning (10034): Output port "SRAM_WE_n" at baseline_c5gx.v(161) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 161
-Info (12128): Elaborating entity "spi" for hierarchy "spi:spi0" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 282
+Info (12128): Elaborating entity "spi" for hierarchy "spi:spi0" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 272
 Warning (10230): Verilog HDL assignment warning at spi.v(157): truncated value with size 32 to match size of target (4) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 157
 Warning (10235): Verilog HDL Always Construct warning at spi.v(172): variable "enable" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 172
 Warning (10235): Verilog HDL Always Construct warning at spi.v(174): variable "start_transfer" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 174
@@ -676,19 +652,21 @@ Warning (10235): Verilog HDL Always Construct warning at spi.v(223): variable "s
 Info (10264): Verilog HDL Case Statement information at spi.v(242): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 242
 Info (10264): Verilog HDL Case Statement information at spi.v(269): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 269
 Info (10264): Verilog HDL Case Statement information at spi.v(293): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 293
-Info (12128): Elaborating entity "PC_RX" for hierarchy "PC_RX:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 311
-Warning (10230): Verilog HDL assignment warning at PC_RX.v(239): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 239
+Info (12128): Elaborating entity "PC_RX" for hierarchy "PC_RX:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 301
+Warning (10230): Verilog HDL assignment warning at PC_RX.v(205): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 205
 Warning (10034): Output port "o_start_packet_sig" at PC_RX.v(20) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 20
+Warning (10034): Output port "o_debug_out_b" at PC_RX.v(25) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 25
+Warning (10034): Output port "o_debug_out_y" at PC_RX.v(28) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 28
 Info (12128): Elaborating entity "uart_rx" for hierarchy "PC_RX:pc_rx|uart_rx:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 149
 Warning (10230): Verilog HDL assignment warning at uart_rx.v(80): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 80
 Warning (10230): Verilog HDL assignment warning at uart_rx.v(91): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 91
 Warning (10230): Verilog HDL assignment warning at uart_rx.v(102): truncated value with size 32 to match size of target (3) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 102
 Warning (10230): Verilog HDL assignment warning at uart_rx.v(120): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 120
-Info (12128): Elaborating entity "SERIALISER" for hierarchy "PC_RX:pc_rx|SERIALISER:serialiser" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 185
+Info (12128): Elaborating entity "SERIALISER" for hierarchy "PC_RX:pc_rx|SERIALISER:serialiser" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 184
 Warning (10230): Verilog HDL assignment warning at serialser.v(34): truncated value with size 3 to match size of target (2) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/serialser.v Line: 34
 Warning (10230): Verilog HDL assignment warning at serialser.v(47): truncated value with size 3 to match size of target (2) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/serialser.v Line: 47
 Warning (10230): Verilog HDL assignment warning at serialser.v(53): truncated value with size 32 to match size of target (2) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/serialser.v Line: 53
-Info (12128): Elaborating entity "testFIFO" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 260
+Info (12128): Elaborating entity "testFIFO" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 224
 Info (12128): Elaborating entity "scfifo" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/testFIFO/testFIFO.v Line: 78
 Info (12130): Elaborated megafunction instantiation "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/testFIFO/testFIFO.v Line: 78
 Info (12133): Instantiated megafunction "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component" with the following parameter: File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/testFIFO/testFIFO.v Line: 78
@@ -724,7 +702,7 @@ Info (12128): Elaborating entity "cntr_t27" for hierarchy "PC_RX:pc_rx|testFIFO:
 Info (12021): Found 1 design units, including 1 entities, in source file db/cntr_h2b.tdf
     Info (12023): Found entity 1: cntr_h2b File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/cntr_h2b.tdf Line: 25
 Info (12128): Elaborating entity "cntr_h2b" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/a_dpfifo_8691.tdf Line: 57
-Info (12128): Elaborating entity "uart_tx" for hierarchy "uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 486
+Info (12128): Elaborating entity "uart_tx" for hierarchy "uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 476
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(68): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 68
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(86): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 86
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(96): truncated value with size 32 to match size of target (3) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 96
@@ -736,13 +714,8 @@ Warning (13034): The following nodes have both tri-state and non-tri-state drive
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[6]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[10]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[11]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
-    Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[12]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
-    Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[13]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
 Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "GPIO[8]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
-    Warning (13040): bidirectional pin "AUD_ADCLRCK" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 48
-    Warning (13040): bidirectional pin "AUD_BCLK" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 49
-    Warning (13040): bidirectional pin "AUD_DACLRCK" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 51
     Warning (13040): bidirectional pin "GPIO[1]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
     Warning (13040): bidirectional pin "GPIO[3]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
     Warning (13040): bidirectional pin "GPIO[5]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
@@ -770,102 +743,10 @@ Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "GPIO[33]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
     Warning (13040): bidirectional pin "GPIO[34]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
     Warning (13040): bidirectional pin "GPIO[35]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
-    Warning (13040): bidirectional pin "HSMC_D[0]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 113
-    Warning (13040): bidirectional pin "HSMC_D[1]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 113
-    Warning (13040): bidirectional pin "HSMC_D[2]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 113
-    Warning (13040): bidirectional pin "HSMC_D[3]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 113
-    Warning (13040): bidirectional pin "HSMC_RX_n[0]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[1]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[2]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[3]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[4]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[5]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[6]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[7]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[8]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[9]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[10]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[11]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[12]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[13]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[14]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[15]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_n[16]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 118
-    Warning (13040): bidirectional pin "HSMC_RX_p[0]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[1]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[2]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[3]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[4]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[5]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[6]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[7]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[8]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[9]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[10]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[11]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[12]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[13]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[14]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[15]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_RX_p[16]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 119
-    Warning (13040): bidirectional pin "HSMC_TX_n[0]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[1]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[2]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[3]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[4]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[5]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[6]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[7]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[8]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[9]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[10]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[11]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[12]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[13]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[14]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[15]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_n[16]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 120
-    Warning (13040): bidirectional pin "HSMC_TX_p[0]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[1]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[2]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[3]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[4]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[5]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[6]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[7]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[8]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[9]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[10]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[11]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[12]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[13]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[14]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[15]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "HSMC_TX_p[16]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 121
-    Warning (13040): bidirectional pin "I2C_SDA" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 126
-    Warning (13040): bidirectional pin "SD_CMD" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 145
-    Warning (13040): bidirectional pin "SD_DAT[0]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 146
-    Warning (13040): bidirectional pin "SD_DAT[1]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 146
-    Warning (13040): bidirectional pin "SD_DAT[2]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 146
-    Warning (13040): bidirectional pin "SD_DAT[3]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 146
-    Warning (13040): bidirectional pin "SRAM_D[0]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[1]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[2]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[3]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[4]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[5]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[6]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[7]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[8]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[9]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[10]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[11]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[12]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[13]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[14]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
-    Warning (13040): bidirectional pin "SRAM_D[15]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
 Warning (13032): The following tri-state nodes are fed by constants
     Warning (13033): The pin "GPIO[0]" is fed by VCC File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
+    Warning (13033): The pin "GPIO[12]" is fed by GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
+    Warning (13033): The pin "GPIO[13]" is fed by GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
 Warning (13009): TRI or OPNDRN buffers permanently enabled
     Warning (13010): Node "GPIO[0]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
     Warning (13010): Node "GPIO[2]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
@@ -873,56 +754,7 @@ Warning (13009): TRI or OPNDRN buffers permanently enabled
     Warning (13010): Node "GPIO[6]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
     Warning (13010): Node "GPIO[10]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
     Warning (13010): Node "GPIO[11]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
-    Warning (13010): Node "GPIO[12]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
-    Warning (13010): Node "GPIO[13]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "ADC_CONVST" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 41
-    Warning (13410): Pin "ADC_SCK" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 42
-    Warning (13410): Pin "ADC_SDI" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 43
-    Warning (13410): Pin "AUD_DACDAT" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 50
-    Warning (13410): Pin "AUD_XCK" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 52
-    Warning (13410): Pin "HDMI_TX_CLK" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
-    Warning (13410): Pin "HDMI_TX_D[0]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[1]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[2]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[3]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[4]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[5]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[6]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[7]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[8]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[9]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[10]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[11]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[12]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[13]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[14]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[15]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[16]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[17]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[18]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[19]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[20]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[21]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[22]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_D[23]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
-    Warning (13410): Pin "HDMI_TX_DE" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 94
-    Warning (13410): Pin "HDMI_TX_HS" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 95
-    Warning (13410): Pin "HDMI_TX_VS" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 97
-    Warning (13410): Pin "HEX0[6]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 100
-    Warning (13410): Pin "HEX1[0]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 103
-    Warning (13410): Pin "HEX1[1]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 103
-    Warning (13410): Pin "HEX1[2]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 103
-    Warning (13410): Pin "HEX1[3]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 103
-    Warning (13410): Pin "HEX1[4]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 103
-    Warning (13410): Pin "HEX1[5]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 103
-    Warning (13410): Pin "HEX1[6]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 103
-    Warning (13410): Pin "HSMC_CLKOUT0" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 110
-    Warning (13410): Pin "HSMC_CLKOUT_n[1]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 111
-    Warning (13410): Pin "HSMC_CLKOUT_n[2]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 111
-    Warning (13410): Pin "HSMC_CLKOUT_p[1]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 112
-    Warning (13410): Pin "HSMC_CLKOUT_p[2]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 112
-    Warning (13410): Pin "I2C_SCL" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 125
     Warning (13410): Pin "LEDG[0]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 132
     Warning (13410): Pin "LEDG[1]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 132
     Warning (13410): Pin "LEDG[2]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 132
@@ -941,68 +773,25 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "LEDR[7]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 135
     Warning (13410): Pin "LEDR[8]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 135
     Warning (13410): Pin "LEDR[9]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 135
-    Warning (13410): Pin "SD_CLK" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 144
-    Warning (13410): Pin "SRAM_A[0]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[1]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[2]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[3]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[4]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[5]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[6]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[7]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[8]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[9]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[10]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[11]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[12]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[13]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[14]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[15]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[16]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_A[17]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 155
-    Warning (13410): Pin "SRAM_CE_n" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 156
-    Warning (13410): Pin "SRAM_LB_n" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 158
-    Warning (13410): Pin "SRAM_OE_n" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 159
-    Warning (13410): Pin "SRAM_UB_n" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 160
-    Warning (13410): Pin "SRAM_WE_n" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 161
 Info (286030): Timing-Driven Synthesis is running
 Info (17049): 7 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Warning (21074): Design contains 23 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "ADC_SDO" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 44
-    Warning (15610): No output dependent on input pin "AUD_ADCDAT" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 47
+Warning (21074): Design contains 4 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "CLOCK_125_p" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 55
     Warning (15610): No output dependent on input pin "CLOCK_50_B6A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 57
     Warning (15610): No output dependent on input pin "CLOCK_50_B7A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 58
     Warning (15610): No output dependent on input pin "CLOCK_50_B8A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 59
-    Warning (15610): No output dependent on input pin "CPU_RESET_n" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 62
-    Warning (15610): No output dependent on input pin "HDMI_TX_INT" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 96
-    Warning (15610): No output dependent on input pin "HSMC_CLKIN0" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 107
-    Warning (15610): No output dependent on input pin "HSMC_CLKIN_n[1]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 108
-    Warning (15610): No output dependent on input pin "HSMC_CLKIN_n[2]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 108
-    Warning (15610): No output dependent on input pin "HSMC_CLKIN_p[1]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 109
-    Warning (15610): No output dependent on input pin "HSMC_CLKIN_p[2]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 109
-    Warning (15610): No output dependent on input pin "SW[0]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-    Warning (15610): No output dependent on input pin "SW[1]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-    Warning (15610): No output dependent on input pin "SW[2]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-    Warning (15610): No output dependent on input pin "SW[3]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-    Warning (15610): No output dependent on input pin "SW[4]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-    Warning (15610): No output dependent on input pin "SW[5]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-    Warning (15610): No output dependent on input pin "SW[6]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-    Warning (15610): No output dependent on input pin "SW[7]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-    Warning (15610): No output dependent on input pin "SW[8]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-    Warning (15610): No output dependent on input pin "SW[9]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-Info (21057): Implemented 585 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 29 input pins
-    Info (21059): Implemented 96 output pins
-    Info (21060): Implemented 133 bidirectional pins
-    Info (21061): Implemented 295 logic cells
+Info (21057): Implemented 400 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 10 input pins
+    Info (21059): Implemented 26 output pins
+    Info (21060): Implemented 36 bidirectional pins
+    Info (21061): Implemented 296 logic cells
     Info (21064): Implemented 32 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 320 warnings
-    Info: Peak virtual memory: 4877 megabytes
-    Info: Processing ended: Thu Jun 06 17:28:17 2019
-    Info: Elapsed time: 00:00:08
-    Info: Total CPU time (on all processors): 00:00:16
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 109 warnings
+    Info: Peak virtual memory: 4879 megabytes
+    Info: Processing ended: Thu Jun 06 17:39:12 2019
+    Info: Elapsed time: 00:00:09
+    Info: Total CPU time (on all processors): 00:00:17
 
 

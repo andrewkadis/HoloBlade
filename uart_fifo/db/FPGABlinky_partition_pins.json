@@ -28,6 +28,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "HEX0[6]",
+					"strict" : false
+				},
+				{
 					"name" : "UART_TX",
 					"strict" : false
 				},
@@ -49,14 +53,6 @@
 				},
 				{
 					"name" : "GPIO[11]",
-					"strict" : false
-				},
-				{
-					"name" : "GPIO[12]",
-					"strict" : false
-				},
-				{
-					"name" : "GPIO[13]",
 					"strict" : false
 				},
 				{

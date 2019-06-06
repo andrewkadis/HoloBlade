@@ -160,7 +160,6 @@ uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
 ////// Deserialiser /////////
 /////////////////////////////
  
- 
 // When we use the UART, we always work in words of 4 bytes at a time, so we buffer up 4 bytes at a time before putting in the FIFO
 // This is accomplised by the use of a 8bit byte to 32bit word deserialiser
 // Buffer to deserialise our data into
@@ -183,62 +182,27 @@ SERIALISER serialiser(
    .o_pc_full_word_recv_sig(pc_full_word_recv_sig)      // Signal to indicate that Deserialse is complete
 	
  );
- 
-assign o_debug_out_b = rx_byte_recv_complete;
-assign o_debug_out_y = pc_full_word_recv_sig;
 
-// //// Push to output if ready
-//always @(posedge i_clock) begin
-//	if(pc_full_word_recv_sig) begin
-//		fifo_data_rx_buf      = o_deserialised_data_word; // Data for Output
-//		i_write_next_byte_cmd = 1;               // Data is ready, high for 1 cycle
-//		bytes_recv_reset      = 1;               // Reset counter for next loop
-//	end else begin
-//		i_write_next_byte_cmd = 0;
-//		bytes_recv_reset      = 0;
-//	end
-//end
+
+
  
  
  
+
 
  
 ////////////////////////
 ///////// FIFO /////////
 ////////////////////////
 
-//// Control lines
-//reg i_write_next_byte_cmd;
-//wire is_fifo_full_sig;
-//
-//// Memory for our buffer
-//reg[31:0] fifo_data_rx_buf;
-//assign fifo_data_rx_buf = {pc_data_rx[7:0], 24'h000000};
-
-
-//assign o_debug_out_1 = rx_byte_recv_complete;
-//assign o_debug_out_2 = i_write_next_byte_cmd;
-
-// Push into FIFO when we receive a byte
-// We use the negedge as rx_byte_recv_complete will only be high for 1 clock cycle
-//always @(posedge i_clock) begin
-//	if(rx_byte_recv_complete) begin
-//		i_write_next_byte_cmd = 1;
-////		fifo_data_rx_buf[31:0] = {pc_data_rx[7:0], 24'h0};
-//	end else
-//		i_write_next_byte_cmd = 0;
-////		fifo_data_rx_buf[31:24] = 0;
-//end
-
 // We pipe data into the FIFO when we receive the full word
+wire is_fifo_full_sig;
 wire[31:0] fifo_data_input;
 wire       write_data_into_fifo;
 assign fifo_data_input      = deserialised_data_word;
 // It is very important that we do not write to the FIFO when it is full, so need a check here
 // If the FIFO is full, we simply drop the data
 assign write_data_into_fifo = (is_fifo_full_sig==1) ? 0 : pc_full_word_recv_sig;
-
-//assign D = (A= =1) ? B : C;
 
 // FIFO
 testFIFO uart_rx_FIFO(
@@ -259,17 +223,5 @@ testFIFO uart_rx_FIFO(
 	
 	);
 	
-
-
-//// Clock out of FIFO once it has been registered
-//always @(empty_sig) begin
-//	if(empty_sig==0) begin
-//		rdreq_sig = 1;
-//		last_byte_rx_buf = last_byte_rx;
-//		LEDG[7:0] = last_byte_rx_buf;
-//		LEDR[7:0] = second_last_byte_rx_buf;
-//	end else
-//		rdreq_sig = 0;
-//end
 	
 endmodule
