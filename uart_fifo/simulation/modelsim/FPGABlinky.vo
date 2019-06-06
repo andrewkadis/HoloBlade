@@ -16,7 +16,7 @@
 // PROGRAM "Quartus Prime"
 // VERSION "Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
 
-// DATE "06/06/2019 10:59:32"
+// DATE "06/06/2019 12:07:41"
 
 // 
 // Device: Altera 5CGXFC5C6F27C7 Package FBGA672
@@ -755,12 +755,12 @@ wire \tx_byte_output~0_combout ;
 wire \serialiser_is_busy~0_combout ;
 wire \serialiser_is_busy~q ;
 wire \always3~0_combout ;
-wire \bytes_tx_reset~q ;
+wire \serialise_next_word_cmd~q ;
 wire \num_bytes_to_send[1]~1_combout ;
 wire \num_bytes_to_send~0_combout ;
 wire \num_bytes_to_send[0]~DUPLICATE_q ;
-wire \start_tx~0_combout ;
-wire \start_tx~q ;
+wire \send_next_byte_cmd~0_combout ;
+wire \send_next_byte_cmd~q ;
 wire \pc_tx|Selector17~0_combout ;
 wire \pc_tx|r_SM_Main.s_TX_START_BIT~DUPLICATE_q ;
 wire \pc_tx|Selector18~0_combout ;
@@ -868,7 +868,7 @@ wire \pc_rx|pc_data_rx_word[30]~feeder_combout ;
 wire \tx_byte_output[7]~2_combout ;
 wire \tx_byte_output[7]~1_combout ;
 wire \tx_byte_output~4_combout ;
-wire \start_tx~DUPLICATE_q ;
+wire \send_next_byte_cmd~DUPLICATE_q ;
 wire \pc_tx|Selector17~1_combout ;
 wire \tx_byte_output~6_combout ;
 wire \tx_byte_output~3_combout ;
@@ -4646,7 +4646,7 @@ defparam \GPIO[12]~output .shift_series_termination_control = "false";
 
 // Location: IOOBUF_X7_Y0_N19
 cyclonev_io_obuf \GPIO[13]~output (
-	.i(\bytes_tx_reset~q ),
+	.i(\serialise_next_word_cmd~q ),
 	.oe(vcc),
 	.dynamicterminationcontrol(gnd),
 	.seriesterminationcontrol(16'b0000000000000000),
@@ -8617,15 +8617,15 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUP
 // Location: LABCELL_X13_Y7_N57
 cyclonev_lcell_comb \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|_~5 (
 // Equation(s):
-// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|_~5_combout  = ( \bytes_tx_reset~q  & ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & ( 
-// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q  ) ) ) # ( \bytes_tx_reset~q  & ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & ( !\pc_rx|i_write_next_byte_cmd~q  $ 
-// (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q ) ) ) ) # ( !\bytes_tx_reset~q  & ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & ( \pc_rx|i_write_next_byte_cmd~q  ) ) )
+// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|_~5_combout  = ( \serialise_next_word_cmd~q  & ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & ( 
+// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q  ) ) ) # ( \serialise_next_word_cmd~q  & ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & ( !\pc_rx|i_write_next_byte_cmd~q  $ 
+// (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q ) ) ) ) # ( !\serialise_next_word_cmd~q  & ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & ( \pc_rx|i_write_next_byte_cmd~q  ) ) )
 
 	.dataa(!\pc_rx|i_write_next_byte_cmd~q ),
 	.datab(gnd),
 	.datac(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q ),
 	.datad(gnd),
-	.datae(!\bytes_tx_reset~q ),
+	.datae(!\serialise_next_word_cmd~q ),
 	.dataf(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q ),
 	.datag(gnd),
 	.cin(gnd),
@@ -8934,10 +8934,10 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff .p
 // Location: LABCELL_X11_Y7_N36
 cyclonev_lcell_comb \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|valid_rreq (
 // Equation(s):
-// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|valid_rreq~combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & ( \bytes_tx_reset~q  ) )
+// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|valid_rreq~combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & ( \serialise_next_word_cmd~q  ) )
 
 	.dataa(gnd),
-	.datab(!\bytes_tx_reset~q ),
+	.datab(!\serialise_next_word_cmd~q ),
 	.datac(gnd),
 	.datad(gnd),
 	.datae(gnd),
@@ -9106,15 +9106,15 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_2_d
 cyclonev_lcell_comb \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|_~3 (
 // Equation(s):
 // \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|_~3_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_0_dff~q  & ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_1_dff~q  & ( 
-// (!\bytes_tx_reset~q ) # ((!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q ) # ((!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & \pc_rx|i_write_next_byte_cmd~q ))) ) ) ) # ( 
+// (!\serialise_next_word_cmd~q ) # ((!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q ) # ((!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & \pc_rx|i_write_next_byte_cmd~q ))) ) ) ) # ( 
 // !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_0_dff~q  & ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_1_dff~q  & ( (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & 
-// (\pc_rx|i_write_next_byte_cmd~q  & ((!\bytes_tx_reset~q ) # (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q )))) ) ) ) # ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_0_dff~q  & ( 
+// (\pc_rx|i_write_next_byte_cmd~q  & ((!\serialise_next_word_cmd~q ) # (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q )))) ) ) ) # ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_0_dff~q  & ( 
 // !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_1_dff~q  ) ) # ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_0_dff~q  & ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_1_dff~q  & ( 
-// (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & (!\pc_rx|i_write_next_byte_cmd~q  $ (((!\bytes_tx_reset~q ) # (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q ))))) # 
-// (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & (\bytes_tx_reset~q  & ((\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q )))) ) ) )
+// (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & (!\pc_rx|i_write_next_byte_cmd~q  $ (((!\serialise_next_word_cmd~q ) # (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q ))))) # 
+// (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q  & (\serialise_next_word_cmd~q  & ((\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q )))) ) ) )
 
 	.dataa(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|full_dff~DUPLICATE_q ),
-	.datab(!\bytes_tx_reset~q ),
+	.datab(!\serialise_next_word_cmd~q ),
 	.datac(!\pc_rx|i_write_next_byte_cmd~q ),
 	.datad(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q ),
 	.datae(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|usedw_is_0_dff~q ),
@@ -9267,9 +9267,9 @@ defparam \num_bytes_to_send[1] .power_up = "low";
 // Location: LABCELL_X11_Y8_N3
 cyclonev_lcell_comb \num_bytes_to_send~2 (
 // Equation(s):
-// \num_bytes_to_send~2_combout  = ( num_bytes_to_send[1] & ( num_bytes_to_send[0] & ( !\bytes_tx_reset~q  ) ) ) # ( !num_bytes_to_send[1] & ( !num_bytes_to_send[0] & ( !\bytes_tx_reset~q  ) ) )
+// \num_bytes_to_send~2_combout  = ( num_bytes_to_send[1] & ( num_bytes_to_send[0] & ( !\serialise_next_word_cmd~q  ) ) ) # ( !num_bytes_to_send[1] & ( !num_bytes_to_send[0] & ( !\serialise_next_word_cmd~q  ) ) )
 
-	.dataa(!\bytes_tx_reset~q ),
+	.dataa(!\serialise_next_word_cmd~q ),
 	.datab(gnd),
 	.datac(gnd),
 	.datad(gnd),
@@ -9329,10 +9329,11 @@ defparam \tx_done_edge~DUPLICATE .power_up = "low";
 // Location: LABCELL_X11_Y8_N9
 cyclonev_lcell_comb \num_bytes_to_send~3 (
 // Equation(s):
-// \num_bytes_to_send~3_combout  = ( num_bytes_to_send[2] & ( \tx_done_edge~DUPLICATE_q  & ( ((num_bytes_to_send[1]) # (\num_bytes_to_send[0]~DUPLICATE_q )) # (\bytes_tx_reset~q ) ) ) ) # ( !num_bytes_to_send[2] & ( \tx_done_edge~DUPLICATE_q  & ( 
-// ((!\num_bytes_to_send[0]~DUPLICATE_q  & !num_bytes_to_send[1])) # (\bytes_tx_reset~q ) ) ) ) # ( num_bytes_to_send[2] & ( !\tx_done_edge~DUPLICATE_q  ) ) # ( !num_bytes_to_send[2] & ( !\tx_done_edge~DUPLICATE_q  & ( \bytes_tx_reset~q  ) ) )
+// \num_bytes_to_send~3_combout  = ( num_bytes_to_send[2] & ( \tx_done_edge~DUPLICATE_q  & ( ((num_bytes_to_send[1]) # (\num_bytes_to_send[0]~DUPLICATE_q )) # (\serialise_next_word_cmd~q ) ) ) ) # ( !num_bytes_to_send[2] & ( \tx_done_edge~DUPLICATE_q  & ( 
+// ((!\num_bytes_to_send[0]~DUPLICATE_q  & !num_bytes_to_send[1])) # (\serialise_next_word_cmd~q ) ) ) ) # ( num_bytes_to_send[2] & ( !\tx_done_edge~DUPLICATE_q  ) ) # ( !num_bytes_to_send[2] & ( !\tx_done_edge~DUPLICATE_q  & ( \serialise_next_word_cmd~q  ) 
+// ) )
 
-	.dataa(!\bytes_tx_reset~q ),
+	.dataa(!\serialise_next_word_cmd~q ),
 	.datab(gnd),
 	.datac(!\num_bytes_to_send[0]~DUPLICATE_q ),
 	.datad(!num_bytes_to_send[1]),
@@ -9373,10 +9374,10 @@ defparam \num_bytes_to_send[2] .power_up = "low";
 // Location: LABCELL_X11_Y8_N15
 cyclonev_lcell_comb \num_bytes_to_send~4 (
 // Equation(s):
-// \num_bytes_to_send~4_combout  = ( num_bytes_to_send[3] & ( num_bytes_to_send[0] & ( !\bytes_tx_reset~q  ) ) ) # ( num_bytes_to_send[3] & ( !num_bytes_to_send[0] & ( (!\bytes_tx_reset~q  & ((num_bytes_to_send[1]) # (num_bytes_to_send[2]))) ) ) ) # ( 
-// !num_bytes_to_send[3] & ( !num_bytes_to_send[0] & ( (!\bytes_tx_reset~q  & (!num_bytes_to_send[2] & !num_bytes_to_send[1])) ) ) )
+// \num_bytes_to_send~4_combout  = ( num_bytes_to_send[3] & ( num_bytes_to_send[0] & ( !\serialise_next_word_cmd~q  ) ) ) # ( num_bytes_to_send[3] & ( !num_bytes_to_send[0] & ( (!\serialise_next_word_cmd~q  & ((num_bytes_to_send[1]) # 
+// (num_bytes_to_send[2]))) ) ) ) # ( !num_bytes_to_send[3] & ( !num_bytes_to_send[0] & ( (!\serialise_next_word_cmd~q  & (!num_bytes_to_send[2] & !num_bytes_to_send[1])) ) ) )
 
-	.dataa(!\bytes_tx_reset~q ),
+	.dataa(!\serialise_next_word_cmd~q ),
 	.datab(gnd),
 	.datac(!num_bytes_to_send[2]),
 	.datad(!num_bytes_to_send[1]),
@@ -9442,15 +9443,15 @@ defparam \tx_byte_output~0 .shared_arith = "off";
 // Location: LABCELL_X11_Y7_N45
 cyclonev_lcell_comb \serialiser_is_busy~0 (
 // Equation(s):
-// \serialiser_is_busy~0_combout  = ( \serialiser_is_busy~q  & ( \bytes_tx_reset~q  ) ) # ( !\serialiser_is_busy~q  & ( \bytes_tx_reset~q  ) ) # ( \serialiser_is_busy~q  & ( !\bytes_tx_reset~q  & ( ((!num_bytes_to_send[0]) # ((!\tx_done_edge~DUPLICATE_q ) # 
-// (!\tx_byte_output~0_combout ))) # (\num_bytes_to_send[1]~DUPLICATE_q ) ) ) )
+// \serialiser_is_busy~0_combout  = ( \serialiser_is_busy~q  & ( \serialise_next_word_cmd~q  ) ) # ( !\serialiser_is_busy~q  & ( \serialise_next_word_cmd~q  ) ) # ( \serialiser_is_busy~q  & ( !\serialise_next_word_cmd~q  & ( ((!num_bytes_to_send[0]) # 
+// ((!\tx_done_edge~DUPLICATE_q ) # (!\tx_byte_output~0_combout ))) # (\num_bytes_to_send[1]~DUPLICATE_q ) ) ) )
 
 	.dataa(!\num_bytes_to_send[1]~DUPLICATE_q ),
 	.datab(!num_bytes_to_send[0]),
 	.datac(!\tx_done_edge~DUPLICATE_q ),
 	.datad(!\tx_byte_output~0_combout ),
 	.datae(!\serialiser_is_busy~q ),
-	.dataf(!\bytes_tx_reset~q ),
+	.dataf(!\serialise_next_word_cmd~q ),
 	.datag(gnd),
 	.cin(gnd),
 	.sharein(gnd),
@@ -9508,7 +9509,7 @@ defparam \always3~0 .shared_arith = "off";
 // synopsys translate_on
 
 // Location: FF_X11_Y7_N44
-dffeas bytes_tx_reset(
+dffeas serialise_next_word_cmd(
 	.clk(\CLOCK_50_B5B~inputCLKENA0_outclk ),
 	.d(gnd),
 	.asdata(\always3~0_combout ),
@@ -9519,24 +9520,24 @@ dffeas bytes_tx_reset(
 	.ena(vcc),
 	.devclrn(devclrn),
 	.devpor(devpor),
-	.q(\bytes_tx_reset~q ),
+	.q(\serialise_next_word_cmd~q ),
 	.prn(vcc));
 // synopsys translate_off
-defparam bytes_tx_reset.is_wysiwyg = "true";
-defparam bytes_tx_reset.power_up = "low";
+defparam serialise_next_word_cmd.is_wysiwyg = "true";
+defparam serialise_next_word_cmd.power_up = "low";
 // synopsys translate_on
 
 // Location: LABCELL_X11_Y8_N57
 cyclonev_lcell_comb \num_bytes_to_send[1]~1 (
 // Equation(s):
-// \num_bytes_to_send[1]~1_combout  = ( \tx_done_edge~q  & ( \bytes_tx_reset~q  ) ) # ( !\tx_done_edge~q  & ( \bytes_tx_reset~q  ) ) # ( \tx_done_edge~q  & ( !\bytes_tx_reset~q  ) )
+// \num_bytes_to_send[1]~1_combout  = ( \tx_done_edge~q  & ( \serialise_next_word_cmd~q  ) ) # ( !\tx_done_edge~q  & ( \serialise_next_word_cmd~q  ) ) # ( \tx_done_edge~q  & ( !\serialise_next_word_cmd~q  ) )
 
 	.dataa(gnd),
 	.datab(gnd),
 	.datac(gnd),
 	.datad(gnd),
 	.datae(!\tx_done_edge~q ),
-	.dataf(!\bytes_tx_reset~q ),
+	.dataf(!\serialise_next_word_cmd~q ),
 	.datag(gnd),
 	.cin(gnd),
 	.sharein(gnd),
@@ -9572,14 +9573,14 @@ defparam \num_bytes_to_send[0] .power_up = "low";
 // Location: LABCELL_X11_Y8_N42
 cyclonev_lcell_comb \num_bytes_to_send~0 (
 // Equation(s):
-// \num_bytes_to_send~0_combout  = ( !num_bytes_to_send[0] & ( !\bytes_tx_reset~q  ) )
+// \num_bytes_to_send~0_combout  = ( !num_bytes_to_send[0] & ( !\serialise_next_word_cmd~q  ) )
 
 	.dataa(gnd),
 	.datab(gnd),
 	.datac(gnd),
 	.datad(gnd),
 	.datae(!num_bytes_to_send[0]),
-	.dataf(!\bytes_tx_reset~q ),
+	.dataf(!\serialise_next_word_cmd~q ),
 	.datag(gnd),
 	.cin(gnd),
 	.sharein(gnd),
@@ -9613,14 +9614,14 @@ defparam \num_bytes_to_send[0]~DUPLICATE .power_up = "low";
 // synopsys translate_on
 
 // Location: LABCELL_X10_Y7_N15
-cyclonev_lcell_comb \start_tx~0 (
+cyclonev_lcell_comb \send_next_byte_cmd~0 (
 // Equation(s):
-// \start_tx~0_combout  = ( num_bytes_to_send[3] & ( \num_bytes_to_send[1]~DUPLICATE_q  & ( (\tx_done_edge~DUPLICATE_q ) # (\bytes_tx_reset~q ) ) ) ) # ( !num_bytes_to_send[3] & ( \num_bytes_to_send[1]~DUPLICATE_q  & ( (\tx_done_edge~DUPLICATE_q ) # 
-// (\bytes_tx_reset~q ) ) ) ) # ( num_bytes_to_send[3] & ( !\num_bytes_to_send[1]~DUPLICATE_q  & ( (\tx_done_edge~DUPLICATE_q ) # (\bytes_tx_reset~q ) ) ) ) # ( !num_bytes_to_send[3] & ( !\num_bytes_to_send[1]~DUPLICATE_q  & ( ((\tx_done_edge~DUPLICATE_q  & 
-// ((!\num_bytes_to_send[0]~DUPLICATE_q ) # (num_bytes_to_send[2])))) # (\bytes_tx_reset~q ) ) ) )
+// \send_next_byte_cmd~0_combout  = ( num_bytes_to_send[3] & ( \num_bytes_to_send[1]~DUPLICATE_q  & ( (\tx_done_edge~DUPLICATE_q ) # (\serialise_next_word_cmd~q ) ) ) ) # ( !num_bytes_to_send[3] & ( \num_bytes_to_send[1]~DUPLICATE_q  & ( 
+// (\tx_done_edge~DUPLICATE_q ) # (\serialise_next_word_cmd~q ) ) ) ) # ( num_bytes_to_send[3] & ( !\num_bytes_to_send[1]~DUPLICATE_q  & ( (\tx_done_edge~DUPLICATE_q ) # (\serialise_next_word_cmd~q ) ) ) ) # ( !num_bytes_to_send[3] & ( 
+// !\num_bytes_to_send[1]~DUPLICATE_q  & ( ((\tx_done_edge~DUPLICATE_q  & ((!\num_bytes_to_send[0]~DUPLICATE_q ) # (num_bytes_to_send[2])))) # (\serialise_next_word_cmd~q ) ) ) )
 
 	.dataa(!\num_bytes_to_send[0]~DUPLICATE_q ),
-	.datab(!\bytes_tx_reset~q ),
+	.datab(!\serialise_next_word_cmd~q ),
 	.datac(!\tx_done_edge~DUPLICATE_q ),
 	.datad(!num_bytes_to_send[2]),
 	.datae(!num_bytes_to_send[3]),
@@ -9628,21 +9629,21 @@ cyclonev_lcell_comb \start_tx~0 (
 	.datag(gnd),
 	.cin(gnd),
 	.sharein(gnd),
-	.combout(\start_tx~0_combout ),
+	.combout(\send_next_byte_cmd~0_combout ),
 	.sumout(),
 	.cout(),
 	.shareout());
 // synopsys translate_off
-defparam \start_tx~0 .extended_lut = "off";
-defparam \start_tx~0 .lut_mask = 64'h3B3F3F3F3F3F3F3F;
-defparam \start_tx~0 .shared_arith = "off";
+defparam \send_next_byte_cmd~0 .extended_lut = "off";
+defparam \send_next_byte_cmd~0 .lut_mask = 64'h3B3F3F3F3F3F3F3F;
+defparam \send_next_byte_cmd~0 .shared_arith = "off";
 // synopsys translate_on
 
 // Location: FF_X9_Y7_N22
-dffeas start_tx(
+dffeas send_next_byte_cmd(
 	.clk(\CLOCK_50_B5B~inputCLKENA0_outclk ),
 	.d(gnd),
-	.asdata(\start_tx~0_combout ),
+	.asdata(\send_next_byte_cmd~0_combout ),
 	.clrn(vcc),
 	.aload(gnd),
 	.sclr(gnd),
@@ -9650,25 +9651,26 @@ dffeas start_tx(
 	.ena(vcc),
 	.devclrn(devclrn),
 	.devpor(devpor),
-	.q(\start_tx~q ),
+	.q(\send_next_byte_cmd~q ),
 	.prn(vcc));
 // synopsys translate_off
-defparam start_tx.is_wysiwyg = "true";
-defparam start_tx.power_up = "low";
+defparam send_next_byte_cmd.is_wysiwyg = "true";
+defparam send_next_byte_cmd.power_up = "low";
 // synopsys translate_on
 
 // Location: MLABCELL_X8_Y7_N6
 cyclonev_lcell_comb \pc_tx|Selector17~0 (
 // Equation(s):
-// \pc_tx|Selector17~0_combout  = ( \pc_tx|r_SM_Main.s_TX_START_BIT~q  & ( \start_tx~q  & ( (!\pc_tx|r_SM_Main.000~q ) # ((!\pc_tx|LessThan1~2_combout  & ((!\pc_tx|LessThan1~1_combout ) # (!\pc_tx|LessThan1~0_combout )))) ) ) ) # ( 
-// !\pc_tx|r_SM_Main.s_TX_START_BIT~q  & ( \start_tx~q  & ( !\pc_tx|r_SM_Main.000~q  ) ) ) # ( \pc_tx|r_SM_Main.s_TX_START_BIT~q  & ( !\start_tx~q  & ( (!\pc_tx|LessThan1~2_combout  & ((!\pc_tx|LessThan1~1_combout ) # (!\pc_tx|LessThan1~0_combout ))) ) ) )
+// \pc_tx|Selector17~0_combout  = ( \pc_tx|r_SM_Main.s_TX_START_BIT~q  & ( \send_next_byte_cmd~q  & ( (!\pc_tx|r_SM_Main.000~q ) # ((!\pc_tx|LessThan1~2_combout  & ((!\pc_tx|LessThan1~1_combout ) # (!\pc_tx|LessThan1~0_combout )))) ) ) ) # ( 
+// !\pc_tx|r_SM_Main.s_TX_START_BIT~q  & ( \send_next_byte_cmd~q  & ( !\pc_tx|r_SM_Main.000~q  ) ) ) # ( \pc_tx|r_SM_Main.s_TX_START_BIT~q  & ( !\send_next_byte_cmd~q  & ( (!\pc_tx|LessThan1~2_combout  & ((!\pc_tx|LessThan1~1_combout ) # 
+// (!\pc_tx|LessThan1~0_combout ))) ) ) )
 
 	.dataa(!\pc_tx|LessThan1~1_combout ),
 	.datab(!\pc_tx|LessThan1~0_combout ),
 	.datac(!\pc_tx|LessThan1~2_combout ),
 	.datad(!\pc_tx|r_SM_Main.000~q ),
 	.datae(!\pc_tx|r_SM_Main.s_TX_START_BIT~q ),
-	.dataf(!\start_tx~q ),
+	.dataf(!\send_next_byte_cmd~q ),
 	.datag(gnd),
 	.cin(gnd),
 	.sharein(gnd),
@@ -9901,15 +9903,15 @@ defparam \pc_tx|r_SM_Main.s_CLEANUP .power_up = "low";
 // Location: LABCELL_X9_Y7_N18
 cyclonev_lcell_comb \pc_tx|Selector16~0 (
 // Equation(s):
-// \pc_tx|Selector16~0_combout  = ( \pc_tx|r_SM_Main.000~q  & ( \start_tx~q  & ( !\pc_tx|r_SM_Main.s_CLEANUP~q  ) ) ) # ( !\pc_tx|r_SM_Main.000~q  & ( \start_tx~q  & ( !\pc_tx|r_SM_Main.s_CLEANUP~q  ) ) ) # ( \pc_tx|r_SM_Main.000~q  & ( !\start_tx~q  & ( 
-// !\pc_tx|r_SM_Main.s_CLEANUP~q  ) ) )
+// \pc_tx|Selector16~0_combout  = ( \pc_tx|r_SM_Main.000~q  & ( \send_next_byte_cmd~q  & ( !\pc_tx|r_SM_Main.s_CLEANUP~q  ) ) ) # ( !\pc_tx|r_SM_Main.000~q  & ( \send_next_byte_cmd~q  & ( !\pc_tx|r_SM_Main.s_CLEANUP~q  ) ) ) # ( \pc_tx|r_SM_Main.000~q  & ( 
+// !\send_next_byte_cmd~q  & ( !\pc_tx|r_SM_Main.s_CLEANUP~q  ) ) )
 
 	.dataa(gnd),
 	.datab(gnd),
 	.datac(!\pc_tx|r_SM_Main.s_CLEANUP~q ),
 	.datad(gnd),
 	.datae(!\pc_tx|r_SM_Main.000~q ),
-	.dataf(!\start_tx~q ),
+	.dataf(!\send_next_byte_cmd~q ),
 	.datag(gnd),
 	.cin(gnd),
 	.sharein(gnd),
@@ -11022,12 +11024,12 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa
 // Location: LABCELL_X11_Y7_N48
 cyclonev_lcell_comb \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[0]~0 (
 // Equation(s):
-// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[0]~0_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [0] & ( (!\bytes_tx_reset~q ) # 
+// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[0]~0_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [0] & ( (!\serialise_next_word_cmd~q ) # 
 // ((!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q ) # (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_lsb~q )) ) ) # ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [0] & ( 
-// (\bytes_tx_reset~q  & (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_lsb~q )) ) )
+// (\serialise_next_word_cmd~q  & (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_lsb~q )) ) )
 
 	.dataa(gnd),
-	.datab(!\bytes_tx_reset~q ),
+	.datab(!\serialise_next_word_cmd~q ),
 	.datac(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q ),
 	.datad(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_lsb~q ),
 	.datae(gnd),
@@ -11073,10 +11075,11 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|c
 // Location: LABCELL_X11_Y7_N27
 cyclonev_lcell_comb \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|_~6 (
 // Equation(s):
-// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|_~6_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & ( (\bytes_tx_reset~q  & !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_lsb~q ) ) )
+// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|_~6_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & ( (\serialise_next_word_cmd~q  & !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_lsb~q 
+// ) ) )
 
 	.dataa(gnd),
-	.datab(!\bytes_tx_reset~q ),
+	.datab(!\serialise_next_word_cmd~q ),
 	.datac(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_lsb~q ),
 	.datad(gnd),
 	.datae(gnd),
@@ -11135,12 +11138,12 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa
 // Location: LABCELL_X11_Y7_N18
 cyclonev_lcell_comb \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[1]~1 (
 // Equation(s):
-// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[1]~1_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [1] & ( ((!\bytes_tx_reset~q ) # 
+// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[1]~1_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [1] & ( ((!\serialise_next_word_cmd~q ) # 
 // (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q )) # (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [0]) ) ) # ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [1] 
-// & ( (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [0] & (\bytes_tx_reset~q  & \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q )) ) )
+// & ( (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [0] & (\serialise_next_word_cmd~q  & \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q )) ) )
 
 	.dataa(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [0]),
-	.datab(!\bytes_tx_reset~q ),
+	.datab(!\serialise_next_word_cmd~q ),
 	.datac(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q ),
 	.datad(gnd),
 	.datae(gnd),
@@ -11226,13 +11229,13 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa
 // Location: LABCELL_X11_Y7_N33
 cyclonev_lcell_comb \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[2]~2 (
 // Equation(s):
-// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[2]~2_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & ( (!\bytes_tx_reset~q  & 
-// ((\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [2]))) # (\bytes_tx_reset~q  & (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [1])) ) ) # ( 
+// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[2]~2_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & ( (!\serialise_next_word_cmd~q  & 
+// ((\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [2]))) # (\serialise_next_word_cmd~q  & (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [1])) ) ) # ( 
 // !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [2] ) )
 
 	.dataa(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [1]),
 	.datab(gnd),
-	.datac(!\bytes_tx_reset~q ),
+	.datac(!\serialise_next_word_cmd~q ),
 	.datad(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [2]),
 	.datae(gnd),
 	.dataf(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q ),
@@ -11317,12 +11320,12 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|c
 // Location: LABCELL_X11_Y7_N24
 cyclonev_lcell_comb \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[3]~3 (
 // Equation(s):
-// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[3]~3_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [2] & ( ((\bytes_tx_reset~q  & 
+// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[3]~3_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [2] & ( ((\serialise_next_word_cmd~q  & 
 // \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q )) # (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [3]) ) ) # ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [2] & 
-// ( (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [3] & ((!\bytes_tx_reset~q ) # (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q ))) ) )
+// ( (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [3] & ((!\serialise_next_word_cmd~q ) # (!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q ))) ) )
 
 	.dataa(gnd),
-	.datab(!\bytes_tx_reset~q ),
+	.datab(!\serialise_next_word_cmd~q ),
 	.datac(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q ),
 	.datad(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [3]),
 	.datae(gnd),
@@ -11408,12 +11411,12 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa
 // Location: LABCELL_X11_Y7_N39
 cyclonev_lcell_comb \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[4]~4 (
 // Equation(s):
-// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[4]~4_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & ( (!\bytes_tx_reset~q  & 
-// ((\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [4]))) # (\bytes_tx_reset~q  & (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [3])) ) ) # ( 
+// \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[4]~4_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & ( (!\serialise_next_word_cmd~q  & 
+// ((\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [4]))) # (\serialise_next_word_cmd~q  & (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [3])) ) ) # ( 
 // !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~q  & ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [4] ) )
 
 	.dataa(gnd),
-	.datab(!\bytes_tx_reset~q ),
+	.datab(!\serialise_next_word_cmd~q ),
 	.datac(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [3]),
 	.datad(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [4]),
 	.datae(gnd),
@@ -11498,14 +11501,14 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa
 cyclonev_lcell_comb \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[5]~5 (
 // Equation(s):
 // \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|ram_read_address[5]~5_combout  = ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q  & ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [5] 
-// & ( (!\bytes_tx_reset~q ) # (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [4]) ) ) ) # ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q  & ( 
+// & ( (!\serialise_next_word_cmd~q ) # (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [4]) ) ) ) # ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q  & ( 
 // \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [5] ) ) # ( \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q  & ( !\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [5] & ( 
-// (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [4] & \bytes_tx_reset~q ) ) ) )
+// (\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [4] & \serialise_next_word_cmd~q ) ) ) )
 
 	.dataa(gnd),
 	.datab(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|rd_ptr_msb|counter_reg_bit [4]),
 	.datac(gnd),
-	.datad(!\bytes_tx_reset~q ),
+	.datad(!\serialise_next_word_cmd~q ),
 	.datae(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|empty_dff~DUPLICATE_q ),
 	.dataf(!\pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|low_addressa [5]),
 	.datag(gnd),
@@ -13758,12 +13761,12 @@ defparam \pc_rx|uart_rx_FIFO|scfifo_component|auto_generated|dpfifo|FIFOram|ram_
 // Location: LABCELL_X10_Y7_N42
 cyclonev_lcell_comb \tx_byte_output[7]~2 (
 // Equation(s):
-// \tx_byte_output[7]~2_combout  = ( \num_bytes_to_send[1]~DUPLICATE_q  & ( (!\num_bytes_to_send[0]~DUPLICATE_q  & (((!num_bytes_to_send[2] & !num_bytes_to_send[3])) # (\bytes_tx_reset~q ))) ) ) # ( !\num_bytes_to_send[1]~DUPLICATE_q  & ( 
-// ((num_bytes_to_send[2] & (!\num_bytes_to_send[0]~DUPLICATE_q  & !num_bytes_to_send[3]))) # (\bytes_tx_reset~q ) ) )
+// \tx_byte_output[7]~2_combout  = ( \num_bytes_to_send[1]~DUPLICATE_q  & ( (!\num_bytes_to_send[0]~DUPLICATE_q  & (((!num_bytes_to_send[2] & !num_bytes_to_send[3])) # (\serialise_next_word_cmd~q ))) ) ) # ( !\num_bytes_to_send[1]~DUPLICATE_q  & ( 
+// ((num_bytes_to_send[2] & (!\num_bytes_to_send[0]~DUPLICATE_q  & !num_bytes_to_send[3]))) # (\serialise_next_word_cmd~q ) ) )
 
 	.dataa(!num_bytes_to_send[2]),
 	.datab(!\num_bytes_to_send[0]~DUPLICATE_q ),
-	.datac(!\bytes_tx_reset~q ),
+	.datac(!\serialise_next_word_cmd~q ),
 	.datad(!num_bytes_to_send[3]),
 	.datae(gnd),
 	.dataf(!\num_bytes_to_send[1]~DUPLICATE_q ),
@@ -13783,15 +13786,15 @@ defparam \tx_byte_output[7]~2 .shared_arith = "off";
 // Location: LABCELL_X11_Y8_N48
 cyclonev_lcell_comb \tx_byte_output[7]~1 (
 // Equation(s):
-// \tx_byte_output[7]~1_combout  = ( num_bytes_to_send[1] & ( \bytes_tx_reset~q  ) ) # ( !num_bytes_to_send[1] & ( \bytes_tx_reset~q  & ( num_bytes_to_send[0] ) ) ) # ( num_bytes_to_send[1] & ( !\bytes_tx_reset~q  & ( (!num_bytes_to_send[2] & 
-// !num_bytes_to_send[3]) ) ) )
+// \tx_byte_output[7]~1_combout  = ( num_bytes_to_send[1] & ( \serialise_next_word_cmd~q  ) ) # ( !num_bytes_to_send[1] & ( \serialise_next_word_cmd~q  & ( num_bytes_to_send[0] ) ) ) # ( num_bytes_to_send[1] & ( !\serialise_next_word_cmd~q  & ( 
+// (!num_bytes_to_send[2] & !num_bytes_to_send[3]) ) ) )
 
 	.dataa(gnd),
 	.datab(!num_bytes_to_send[2]),
 	.datac(!num_bytes_to_send[0]),
 	.datad(!num_bytes_to_send[3]),
 	.datae(!num_bytes_to_send[1]),
-	.dataf(!\bytes_tx_reset~q ),
+	.dataf(!\serialise_next_word_cmd~q ),
 	.datag(gnd),
 	.cin(gnd),
 	.sharein(gnd),
@@ -13839,8 +13842,8 @@ dffeas \tx_byte_output[7] (
 	.clrn(vcc),
 	.aload(gnd),
 	.sclr(gnd),
-	.sload(\bytes_tx_reset~q ),
-	.ena(\start_tx~0_combout ),
+	.sload(\serialise_next_word_cmd~q ),
+	.ena(\send_next_byte_cmd~0_combout ),
 	.devclrn(devclrn),
 	.devpor(devpor),
 	.q(tx_byte_output[7]),
@@ -13851,10 +13854,10 @@ defparam \tx_byte_output[7] .power_up = "low";
 // synopsys translate_on
 
 // Location: FF_X9_Y7_N23
-dffeas \start_tx~DUPLICATE (
+dffeas \send_next_byte_cmd~DUPLICATE (
 	.clk(\CLOCK_50_B5B~inputCLKENA0_outclk ),
 	.d(gnd),
-	.asdata(\start_tx~0_combout ),
+	.asdata(\send_next_byte_cmd~0_combout ),
 	.clrn(vcc),
 	.aload(gnd),
 	.sclr(gnd),
@@ -13862,22 +13865,22 @@ dffeas \start_tx~DUPLICATE (
 	.ena(vcc),
 	.devclrn(devclrn),
 	.devpor(devpor),
-	.q(\start_tx~DUPLICATE_q ),
+	.q(\send_next_byte_cmd~DUPLICATE_q ),
 	.prn(vcc));
 // synopsys translate_off
-defparam \start_tx~DUPLICATE .is_wysiwyg = "true";
-defparam \start_tx~DUPLICATE .power_up = "low";
+defparam \send_next_byte_cmd~DUPLICATE .is_wysiwyg = "true";
+defparam \send_next_byte_cmd~DUPLICATE .power_up = "low";
 // synopsys translate_on
 
 // Location: LABCELL_X9_Y7_N3
 cyclonev_lcell_comb \pc_tx|Selector17~1 (
 // Equation(s):
-// \pc_tx|Selector17~1_combout  = ( !\pc_tx|r_SM_Main.000~q  & ( \start_tx~DUPLICATE_q  ) )
+// \pc_tx|Selector17~1_combout  = ( !\pc_tx|r_SM_Main.000~q  & ( \send_next_byte_cmd~DUPLICATE_q  ) )
 
 	.dataa(gnd),
 	.datab(gnd),
 	.datac(gnd),
-	.datad(!\start_tx~DUPLICATE_q ),
+	.datad(!\send_next_byte_cmd~DUPLICATE_q ),
 	.datae(gnd),
 	.dataf(!\pc_tx|r_SM_Main.000~q ),
 	.datag(gnd),
@@ -13946,8 +13949,8 @@ dffeas \tx_byte_output[6] (
 	.clrn(vcc),
 	.aload(gnd),
 	.sclr(gnd),
-	.sload(\bytes_tx_reset~q ),
-	.ena(\start_tx~0_combout ),
+	.sload(\serialise_next_word_cmd~q ),
+	.ena(\send_next_byte_cmd~0_combout ),
 	.devclrn(devclrn),
 	.devpor(devpor),
 	.q(tx_byte_output[6]),
@@ -14010,8 +14013,8 @@ dffeas \tx_byte_output[5] (
 	.clrn(vcc),
 	.aload(gnd),
 	.sclr(gnd),
-	.sload(\bytes_tx_reset~q ),
-	.ena(\start_tx~0_combout ),
+	.sload(\serialise_next_word_cmd~q ),
+	.ena(\send_next_byte_cmd~0_combout ),
 	.devclrn(devclrn),
 	.devpor(devpor),
 	.q(tx_byte_output[5]),
@@ -14074,8 +14077,8 @@ dffeas \tx_byte_output[2] (
 	.clrn(vcc),
 	.aload(gnd),
 	.sclr(gnd),
-	.sload(\bytes_tx_reset~q ),
-	.ena(\start_tx~0_combout ),
+	.sload(\serialise_next_word_cmd~q ),
+	.ena(\send_next_byte_cmd~0_combout ),
 	.devclrn(devclrn),
 	.devpor(devpor),
 	.q(tx_byte_output[2]),
@@ -14138,8 +14141,8 @@ dffeas \tx_byte_output[1] (
 	.clrn(vcc),
 	.aload(gnd),
 	.sclr(gnd),
-	.sload(\bytes_tx_reset~q ),
-	.ena(\start_tx~0_combout ),
+	.sload(\serialise_next_word_cmd~q ),
+	.ena(\send_next_byte_cmd~0_combout ),
 	.devclrn(devclrn),
 	.devpor(devpor),
 	.q(tx_byte_output[1]),
@@ -14202,8 +14205,8 @@ dffeas \tx_byte_output[3] (
 	.clrn(vcc),
 	.aload(gnd),
 	.sclr(gnd),
-	.sload(\bytes_tx_reset~q ),
-	.ena(\start_tx~0_combout ),
+	.sload(\serialise_next_word_cmd~q ),
+	.ena(\send_next_byte_cmd~0_combout ),
 	.devclrn(devclrn),
 	.devpor(devpor),
 	.q(tx_byte_output[3]),
@@ -14266,8 +14269,8 @@ dffeas \tx_byte_output[0] (
 	.clrn(vcc),
 	.aload(gnd),
 	.sclr(gnd),
-	.sload(\bytes_tx_reset~q ),
-	.ena(\start_tx~0_combout ),
+	.sload(\serialise_next_word_cmd~q ),
+	.ena(\send_next_byte_cmd~0_combout ),
 	.devclrn(devclrn),
 	.devpor(devpor),
 	.q(tx_byte_output[0]),
@@ -14355,8 +14358,8 @@ dffeas \tx_byte_output[4] (
 	.clrn(vcc),
 	.aload(gnd),
 	.sclr(gnd),
-	.sload(\bytes_tx_reset~q ),
-	.ena(\start_tx~0_combout ),
+	.sload(\serialise_next_word_cmd~q ),
+	.ena(\send_next_byte_cmd~0_combout ),
 	.devclrn(devclrn),
 	.devpor(devpor),
 	.q(tx_byte_output[4]),

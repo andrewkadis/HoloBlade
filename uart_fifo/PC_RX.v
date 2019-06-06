@@ -16,7 +16,7 @@ module PC_RX(
    input        i_rx_serial,
 	
 	// DataManager-Side
-	input    	 i_read_next_byte_cmd, // Command to get next byte from FIFO, set high for 1 cycle
+	input    	 i_read_next_word_cmd, // Command to get next byte from FIFO, set high for 1 cycle
 	output       o_start_packet_sig,   // Signal which goes high for 1 cycle to indicate that a packet has just started to be sent into the FIFO
 	output[31:0] o_fifo_output_word,   // Current output from the FIFO
 	output       o_fifo_is_empty_sig   // Signal to indicates whether or not the FIFO is empty
@@ -244,7 +244,7 @@ testFIFO uart_rx_FIFO(
 	.full(is_fifo_full_sig),       // Full Flag
 	
 	// Read Side
-	.rdreq(i_read_next_byte_cmd), // Read Data Valid, set High for 1 cycle to read into current data
+	.rdreq(i_read_next_word_cmd), // Read Data Valid, set High for 1 cycle to read into current data
 	.q(o_fifo_output_word),       // Output Data
 	.empty(o_fifo_is_empty_sig)   // Empty Flag
 	

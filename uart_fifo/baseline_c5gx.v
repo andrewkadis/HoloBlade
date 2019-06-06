@@ -281,53 +281,7 @@ spi spi0(
 	
 );
 
-//// Define UART I/O
-//wire[7:0] pc_data_rx;
-//reg[7:0]  pc_data_tx = 8'h75;
-//// Pipe output to green LEDs
-//assign LEDR[7:0] = pc_data_rx;
-//
-//unsaved pc_uart(
-//
-//	// External Input/Output Pins (PC-Side)
-//	.rs232_0_external_interface_RXD(UART_RX),
-//	.rs232_0_external_interface_TXD(UART_TX),
-//	
-//	// Interal Data Lines (FPGA-side)
-//	.rs232_0_avalon_data_receive_source_data(pc_data_rx),
-//	.rs232_0_avalon_data_transmit_sink_data(pc_data_tx),
-//	
-//	// System Signals
-//	.clk_clk(CLOCK_50_B5B),
-//	.rs232_0_reset_reset(~KEY[0]),
-//	.reset_reset_n(~KEY[0])
-//	
-//
-////		input  wire       ,                                  //                                clk.clk
-////		input  wire       ,                            //                              reset.reset_n
-////		input  wire       rs232_0_avalon_data_receive_source_ready, // rs232_0_avalon_data_receive_source.ready
-////		output wire [7:0] rs232_0_avalon_data_receive_source_data,  //                                   .data
-////		output wire       rs232_0_avalon_data_receive_source_error, //                                   .error
-////		output wire       rs232_0_avalon_data_receive_source_valid, //                                   .valid
-////		input  wire [7:0] rs232_0_avalon_data_transmit_sink_data,   //  rs232_0_avalon_data_transmit_sink.data
-//
-//
-////		input  wire       clk_clk,                                  //                                clk.clk
-////		input  wire       reset_reset_n,                            //                              reset.reset_n
-//////		input  wire       rs232_0_avalon_data_receive_source_ready, // rs232_0_avalon_data_receive_source.ready
-////		output wire [7:0] rs232_0_avalon_data_receive_source_data,  //                                   .data
-//////		output wire       rs232_0_avalon_data_receive_source_error, //                                   .error
-//////		output wire       rs232_0_avalon_data_receive_source_valid, //                                   .valid
-////		input  wire [7:0] rs232_0_avalon_data_transmit_sink_data,   //  rs232_0_avalon_data_transmit_sink.data
-//////		input  wire       rs232_0_avalon_data_transmit_sink_error,  //                                   .error
-//////		input  wire       rs232_0_avalon_data_transmit_sink_valid,  //                                   .valid
-//////		output wire       rs232_0_avalon_data_transmit_sink_ready,  //                                   .ready
-////		input  wire       rs232_0_external_interface_RXD,           //         rs232_0_external_interface.RXD
-////		output wire       rs232_0_external_interface_TXD,           //                                   .TXD
-//////		input  wire       rs232_0_reset_reset                       //                      rs232_0_reset.reset
-//
-//
-//);
+
 
 
 
@@ -346,7 +300,7 @@ PC_RX pc_rx(
    .i_rx_serial(UART_RX),          // UART RX Line
 	
 	// DataManager-Side
-   .i_read_next_byte_cmd(read_next_byte_cmd), // Command to get next byte from FIFO, set high for 1 cycle
+   .i_read_next_word_cmd(read_next_word_cmd), // Command to get next word from FIFO, set high for 1 cycle
 	.o_start_packet_sig(start_packet_sign),    // Signal which goes high for 1 cycle to indicate that a packet has just started to be sent into the FIFO
 	.o_fifo_output_word(fifo_output_word),     // Current Byte output from the FIFO
 	.o_fifo_is_empty_sig(fifo_is_empty_sig)    // Signal to indicates whether or not the FIFO is empty
@@ -363,103 +317,13 @@ PC_RX pc_rx(
 
 // Interfacing Signals
 // With PC_RX module
-reg read_next_byte_cmd = 0;
+reg read_next_word_cmd = 0;
 wire start_packet_sign;
 wire[31:0] fifo_output_word;
 wire fifo_is_empty_sig;
-//// TODO:
-//// When we receive data, put in FIFO
-//// Pipe the most recent Byte into Green and the second oldest into Red
-//wire[7:0] last_byte_rx;
-//wire[7:0] second_last_byte_rx;
-//// Temp buffers
-//reg[7:0] last_byte_rx_buf        = 0;
-//reg[7:0] second_last_byte_rx_buf = 0;
-////assign LEDG[7:0] = last_byte_rx;
-////assign LEDR[7:0] = second_last_byte_rx;
-//// Control Signals
-//reg wrreq_sig;
-//reg rdreq_sig;
-//wire empty_sig;
 
-////////////////////////////
-////////// Uart RX /////////
-////////////////////////////
-//
-////// Define UART I/O for Rx
-//wire[7:0] pc_data_rx;
-//// Pipe output to green LEDs
-////assign R[7:0] = pc_data_rx;
-//// Check if byte has been RX'd - will be high for 1 cycle after a successfuly Rx
-//wire rx_complete;
-//assign GPIO[11] = rx_complete;
-//// Assign UART_RX Data to Arduino GPIO7 for Debug
-////assign GPIO[10]  = UART_RX;
-//// Testbench uses a 10 MHz clock
-//// Want to interface to 115200 baud UART
-//// 50000000 / 115200 = 87 Clocks Per Bit.
-//parameter c_CLKS_PER_BIT    = 435;
-//uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
-//
-//   .i_Clock(CLOCK_50_B5B),
-//   .i_Rx_Serial(UART_RX),
-//   .o_Rx_DV(rx_complete),
-//   .o_Rx_Byte(pc_data_rx)
-//	
-// );
-// 
-//// When we receive data, put in FIFO
-//// Pipe the most recent Byte into Green and the second oldest into Red
-//wire[7:0] last_byte_rx;
-//wire[7:0] second_last_byte_rx;
-//// Temp buffers
-//reg[7:0] last_byte_rx_buf        = 0;
-//reg[7:0] second_last_byte_rx_buf = 0;
-////assign LEDG[7:0] = last_byte_rx;
-////assign LEDR[7:0] = second_last_byte_rx;
-//// Control Signals
-//reg wrreq_sig;
-//reg rdreq_sig;
-//wire empty_sig;
-// 
-//// Push into FIFO when we receive a byte
-//always @(posedge CLOCK_50_B5B) begin
-//	if(rx_complete==1) begin
-//		second_last_byte_rx_buf = last_byte_rx_buf;
-//		wrreq_sig = 1;
-//	end else
-//		wrreq_sig = 0;
-//end
-//
-//// Push into FIFO when we receive a byte
-//always @(empty_sig) begin
-//	if(empty_sig==0) begin
-//		rdreq_sig = 1;
-//		last_byte_rx_buf = last_byte_rx;
-//		LEDG[7:0] = last_byte_rx_buf;
-//		LEDR[7:0] = second_last_byte_rx_buf;
-//	end else
-//		rdreq_sig = 0;
-//end
-// 
-// // FIFO
-//testFIFO uart_rx_FIFO(
-//	// Control Signals
-//	.clock(CLOCK_50_B5B),
-////	.sclr(sclr_sig),   // Reset FIFO
-//	
-//	// Write Side
-//	.data(pc_data_rx), // Input Data
-//	.wrreq(wrreq_sig), // Write Data Valid, set High for 1 cycle to write current data
-//	.full(full_sig),   // Full Flag
-//	
-//	// Read Side
-//	.rdreq(rdreq_sig), // Read Data Valid, set High for 1 cycle to read into current data
-//	.q(last_byte_rx),  // Output Data
-//	.empty(empty_sig)  // Empty Flag
-//	
-//	);
-	
+
+
 
 	
 	
@@ -467,76 +331,70 @@ wire fifo_is_empty_sig;
 	
 	
 //////////////////////////
-//////// Uart TX /////////
+////// Loopback ////////
 //////////////////////////
 
-// Tx buffer
-
-// Pipe data back for loopback
-//assign tx_byte_buf = fifo_output_byte;
-// Assign UART_TX and UART_RX Data to Arduino GPIO10+12 for Debug
-assign GPIO[10]  = UART_TX;
-reg debug_out_b;
-reg debug_out_y;
-assign GPIO[11] = UART_RX;
-
-// Blue
-assign GPIO[13] = bytes_tx_reset;
-// Yellow
-assign GPIO[12] = serialiser_is_busy;
-
-//assign GPIO[13] = read_next_byte_cmd;
-
-// Command to send data back over Tx for loop
-reg start_tx  = 0;
-
-// Flag to indicate whether or not our serialiser is currently active
-reg serialiser_is_busy = 0;
+// We haven't built the DataManager yet, so simply loopback the data
+// The following loopback logic handles this for now
 
 // Pulse when we rx a byte
 always @(posedge CLOCK_50_B5B) begin
-	// If bytes in buffer and TxUart not active, send another byte
+	// If data in fifo and Serialiser is not active, start another serialisation sequence
 	if( (fifo_is_empty_sig==0) && (serialiser_is_busy==0) ) begin
-		read_next_byte_cmd = 1;
-//		send_next_byte = 1;
-		bytes_tx_reset = 1;
+	
+		// Get NExt word from FIFO
+		read_next_word_cmd = 1;
+		// Latch data and start a serialisation process
+		serialise_next_word_cmd = 1;
 		fifo_output_latched = fifo_output_word;
-//		num_bytes_to_send = 4;
-//		tx_byte_buf = fifo_output_byte;
-//		tx_byte_buf = 32'h88776655;
-//		debug_out = 1;
+		
 	end else begin
+	
 		// Wait until inactive or need to send another byte
-		read_next_byte_cmd = 0;
-		bytes_tx_reset = 0;
-//		send_next_byte = 0;
-//		tx_byte_buf = 0;
-//		debug_out = 0;
+		read_next_word_cmd = 0;
+		serialise_next_word_cmd = 0;
+		
 	end
 end
 
 
 
+// Debugging Lines
+// Assign UART_TX and UART_RX Data to Arduino GPIO10 + 12 for Debug
+assign GPIO[10]  = UART_TX;
+reg debug_out_b;
+reg debug_out_y;
+assign GPIO[11] = UART_RX;
+// Blue
+assign GPIO[13] = serialise_next_word_cmd;
+// Yellow
+assign GPIO[12] = serialiser_is_busy;
 
 
 
 
-// Want to send the 32-bit word as a sequence of 4 bytes
-// Counter to keep track of our 4 bytes
-//parameter BYTES_TX_COUNT   = 3'd4; // Count down from 4 to check for 4 bytes
-// TODO: The two lines below are a contention disaster waiting to happen. Works okay for 1 32bit transaction bt need to think about for more than 1...
-//reg[31:0] num_bytes_to_send = 0;
+
+
+
+
+
+//////////////////////////
+////// Serialiser ////////
+//////////////////////////
+
+// Want to serialise the 32-bit word into a sequence of 4 bytes so we can Tx over the UART
+// Variables
+// Counter to keep track of how many bytes in a 4-byte sequence we have still to send
 reg[3:0] num_bytes_to_send = 3'd0;
-//reg[1:0]  bytes_tx_counter = BYTES_TX_COUNT; 
-reg       bytes_tx_reset   = 0;
-reg       send_next_byte   = 0;
-//reg       full_word_recv     = 0;
+// Command to start serialising next word
+reg serialise_next_word_cmd = 0;
+// Flag to indicate whether or not our serialiser is currently active
+reg serialiser_is_busy = 0;
+// Buffer to latch the output from the FIFO until fully serialised
 reg[31:0] fifo_output_latched = 0;
-reg[31:0] tx_byte_buf_curr    = 0;
-reg[7:0]  tx_byte_output      = 0;
 
-
-// Put an edge detector on tx_done
+// We use tx_done to drive our serialiser, but testing found that it can be high for 2 cycles
+// Hence we put an edge detector on tx_done to make it reliable
 reg tx_done_edge = 0;
 reg tx_done_prev = 0;
 always @(posedge CLOCK_50_B5B) begin
@@ -547,19 +405,20 @@ always @(posedge CLOCK_50_B5B) begin
 	tx_done_prev = tx_done;
 end
 
+// Serialiser logic handled in the following combinational block
 always @(posedge CLOCK_50_B5B) begin
 
 	// Don't transmit by default
-	start_tx = 0;
+	send_next_byte_cmd = 0;
 
-	if(bytes_tx_reset) begin
+	if(serialise_next_word_cmd) begin
 		
 		// Start a Serialiser Sequence
 		serialiser_is_busy  = 1;
 		
 		// Send First byte in word
-		tx_byte_output = fifo_output_latched[31:24];
-		start_tx         = 1;
+		tx_byte_output     = fifo_output_latched[31:24];
+		send_next_byte_cmd = 1;
 		
 		// Set number of bytes to send
 		num_bytes_to_send = 3'd4; // Start at 4 as haven't sent any yet
@@ -582,7 +441,7 @@ always @(posedge CLOCK_50_B5B) begin
 				3'd3    : tx_byte_output = fifo_output_latched[23:16];
 				default : tx_byte_output = 8'hFF; 
 			endcase
-			start_tx         = 1;
+			send_next_byte_cmd = 1;
 			
 		end else begin
 			// Sent all our bytes, packet has been successfully serialised
@@ -591,62 +450,9 @@ always @(posedge CLOCK_50_B5B) begin
 		
 	end
 
-   // Default unless we have received all 4 bytes
-//	full_word_recv = 0;
-//	start_tx = 0;
-//	debug_out_y = 0;
-//	debug_out_b = 0;
-	
-	// Only continue if TX is not active
-	// TODO: I think there is some horrendous race condition here where if tx is active and we get a reset, everything will just BARF as the command gets ignore...
-//	if(tx_active==0) begin
-
-		// Reset counter if required
-//		if(bytes_tx_reset) begin
-//			debug_out_b = 1;
-//			num_bytes_remaining = num_bytes_to_send-1;
-			// Send first byte (different to others as no shift here) whilst resetting
-//			tx_byte_buf_curr  = fifo_output_latched[31:0];
-//			tx_byte_output   = fifo_output_latched[31:24];
-//			tx_byte_buf_next  = { fifo_output_latched[23:0], 8'd0 };
-//			start_tx         = 1;
-			
-//		if( (bytes_tx_reset) || (tx_done==1) && (num_bytes_remaining>0) ) begin
-			// Byte sent succussefully, send next
-//			debug_out_y = 1;
-			// Buffer our next byte into the shift register
-//			tx_byte_buf_curr  = tx_byte_buf_next;
-//			tx_byte_buf_curr = { tx_byte_buf_curr[23:0], 8'd0 };
-//			tx_byte_output   = tx_byte_buf_curr[31:24];
-			
-
-			
-
-			
-			// Have we received all four bytes?
-//			if(bytes_tx_counter==3'd0) begin
-//				full_word_recv = 1; // High for 1 cycle so we can send data to FIFO
-//			end
-			 
-//		end else
-//			start_tx = 0;
-	
-//	end
-
 end
 
 
-//// Push to FIFO if ready
-//always @(posedge i_clock) begin
-//	if(full_word_recv) begin
-////		fifo_data_rx_buf      = pc_data_rx_word; // Data for FIFO
-////		i_write_next_byte_cmd = 1;          // Send data to FIFO
-//		bytes_tx_reset      = 1;          // Reset counter for next loop
-//	end else begin
-////		i_write_next_byte_cmd = 0;
-//		bytes_tx_reset      = 0;
-//	end
-//end
 
 
 
@@ -654,8 +460,14 @@ end
 
 
 
+//////////////////////////
+//////// Uart TX /////////
+//////////////////////////
 
-
+// Command to send next byte over UART
+reg send_next_byte_cmd    = 0;
+// Byte to output from UART
+reg[7:0]  tx_byte_output  = 0;
 // Control Flags for Tx UART
 wire tx_active;
 wire tx_done;
@@ -664,12 +476,12 @@ wire tx_done;
 parameter c_CLKS_PER_BIT    = 435;
 uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 
-	.i_Clock(CLOCK_50_B5B),   // Clock
-   .i_Tx_DV(start_tx),       // Command to start TX of individual Byte
-   .i_Tx_Byte(tx_byte_output),  // Byte of data to send
-   .o_Tx_Active(tx_active),    // Flag for whether or not UART is active
-   .o_Tx_Serial(UART_TX),    // Output line for UART
-   .o_Tx_Done(tx_done)              // Flag which is high for 1 cycle after Tx Complete
+	.i_Clock(CLOCK_50_B5B),       // Clock
+   .i_Tx_DV(send_next_byte_cmd), // Command to start TX of individual Byte
+   .i_Tx_Byte(tx_byte_output),   // Byte of data to send
+   .o_Tx_Active(tx_active),      // Flag for whether or not UART is active
+   .o_Tx_Serial(UART_TX),        // Output line for UART
+   .o_Tx_Done(tx_done)           // Flag which is high for 1 cycle after Tx Complete
 	  
  );
 
