@@ -480,21 +480,28 @@ reg debug_out_b;
 reg debug_out_y;
 assign GPIO[11] = UART_RX;
 
-assign GPIO[12] = start_tx;
-assign GPIO[13] = tx_done;
+// Blue
+assign GPIO[13] = bytes_tx_reset;
+// Yellow
+assign GPIO[12] = serialiser_is_busy;
+
 //assign GPIO[13] = read_next_byte_cmd;
 
 // Command to send data back over Tx for loop
 reg start_tx  = 0;
+
+// Flag to indicate whether or not our serialiser is currently active
+reg serialiser_is_busy = 0;
+
 // Pulse when we rx a byte
 always @(posedge CLOCK_50_B5B) begin
 	// If bytes in buffer and TxUart not active, send another byte
-	if( (fifo_is_empty_sig==0) ) begin//&& (tx_done==0) ) begin
+	if( (fifo_is_empty_sig==0) && (serialiser_is_busy==0) ) begin
 		read_next_byte_cmd = 1;
 //		send_next_byte = 1;
 		bytes_tx_reset = 1;
 		fifo_output_latched = fifo_output_word;
-		num_bytes_to_send = 4;
+//		num_bytes_to_send = 4;
 //		tx_byte_buf = fifo_output_byte;
 //		tx_byte_buf = 32'h88776655;
 //		debug_out = 1;
@@ -518,8 +525,8 @@ end
 // Counter to keep track of our 4 bytes
 //parameter BYTES_TX_COUNT   = 3'd4; // Count down from 4 to check for 4 bytes
 // TODO: The two lines below are a contention disaster waiting to happen. Works okay for 1 32bit transaction bt need to think about for more than 1...
-reg[31:0] num_bytes_to_send = 0;
-reg[31:0] num_bytes_remaining = 0;
+//reg[31:0] num_bytes_to_send = 0;
+reg[3:0] num_bytes_to_send = 3'd0;
 //reg[1:0]  bytes_tx_counter = BYTES_TX_COUNT; 
 reg       bytes_tx_reset   = 0;
 reg       send_next_byte   = 0;
@@ -528,7 +535,61 @@ reg[31:0] fifo_output_latched = 0;
 reg[31:0] tx_byte_buf_curr    = 0;
 reg[7:0]  tx_byte_output      = 0;
 
+
+// Put an edge detector on tx_done
+reg tx_done_edge = 0;
+reg tx_done_prev = 0;
 always @(posedge CLOCK_50_B5B) begin
+	if( (tx_done_prev==0) && (tx_done==1) )
+		tx_done_edge = 1;
+	else
+		tx_done_edge = 0;
+	tx_done_prev = tx_done;
+end
+
+always @(posedge CLOCK_50_B5B) begin
+
+	// Don't transmit by default
+	start_tx = 0;
+
+	if(bytes_tx_reset) begin
+		
+		// Start a Serialiser Sequence
+		serialiser_is_busy  = 1;
+		
+		// Send First byte in word
+		tx_byte_output = fifo_output_latched[31:24];
+		start_tx         = 1;
+		
+		// Set number of bytes to send
+		num_bytes_to_send = 3'd4; // Start at 4 as haven't sent any yet
+		
+	// Check if our byte has been sent whilst serialising
+	// Note that we use tx_active rather than tx_done as tx_done seems to go high for 2 cycles rather than 1
+	end else if ( (tx_done_edge==1) ) begin
+	
+		// Byte has been successfully sent, decrement
+		num_bytes_to_send = num_bytes_to_send-3'd1;
+		
+		// Have we sent all or bytes?
+		if(num_bytes_to_send>3'd0) begin
+		
+			// No, sent the next corresponding byte
+			case (num_bytes_to_send)
+				3'd0    : tx_byte_output = 8'h00; 
+				3'd1    : tx_byte_output = fifo_output_latched[ 7: 0];
+				3'd2    : tx_byte_output = fifo_output_latched[15: 8];
+				3'd3    : tx_byte_output = fifo_output_latched[23:16];
+				default : tx_byte_output = 8'hFF; 
+			endcase
+			start_tx         = 1;
+			
+		end else begin
+			// Sent all our bytes, packet has been successfully serialised
+			serialiser_is_busy = 0;
+		end
+		
+	end
 
    // Default unless we have received all 4 bytes
 //	full_word_recv = 0;
@@ -550,7 +611,7 @@ always @(posedge CLOCK_50_B5B) begin
 //			tx_byte_buf_next  = { fifo_output_latched[23:0], 8'd0 };
 //			start_tx         = 1;
 			
-		if( (bytes_tx_reset) || (tx_done==1) && (num_bytes_remaining>0) ) begin
+//		if( (bytes_tx_reset) || (tx_done==1) && (num_bytes_remaining>0) ) begin
 			// Byte sent succussefully, send next
 //			debug_out_y = 1;
 			// Buffer our next byte into the shift register
@@ -558,35 +619,22 @@ always @(posedge CLOCK_50_B5B) begin
 //			tx_byte_buf_curr = { tx_byte_buf_curr[23:0], 8'd0 };
 //			tx_byte_output   = tx_byte_buf_curr[31:24];
 			
-			 case (num_bytes_remaining)
-//				0       : tx_byte_output = fifo_output_latched[ 7: 0];
-				1       : tx_byte_output = fifo_output_latched[ 7: 0];
-				2       : tx_byte_output = fifo_output_latched[15: 8];
-				3       : tx_byte_output = fifo_output_latched[23:16];
-				4       : tx_byte_output = fifo_output_latched[31:24];
-				default : tx_byte_output = 8'h00; 
-			 endcase
+
 			
-			start_tx         = 1;
+
 			
 			// Have we received all four bytes?
 //			if(bytes_tx_counter==3'd0) begin
 //				full_word_recv = 1; // High for 1 cycle so we can send data to FIFO
 //			end
 			 
-		end else
-			start_tx = 0;
+//		end else
+//			start_tx = 0;
 	
 //	end
 
 end
 
-always @(posedge tx_done, posedge bytes_tx_reset) begin
-	if(bytes_tx_reset)
-		num_bytes_remaining = num_bytes_to_send;
-	else if (tx_done==1)
-		num_bytes_remaining = num_bytes_remaining-1;
-end
 
 //// Push to FIFO if ready
 //always @(posedge i_clock) begin

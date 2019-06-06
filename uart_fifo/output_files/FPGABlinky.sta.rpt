@@ -1,5 +1,5 @@
 Timing Analyzer report for FPGABlinky
-Wed Jun 05 16:40:57 2019
+Thu Jun 06 10:59:30 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -46,17 +46,15 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  38. Signal Integrity Metrics (Fast 1100mv 85c Model)
  39. Setup Transfers
  40. Hold Transfers
- 41. Recovery Transfers
- 42. Removal Transfers
- 43. Report TCCS
- 44. Report RSKM
- 45. Unconstrained Paths Summary
- 46. Clock Status Summary
+ 41. Report TCCS
+ 42. Report RSKM
+ 43. Unconstrained Paths Summary
+ 44. Clock Status Summary
+ 45. Unconstrained Input Ports
+ 46. Unconstrained Output Ports
  47. Unconstrained Input Ports
  48. Unconstrained Output Ports
- 49. Unconstrained Input Ports
- 50. Unconstrained Output Ports
- 51. Timing Analyzer Messages
+ 49. Timing Analyzer Messages
 
 
 
@@ -101,40 +99,37 @@ refer to the applicable agreement for further details.
 ; Number detected on machine ; 12          ;
 ; Maximum allowed            ; 6           ;
 ;                            ;             ;
-; Average used               ; 1.11        ;
+; Average used               ; 1.10        ;
 ; Maximum used               ; 6           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   2.4%      ;
-;     Processor 3            ;   2.3%      ;
-;     Processor 4            ;   2.2%      ;
-;     Processor 5            ;   2.0%      ;
-;     Processor 6            ;   2.0%      ;
+;     Processor 2            ;   2.1%      ;
+;     Processor 3            ;   2.0%      ;
+;     Processor 4            ;   1.9%      ;
+;     Processor 5            ;   1.9%      ;
+;     Processor 6            ;   1.8%      ;
 +----------------------------+-------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Clocks                                                                                                                                                                                                           ;
-+-------------------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+-----------------------------+
-; Clock Name              ; Type ; Period ; Frequency  ; Rise  ; Fall  ; Duty Cycle ; Divide by ; Multiply by ; Phase ; Offset ; Edge List ; Edge Shift ; Inverted ; Master ; Source ; Targets                     ;
-+-------------------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+-----------------------------+
-; bytes_tx_reset          ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { bytes_tx_reset }          ;
-; CLOCK_50_B5B            ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { CLOCK_50_B5B }            ;
-; spi:spi0|spi_clk        ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { spi:spi0|spi_clk }        ;
-; uart_tx:pc_tx|r_Tx_Done ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { uart_tx:pc_tx|r_Tx_Done } ;
-+-------------------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+-----------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clocks                                                                                                                                                                                             ;
++------------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+----------------------+
+; Clock Name       ; Type ; Period ; Frequency  ; Rise  ; Fall  ; Duty Cycle ; Divide by ; Multiply by ; Phase ; Offset ; Edge List ; Edge Shift ; Inverted ; Master ; Source ; Targets              ;
++------------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+----------------------+
+; CLOCK_50_B5B     ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { CLOCK_50_B5B }     ;
+; spi:spi0|spi_clk ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { spi:spi0|spi_clk } ;
++------------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+----------------------+
 
 
-+---------------------------------------------------------------+
-; Slow 1100mV 85C Model Fmax Summary                            ;
-+------------+-----------------+-------------------------+------+
-; Fmax       ; Restricted Fmax ; Clock Name              ; Note ;
-+------------+-----------------+-------------------------+------+
-; 184.64 MHz ; 184.64 MHz      ; CLOCK_50_B5B            ;      ;
-; 207.21 MHz ; 207.21 MHz      ; spi:spi0|spi_clk        ;      ;
-; 237.53 MHz ; 237.53 MHz      ; uart_tx:pc_tx|r_Tx_Done ;      ;
-+------------+-----------------+-------------------------+------+
++--------------------------------------------------------+
+; Slow 1100mV 85C Model Fmax Summary                     ;
++------------+-----------------+------------------+------+
+; Fmax       ; Restricted Fmax ; Clock Name       ; Note ;
++------------+-----------------+------------------+------+
+; 199.52 MHz ; 199.52 MHz      ; spi:spi0|spi_clk ;      ;
+; 204.58 MHz ; 204.58 MHz      ; CLOCK_50_B5B     ;      ;
++------------+-----------------+------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
 
@@ -144,58 +139,46 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 HTML report is unavailable in plain text report export.
 
 
-+--------------------------------------------------+
-; Slow 1100mV 85C Model Setup Summary              ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; -5.013 ; -143.952      ;
-; bytes_tx_reset          ; -4.662 ; -4.662        ;
-; spi:spi0|spi_clk        ; -4.423 ; -79.631       ;
-; CLOCK_50_B5B            ; -4.416 ; -523.699      ;
-+-------------------------+--------+---------------+
++-------------------------------------------+
+; Slow 1100mV 85C Model Setup Summary       ;
++------------------+--------+---------------+
+; Clock            ; Slack  ; End Point TNS ;
++------------------+--------+---------------+
+; spi:spi0|spi_clk ; -4.663 ; -79.101       ;
+; CLOCK_50_B5B     ; -3.888 ; -418.741      ;
++------------------+--------+---------------+
 
 
-+-------------------------------------------------+
-; Slow 1100mV 85C Model Hold Summary              ;
-+-------------------------+-------+---------------+
-; Clock                   ; Slack ; End Point TNS ;
-+-------------------------+-------+---------------+
-; CLOCK_50_B5B            ; 0.292 ; 0.000         ;
-; uart_tx:pc_tx|r_Tx_Done ; 0.353 ; 0.000         ;
-; spi:spi0|spi_clk        ; 0.636 ; 0.000         ;
-; bytes_tx_reset          ; 3.373 ; 0.000         ;
-+-------------------------+-------+---------------+
++------------------------------------------+
+; Slow 1100mV 85C Model Hold Summary       ;
++------------------+-------+---------------+
+; Clock            ; Slack ; End Point TNS ;
++------------------+-------+---------------+
+; CLOCK_50_B5B     ; 0.354 ; 0.000         ;
+; spi:spi0|spi_clk ; 0.620 ; 0.000         ;
++------------------+-------+---------------+
 
 
-+--------------------------------------------------+
-; Slow 1100mV 85C Model Recovery Summary           ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; -1.777 ; -56.374       ;
-+-------------------------+--------+---------------+
+------------------------------------------
+; Slow 1100mV 85C Model Recovery Summary ;
+------------------------------------------
+No paths to report.
 
 
-+-------------------------------------------------+
-; Slow 1100mV 85C Model Removal Summary           ;
-+-------------------------+-------+---------------+
-; Clock                   ; Slack ; End Point TNS ;
-+-------------------------+-------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; 0.779 ; 0.000         ;
-+-------------------------+-------+---------------+
+-----------------------------------------
+; Slow 1100mV 85C Model Removal Summary ;
+-----------------------------------------
+No paths to report.
 
 
 +---------------------------------------------------+
 ; Slow 1100mV 85C Model Minimum Pulse Width Summary ;
-+-------------------------+--------+----------------+
-; Clock                   ; Slack  ; End Point TNS  ;
-+-------------------------+--------+----------------+
-; CLOCK_50_B5B            ; -2.636 ; -496.030       ;
-; spi:spi0|spi_clk        ; -0.538 ; -25.846        ;
-; uart_tx:pc_tx|r_Tx_Done ; -0.538 ; -25.738        ;
-; bytes_tx_reset          ; 0.435  ; 0.000          ;
-+-------------------------+--------+----------------+
++------------------+--------+-----------------------+
+; Clock            ; Slack  ; End Point TNS         ;
++------------------+--------+-----------------------+
+; CLOCK_50_B5B     ; -2.636 ; -504.100              ;
+; spi:spi0|spi_clk ; -0.538 ; -24.832               ;
++------------------+--------+-----------------------+
 
 
 -----------------------------------------------
@@ -205,70 +188,57 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 
 
 
-+---------------------------------------------------------------+
-; Slow 1100mV 0C Model Fmax Summary                             ;
-+------------+-----------------+-------------------------+------+
-; Fmax       ; Restricted Fmax ; Clock Name              ; Note ;
-+------------+-----------------+-------------------------+------+
-; 184.23 MHz ; 184.23 MHz      ; CLOCK_50_B5B            ;      ;
-; 213.4 MHz  ; 213.4 MHz       ; spi:spi0|spi_clk        ;      ;
-; 236.69 MHz ; 236.69 MHz      ; uart_tx:pc_tx|r_Tx_Done ;      ;
-+------------+-----------------+-------------------------+------+
++--------------------------------------------------------+
+; Slow 1100mV 0C Model Fmax Summary                      ;
++------------+-----------------+------------------+------+
+; Fmax       ; Restricted Fmax ; Clock Name       ; Note ;
++------------+-----------------+------------------+------+
+; 197.94 MHz ; 197.94 MHz      ; CLOCK_50_B5B     ;      ;
+; 205.09 MHz ; 205.09 MHz      ; spi:spi0|spi_clk ;      ;
++------------+-----------------+------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
 
-+--------------------------------------------------+
-; Slow 1100mV 0C Model Setup Summary               ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; -5.250 ; -150.188      ;
-; bytes_tx_reset          ; -4.794 ; -4.794        ;
-; spi:spi0|spi_clk        ; -4.717 ; -80.894       ;
-; CLOCK_50_B5B            ; -4.428 ; -510.320      ;
-+-------------------------+--------+---------------+
++-------------------------------------------+
+; Slow 1100mV 0C Model Setup Summary        ;
++------------------+--------+---------------+
+; Clock            ; Slack  ; End Point TNS ;
++------------------+--------+---------------+
+; spi:spi0|spi_clk ; -4.872 ; -80.173       ;
+; CLOCK_50_B5B     ; -4.052 ; -417.335      ;
++------------------+--------+---------------+
 
 
-+--------------------------------------------------+
-; Slow 1100mV 0C Model Hold Summary                ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; CLOCK_50_B5B            ; -0.031 ; -0.031        ;
-; uart_tx:pc_tx|r_Tx_Done ; 0.359  ; 0.000         ;
-; spi:spi0|spi_clk        ; 0.580  ; 0.000         ;
-; bytes_tx_reset          ; 3.375  ; 0.000         ;
-+-------------------------+--------+---------------+
++------------------------------------------+
+; Slow 1100mV 0C Model Hold Summary        ;
++------------------+-------+---------------+
+; Clock            ; Slack ; End Point TNS ;
++------------------+-------+---------------+
+; CLOCK_50_B5B     ; 0.216 ; 0.000         ;
+; spi:spi0|spi_clk ; 0.611 ; 0.000         ;
++------------------+-------+---------------+
 
 
-+--------------------------------------------------+
-; Slow 1100mV 0C Model Recovery Summary            ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; -1.785 ; -56.161       ;
-+-------------------------+--------+---------------+
+-----------------------------------------
+; Slow 1100mV 0C Model Recovery Summary ;
+-----------------------------------------
+No paths to report.
 
 
-+-------------------------------------------------+
-; Slow 1100mV 0C Model Removal Summary            ;
-+-------------------------+-------+---------------+
-; Clock                   ; Slack ; End Point TNS ;
-+-------------------------+-------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; 0.752 ; 0.000         ;
-+-------------------------+-------+---------------+
+----------------------------------------
+; Slow 1100mV 0C Model Removal Summary ;
+----------------------------------------
+No paths to report.
 
 
 +--------------------------------------------------+
 ; Slow 1100mV 0C Model Minimum Pulse Width Summary ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; CLOCK_50_B5B            ; -2.636 ; -484.856      ;
-; spi:spi0|spi_clk        ; -0.538 ; -25.761       ;
-; uart_tx:pc_tx|r_Tx_Done ; -0.538 ; -25.724       ;
-; bytes_tx_reset          ; 0.404  ; 0.000         ;
-+-------------------------+--------+---------------+
++------------------+--------+----------------------+
+; Clock            ; Slack  ; End Point TNS        ;
++------------------+--------+----------------------+
+; CLOCK_50_B5B     ; -2.636 ; -493.255             ;
+; spi:spi0|spi_clk ; -0.538 ; -24.677              ;
++------------------+--------+----------------------+
 
 
 ----------------------------------------------
@@ -278,58 +248,46 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 
 
 
-+--------------------------------------------------+
-; Fast 1100mV 85C Model Setup Summary              ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; CLOCK_50_B5B            ; -2.978 ; -165.402      ;
-; uart_tx:pc_tx|r_Tx_Done ; -1.927 ; -55.195       ;
-; bytes_tx_reset          ; -1.789 ; -1.789        ;
-; spi:spi0|spi_clk        ; -1.595 ; -31.289       ;
-+-------------------------+--------+---------------+
++-------------------------------------------+
+; Fast 1100mV 85C Model Setup Summary       ;
++------------------+--------+---------------+
+; Clock            ; Slack  ; End Point TNS ;
++------------------+--------+---------------+
+; CLOCK_50_B5B     ; -2.672 ; -80.496       ;
+; spi:spi0|spi_clk ; -1.756 ; -30.206       ;
++------------------+--------+---------------+
 
 
-+-------------------------------------------------+
-; Fast 1100mV 85C Model Hold Summary              ;
-+-------------------------+-------+---------------+
-; Clock                   ; Slack ; End Point TNS ;
-+-------------------------+-------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; 0.097 ; 0.000         ;
-; CLOCK_50_B5B            ; 0.100 ; 0.000         ;
-; spi:spi0|spi_clk        ; 0.264 ; 0.000         ;
-; bytes_tx_reset          ; 1.726 ; 0.000         ;
-+-------------------------+-------+---------------+
++------------------------------------------+
+; Fast 1100mV 85C Model Hold Summary       ;
++------------------+-------+---------------+
+; Clock            ; Slack ; End Point TNS ;
++------------------+-------+---------------+
+; CLOCK_50_B5B     ; 0.179 ; 0.000         ;
+; spi:spi0|spi_clk ; 0.311 ; 0.000         ;
++------------------+-------+---------------+
 
 
-+--------------------------------------------------+
-; Fast 1100mV 85C Model Recovery Summary           ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; -1.079 ; -33.637       ;
-+-------------------------+--------+---------------+
+------------------------------------------
+; Fast 1100mV 85C Model Recovery Summary ;
+------------------------------------------
+No paths to report.
 
 
-+-------------------------------------------------+
-; Fast 1100mV 85C Model Removal Summary           ;
-+-------------------------+-------+---------------+
-; Clock                   ; Slack ; End Point TNS ;
-+-------------------------+-------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; 0.335 ; 0.000         ;
-+-------------------------+-------+---------------+
+-----------------------------------------
+; Fast 1100mV 85C Model Removal Summary ;
+-----------------------------------------
+No paths to report.
 
 
 +---------------------------------------------------+
 ; Fast 1100mV 85C Model Minimum Pulse Width Summary ;
-+-------------------------+--------+----------------+
-; Clock                   ; Slack  ; End Point TNS  ;
-+-------------------------+--------+----------------+
-; CLOCK_50_B5B            ; -2.174 ; -360.098       ;
-; spi:spi0|spi_clk        ; 0.062  ; 0.000          ;
-; uart_tx:pc_tx|r_Tx_Done ; 0.083  ; 0.000          ;
-; bytes_tx_reset          ; 0.495  ; 0.000          ;
-+-------------------------+--------+----------------+
++------------------+--------+-----------------------+
+; Clock            ; Slack  ; End Point TNS         ;
++------------------+--------+-----------------------+
+; CLOCK_50_B5B     ; -2.174 ; -363.926              ;
+; spi:spi0|spi_clk ; 0.036  ; 0.000                 ;
++------------------+--------+-----------------------+
 
 
 -----------------------------------------------
@@ -339,58 +297,46 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 
 
 
-+--------------------------------------------------+
-; Fast 1100mV 0C Model Setup Summary               ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; CLOCK_50_B5B            ; -2.523 ; -129.879      ;
-; uart_tx:pc_tx|r_Tx_Done ; -1.835 ; -52.654       ;
-; bytes_tx_reset          ; -1.706 ; -1.706        ;
-; spi:spi0|spi_clk        ; -1.525 ; -28.816       ;
-+-------------------------+--------+---------------+
++-------------------------------------------+
+; Fast 1100mV 0C Model Setup Summary        ;
++------------------+--------+---------------+
+; Clock            ; Slack  ; End Point TNS ;
++------------------+--------+---------------+
+; CLOCK_50_B5B     ; -2.239 ; -60.500       ;
+; spi:spi0|spi_clk ; -1.678 ; -27.684       ;
++------------------+--------+---------------+
 
 
-+--------------------------------------------------+
-; Fast 1100mV 0C Model Hold Summary                ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; CLOCK_50_B5B            ; -0.060 ; -0.281        ;
-; uart_tx:pc_tx|r_Tx_Done ; 0.082  ; 0.000         ;
-; spi:spi0|spi_clk        ; 0.241  ; 0.000         ;
-; bytes_tx_reset          ; 1.665  ; 0.000         ;
-+-------------------------+--------+---------------+
++------------------------------------------+
+; Fast 1100mV 0C Model Hold Summary        ;
++------------------+-------+---------------+
+; Clock            ; Slack ; End Point TNS ;
++------------------+-------+---------------+
+; CLOCK_50_B5B     ; 0.155 ; 0.000         ;
+; spi:spi0|spi_clk ; 0.282 ; 0.000         ;
++------------------+-------+---------------+
 
 
-+--------------------------------------------------+
-; Fast 1100mV 0C Model Recovery Summary            ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; -0.916 ; -28.537       ;
-+-------------------------+--------+---------------+
+-----------------------------------------
+; Fast 1100mV 0C Model Recovery Summary ;
+-----------------------------------------
+No paths to report.
 
 
-+-------------------------------------------------+
-; Fast 1100mV 0C Model Removal Summary            ;
-+-------------------------+-------+---------------+
-; Clock                   ; Slack ; End Point TNS ;
-+-------------------------+-------+---------------+
-; uart_tx:pc_tx|r_Tx_Done ; 0.291 ; 0.000         ;
-+-------------------------+-------+---------------+
+----------------------------------------
+; Fast 1100mV 0C Model Removal Summary ;
+----------------------------------------
+No paths to report.
 
 
 +--------------------------------------------------+
 ; Fast 1100mV 0C Model Minimum Pulse Width Summary ;
-+-------------------------+--------+---------------+
-; Clock                   ; Slack  ; End Point TNS ;
-+-------------------------+--------+---------------+
-; CLOCK_50_B5B            ; -2.174 ; -381.909      ;
-; spi:spi0|spi_clk        ; 0.077  ; 0.000         ;
-; uart_tx:pc_tx|r_Tx_Done ; 0.097  ; 0.000         ;
-; bytes_tx_reset          ; 0.488  ; 0.000         ;
-+-------------------------+--------+---------------+
++------------------+--------+----------------------+
+; Clock            ; Slack  ; End Point TNS        ;
++------------------+--------+----------------------+
+; CLOCK_50_B5B     ; -2.174 ; -386.249             ;
+; spi:spi0|spi_clk ; 0.060  ; 0.000                ;
++------------------+--------+----------------------+
 
 
 ----------------------------------------------
@@ -400,22 +346,18 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 
 
 
-+-----------------------------------------------------------------------------------------+
-; Multicorner Timing Analysis Summary                                                     ;
-+--------------------------+----------+--------+----------+---------+---------------------+
-; Clock                    ; Setup    ; Hold   ; Recovery ; Removal ; Minimum Pulse Width ;
-+--------------------------+----------+--------+----------+---------+---------------------+
-; Worst-case Slack         ; -5.250   ; -0.060 ; -1.785   ; 0.291   ; -2.636              ;
-;  CLOCK_50_B5B            ; -4.428   ; -0.060 ; N/A      ; N/A     ; -2.636              ;
-;  bytes_tx_reset          ; -4.794   ; 1.665  ; N/A      ; N/A     ; 0.404               ;
-;  spi:spi0|spi_clk        ; -4.717   ; 0.241  ; N/A      ; N/A     ; -0.538              ;
-;  uart_tx:pc_tx|r_Tx_Done ; -5.250   ; 0.082  ; -1.785   ; 0.291   ; -0.538              ;
-; Design-wide TNS          ; -751.944 ; -0.281 ; -56.374  ; 0.0     ; -547.614            ;
-;  CLOCK_50_B5B            ; -523.699 ; -0.281 ; N/A      ; N/A     ; -496.030            ;
-;  bytes_tx_reset          ; -4.794   ; 0.000  ; N/A      ; N/A     ; 0.000               ;
-;  spi:spi0|spi_clk        ; -80.894  ; 0.000  ; N/A      ; N/A     ; -25.846             ;
-;  uart_tx:pc_tx|r_Tx_Done ; -150.188 ; 0.000  ; -56.374  ; 0.000   ; -25.738             ;
-+--------------------------+----------+--------+----------+---------+---------------------+
++---------------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                             ;
++-------------------+----------+-------+----------+---------+---------------------+
+; Clock             ; Setup    ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
++-------------------+----------+-------+----------+---------+---------------------+
+; Worst-case Slack  ; -4.872   ; 0.155 ; N/A      ; N/A     ; -2.636              ;
+;  CLOCK_50_B5B     ; -4.052   ; 0.155 ; N/A      ; N/A     ; -2.636              ;
+;  spi:spi0|spi_clk ; -4.872   ; 0.282 ; N/A      ; N/A     ; -0.538              ;
+; Design-wide TNS   ; -497.842 ; 0.0   ; 0.0      ; 0.0     ; -528.932            ;
+;  CLOCK_50_B5B     ; -418.741 ; 0.000 ; N/A      ; N/A     ; -504.100            ;
+;  spi:spi0|spi_clk ; -80.173  ; 0.000 ; N/A      ; N/A     ; -24.832             ;
++-------------------+----------+-------+----------+---------+---------------------+
 
 
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -1774,61 +1716,29 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +------------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
 
 
-+-----------------------------------------------------------------------------------------------+
-; Setup Transfers                                                                               ;
-+-------------------------+-------------------------+----------+----------+----------+----------+
-; From Clock              ; To Clock                ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
-+-------------------------+-------------------------+----------+----------+----------+----------+
-; CLOCK_50_B5B            ; bytes_tx_reset          ; 0        ; 0        ; 1        ; 0        ;
-; bytes_tx_reset          ; CLOCK_50_B5B            ; 71       ; 104      ; 0        ; 0        ;
-; CLOCK_50_B5B            ; CLOCK_50_B5B            ; 2098     ; 0        ; 0        ; 0        ;
-; spi:spi0|spi_clk        ; CLOCK_50_B5B            ; 2        ; 1        ; 0        ; 0        ;
-; uart_tx:pc_tx|r_Tx_Done ; CLOCK_50_B5B            ; 1058     ; 10       ; 0        ; 0        ;
-; CLOCK_50_B5B            ; spi:spi0|spi_clk        ; 30       ; 0        ; 3        ; 0        ;
-; spi:spi0|spi_clk        ; spi:spi0|spi_clk        ; 306      ; 0        ; 45       ; 14       ;
-; bytes_tx_reset          ; uart_tx:pc_tx|r_Tx_Done ; 30       ; 61       ; 0        ; 0        ;
-; CLOCK_50_B5B            ; uart_tx:pc_tx|r_Tx_Done ; 30       ; 0        ; 0        ; 0        ;
-; uart_tx:pc_tx|r_Tx_Done ; uart_tx:pc_tx|r_Tx_Done ; 530      ; 0        ; 0        ; 0        ;
-+-------------------------+-------------------------+----------+----------+----------+----------+
++---------------------------------------------------------------------------------+
+; Setup Transfers                                                                 ;
++------------------+------------------+----------+----------+----------+----------+
+; From Clock       ; To Clock         ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------------+------------------+----------+----------+----------+----------+
+; CLOCK_50_B5B     ; CLOCK_50_B5B     ; 2382     ; 0        ; 0        ; 0        ;
+; spi:spi0|spi_clk ; CLOCK_50_B5B     ; 2        ; 1        ; 0        ; 0        ;
+; CLOCK_50_B5B     ; spi:spi0|spi_clk ; 30       ; 0        ; 3        ; 0        ;
+; spi:spi0|spi_clk ; spi:spi0|spi_clk ; 305      ; 0        ; 45       ; 14       ;
++------------------+------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
 
-+-----------------------------------------------------------------------------------------------+
-; Hold Transfers                                                                                ;
-+-------------------------+-------------------------+----------+----------+----------+----------+
-; From Clock              ; To Clock                ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
-+-------------------------+-------------------------+----------+----------+----------+----------+
-; CLOCK_50_B5B            ; bytes_tx_reset          ; 0        ; 0        ; 1        ; 0        ;
-; bytes_tx_reset          ; CLOCK_50_B5B            ; 71       ; 104      ; 0        ; 0        ;
-; CLOCK_50_B5B            ; CLOCK_50_B5B            ; 2098     ; 0        ; 0        ; 0        ;
-; spi:spi0|spi_clk        ; CLOCK_50_B5B            ; 2        ; 1        ; 0        ; 0        ;
-; uart_tx:pc_tx|r_Tx_Done ; CLOCK_50_B5B            ; 1058     ; 10       ; 0        ; 0        ;
-; CLOCK_50_B5B            ; spi:spi0|spi_clk        ; 30       ; 0        ; 3        ; 0        ;
-; spi:spi0|spi_clk        ; spi:spi0|spi_clk        ; 306      ; 0        ; 45       ; 14       ;
-; bytes_tx_reset          ; uart_tx:pc_tx|r_Tx_Done ; 30       ; 61       ; 0        ; 0        ;
-; CLOCK_50_B5B            ; uart_tx:pc_tx|r_Tx_Done ; 30       ; 0        ; 0        ; 0        ;
-; uart_tx:pc_tx|r_Tx_Done ; uart_tx:pc_tx|r_Tx_Done ; 530      ; 0        ; 0        ; 0        ;
-+-------------------------+-------------------------+----------+----------+----------+----------+
-Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
-
-
-+--------------------------------------------------------------------------------------+
-; Recovery Transfers                                                                   ;
-+----------------+-------------------------+----------+----------+----------+----------+
-; From Clock     ; To Clock                ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
-+----------------+-------------------------+----------+----------+----------+----------+
-; bytes_tx_reset ; uart_tx:pc_tx|r_Tx_Done ; 33       ; 33       ; 0        ; 0        ;
-+----------------+-------------------------+----------+----------+----------+----------+
-Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
-
-
-+--------------------------------------------------------------------------------------+
-; Removal Transfers                                                                    ;
-+----------------+-------------------------+----------+----------+----------+----------+
-; From Clock     ; To Clock                ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
-+----------------+-------------------------+----------+----------+----------+----------+
-; bytes_tx_reset ; uart_tx:pc_tx|r_Tx_Done ; 33       ; 33       ; 0        ; 0        ;
-+----------------+-------------------------+----------+----------+----------+----------+
++---------------------------------------------------------------------------------+
+; Hold Transfers                                                                  ;
++------------------+------------------+----------+----------+----------+----------+
+; From Clock       ; To Clock         ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------------+------------------+----------+----------+----------+----------+
+; CLOCK_50_B5B     ; CLOCK_50_B5B     ; 2382     ; 0        ; 0        ; 0        ;
+; spi:spi0|spi_clk ; CLOCK_50_B5B     ; 2        ; 1        ; 0        ; 0        ;
+; CLOCK_50_B5B     ; spi:spi0|spi_clk ; 30       ; 0        ; 3        ; 0        ;
+; spi:spi0|spi_clk ; spi:spi0|spi_clk ; 305      ; 0        ; 45       ; 14       ;
++------------------+------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
 
@@ -1852,22 +1762,20 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; Illegal Clocks                  ; 0     ; 0    ;
 ; Unconstrained Clocks            ; 0     ; 0    ;
 ; Unconstrained Input Ports       ; 5     ; 5    ;
-; Unconstrained Input Port Paths  ; 32    ; 32   ;
+; Unconstrained Input Port Paths  ; 31    ; 31   ;
 ; Unconstrained Output Ports      ; 14    ; 14   ;
 ; Unconstrained Output Port Paths ; 16    ; 16   ;
 +---------------------------------+-------+------+
 
 
-+------------------------------------------------------------------------+
-; Clock Status Summary                                                   ;
-+-------------------------+-------------------------+------+-------------+
-; Target                  ; Clock                   ; Type ; Status      ;
-+-------------------------+-------------------------+------+-------------+
-; CLOCK_50_B5B            ; CLOCK_50_B5B            ; Base ; Constrained ;
-; bytes_tx_reset          ; bytes_tx_reset          ; Base ; Constrained ;
-; spi:spi0|spi_clk        ; spi:spi0|spi_clk        ; Base ; Constrained ;
-; uart_tx:pc_tx|r_Tx_Done ; uart_tx:pc_tx|r_Tx_Done ; Base ; Constrained ;
-+-------------------------+-------------------------+------+-------------+
++----------------------------------------------------------+
+; Clock Status Summary                                     ;
++------------------+------------------+------+-------------+
+; Target           ; Clock            ; Type ; Status      ;
++------------------+------------------+------+-------------+
+; CLOCK_50_B5B     ; CLOCK_50_B5B     ; Base ; Constrained ;
+; spi:spi0|spi_clk ; spi:spi0|spi_clk ; Base ; Constrained ;
++------------------+------------------+------+-------------+
 
 
 +---------------------------------------------------------------------------------------------------+
@@ -1946,57 +1854,42 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Wed Jun 05 16:40:48 2019
+    Info: Processing started: Thu Jun 06 10:59:21 2019
 Info: Command: quartus_sta FPGABlinky -c FPGABlinky
 Info: qsta_default_script.tcl version: #1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
 Info (21077): Low junction temperature is 0 degrees C
 Info (21077): High junction temperature is 85 degrees C
-Warning (335093): The Timing Analyzer is analyzing 1 combinational loops as latches. For more details, run the Check Timing command in the Timing Analyzer or view the "User-Specified and Inferred Latches" table in the Analysis & Synthesis report.
 Critical Warning (332012): Synopsys Design Constraints File file not found: 'FPGABlinky.sdc'. A Synopsys Design Constraints File is required by the Timing Analyzer to get proper timing constraints. Without it, the Compiler will not properly optimize the design.
 Info (332142): No user constrained base clocks found in the design. Calling "derive_clocks -period 1.0"
 Info (332105): Deriving Clocks
     Info (332105): create_clock -period 1.000 -name CLOCK_50_B5B CLOCK_50_B5B
-    Info (332105): create_clock -period 1.000 -name uart_tx:pc_tx|r_Tx_Done uart_tx:pc_tx|r_Tx_Done
     Info (332105): create_clock -period 1.000 -name spi:spi0|spi_clk spi:spi0|spi_clk
-    Info (332105): create_clock -period 1.000 -name bytes_tx_reset bytes_tx_reset
 Info (332143): No user constrained clock uncertainty found in the design. Calling "derive_clock_uncertainty"
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1100mV 85C Model
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -5.013
+Info (332146): Worst-case setup slack is -4.663
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -5.013            -143.952 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):    -4.662              -4.662 bytes_tx_reset 
-    Info (332119):    -4.423             -79.631 spi:spi0|spi_clk 
-    Info (332119):    -4.416            -523.699 CLOCK_50_B5B 
-Info (332146): Worst-case hold slack is 0.292
+    Info (332119):    -4.663             -79.101 spi:spi0|spi_clk 
+    Info (332119):    -3.888            -418.741 CLOCK_50_B5B 
+Info (332146): Worst-case hold slack is 0.354
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.292               0.000 CLOCK_50_B5B 
-    Info (332119):     0.353               0.000 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):     0.636               0.000 spi:spi0|spi_clk 
-    Info (332119):     3.373               0.000 bytes_tx_reset 
-Info (332146): Worst-case recovery slack is -1.777
-    Info (332119):     Slack       End Point TNS Clock 
-    Info (332119): ========= =================== =====================
-    Info (332119):    -1.777             -56.374 uart_tx:pc_tx|r_Tx_Done 
-Info (332146): Worst-case removal slack is 0.779
-    Info (332119):     Slack       End Point TNS Clock 
-    Info (332119): ========= =================== =====================
-    Info (332119):     0.779               0.000 uart_tx:pc_tx|r_Tx_Done 
+    Info (332119):     0.354               0.000 CLOCK_50_B5B 
+    Info (332119):     0.620               0.000 spi:spi0|spi_clk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636            -496.030 CLOCK_50_B5B 
-    Info (332119):    -0.538             -25.846 spi:spi0|spi_clk 
-    Info (332119):    -0.538             -25.738 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):     0.435               0.000 bytes_tx_reset 
-Info (332114): Report Metastability: Found 9 synchronizer chains.
+    Info (332119):    -2.636            -504.100 CLOCK_50_B5B 
+    Info (332119):    -0.538             -24.832 spi:spi0|spi_clk 
+Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info: Analyzing Slow 1100mV 0C Model
 Info (334003): Started post-fitting delay annotation
@@ -2004,36 +1897,24 @@ Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -5.250
+Info (332146): Worst-case setup slack is -4.872
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -5.250            -150.188 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):    -4.794              -4.794 bytes_tx_reset 
-    Info (332119):    -4.717             -80.894 spi:spi0|spi_clk 
-    Info (332119):    -4.428            -510.320 CLOCK_50_B5B 
-Info (332146): Worst-case hold slack is -0.031
+    Info (332119):    -4.872             -80.173 spi:spi0|spi_clk 
+    Info (332119):    -4.052            -417.335 CLOCK_50_B5B 
+Info (332146): Worst-case hold slack is 0.216
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.031              -0.031 CLOCK_50_B5B 
-    Info (332119):     0.359               0.000 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):     0.580               0.000 spi:spi0|spi_clk 
-    Info (332119):     3.375               0.000 bytes_tx_reset 
-Info (332146): Worst-case recovery slack is -1.785
-    Info (332119):     Slack       End Point TNS Clock 
-    Info (332119): ========= =================== =====================
-    Info (332119):    -1.785             -56.161 uart_tx:pc_tx|r_Tx_Done 
-Info (332146): Worst-case removal slack is 0.752
-    Info (332119):     Slack       End Point TNS Clock 
-    Info (332119): ========= =================== =====================
-    Info (332119):     0.752               0.000 uart_tx:pc_tx|r_Tx_Done 
+    Info (332119):     0.216               0.000 CLOCK_50_B5B 
+    Info (332119):     0.611               0.000 spi:spi0|spi_clk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636            -484.856 CLOCK_50_B5B 
-    Info (332119):    -0.538             -25.761 spi:spi0|spi_clk 
-    Info (332119):    -0.538             -25.724 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):     0.404               0.000 bytes_tx_reset 
-Info (332114): Report Metastability: Found 9 synchronizer chains.
+    Info (332119):    -2.636            -493.255 CLOCK_50_B5B 
+    Info (332119):    -0.538             -24.677 spi:spi0|spi_clk 
+Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info: Analyzing Fast 1100mV 85C Model
 Info (334003): Started post-fitting delay annotation
@@ -2041,77 +1922,53 @@ Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -2.978
+Info (332146): Worst-case setup slack is -2.672
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.978            -165.402 CLOCK_50_B5B 
-    Info (332119):    -1.927             -55.195 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):    -1.789              -1.789 bytes_tx_reset 
-    Info (332119):    -1.595             -31.289 spi:spi0|spi_clk 
-Info (332146): Worst-case hold slack is 0.097
+    Info (332119):    -2.672             -80.496 CLOCK_50_B5B 
+    Info (332119):    -1.756             -30.206 spi:spi0|spi_clk 
+Info (332146): Worst-case hold slack is 0.179
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.097               0.000 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):     0.100               0.000 CLOCK_50_B5B 
-    Info (332119):     0.264               0.000 spi:spi0|spi_clk 
-    Info (332119):     1.726               0.000 bytes_tx_reset 
-Info (332146): Worst-case recovery slack is -1.079
-    Info (332119):     Slack       End Point TNS Clock 
-    Info (332119): ========= =================== =====================
-    Info (332119):    -1.079             -33.637 uart_tx:pc_tx|r_Tx_Done 
-Info (332146): Worst-case removal slack is 0.335
-    Info (332119):     Slack       End Point TNS Clock 
-    Info (332119): ========= =================== =====================
-    Info (332119):     0.335               0.000 uart_tx:pc_tx|r_Tx_Done 
+    Info (332119):     0.179               0.000 CLOCK_50_B5B 
+    Info (332119):     0.311               0.000 spi:spi0|spi_clk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.174
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.174            -360.098 CLOCK_50_B5B 
-    Info (332119):     0.062               0.000 spi:spi0|spi_clk 
-    Info (332119):     0.083               0.000 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):     0.495               0.000 bytes_tx_reset 
-Info (332114): Report Metastability: Found 9 synchronizer chains.
+    Info (332119):    -2.174            -363.926 CLOCK_50_B5B 
+    Info (332119):     0.036               0.000 spi:spi0|spi_clk 
+Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info: Analyzing Fast 1100mV 0C Model
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -2.523
+Info (332146): Worst-case setup slack is -2.239
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.523            -129.879 CLOCK_50_B5B 
-    Info (332119):    -1.835             -52.654 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):    -1.706              -1.706 bytes_tx_reset 
-    Info (332119):    -1.525             -28.816 spi:spi0|spi_clk 
-Info (332146): Worst-case hold slack is -0.060
+    Info (332119):    -2.239             -60.500 CLOCK_50_B5B 
+    Info (332119):    -1.678             -27.684 spi:spi0|spi_clk 
+Info (332146): Worst-case hold slack is 0.155
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.060              -0.281 CLOCK_50_B5B 
-    Info (332119):     0.082               0.000 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):     0.241               0.000 spi:spi0|spi_clk 
-    Info (332119):     1.665               0.000 bytes_tx_reset 
-Info (332146): Worst-case recovery slack is -0.916
-    Info (332119):     Slack       End Point TNS Clock 
-    Info (332119): ========= =================== =====================
-    Info (332119):    -0.916             -28.537 uart_tx:pc_tx|r_Tx_Done 
-Info (332146): Worst-case removal slack is 0.291
-    Info (332119):     Slack       End Point TNS Clock 
-    Info (332119): ========= =================== =====================
-    Info (332119):     0.291               0.000 uart_tx:pc_tx|r_Tx_Done 
+    Info (332119):     0.155               0.000 CLOCK_50_B5B 
+    Info (332119):     0.282               0.000 spi:spi0|spi_clk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.174
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.174            -381.909 CLOCK_50_B5B 
-    Info (332119):     0.077               0.000 spi:spi0|spi_clk 
-    Info (332119):     0.097               0.000 uart_tx:pc_tx|r_Tx_Done 
-    Info (332119):     0.488               0.000 bytes_tx_reset 
-Info (332114): Report Metastability: Found 9 synchronizer chains.
+    Info (332119):    -2.174            -386.249 CLOCK_50_B5B 
+    Info (332119):     0.060               0.000 spi:spi0|spi_clk 
+Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
-Info: Quartus Prime Timing Analyzer was successful. 0 errors, 7 warnings
-    Info: Peak virtual memory: 5257 megabytes
-    Info: Processing ended: Wed Jun 05 16:40:57 2019
+Info: Quartus Prime Timing Analyzer was successful. 0 errors, 6 warnings
+    Info: Peak virtual memory: 5256 megabytes
+    Info: Processing ended: Thu Jun 06 10:59:30 2019
     Info: Elapsed time: 00:00:09
     Info: Total CPU time (on all processors): 00:00:09
 

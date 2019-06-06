@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Wed Jun 05 16:39:59 2019
+Thu Jun 06 10:58:35 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -63,13 +63,13 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Wed Jun 05 16:39:58 2019       ;
+; Analysis & Synthesis Status     ; Successful - Thu Jun 06 10:58:35 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 298                                         ;
+; Total registers                 ; 272                                         ;
 ; Total pins                      ; 258                                         ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 2,048                                       ;
@@ -220,16 +220,16 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------+
 ; Resource                                    ; Usage              ;
 +---------------------------------------------+--------------------+
-; Estimate of Logic utilization (ALMs needed) ; 168                ;
+; Estimate of Logic utilization (ALMs needed) ; 152                ;
 ;                                             ;                    ;
-; Combinational ALUT usage for logic          ; 233                ;
-;     -- 7 input functions                    ; 3                  ;
-;     -- 6 input functions                    ; 46                 ;
-;     -- 5 input functions                    ; 29                 ;
-;     -- 4 input functions                    ; 35                 ;
-;     -- <=3 input functions                  ; 120                ;
+; Combinational ALUT usage for logic          ; 202                ;
+;     -- 7 input functions                    ; 4                  ;
+;     -- 6 input functions                    ; 45                 ;
+;     -- 5 input functions                    ; 24                 ;
+;     -- 4 input functions                    ; 37                 ;
+;     -- <=3 input functions                  ; 92                 ;
 ;                                             ;                    ;
-; Dedicated logic registers                   ; 298                ;
+; Dedicated logic registers                   ; 272                ;
 ;                                             ;                    ;
 ; I/O pins                                    ; 258                ;
 ; Total MLAB memory bits                      ; 0                  ;
@@ -238,9 +238,9 @@ refer to the applicable agreement for further details.
 ; Total DSP Blocks                            ; 0                  ;
 ;                                             ;                    ;
 ; Maximum fan-out node                        ; CLOCK_50_B5B~input ;
-; Maximum fan-out                             ; 270                ;
-; Total fan-out                               ; 2531               ;
-; Average fan-out                             ; 2.09               ;
+; Maximum fan-out                             ; 276                ;
+; Total fan-out                               ; 2390               ;
+; Average fan-out                             ; 2.07               ;
 +---------------------------------------------+--------------------+
 
 
@@ -249,8 +249,8 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
 ; Compilation Hierarchy Node                  ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                              ; Entity Name     ; Library Name ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
-; |baseline_c5gx                              ; 233 (82)            ; 298 (110)                 ; 2048              ; 0          ; 258  ; 0            ; |baseline_c5gx                                                                                                                                   ; baseline_c5gx   ; work         ;
-;    |PC_RX:pc_rx|                            ; 77 (3)              ; 126 (68)                  ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx                                                                                                                       ; PC_RX           ; work         ;
+; |baseline_c5gx                              ; 202 (48)            ; 272 (84)                  ; 2048              ; 0          ; 258  ; 0            ; |baseline_c5gx                                                                                                                                   ; baseline_c5gx   ; work         ;
+;    |PC_RX:pc_rx|                            ; 79 (3)              ; 126 (68)                  ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx                                                                                                                       ; PC_RX           ; work         ;
 ;       |testFIFO:uart_rx_FIFO|               ; 35 (0)              ; 29 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO                                                                                                 ; testFIFO        ; work         ;
 ;          |scfifo:scfifo_component|          ; 35 (0)              ; 29 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component                                                                         ; scfifo          ; work         ;
 ;             |scfifo_le91:auto_generated|    ; 35 (0)              ; 29 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated                                              ; scfifo_le91     ; work         ;
@@ -259,9 +259,9 @@ refer to the applicable agreement for further details.
 ;                   |cntr_g2b:rd_ptr_msb|     ; 5 (5)               ; 5 (5)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb     ; cntr_g2b        ; work         ;
 ;                   |cntr_h2b:wr_ptr|         ; 6 (6)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr         ; cntr_h2b        ; work         ;
 ;                   |cntr_t27:usedw_counter|  ; 6 (6)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter  ; cntr_t27        ; work         ;
-;       |uart_rx:pc_rx|                       ; 39 (39)             ; 29 (29)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx                                                                                                         ; uart_rx         ; work         ;
+;       |uart_rx:pc_rx|                       ; 41 (41)             ; 29 (29)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx                                                                                                         ; uart_rx         ; work         ;
 ;    |spi:spi0|                               ; 46 (46)             ; 34 (34)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|spi:spi0                                                                                                                          ; spi             ; work         ;
-;    |uart_tx:pc_tx|                          ; 28 (28)             ; 28 (28)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|uart_tx:pc_tx                                                                                                                     ; uart_tx         ; work         ;
+;    |uart_tx:pc_tx|                          ; 29 (29)             ; 28 (28)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|uart_tx:pc_tx                                                                                                                     ; uart_tx         ; work         ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -332,7 +332,6 @@ Encoding Type:  One-Hot
 +----------------------------------------+-----------------------------------------------+
 ; Register name                          ; Reason for Removal                            ;
 +----------------------------------------+-----------------------------------------------+
-; num_bytes_to_send[0,1,3..31]           ; Stuck at GND due to stuck port data_in        ;
 ; read_next_byte_cmd                     ; Merged with bytes_tx_reset                    ;
 ; PC_RX:pc_rx|bytes_recv_reset           ; Merged with PC_RX:pc_rx|i_write_next_byte_cmd ;
 ; tx_addr_byte[2..6]                     ; Merged with tx_addr_byte[1]                   ;
@@ -346,7 +345,7 @@ Encoding Type:  One-Hot
 ; spi:spi0|state_reg~4                   ; Lost fanout                                   ;
 ; spi:spi0|state_reg~5                   ; Lost fanout                                   ;
 ; spi:spi0|state_reg~6                   ; Lost fanout                                   ;
-; Total Number of Removed Registers = 54 ;                                               ;
+; Total Number of Removed Registers = 23 ;                                               ;
 +----------------------------------------+-----------------------------------------------+
 
 
@@ -365,12 +364,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 298   ;
-; Number of registers using Synchronous Clear  ; 29    ;
-; Number of registers using Synchronous Load   ; 0     ;
-; Number of registers using Asynchronous Clear ; 43    ;
+; Total registers                              ; 272   ;
+; Number of registers using Synchronous Clear  ; 21    ;
+; Number of registers using Synchronous Load   ; 8     ;
+; Number of registers using Asynchronous Clear ; 11    ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 153   ;
+; Number of registers using Clock Enable       ; 155   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -392,14 +391,15 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------+
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|num_bytes_to_send[1]                       ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[7]                            ;
-; 5:1                ; 8 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; Yes        ; |baseline_c5gx|tx_byte_output[6]                          ;
-; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|uart_tx:pc_tx|r_Clock_Count[9]             ;
-; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[9] ;
+; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|uart_tx:pc_tx|r_Clock_Count[0]             ;
+; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|tx_byte_output[7]                          ;
+; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[2] ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|uart_tx:pc_tx|r_Bit_Index                  ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Bit_Index      ;
-; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector0                         ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector5                         ;
+; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector4                         ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector2                         ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------+
 
 
@@ -552,32 +552,33 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 298                         ;
-;     CLR               ; 43                          ;
-;     ENA               ; 125                         ;
-;     ENA SCLR          ; 28                          ;
+; arriav_ff             ; 272                         ;
+;     CLR               ; 11                          ;
+;     ENA               ; 127                         ;
+;     ENA SCLR          ; 20                          ;
+;     ENA SLD           ; 8                           ;
 ;     SCLR              ; 1                           ;
-;     plain             ; 101                         ;
+;     plain             ; 105                         ;
 ; arriav_io_obuf        ; 133                         ;
-; arriav_lcell_comb     ; 234                         ;
-;     arith             ; 92                          ;
-;         1 data inputs ; 86                          ;
+; arriav_lcell_comb     ; 203                         ;
+;     arith             ; 60                          ;
+;         1 data inputs ; 54                          ;
 ;         2 data inputs ; 6                           ;
-;     extend            ; 3                           ;
-;         7 data inputs ; 3                           ;
+;     extend            ; 4                           ;
+;         7 data inputs ; 4                           ;
 ;     normal            ; 139                         ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 6                           ;
-;         2 data inputs ; 10                          ;
-;         3 data inputs ; 12                          ;
-;         4 data inputs ; 35                          ;
-;         5 data inputs ; 29                          ;
-;         6 data inputs ; 46                          ;
+;         1 data inputs ; 5                           ;
+;         2 data inputs ; 13                          ;
+;         3 data inputs ; 14                          ;
+;         4 data inputs ; 37                          ;
+;         5 data inputs ; 24                          ;
+;         6 data inputs ; 45                          ;
 ; boundary_port         ; 258                         ;
 ; stratixv_ram_block    ; 32                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 4.90                        ;
-; Average LUT depth     ; 1.60                        ;
+; Max LUT depth         ; 3.20                        ;
+; Average LUT depth     ; 1.18                        ;
 +-----------------------+-----------------------------+
 
 
@@ -596,7 +597,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Wed Jun 05 16:39:49 2019
+    Info: Processing started: Thu Jun 06 10:58:26 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -623,10 +624,9 @@ Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(27): Par
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(28): Parameter Declaration in module "uart_tx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 28
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(29): Parameter Declaration in module "uart_tx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 29
 Info (12127): Elaborating entity "baseline_c5gx" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at baseline_c5gx.v(525): object "send_next_byte" assigned a value but never read File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 525
-Warning (10036): Verilog HDL or VHDL warning at baseline_c5gx.v(528): object "tx_byte_buf_curr" assigned a value but never read File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 528
+Warning (10036): Verilog HDL or VHDL warning at baseline_c5gx.v(532): object "send_next_byte" assigned a value but never read File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 532
+Warning (10036): Verilog HDL or VHDL warning at baseline_c5gx.v(535): object "tx_byte_buf_curr" assigned a value but never read File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 535
 Warning (10230): Verilog HDL assignment warning at baseline_c5gx.v(199): truncated value with size 32 to match size of target (24) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 199
-Warning (10762): Verilog HDL Case Statement warning at baseline_c5gx.v(561): can't check case statement for completeness because the case expression has too many possible states File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 561
 Warning (10034): Output port "HDMI_TX_D" at baseline_c5gx.v(93) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 93
 Warning (10034): Output port "HEX0[6]" at baseline_c5gx.v(100) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 100
 Warning (10034): Output port "HEX1" at baseline_c5gx.v(103) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 103
@@ -711,7 +711,7 @@ Info (12128): Elaborating entity "cntr_t27" for hierarchy "PC_RX:pc_rx|testFIFO:
 Info (12021): Found 1 design units, including 1 entities, in source file db/cntr_h2b.tdf
     Info (12023): Found entity 1: cntr_h2b File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/cntr_h2b.tdf Line: 25
 Info (12128): Elaborating entity "cntr_h2b" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/a_dpfifo_8691.tdf Line: 57
-Info (12128): Elaborating entity "uart_tx" for hierarchy "uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 626
+Info (12128): Elaborating entity "uart_tx" for hierarchy "uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 674
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(68): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 68
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(86): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 86
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(96): truncated value with size 32 to match size of target (3) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 96
@@ -853,8 +853,6 @@ Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "SRAM_D[15]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 157
 Warning (13032): The following tri-state nodes are fed by constants
     Warning (13033): The pin "GPIO[0]" is fed by VCC File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
-Warning (13004): Presettable and clearable registers converted to equivalent circuits with latches. Registers power-up to an undefined state, and DEVCLRn places the registers in an undefined state.
-    Warning (13310): Register "num_bytes_remaining[2]" is converted into an equivalent circuit using register "num_bytes_remaining[2]~_emulated" and latch "num_bytes_remaining[2]~1" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 587
 Warning (13009): TRI or OPNDRN buffers permanently enabled
     Warning (13010): Node "GPIO[0]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
     Warning (13010): Node "GPIO[2]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 80
@@ -982,16 +980,16 @@ Warning (21074): Design contains 23 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "SW[7]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
     Warning (15610): No output dependent on input pin "SW[8]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
     Warning (15610): No output dependent on input pin "SW[9]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 164
-Info (21057): Implemented 649 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 618 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 29 input pins
     Info (21059): Implemented 96 output pins
     Info (21060): Implemented 133 bidirectional pins
-    Info (21061): Implemented 359 logic cells
+    Info (21061): Implemented 328 logic cells
     Info (21064): Implemented 32 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 323 warnings
-    Info: Peak virtual memory: 4880 megabytes
-    Info: Processing ended: Wed Jun 05 16:39:59 2019
-    Info: Elapsed time: 00:00:10
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 320 warnings
+    Info: Peak virtual memory: 4881 megabytes
+    Info: Processing ended: Thu Jun 06 10:58:35 2019
+    Info: Elapsed time: 00:00:09
     Info: Total CPU time (on all processors): 00:00:18
 
 
