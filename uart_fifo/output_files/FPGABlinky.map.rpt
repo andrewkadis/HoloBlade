@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Thu Jun 06 17:07:38 2019
+Thu Jun 06 17:28:17 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Thu Jun 06 17:07:38 2019       ;
+; Analysis & Synthesis Status     ; Successful - Thu Jun 06 17:28:16 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
@@ -393,15 +393,15 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------+
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|num_bytes_to_send[3]                       ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|num_bytes_to_send[0]                       ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[7]                            ;
 ; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|uart_tx:pc_tx|r_Clock_Count[4]             ;
-; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|tx_byte_output[6]                          ;
-; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[3] ;
+; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|tx_byte_output[5]                          ;
+; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[0] ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|uart_tx:pc_tx|r_Bit_Index                  ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Bit_Index      ;
-; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector1                         ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector5                         ;
+; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector4                         ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector2                         ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------+
 
 
@@ -529,14 +529,13 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "PC_RX:pc_rx|testFIFO:uart_rx_FIFO"                                                                                                           ;
-+------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
-; Port ; Type   ; Severity ; Details                                                                                                                                      ;
-+------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
-; full ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                                                          ;
-; sclr ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-+------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "PC_RX:pc_rx|testFIFO:uart_rx_FIFO"                                                                                                          ;
++------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+; Port ; Type  ; Severity ; Details                                                                                                                                      ;
++------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
+; sclr ; Input ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
++------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 +------------------------------------------------------------------------------------------------------------------------------+
@@ -608,7 +607,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Thu Jun 06 17:07:29 2019
+    Info: Processing started: Thu Jun 06 17:28:09 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -626,7 +625,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file pc_rx.v
     Info (12023): Found entity 1: PC_RX File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 10
 Info (12021): Found 1 design units, including 1 entities, in source file serialser.v
     Info (12023): Found entity 1: SERIALISER File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/serialser.v Line: 10
-Warning (10236): Verilog HDL Implicit Net warning at PC_RX.v(252): created implicit net for "is_fifo_full_sig" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 252
+Warning (10236): Verilog HDL Implicit Net warning at PC_RX.v(253): created implicit net for "is_fifo_full_sig" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 253
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(23): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 23
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(24): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 24
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(25): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 25
@@ -678,6 +677,7 @@ Info (10264): Verilog HDL Case Statement information at spi.v(242): all case ite
 Info (10264): Verilog HDL Case Statement information at spi.v(269): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 269
 Info (10264): Verilog HDL Case Statement information at spi.v(293): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 293
 Info (12128): Elaborating entity "PC_RX" for hierarchy "PC_RX:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 311
+Warning (10230): Verilog HDL assignment warning at PC_RX.v(239): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 239
 Warning (10034): Output port "o_start_packet_sig" at PC_RX.v(20) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 20
 Info (12128): Elaborating entity "uart_rx" for hierarchy "PC_RX:pc_rx|uart_rx:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 149
 Warning (10230): Verilog HDL assignment warning at uart_rx.v(80): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 80
@@ -688,7 +688,7 @@ Info (12128): Elaborating entity "SERIALISER" for hierarchy "PC_RX:pc_rx|SERIALI
 Warning (10230): Verilog HDL assignment warning at serialser.v(34): truncated value with size 3 to match size of target (2) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/serialser.v Line: 34
 Warning (10230): Verilog HDL assignment warning at serialser.v(47): truncated value with size 3 to match size of target (2) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/serialser.v Line: 47
 Warning (10230): Verilog HDL assignment warning at serialser.v(53): truncated value with size 32 to match size of target (2) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/serialser.v Line: 53
-Info (12128): Elaborating entity "testFIFO" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 259
+Info (12128): Elaborating entity "testFIFO" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/PC_RX.v Line: 260
 Info (12128): Elaborating entity "scfifo" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/testFIFO/testFIFO.v Line: 78
 Info (12130): Elaborated megafunction instantiation "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/testFIFO/testFIFO.v Line: 78
 Info (12133): Instantiated megafunction "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component" with the following parameter: File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/testFIFO/testFIFO.v Line: 78
@@ -999,10 +999,10 @@ Info (21057): Implemented 585 device resources after synthesis - the final resou
     Info (21060): Implemented 133 bidirectional pins
     Info (21061): Implemented 295 logic cells
     Info (21064): Implemented 32 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 319 warnings
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 320 warnings
     Info: Peak virtual memory: 4877 megabytes
-    Info: Processing ended: Thu Jun 06 17:07:38 2019
-    Info: Elapsed time: 00:00:09
-    Info: Total CPU time (on all processors): 00:00:18
+    Info: Processing ended: Thu Jun 06 17:28:17 2019
+    Info: Elapsed time: 00:00:08
+    Info: Total CPU time (on all processors): 00:00:16
 
 

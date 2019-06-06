@@ -230,14 +230,15 @@ assign o_debug_out_y = pc_full_word_recv_sig;
 ////		fifo_data_rx_buf[31:24] = 0;
 //end
 
-// We pipe data into the FIFO when we receive the next 
-
-// Note that we have to check if the FIFO is full first
+// We pipe data into the FIFO when we receive the full word
 wire[31:0] fifo_data_input;
 wire       write_data_into_fifo;
-
 assign fifo_data_input      = deserialised_data_word;
-assign write_data_into_fifo = pc_full_word_recv_sig;
+// It is very important that we do not write to the FIFO when it is full, so need a check here
+// If the FIFO is full, we simply drop the data
+assign write_data_into_fifo = (is_fifo_full_sig==1) ? 0 : pc_full_word_recv_sig;
+
+//assign D = (A= =1) ? B : C;
 
 // FIFO
 testFIFO uart_rx_FIFO(
