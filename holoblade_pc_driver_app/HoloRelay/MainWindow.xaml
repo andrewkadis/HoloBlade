@@ -1,0 +1,18 @@
+﻿<Window x:Class="HoloRelay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HoloRelay"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button x:Name="send_test_packet" Content="Send Test Packet" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="115" Click="Send_test_packet_Button_Click"/>
+        <Button x:Name="send_resync" Content="Resync" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Width="115" Height="50" Click="Send_resync_Click"/>
+        <Button x:Name="send_start_of_packet" Content="Start of Packet" HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top" Width="115" Height="50" Click="Send_start_of_packet_Click"/>
+        <Button x:Name="send_complex_test_1" Content="Complex Test 1" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_1_Click"/>
+        <Button x:Name="send_complex_test_2" Content="Complex Test 2" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_2_Click"/>
+        <Button x:Name="send_raw_data" Content="Raw Data" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" Width="115" Height="49" Click="Send_raw_data_Click"/>
+
+    </Grid>
+</Window>

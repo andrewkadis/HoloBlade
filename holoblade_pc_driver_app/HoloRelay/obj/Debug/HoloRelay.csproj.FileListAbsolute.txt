@@ -1,0 +1,15 @@
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\bin\Debug\HoloRelay.exe.config
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\bin\Debug\HoloRelay.exe
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\bin\Debug\HoloRelay.pdb
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\HoloRelay.csprojAssemblyReference.cache
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\MainWindow.g.cs
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\App.g.cs
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\HoloRelay_MarkupCompile.cache
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\HoloRelay_MarkupCompile.lref
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\MainWindow.baml
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\HoloRelay.g.resources
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\HoloRelay.Properties.Resources.resources
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\HoloRelay.csproj.GenerateResource.cache
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\HoloRelay.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\HoloRelay.exe
+C:\Users\User\Documents\Dev\HoloRelay\HoloRelay\obj\Debug\HoloRelay.pdb
