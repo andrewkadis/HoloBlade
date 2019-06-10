@@ -7,6 +7,11 @@ r_SM_Main.s_TX_DATA_BITS 0 1 0 1 0
 r_SM_Main.s_TX_STOP_BIT 1 0 0 1 0 
 r_SM_Main.s_CLEANUP 0 0 0 1 1 
 
+State Machine - |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_reg
+Name state_reg.sDATA 
+state_reg.sIDLE 0 
+state_reg.sDATA 1 
+
 State Machine - |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main
 Name r_SM_Main.s_RX_STOP_BIT r_SM_Main.s_RX_DATA_BITS r_SM_Main.s_RX_START_BIT r_SM_Main.000 r_SM_Main.s_CLEANUP 
 r_SM_Main.000 0 0 0 0 0 

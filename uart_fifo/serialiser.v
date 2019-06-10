@@ -99,10 +99,10 @@ end
 
 // Connect up registers for output lines
 reg      r_send_next_byte_cmd   = 0;
-reg      r_serial_is_busy_sig = 0;
+reg      r_serial_is_busy_sig   = 0;
 reg[7:0] r_serial_data_byte     = 0;
 assign o_send_next_byte_cmd     = r_send_next_byte_cmd;
-assign o_serial_is_busy_sig   = r_serial_is_busy_sig;
+assign o_serial_is_busy_sig     = r_serial_is_busy_sig;
 assign o_serial_data_byte       = r_serial_data_byte;
 
 
