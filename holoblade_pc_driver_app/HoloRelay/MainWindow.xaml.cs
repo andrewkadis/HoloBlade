@@ -103,7 +103,7 @@ namespace HoloRelay
         }
 
 
-        private void Send_test_packet_Button_Click(object sender, RoutedEventArgs e)
+        private void Send_test_sequence_Click(object sender, RoutedEventArgs e)
         {
 
             // Open Serial Port
@@ -274,5 +274,13 @@ namespace HoloRelay
 
         }
 
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Send_test_packet_Button_Click(object sender, RoutedEventArgs e)
+        {
+                    }
     }
 }
