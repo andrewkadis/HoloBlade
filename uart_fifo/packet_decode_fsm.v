@@ -45,8 +45,8 @@ reg [31:0] r_num_words_payload_curr    = 32'd0;
 
 
 // Magic Numbers for Reset and StartOfPacket
-localparam RESYNC          = 32'h416FDC1E;
-localparam START_OF_PACKET = 32'hD78C1B74;
+localparam RESYNC          = 32'h1EDC6F41;
+localparam START_OF_PACKET = 32'h741B8CD7;
 
 localparam [1:0] // for 4 states : size_state = 1:0
     sIDLE           = 0,
@@ -115,7 +115,7 @@ always @(i_recv_word_cmd, state_reg) begin
 				if ( (i_recv_word_cmd) ) begin
 				
 					// Capture which type of command has been sent
-					r_command_type = i_recv_word_data[1:0];
+					r_command_type = i_recv_word_data[31:30];
 					
 					// Auto-transition to next state
 					state_next = sDATA_NUM_WORDS;
@@ -128,14 +128,12 @@ always @(i_recv_word_cmd, state_reg) begin
 				if ( (i_recv_word_cmd) ) begin
 
 					// Number of words which shall come in the payload
-					r_num_words_payload_to_recv = i_recv_word_data;
+					// Note that there is a bug here where if we sent NumOfWords=0, the Decode FSM will still send a single word
+					// Little-Endian Copy
+					r_num_words_payload_to_recv = {i_recv_word_data[7:0], i_recv_word_data[15:8], i_recv_word_data[23:16], i_recv_word_data[31:24]};
 					
 					// State transition automatically
-					// We also handle the NumberOfWords=0 case, even though this is an edge-condition not expected in nomral operation
-//					if(r_num_words_payload_to_recv==0)
-//						state_next = sIDLE;
-//					else
-						state_next = sDATA_PAYLOAD;
+					state_next = sDATA_PAYLOAD;
 				
 				end
 			end
