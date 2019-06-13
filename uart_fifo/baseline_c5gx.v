@@ -29,6 +29,18 @@
 //----------------------------------------------------------------------------
 
 
+// Glocal Constants
+//`ifndef _my_params_h
+//`define _my_params_h
+//localparam ASCII_a = 8'h61;
+//...
+//`endif
+// Different commands which can be sent from PC and their codes
+//`define PC_TO_FPGA_CMD_CONFIG parameter 32'h00000001
+//`define PC_TO_FPGA_CMD_data   parameter 32'h00000002
+
+
+
 //`define ENABLE_DDR2LP
 //`define ENABLE_HSMC_XCVR
 //`define ENABLE_SMA

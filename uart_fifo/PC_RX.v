@@ -120,7 +120,8 @@ end
 
 // Outputs from PacketDecodeFSM
 wire[31:0] decoded_data_payload_word;
-wire       word_decode_complete;
+wire       payload_word_decode_complete;
+wire       packet_fully_decoded;
 
  
 // Declare Packet Decode FSM
@@ -135,14 +136,19 @@ PACKET_DECODE_FSM packet_decode_fsm(
 	.i_recv_word_data(recv_word_data_latched),
 	
 	// Outputs
-   .o_start_data_payload(),
+   .o_packet_command(),
 	.o_payload_data_word(decoded_data_payload_word),
-	.o_word_decode_complete(word_decode_complete),
+	.o_payload_word_recv(payload_word_decode_complete),
+	.o_packet_fully_decoded(packet_fully_decoded),
 	.o_reset()
+	
+	// Debug
+//	.o_debug_out_b(o_debug_out_b),
+//	.o_debug_out_y(o_debug_out_y)
 );
 
- assign o_debug_out_b = word_decode_complete;
- assign o_debug_out_y = start_packet_decode_cmd;
+assign o_debug_out_b = payload_word_decode_complete;
+assign o_debug_out_y = packet_fully_decoded;
 
 
  
@@ -162,7 +168,7 @@ wire       write_data_into_fifo;
 assign fifo_data_input = decoded_data_payload_word;
 // It is very important that we do not write to the FIFO when it is full, so need a check here
 // If the FIFO is full, we simply drop the data
-assign write_data_into_fifo = (is_fifo_full_sig==1) ? 0 : word_decode_complete;
+assign write_data_into_fifo = (is_fifo_full_sig==1) ? 0 : payload_word_decode_complete;
 
 // FIFO
 testFIFO uart_rx_FIFO(

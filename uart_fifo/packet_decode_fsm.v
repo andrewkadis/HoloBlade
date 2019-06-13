@@ -17,28 +17,42 @@ module PACKET_DECODE_FSM(
 	input[31:0] i_recv_word_data,
 	
 	// Outputs
-   output o_start_data_payload,
-	output [31:0] o_payload_data_word,
-	output o_word_decode_complete,     // Goes high for 1 cycle
-	output o_reset
+   output  [1:0] o_packet_command,    // Command to specify what type of message has been sent
+	output [31:0] o_payload_data_word, // Output for our FIFO
+	output o_payload_word_recv,        // Goes high for 1 cycle after every payload word decode is complete, need this to drive our FIFO
+	output o_packet_fully_decoded,     // Goes high for 1 cycle after entire packet has been decoded, used to drive downstream logic
+	output o_reset                     // Use this to reset after receiving a RESET word
+	
+//	output reg o_debug_out_b,
+//	output reg o_debug_out_y
 	
 ); 
 
 
 
 // Registers which shall be latched for output
-reg r_start_data_payload       = 0;
-reg [31:0] r_payload_data_word = 32'h00000000;
-reg r_word_decode_complete     = 0;
+reg [31:0]  r_packet_command   = 32'd0;
+reg [31:0] r_payload_data_word = 32'd0;
+reg r_payload_word_recv        = 0;
+reg r_packet_fully_decoded     = 0;
 reg r_reset                    = 0;
+
+// Internal registers to keep track of which comamnd has been sent and the number of bytes in the payload
+reg [1:0]  r_command_type         = 2'd0;
+//reg [31:0] r_num_words_in_payload = 32'h00000000;
+reg [31:0] r_num_words_payload_to_recv = 32'd0;
+reg [31:0] r_num_words_payload_curr    = 32'd0;
+
 
 // Magic Numbers for Reset and StartOfPacket
 localparam RESYNC          = 32'h416FDC1E;
 localparam START_OF_PACKET = 32'hD78C1B74;
 
-localparam [1:0] // for 3 states : size_state = 1:0
-    sIDLE    = 0,
-    sDATA    = 1;
+localparam [1:0] // for 4 states : size_state = 1:0
+    sIDLE           = 0,
+    sDATA_COMMAND   = 1,
+	 sDATA_NUM_WORDS = 2,
+	 sDATA_PAYLOAD   = 3;
     
 	 // State registers
     reg[1:0] state_reg, state_next;  
@@ -62,11 +76,14 @@ always @(i_recv_word_cmd, state_reg) begin
 
 	// Defaults
    state_next             = state_reg;
-	r_reset                = 0;
-	r_start_data_payload   = 0;
+	r_packet_command       = 0;
 	r_payload_data_word    = 32'h00000000;
-	r_word_decode_complete = 0;
-	 
+	r_payload_word_recv    = 0;
+	r_reset                = 0;	
+	
+//	o_debug_out_b = 0;
+//	o_debug_out_y = 0;
+		 
 	// We always check for a resync word first
 	// Note that there is a weakness of this decoding strategy that if this word ever gets sent, it will reset the entire FSM
 	// Chance is sufficiently small that we don't worry about it
@@ -84,16 +101,62 @@ always @(i_recv_word_cmd, state_reg) begin
 			sIDLE : begin
 				// Start Decoding from IDLE when we see a Start of Packet
 				if ( (i_recv_word_cmd) && (i_recv_word_data==START_OF_PACKET) ) begin
-					state_next = sDATA; 
+					state_next = sDATA_COMMAND; 
+					// Reset any existing decode parameters for our new packet
+					r_command_type              =  2'd0;
+					r_num_words_payload_to_recv = 32'd0;
+					
+				end
+				
+			end
+			
+			// First word of payload is the command
+			sDATA_COMMAND : begin
+				if ( (i_recv_word_cmd) ) begin
+				
+					// Capture which type of command has been sent
+					r_command_type = i_recv_word_data[1:0];
+					
+					// Auto-transition to next state
+					state_next = sDATA_NUM_WORDS;
+				
 				end
 			end
 			
-			// In the Data State, pipe the Payload Data through to the fifo
-			sDATA : begin
+			// Second word of payload is the number of words in payload
+			sDATA_NUM_WORDS : begin
 				if ( (i_recv_word_cmd) ) begin
-					r_payload_data_word    = i_recv_word_data;
-					r_word_decode_complete = 1;
+
+					// Number of words which shall come in the payload
+					r_num_words_payload_to_recv = i_recv_word_data;
+					
+					// State transition automatically
+					// We also handle the NumberOfWords=0 case, even though this is an edge-condition not expected in nomral operation
+//					if(r_num_words_payload_to_recv==0)
+//						state_next = sIDLE;
+//					else
+						state_next = sDATA_PAYLOAD;
+				
 				end
+			end
+			
+			// We're now at the payload, process data until all bytes have been received
+			sDATA_PAYLOAD : begin
+
+				// Process Payload words as we receive them
+				if (i_recv_word_cmd) begin
+				
+					// Pipe the data through to the FIFO and tell FIFO it is ready to take another word
+					r_payload_data_word = i_recv_word_data;
+					r_payload_word_recv = 1;
+		
+				end else if(r_packet_fully_decoded) begin
+				
+					// Packet is fully decoded - Back to IDLE
+					state_next = sIDLE;	
+				
+				end
+	
 			end
 			
 		endcase
@@ -101,10 +164,38 @@ always @(i_recv_word_cmd, state_reg) begin
 	end
 end 
 
+
+
+// We use a separate counter to keep track of when the payload packet has been fully received
+// Need this to generate a single cycle pulse for r_packet_fully_decoded
+always @(posedge i_clk) begin
+
+	// Handle reset by checking for IDLE
+	if(state_reg==sIDLE) begin
+		r_num_words_payload_curr = 32'd0;;
+		r_packet_fully_decoded   = 0;
+	end
+
+	// Count the positive edges
+	if(r_payload_word_recv==1) begin
+	
+		// Increment
+		r_num_words_payload_curr = r_num_words_payload_curr + 32'd1;
+		// Check if we have now received all of the bytes in the packet's payload
+		if(r_num_words_payload_curr>=r_num_words_payload_to_recv) begin
+			// All done, indicate to the downstream logic that the entire packet has been received
+			r_packet_fully_decoded = 1;
+		end
+	
+	end
+	
+end 
+
 // Route out outputs from registers
-assign o_reset                = r_reset;
-assign o_start_data_payload   = r_start_data_payload;
+assign o_packet_command       = r_packet_command;
 assign o_payload_data_word    = r_payload_data_word;
-assign o_word_decode_complete = r_word_decode_complete;
+assign o_payload_word_recv    = r_payload_word_recv;
+assign o_packet_fully_decoded = r_packet_fully_decoded;
+assign o_reset                = r_reset;
 
 endmodule

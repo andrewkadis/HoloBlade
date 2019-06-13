@@ -1,5 +1,5 @@
 Timing Analyzer report for FPGABlinky
-Mon Jun 10 12:07:27 2019
+Thu Jun 13 10:51:03 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -99,16 +99,16 @@ refer to the applicable agreement for further details.
 ; Number detected on machine ; 12          ;
 ; Maximum allowed            ; 6           ;
 ;                            ;             ;
-; Average used               ; 1.17        ;
+; Average used               ; 1.25        ;
 ; Maximum used               ; 6           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   3.7%      ;
-;     Processor 3            ;   3.6%      ;
-;     Processor 4            ;   3.5%      ;
-;     Processor 5            ;   3.3%      ;
-;     Processor 6            ;   3.3%      ;
+;     Processor 2            ;   5.3%      ;
+;     Processor 3            ;   5.2%      ;
+;     Processor 4            ;   5.1%      ;
+;     Processor 5            ;   4.9%      ;
+;     Processor 6            ;   4.9%      ;
 +----------------------------+-------------+
 
 
@@ -123,14 +123,15 @@ refer to the applicable agreement for further details.
 +---------------------------------------------------------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+-------------------------------------------------------------------+
 
 
-+--------------------------------------------------------+
-; Slow 1100mV 85C Model Fmax Summary                     ;
-+------------+-----------------+------------------+------+
-; Fmax       ; Restricted Fmax ; Clock Name       ; Note ;
-+------------+-----------------+------------------+------+
-; 190.77 MHz ; 190.77 MHz      ; CLOCK_50_B5B     ;      ;
-; 202.72 MHz ; 202.72 MHz      ; spi:spi0|spi_clk ;      ;
-+------------+-----------------+------------------+------+
++-----------------------------------------------------------------------------------------------------+
+; Slow 1100mV 85C Model Fmax Summary                                                                  ;
++------------+-----------------+---------------------------------------------------------------+------+
+; Fmax       ; Restricted Fmax ; Clock Name                                                    ; Note ;
++------------+-----------------+---------------------------------------------------------------+------+
+; 103.86 MHz ; 103.86 MHz      ; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ;      ;
+; 114.42 MHz ; 114.42 MHz      ; CLOCK_50_B5B                                                  ;      ;
+; 218.34 MHz ; 218.34 MHz      ; spi:spi0|spi_clk                                              ;      ;
++------------+-----------------+---------------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
 
@@ -145,21 +146,21 @@ HTML report is unavailable in plain text report export.
 +---------------------------------------------------------------+--------+---------------+
 ; Clock                                                         ; Slack  ; End Point TNS ;
 +---------------------------------------------------------------+--------+---------------+
-; spi:spi0|spi_clk                                              ; -4.711 ; -78.272       ;
-; CLOCK_50_B5B                                                  ; -4.242 ; -558.723      ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -3.315 ; -91.907       ;
+; CLOCK_50_B5B                                                  ; -7.740 ; -850.247      ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -6.416 ; -296.642      ;
+; spi:spi0|spi_clk                                              ; -4.975 ; -77.365       ;
 +---------------------------------------------------------------+--------+---------------+
 
 
-+---------------------------------------------------------------------------------------+
-; Slow 1100mV 85C Model Hold Summary                                                    ;
-+---------------------------------------------------------------+-------+---------------+
-; Clock                                                         ; Slack ; End Point TNS ;
-+---------------------------------------------------------------+-------+---------------+
-; CLOCK_50_B5B                                                  ; 0.254 ; 0.000         ;
-; spi:spi0|spi_clk                                              ; 0.549 ; 0.000         ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 1.944 ; 0.000         ;
-+---------------------------------------------------------------+-------+---------------+
++----------------------------------------------------------------------------------------+
+; Slow 1100mV 85C Model Hold Summary                                                     ;
++---------------------------------------------------------------+--------+---------------+
+; Clock                                                         ; Slack  ; End Point TNS ;
++---------------------------------------------------------------+--------+---------------+
+; CLOCK_50_B5B                                                  ; -1.243 ; -1.243        ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -0.513 ; -0.884        ;
+; spi:spi0|spi_clk                                              ; 0.381  ; 0.000         ;
++---------------------------------------------------------------+--------+---------------+
 
 
 ------------------------------------------
@@ -179,9 +180,9 @@ No paths to report.
 +---------------------------------------------------------------+--------+---------------+
 ; Clock                                                         ; Slack  ; End Point TNS ;
 +---------------------------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                                                  ; -2.636 ; -497.184      ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -0.538 ; -26.454       ;
-; spi:spi0|spi_clk                                              ; -0.538 ; -24.775       ;
+; CLOCK_50_B5B                                                  ; -2.636 ; -524.067      ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -1.401 ; -125.279      ;
+; spi:spi0|spi_clk                                              ; -0.538 ; -23.449       ;
 +---------------------------------------------------------------+--------+---------------+
 
 
@@ -192,14 +193,15 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 
 
 
-+--------------------------------------------------------+
-; Slow 1100mV 0C Model Fmax Summary                      ;
-+------------+-----------------+------------------+------+
-; Fmax       ; Restricted Fmax ; Clock Name       ; Note ;
-+------------+-----------------+------------------+------+
-; 185.15 MHz ; 185.15 MHz      ; CLOCK_50_B5B     ;      ;
-; 198.18 MHz ; 198.18 MHz      ; spi:spi0|spi_clk ;      ;
-+------------+-----------------+------------------+------+
++-----------------------------------------------------------------------------------------------------+
+; Slow 1100mV 0C Model Fmax Summary                                                                   ;
++------------+-----------------+---------------------------------------------------------------+------+
+; Fmax       ; Restricted Fmax ; Clock Name                                                    ; Note ;
++------------+-----------------+---------------------------------------------------------------+------+
+; 109.12 MHz ; 109.12 MHz      ; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ;      ;
+; 111.21 MHz ; 111.21 MHz      ; CLOCK_50_B5B                                                  ;      ;
+; 213.95 MHz ; 213.95 MHz      ; spi:spi0|spi_clk                                              ;      ;
++------------+-----------------+---------------------------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
 
@@ -208,9 +210,9 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------------------------------------------------+--------+---------------+
 ; Clock                                                         ; Slack  ; End Point TNS ;
 +---------------------------------------------------------------+--------+---------------+
-; spi:spi0|spi_clk                                              ; -4.977 ; -78.752       ;
-; CLOCK_50_B5B                                                  ; -4.401 ; -548.094      ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -3.468 ; -96.957       ;
+; CLOCK_50_B5B                                                  ; -7.992 ; -823.512      ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -6.666 ; -307.389      ;
+; spi:spi0|spi_clk                                              ; -5.153 ; -78.163       ;
 +---------------------------------------------------------------+--------+---------------+
 
 
@@ -219,9 +221,9 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +---------------------------------------------------------------+--------+---------------+
 ; Clock                                                         ; Slack  ; End Point TNS ;
 +---------------------------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                                                  ; -0.046 ; -0.090        ;
-; spi:spi0|spi_clk                                              ; 0.537  ; 0.000         ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 2.089  ; 0.000         ;
+; CLOCK_50_B5B                                                  ; -1.210 ; -7.007        ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -0.777 ; -4.900        ;
+; spi:spi0|spi_clk                                              ; 0.383  ; 0.000         ;
 +---------------------------------------------------------------+--------+---------------+
 
 
@@ -242,9 +244,9 @@ No paths to report.
 +---------------------------------------------------------------+--------+---------------+
 ; Clock                                                         ; Slack  ; End Point TNS ;
 +---------------------------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                                                  ; -2.636 ; -487.761      ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -0.538 ; -26.102       ;
-; spi:spi0|spi_clk                                              ; -0.538 ; -23.930       ;
+; CLOCK_50_B5B                                                  ; -2.636 ; -521.437      ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -1.481 ; -133.524      ;
+; spi:spi0|spi_clk                                              ; -0.538 ; -23.304       ;
 +---------------------------------------------------------------+--------+---------------+
 
 
@@ -260,21 +262,21 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +---------------------------------------------------------------+--------+---------------+
 ; Clock                                                         ; Slack  ; End Point TNS ;
 +---------------------------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                                                  ; -2.950 ; -210.695      ;
-; spi:spi0|spi_clk                                              ; -1.725 ; -30.081       ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -1.157 ; -29.478       ;
+; CLOCK_50_B5B                                                  ; -3.390 ; -363.838      ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -2.918 ; -118.097      ;
+; spi:spi0|spi_clk                                              ; -1.907 ; -29.602       ;
 +---------------------------------------------------------------+--------+---------------+
 
 
-+---------------------------------------------------------------------------------------+
-; Fast 1100mV 85C Model Hold Summary                                                    ;
-+---------------------------------------------------------------+-------+---------------+
-; Clock                                                         ; Slack ; End Point TNS ;
-+---------------------------------------------------------------+-------+---------------+
-; CLOCK_50_B5B                                                  ; 0.043 ; 0.000         ;
-; spi:spi0|spi_clk                                              ; 0.180 ; 0.000         ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 0.647 ; 0.000         ;
-+---------------------------------------------------------------+-------+---------------+
++----------------------------------------------------------------------------------------+
+; Fast 1100mV 85C Model Hold Summary                                                     ;
++---------------------------------------------------------------+--------+---------------+
+; Clock                                                         ; Slack  ; End Point TNS ;
++---------------------------------------------------------------+--------+---------------+
+; CLOCK_50_B5B                                                  ; -0.455 ; -0.455        ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -0.402 ; -1.063        ;
+; spi:spi0|spi_clk                                              ; 0.171  ; 0.000         ;
++---------------------------------------------------------------+--------+---------------+
 
 
 ------------------------------------------
@@ -294,9 +296,9 @@ No paths to report.
 +---------------------------------------------------------------+--------+---------------+
 ; Clock                                                         ; Slack  ; End Point TNS ;
 +---------------------------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                                                  ; -2.174 ; -360.797      ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 0.009  ; 0.000         ;
-; spi:spi0|spi_clk                                              ; 0.112  ; 0.000         ;
+; CLOCK_50_B5B                                                  ; -2.174 ; -362.326      ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -0.578 ; -21.305       ;
+; spi:spi0|spi_clk                                              ; 0.111  ; 0.000         ;
 +---------------------------------------------------------------+--------+---------------+
 
 
@@ -312,9 +314,9 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +---------------------------------------------------------------+--------+---------------+
 ; Clock                                                         ; Slack  ; End Point TNS ;
 +---------------------------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                                                  ; -2.532 ; -169.788      ;
-; spi:spi0|spi_clk                                              ; -1.660 ; -27.530       ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -1.105 ; -28.620       ;
+; CLOCK_50_B5B                                                  ; -3.082 ; -297.285      ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -2.738 ; -113.644      ;
+; spi:spi0|spi_clk                                              ; -1.807 ; -27.096       ;
 +---------------------------------------------------------------+--------+---------------+
 
 
@@ -323,9 +325,9 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +---------------------------------------------------------------+--------+---------------+
 ; Clock                                                         ; Slack  ; End Point TNS ;
 +---------------------------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                                                  ; -0.067 ; -0.125        ;
-; spi:spi0|spi_clk                                              ; 0.160  ; 0.000         ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 0.643  ; 0.000         ;
+; CLOCK_50_B5B                                                  ; -0.447 ; -0.493        ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -0.388 ; -1.207        ;
+; spi:spi0|spi_clk                                              ; 0.159  ; 0.000         ;
 +---------------------------------------------------------------+--------+---------------+
 
 
@@ -346,9 +348,9 @@ No paths to report.
 +---------------------------------------------------------------+--------+---------------+
 ; Clock                                                         ; Slack  ; End Point TNS ;
 +---------------------------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                                                  ; -2.174 ; -382.822      ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 0.046  ; 0.000         ;
-; spi:spi0|spi_clk                                              ; 0.133  ; 0.000         ;
+; CLOCK_50_B5B                                                  ; -2.174 ; -390.579      ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -0.457 ; -16.387       ;
+; spi:spi0|spi_clk                                              ; 0.124  ; 0.000         ;
 +---------------------------------------------------------------+--------+---------------+
 
 
@@ -359,20 +361,20 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 
 
 
-+-------------------------------------------------------------------------------------------------------------------------------+
-; Multicorner Timing Analysis Summary                                                                                           ;
-+----------------------------------------------------------------+----------+--------+----------+---------+---------------------+
-; Clock                                                          ; Setup    ; Hold   ; Recovery ; Removal ; Minimum Pulse Width ;
-+----------------------------------------------------------------+----------+--------+----------+---------+---------------------+
-; Worst-case Slack                                               ; -4.977   ; -0.067 ; N/A      ; N/A     ; -2.636              ;
-;  CLOCK_50_B5B                                                  ; -4.401   ; -0.067 ; N/A      ; N/A     ; -2.636              ;
-;  PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -3.468   ; 0.643  ; N/A      ; N/A     ; -0.538              ;
-;  spi:spi0|spi_clk                                              ; -4.977   ; 0.160  ; N/A      ; N/A     ; -0.538              ;
-; Design-wide TNS                                                ; -728.902 ; -0.125 ; 0.0      ; 0.0     ; -548.413            ;
-;  CLOCK_50_B5B                                                  ; -558.723 ; -0.125 ; N/A      ; N/A     ; -497.184            ;
-;  PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -96.957  ; 0.000  ; N/A      ; N/A     ; -26.454             ;
-;  spi:spi0|spi_clk                                              ; -78.752  ; 0.000  ; N/A      ; N/A     ; -24.775             ;
-+----------------------------------------------------------------+----------+--------+----------+---------+---------------------+
++---------------------------------------------------------------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                                                                             ;
++----------------------------------------------------------------+-----------+---------+----------+---------+---------------------+
+; Clock                                                          ; Setup     ; Hold    ; Recovery ; Removal ; Minimum Pulse Width ;
++----------------------------------------------------------------+-----------+---------+----------+---------+---------------------+
+; Worst-case Slack                                               ; -7.992    ; -1.243  ; N/A      ; N/A     ; -2.636              ;
+;  CLOCK_50_B5B                                                  ; -7.992    ; -1.243  ; N/A      ; N/A     ; -2.636              ;
+;  PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -6.666    ; -0.777  ; N/A      ; N/A     ; -1.481              ;
+;  spi:spi0|spi_clk                                              ; -5.153    ; 0.159   ; N/A      ; N/A     ; -0.538              ;
+; Design-wide TNS                                                ; -1224.254 ; -11.907 ; 0.0      ; 0.0     ; -678.265            ;
+;  CLOCK_50_B5B                                                  ; -850.247  ; -7.007  ; N/A      ; N/A     ; -524.067            ;
+;  PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; -307.389  ; -4.900  ; N/A      ; N/A     ; -133.524            ;
+;  spi:spi0|spi_clk                                              ; -78.163   ; 0.000   ; N/A      ; N/A     ; -23.449             ;
++----------------------------------------------------------------+-----------+---------+----------+---------+---------------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -785,12 +787,13 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +---------------------------------------------------------------+---------------------------------------------------------------+----------+----------+----------+----------+
 ; From Clock                                                    ; To Clock                                                      ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +---------------------------------------------------------------+---------------------------------------------------------------+----------+----------+----------+----------+
-; CLOCK_50_B5B                                                  ; CLOCK_50_B5B                                                  ; 2231     ; 0        ; 0        ; 0        ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; CLOCK_50_B5B                                                  ; 2235     ; 74       ; 0        ; 0        ;
+; CLOCK_50_B5B                                                  ; CLOCK_50_B5B                                                  ; 6695     ; 0        ; 0        ; 0        ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; CLOCK_50_B5B                                                  ; 3447     ; 203      ; 0        ; 0        ;
 ; spi:spi0|spi_clk                                              ; CLOCK_50_B5B                                                  ; 2        ; 1        ; 0        ; 0        ;
-; CLOCK_50_B5B                                                  ; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 32       ; 0        ; 0        ; 0        ;
+; CLOCK_50_B5B                                                  ; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 32       ; 0        ; 32       ; 0        ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 0        ; 0        ; 32       ; 0        ;
 ; CLOCK_50_B5B                                                  ; spi:spi0|spi_clk                                              ; 30       ; 0        ; 3        ; 0        ;
-; spi:spi0|spi_clk                                              ; spi:spi0|spi_clk                                              ; 305      ; 0        ; 45       ; 14       ;
+; spi:spi0|spi_clk                                              ; spi:spi0|spi_clk                                              ; 300      ; 0        ; 45       ; 14       ;
 +---------------------------------------------------------------+---------------------------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -800,12 +803,13 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +---------------------------------------------------------------+---------------------------------------------------------------+----------+----------+----------+----------+
 ; From Clock                                                    ; To Clock                                                      ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +---------------------------------------------------------------+---------------------------------------------------------------+----------+----------+----------+----------+
-; CLOCK_50_B5B                                                  ; CLOCK_50_B5B                                                  ; 2231     ; 0        ; 0        ; 0        ;
-; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; CLOCK_50_B5B                                                  ; 2235     ; 74       ; 0        ; 0        ;
+; CLOCK_50_B5B                                                  ; CLOCK_50_B5B                                                  ; 6695     ; 0        ; 0        ; 0        ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; CLOCK_50_B5B                                                  ; 3447     ; 203      ; 0        ; 0        ;
 ; spi:spi0|spi_clk                                              ; CLOCK_50_B5B                                                  ; 2        ; 1        ; 0        ; 0        ;
-; CLOCK_50_B5B                                                  ; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 32       ; 0        ; 0        ; 0        ;
+; CLOCK_50_B5B                                                  ; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 32       ; 0        ; 32       ; 0        ;
+; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig ; 0        ; 0        ; 32       ; 0        ;
 ; CLOCK_50_B5B                                                  ; spi:spi0|spi_clk                                              ; 30       ; 0        ; 3        ; 0        ;
-; spi:spi0|spi_clk                                              ; spi:spi0|spi_clk                                              ; 305      ; 0        ; 45       ; 14       ;
+; spi:spi0|spi_clk                                              ; spi:spi0|spi_clk                                              ; 300      ; 0        ; 45       ; 14       ;
 +---------------------------------------------------------------+---------------------------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -830,7 +834,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; Illegal Clocks                  ; 0     ; 0    ;
 ; Unconstrained Clocks            ; 0     ; 0    ;
 ; Unconstrained Input Ports       ; 5     ; 5    ;
-; Unconstrained Input Port Paths  ; 31    ; 31   ;
+; Unconstrained Input Port Paths  ; 30    ; 30   ;
 ; Unconstrained Output Ports      ; 15    ; 15   ;
 ; Unconstrained Output Port Paths ; 50    ; 50   ;
 +---------------------------------+-------+------+
@@ -925,135 +929,144 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Mon Jun 10 12:07:21 2019
+    Info: Processing started: Thu Jun 13 10:50:56 2019
 Info: Command: quartus_sta FPGABlinky -c FPGABlinky
 Info: qsta_default_script.tcl version: #1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
 Info (21077): Low junction temperature is 0 degrees C
 Info (21077): High junction temperature is 85 degrees C
+Warning (335093): The Timing Analyzer is analyzing 32 combinational loops as latches. For more details, run the Check Timing command in the Timing Analyzer or view the "User-Specified and Inferred Latches" table in the Analysis & Synthesis report.
 Critical Warning (332012): Synopsys Design Constraints File file not found: 'FPGABlinky.sdc'. A Synopsys Design Constraints File is required by the Timing Analyzer to get proper timing constraints. Without it, the Compiler will not properly optimize the design.
 Info (332142): No user constrained base clocks found in the design. Calling "derive_clocks -period 1.0"
 Info (332105): Deriving Clocks
     Info (332105): create_clock -period 1.000 -name CLOCK_50_B5B CLOCK_50_B5B
     Info (332105): create_clock -period 1.000 -name PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig
     Info (332105): create_clock -period 1.000 -name spi:spi0|spi_clk spi:spi0|spi_clk
+Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
+    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: datac  to: combout
 Info (332143): No user constrained clock uncertainty found in the design. Calling "derive_clock_uncertainty"
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1100mV 85C Model
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -4.711
+Info (332146): Worst-case setup slack is -7.740
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -4.711             -78.272 spi:spi0|spi_clk 
-    Info (332119):    -4.242            -558.723 CLOCK_50_B5B 
-    Info (332119):    -3.315             -91.907 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
-Info (332146): Worst-case hold slack is 0.254
+    Info (332119):    -7.740            -850.247 CLOCK_50_B5B 
+    Info (332119):    -6.416            -296.642 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):    -4.975             -77.365 spi:spi0|spi_clk 
+Info (332146): Worst-case hold slack is -1.243
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.254               0.000 CLOCK_50_B5B 
-    Info (332119):     0.549               0.000 spi:spi0|spi_clk 
-    Info (332119):     1.944               0.000 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):    -1.243              -1.243 CLOCK_50_B5B 
+    Info (332119):    -0.513              -0.884 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):     0.381               0.000 spi:spi0|spi_clk 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636            -497.184 CLOCK_50_B5B 
-    Info (332119):    -0.538             -26.454 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
-    Info (332119):    -0.538             -24.775 spi:spi0|spi_clk 
+    Info (332119):    -2.636            -524.067 CLOCK_50_B5B 
+    Info (332119):    -1.401            -125.279 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):    -0.538             -23.449 spi:spi0|spi_clk 
 Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info: Analyzing Slow 1100mV 0C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
+Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
+    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: datac  to: combout
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -4.977
+Info (332146): Worst-case setup slack is -7.992
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -4.977             -78.752 spi:spi0|spi_clk 
-    Info (332119):    -4.401            -548.094 CLOCK_50_B5B 
-    Info (332119):    -3.468             -96.957 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
-Info (332146): Worst-case hold slack is -0.046
+    Info (332119):    -7.992            -823.512 CLOCK_50_B5B 
+    Info (332119):    -6.666            -307.389 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):    -5.153             -78.163 spi:spi0|spi_clk 
+Info (332146): Worst-case hold slack is -1.210
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.046              -0.090 CLOCK_50_B5B 
-    Info (332119):     0.537               0.000 spi:spi0|spi_clk 
-    Info (332119):     2.089               0.000 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):    -1.210              -7.007 CLOCK_50_B5B 
+    Info (332119):    -0.777              -4.900 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):     0.383               0.000 spi:spi0|spi_clk 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.636
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636            -487.761 CLOCK_50_B5B 
-    Info (332119):    -0.538             -26.102 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
-    Info (332119):    -0.538             -23.930 spi:spi0|spi_clk 
+    Info (332119):    -2.636            -521.437 CLOCK_50_B5B 
+    Info (332119):    -1.481            -133.524 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):    -0.538             -23.304 spi:spi0|spi_clk 
 Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info: Analyzing Fast 1100mV 85C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
+Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
+    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: datac  to: combout
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -2.950
+Info (332146): Worst-case setup slack is -3.390
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.950            -210.695 CLOCK_50_B5B 
-    Info (332119):    -1.725             -30.081 spi:spi0|spi_clk 
-    Info (332119):    -1.157             -29.478 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
-Info (332146): Worst-case hold slack is 0.043
+    Info (332119):    -3.390            -363.838 CLOCK_50_B5B 
+    Info (332119):    -2.918            -118.097 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):    -1.907             -29.602 spi:spi0|spi_clk 
+Info (332146): Worst-case hold slack is -0.455
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.043               0.000 CLOCK_50_B5B 
-    Info (332119):     0.180               0.000 spi:spi0|spi_clk 
-    Info (332119):     0.647               0.000 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):    -0.455              -0.455 CLOCK_50_B5B 
+    Info (332119):    -0.402              -1.063 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):     0.171               0.000 spi:spi0|spi_clk 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.174
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.174            -360.797 CLOCK_50_B5B 
-    Info (332119):     0.009               0.000 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
-    Info (332119):     0.112               0.000 spi:spi0|spi_clk 
+    Info (332119):    -2.174            -362.326 CLOCK_50_B5B 
+    Info (332119):    -0.578             -21.305 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):     0.111               0.000 spi:spi0|spi_clk 
 Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info: Analyzing Fast 1100mV 0C Model
+Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
+    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: datac  to: combout
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -2.532
+Info (332146): Worst-case setup slack is -3.082
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.532            -169.788 CLOCK_50_B5B 
-    Info (332119):    -1.660             -27.530 spi:spi0|spi_clk 
-    Info (332119):    -1.105             -28.620 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
-Info (332146): Worst-case hold slack is -0.067
+    Info (332119):    -3.082            -297.285 CLOCK_50_B5B 
+    Info (332119):    -2.738            -113.644 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):    -1.807             -27.096 spi:spi0|spi_clk 
+Info (332146): Worst-case hold slack is -0.447
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.067              -0.125 CLOCK_50_B5B 
-    Info (332119):     0.160               0.000 spi:spi0|spi_clk 
-    Info (332119):     0.643               0.000 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):    -0.447              -0.493 CLOCK_50_B5B 
+    Info (332119):    -0.388              -1.207 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):     0.159               0.000 spi:spi0|spi_clk 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
 Info (332146): Worst-case minimum pulse width slack is -2.174
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.174            -382.822 CLOCK_50_B5B 
-    Info (332119):     0.046               0.000 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
-    Info (332119):     0.133               0.000 spi:spi0|spi_clk 
+    Info (332119):    -2.174            -390.579 CLOCK_50_B5B 
+    Info (332119):    -0.457             -16.387 PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig 
+    Info (332119):     0.124               0.000 spi:spi0|spi_clk 
 Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
-Info: Quartus Prime Timing Analyzer was successful. 0 errors, 6 warnings
-    Info: Peak virtual memory: 5245 megabytes
-    Info: Processing ended: Mon Jun 10 12:07:27 2019
-    Info: Elapsed time: 00:00:06
-    Info: Total CPU time (on all processors): 00:00:07
+Info: Quartus Prime Timing Analyzer was successful. 0 errors, 7 warnings
+    Info: Peak virtual memory: 5249 megabytes
+    Info: Processing ended: Thu Jun 13 10:51:03 2019
+    Info: Elapsed time: 00:00:07
+    Info: Total CPU time (on all processors): 00:00:08
 
 

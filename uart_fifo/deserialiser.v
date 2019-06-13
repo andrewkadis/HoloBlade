@@ -53,7 +53,7 @@ always @(posedge i_clock) begin
 		bytes_recv_counter = bytes_recv_counter - 1;
 		// Have we received all four bytes?
 		if(bytes_recv_counter==3'd0) begin
-			r_pc_full_word_recv_sig  = 1;                        // High for 1 cycle so we can send data to FIFO
+			r_pc_full_word_recv_sig = 1;                        // High for 1 cycle so we can send data to FIFO
 		end
 		
 	end

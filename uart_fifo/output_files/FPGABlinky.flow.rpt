@@ -1,5 +1,5 @@
 Flow report for FPGABlinky
-Mon Jun 10 12:07:29 2019
+Thu Jun 13 10:51:06 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,15 +40,15 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Mon Jun 10 12:07:29 2019       ;
+; Flow Status                     ; Successful - Thu Jun 13 10:51:06 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
 ; Family                          ; Cyclone V                                   ;
 ; Device                          ; 5CGXFC5C6F27C7                              ;
 ; Timing Models                   ; Final                                       ;
-; Logic utilization (in ALMs)     ; 160 / 29,080 ( < 1 % )                      ;
-; Total registers                 ; 289                                         ;
+; Logic utilization (in ALMs)     ; 246 / 29,080 ( < 1 % )                      ;
+; Total registers                 ; 331                                         ;
 ; Total pins                      ; 73 / 364 ( 20 % )                           ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 2,048 / 4,567,040 ( < 1 % )                 ;
@@ -67,7 +67,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 06/10/2019 12:06:27 ;
+; Start date & time ; 06/13/2019 10:49:50 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; FPGABlinky          ;
 +-------------------+---------------------+
@@ -78,7 +78,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+---------------+----------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name   ; Section Id     ;
 +-------------------------------------+----------------------------------------+---------------+---------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 5311868015734.156016478721660          ; --            ; --            ; --             ;
+; COMPILER_SIGNATURE_ID               ; 5311868015734.156041939009768          ; --            ; --            ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Verilog Hdl                            ; --            ; --            ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (Verilog)              ; <None>        ; --            ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                   ; --            ; --            ; eda_simulation ;
@@ -105,12 +105,12 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:08     ; 1.0                     ; 4880 MB             ; 00:00:18                           ;
-; Fitter               ; 00:00:35     ; 1.0                     ; 6692 MB             ; 00:01:30                           ;
-; Assembler            ; 00:00:07     ; 1.0                     ; 4849 MB             ; 00:00:07                           ;
-; Timing Analyzer      ; 00:00:06     ; 1.2                     ; 5245 MB             ; 00:00:07                           ;
-; EDA Netlist Writer   ; 00:00:01     ; 1.0                     ; 4768 MB             ; 00:00:01                           ;
-; Total                ; 00:00:57     ; --                      ; --                  ; 00:02:03                           ;
+; Analysis & Synthesis ; 00:00:09     ; 1.0                     ; 4880 MB             ; 00:00:18                           ;
+; Fitter               ; 00:00:48     ; 1.0                     ; 6761 MB             ; 00:02:09                           ;
+; Assembler            ; 00:00:06     ; 1.0                     ; 4851 MB             ; 00:00:07                           ;
+; Timing Analyzer      ; 00:00:07     ; 1.3                     ; 5249 MB             ; 00:00:08                           ;
+; EDA Netlist Writer   ; 00:00:02     ; 1.0                     ; 4772 MB             ; 00:00:01                           ;
+; Total                ; 00:01:12     ; --                      ; --                  ; 00:02:43                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
