@@ -22,24 +22,19 @@ module PACKET_DECODE_FSM(
 	output o_payload_word_recv,        // Goes high for 1 cycle after every payload word decode is complete, need this to drive our FIFO
 	output o_packet_fully_decoded,     // Goes high for 1 cycle after entire packet has been decoded, used to drive downstream logic
 	output o_reset                     // Use this to reset after receiving a RESET word
-	
-//	output reg o_debug_out_b,
-//	output reg o_debug_out_y
-	
+		
 ); 
 
 
 
 // Registers which shall be latched for output
-reg [31:0]  r_packet_command   = 32'd0;
+reg [1:0]  r_packet_command    = 2'd0;
 reg [31:0] r_payload_data_word = 32'd0;
 reg r_payload_word_recv        = 0;
 reg r_packet_fully_decoded     = 0;
 reg r_reset                    = 0;
 
-// Internal registers to keep track of which comamnd has been sent and the number of bytes in the payload
-reg [1:0]  r_command_type         = 2'd0;
-//reg [31:0] r_num_words_in_payload = 32'h00000000;
+// Internal registers to keep track of the number of bytes in the payload
 reg [31:0] r_num_words_payload_to_recv = 32'd0;
 reg [31:0] r_num_words_payload_curr    = 32'd0;
 
@@ -80,10 +75,7 @@ always @(i_recv_word_cmd, state_reg) begin
 	r_payload_data_word    = 32'h00000000;
 	r_payload_word_recv    = 0;
 	r_reset                = 0;	
-	
-//	o_debug_out_b = 0;
-//	o_debug_out_y = 0;
-		 
+			 
 	// We always check for a resync word first
 	// Note that there is a weakness of this decoding strategy that if this word ever gets sent, it will reset the entire FSM
 	// Chance is sufficiently small that we don't worry about it
@@ -103,7 +95,7 @@ always @(i_recv_word_cmd, state_reg) begin
 				if ( (i_recv_word_cmd) && (i_recv_word_data==START_OF_PACKET) ) begin
 					state_next = sDATA_COMMAND; 
 					// Reset any existing decode parameters for our new packet
-					r_command_type              =  2'd0;
+					r_packet_command            =  2'd0;
 					r_num_words_payload_to_recv = 32'd0;
 					
 				end
@@ -115,7 +107,7 @@ always @(i_recv_word_cmd, state_reg) begin
 				if ( (i_recv_word_cmd) ) begin
 				
 					// Capture which type of command has been sent
-					r_command_type = i_recv_word_data[25:24];
+					r_packet_command = i_recv_word_data[25:24];
 					
 					// Auto-transition to next state
 					state_next = sDATA_NUM_WORDS;

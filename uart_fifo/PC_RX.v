@@ -6,27 +6,29 @@
 // It handles, resync and sending data through a FIFO to be processed by teh DATA_MANAGER
 // Encapsualtes and manages a UART_RX_DRIVER and a UART_RX_FIFO
 
-// TODO: Add decent reset functionality to all the sub-blocks
+// TODO: Add decent reset functionality to all the sub-blocks by linking up o_reset_all appropriately
 
 
 module PC_RX(
 
 	// Control Signals
    input        i_clock,
+	output       o_reset_all,            // The PC is able to reset the entire FPGA
 	
 	// PC-Side
    input        i_rx_serial,
 	
 	// DataManager-Side
-	input    	 i_read_next_word_cmd, // Command to get next byte from FIFO, set high for 1 cycle
-	output       o_start_packet_sig,   // Signal which goes high for 1 cycle to indicate that a packet has just started to be sent into the FIFO
-	output[31:0] o_fifo_output_word,   // Current output from the FIFO
-	output       o_fifo_is_empty_sig,  // Signal to indicates whether or not the FIFO is empty
+	input        i_read_next_word_cmd,   // Command to get next word from FIFO, set high for 1 cycle to read word
+	output       o_packet_command,       // Which packet we have received
+	output       o_packet_fully_decoded, // Goes high for 1-cycle after a packet has been fully decoded
+	output[31:0] o_fifo_output_word,     // Current output from the FIFO
+	output       o_fifo_is_empty_sig    // Signal to indicates whether or not the FIFO is empty
 	
-	// Debug
-	output       o_debug_out_b,
-	output       o_debug_out_y
-	
+//		// Debug
+//	output o_debug_out_b,
+//	output o_debug_out_y
+
    );
 
 
@@ -109,7 +111,7 @@ DESERIALISER deserialiser(
 /////////////////////////////
 
 // Control Signals
-// Start a decode when we have desrialised a data work
+// Start a decode when we have deserialised a data work
 wire start_packet_decode_cmd;
 assign start_packet_decode_cmd = pc_full_word_recv_sig;
 // The packet that we decode is what came out of the Deserialiser - we latch this
@@ -121,36 +123,30 @@ end
 // Outputs from PacketDecodeFSM
 wire[31:0] decoded_data_payload_word;
 wire       payload_word_decode_complete;
-wire       packet_fully_decoded;
-
  
 // Declare Packet Decode FSM
 PACKET_DECODE_FSM packet_decode_fsm(
 
 	// Control Signals
 	.i_clk(i_clock),
-	.i_reset(),
+	.i_reset(o_reset_all),
 	
 	// Inputs
 	.i_recv_word_cmd(start_packet_decode_cmd),
 	.i_recv_word_data(recv_word_data_latched),
 	
 	// Outputs
-   .o_packet_command(),
+   .o_packet_command(o_packet_command),
 	.o_payload_data_word(decoded_data_payload_word),
 	.o_payload_word_recv(payload_word_decode_complete),
-	.o_packet_fully_decoded(packet_fully_decoded),
-	.o_reset()
+	.o_packet_fully_decoded(o_packet_fully_decoded),
+	.o_reset(o_reset_all)
 	
-	// Debug
-//	.o_debug_out_b(o_debug_out_b),
-//	.o_debug_out_y(o_debug_out_y)
 );
 
-assign o_debug_out_b = payload_word_decode_complete;
-assign o_debug_out_y = packet_fully_decoded;
 
-
+//assign o_debug_out_b = payload_word_decode_complete;
+//assign o_debug_out_y = o_packet_fully_decoded;
  
  
  

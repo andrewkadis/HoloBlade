@@ -769,4 +769,5 @@ set_global_assignment -name VERILOG_FILE uart_tx.v
 set_global_assignment -name QIP_FILE testFIFO/testFIFO.qip
 set_global_assignment -name VERILOG_FILE deserialiser.v
 set_global_assignment -name VERILOG_FILE packet_decode_fsm.v
+set_global_assignment -name VERILOG_FILE data_manager.v
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

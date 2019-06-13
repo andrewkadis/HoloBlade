@@ -257,6 +257,15 @@ end
 // Reset Line for SLM needs to be high
 assign GPIO[0] = 1;
 
+// Debugging Lines
+// Assign UART_TX and UART_RX Data to Arduino GPIO10 + 12 for Debug
+assign GPIO[10]  = UART_TX;
+wire debug_out_b;
+wire debug_out_y;
+assign GPIO[11] = UART_RX;
+assign GPIO[12] = debug_out_b;
+assign GPIO[13] = debug_out_y;
+
 spi spi0(
 	
 	// Control Signals
@@ -293,36 +302,78 @@ spi spi0(
 
 
 // PC_RX Module to receive UART Commands from PC
+
+// 
+// With PC_RX module
+//reg read_next_word_cmd = 0;
+//wire start_packet_sign;
+// Interfacing Signals for PC_RX
+wire      reset_all;
+wire[1:0] packet_command;
+wire      packet_fully_decoded;
+wire       rx_fifo_next_word_cmd;
+wire[31:0] rx_fifo_output_word;
+wire       rx_fifo_is_empty_sig;
 PC_RX pc_rx(
 
 	// Control Signals
 	.i_clock(CLOCK_50_B5B),
+	.o_reset_all(reset_all),                       // The PC is able to reset the entire FPGA
 	
 	// PC-Side
-   .i_rx_serial(UART_RX),          // UART RX Line
+   .i_rx_serial(UART_RX),                         // UART RX Line
 	
 	// DataManager-Side
-   .i_read_next_word_cmd(read_next_word_cmd), // Command to get next word from FIFO, set high for 1 cycle
-	.o_start_packet_sig(start_packet_sign),    // Signal which goes high for 1 cycle to indicate that a packet has just started to be sent into the FIFO
-	.o_fifo_output_word(fifo_output_word),     // Current Byte output from the FIFO
-	.o_fifo_is_empty_sig(fifo_is_empty_sig),   // Signal to indicates whether or not the FIFO is empty
-	  
-	.o_debug_out_b(GPIO[12]),
-	.o_debug_out_y(GPIO[13])
+   .i_read_next_word_cmd(read_next_word_cmd),     // Command to get next word from FIFO, set high for 1 cycle to read word
+	.o_packet_command(packet_command),             // Which packet we have received
+	.o_packet_fully_decoded(packet_fully_decoded), // Goes high for 1-cycle after a packet has been fully decoded
+	.o_fifo_output_word(rx_fifo_output_word),      // Current output from the FIFO
+	.o_fifo_is_empty_sig(rx_fifo_is_empty_sig),    // Signal to indicates whether or not the FIFO is empty 
+	
+	// Debug
+//	.o_debug_out_b(GPIO[12]),
+//	.o_debug_out_y(GPIO[13])
+	
+ );
+
+ assign debug_out_b = packet_fully_decoded;
+ assign debug_out_y = read_next_word_cmd;
+
+ 
+ 
+ // Interfacing Signals for PC_RX
+wire[31:0] data_manager_output_data_word;
+wire       data_manager_output_next_cmd;
+// DataManager contains the bulk of the clever parts and the data routing, this is where packets are decoded and passed between different modules
+DATA_MANAGER data_manager(
+
+	// Control Signals
+	.i_clock(CLOCK_50_B5B),
+	.i_reset(),
+	
+	// PC_RX
+   .i_packet_command(packet_command),
+	.i_packet_fully_decoded(new_packet_recv),
+	.o_rx_fifo_next_word_cmd(rx_fifo_next_word_cmd),
+	.i_rx_fifo_output_word(rx_fifo_output_word),
+	.i_rx_fifo_is_empty_sig(rx_fifo_is_empty_sig),
+	
+	// PC_TX
+   .o_data_manager_output_data_word(data_manager_output_data_word), // Data Output for the PC
+	.o_data_manager_output_next_cmd(data_manager_output_next_cmd)   // Instruction to start the Tx of the next Word to the PC
+
+	// TBD....
+	 
+	// SLM_CONFIG
+	// TBD...
+	
+//	// Debug
+//	.o_debug_out_b(GPIO[12]),
+//	.o_debug_out_y(GPIO[13])
 	  
  );
 
- 
- 
- 
-// DataManager contains the bulk of the clever parts, this is where packets are decoded and passed between different modules
 
-// Interfacing Signals
-// With PC_RX module
-reg read_next_word_cmd = 0;
-wire start_packet_sign;
-wire[31:0] fifo_output_word;
-wire fifo_is_empty_sig;
 
 
 
@@ -332,41 +383,10 @@ wire fifo_is_empty_sig;
 	
 	
 	
-//////////////////////////
-////// Loopback ////////
-//////////////////////////
-
-// We haven't built the DataManager yet, so simply loopback the data
-// The following loopback logic handles this for now
-
-// Pulse when we rx a byte
-always @(posedge CLOCK_50_B5B) begin
-	// If data in fifo and Serialiser is not active, start another serialisation sequence
-	if( (fifo_is_empty_sig==0) && (serial_is_busy_sig==0) ) begin
-	
-		// Get NExt word from FIFO
-		read_next_word_cmd = 1;
-		// Latch data and start a serialisation process
-		serialise_next_word_cmd = 1;
-		fifo_output_latched = fifo_output_word;
-		
-	end else begin
-	
-		// Wait until inactive or need to send another byte
-		read_next_word_cmd = 0;
-		serialise_next_word_cmd = 0;
-		
-	end
-end
 
 
 
-// Debugging Lines
-// Assign UART_TX and UART_RX Data to Arduino GPIO10 + 12 for Debug
-assign GPIO[10]  = UART_TX;
-reg debug_out_b;
-reg debug_out_y;
-assign GPIO[11] = UART_RX;
+
 // Blue
 //assign GPIO[12] = serialise_next_word_cmd;
 //// Yellow
@@ -385,10 +405,10 @@ assign GPIO[11] = UART_RX;
 //////////////////////////
 
 // Buffer for latching
-reg[31:0] fifo_output_latched = 0; 
+//reg[31:0] fifo_output_latched = 0; 
 // Control Lines
-reg  serialise_next_word_cmd = 0;
-wire serial_is_busy_sig;
+//reg  serialise_next_word_cmd = 0;
+//wire serial_is_busy_sig;
 
  SERIALISER serialiser(
 
@@ -396,14 +416,14 @@ wire serial_is_busy_sig;
 	.i_clock(CLOCK_50_B5B),
 	
 	// Input-Side
-	.i_fifo_word_data(fifo_output_latched),           // Data from Uart
-	.i_serial_next_word_cmd(serialise_next_word_cmd), // New byte from Uart Received signal
-	.i_tx_byte_complete(tx_done),                     // Byte has been successfully Tx'd
+	.i_fifo_word_data(data_manager_output_data_word),      // Data from Uart
+	.i_serial_next_word_cmd(data_manager_output_next_cmd), // New byte from Uart Received signal
+	.i_tx_byte_complete(tx_done),                          // Byte has been successfully Tx'd
 	
 	// Output-Side
-	.o_send_next_byte_cmd(send_next_byte_cmd),        // Flag to indicate whether or not the serialisation Unit is busy
-   .o_serial_data_byte(tx_byte_output),              // Data Output for FIFO
-   .o_serial_is_busy_sig(serial_is_busy_sig),        // Signal to indicate that serialse is complete
+	.o_send_next_byte_cmd(send_next_byte_cmd),             // Flag to indicate whether or not the serialisation Unit is busy
+   .o_serial_data_byte(tx_byte_output),                   // Data Output for FIFO
+   .o_serial_is_busy_sig(serial_is_busy_sig),             // Signal to indicate that serialse is complete
 	  
  );
  
