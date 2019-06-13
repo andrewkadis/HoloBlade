@@ -115,7 +115,7 @@ always @(i_recv_word_cmd, state_reg) begin
 				if ( (i_recv_word_cmd) ) begin
 				
 					// Capture which type of command has been sent
-					r_command_type = i_recv_word_data[31:30];
+					r_command_type = i_recv_word_data[25:24];
 					
 					// Auto-transition to next state
 					state_next = sDATA_NUM_WORDS;

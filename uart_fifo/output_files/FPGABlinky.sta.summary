@@ -3,147 +3,147 @@ Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1100mV 85C Model Setup 'CLOCK_50_B5B'
-Slack : -7.161
-TNS   : -840.919
+Slack : -6.640
+TNS   : -860.838
 
 Type  : Slow 1100mV 85C Model Setup 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -7.115
-TNS   : -300.906
+Slack : -6.004
+TNS   : -261.539
 
 Type  : Slow 1100mV 85C Model Setup 'spi:spi0|spi_clk'
-Slack : -4.707
-TNS   : -77.105
-
-Type  : Slow 1100mV 85C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.696
-TNS   : -0.696
+Slack : -4.590
+TNS   : -78.300
 
 Type  : Slow 1100mV 85C Model Hold 'CLOCK_50_B5B'
-Slack : 0.119
-TNS   : 0.000
+Slack : -3.084
+TNS   : -13.682
+
+Type  : Slow 1100mV 85C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
+Slack : -0.279
+TNS   : -0.311
 
 Type  : Slow 1100mV 85C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.306
+Slack : 0.426
 TNS   : 0.000
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.636
-TNS   : -521.205
+TNS   : -533.334
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.932
-TNS   : -91.664
+Slack : -0.803
+TNS   : -102.390
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
 Slack : -0.538
-TNS   : -24.976
-
-Type  : Slow 1100mV 0C Model Setup 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -7.201
-TNS   : -313.244
+TNS   : -25.065
 
 Type  : Slow 1100mV 0C Model Setup 'CLOCK_50_B5B'
-Slack : -7.198
-TNS   : -825.076
+Slack : -6.846
+TNS   : -821.592
+
+Type  : Slow 1100mV 0C Model Setup 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
+Slack : -6.007
+TNS   : -271.256
 
 Type  : Slow 1100mV 0C Model Setup 'spi:spi0|spi_clk'
-Slack : -4.997
-TNS   : -77.906
-
-Type  : Slow 1100mV 0C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.652
-TNS   : -0.652
+Slack : -4.865
+TNS   : -79.683
 
 Type  : Slow 1100mV 0C Model Hold 'CLOCK_50_B5B'
-Slack : -0.148
-TNS   : -0.762
+Slack : -3.202
+TNS   : -21.802
+
+Type  : Slow 1100mV 0C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
+Slack : -0.494
+TNS   : -1.128
 
 Type  : Slow 1100mV 0C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.312
+Slack : 0.440
 TNS   : 0.000
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.636
-TNS   : -519.473
+TNS   : -521.878
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.961
-TNS   : -96.196
+Slack : -0.873
+TNS   : -114.911
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
 Slack : -0.538
-TNS   : -24.905
+TNS   : -24.148
 
 Type  : Fast 1100mV 85C Model Setup 'CLOCK_50_B5B'
-Slack : -3.839
-TNS   : -370.218
+Slack : -4.038
+TNS   : -340.924
 
 Type  : Fast 1100mV 85C Model Setup 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -3.134
-TNS   : -118.422
+Slack : -2.803
+TNS   : -101.755
 
 Type  : Fast 1100mV 85C Model Setup 'spi:spi0|spi_clk'
-Slack : -1.692
-TNS   : -29.468
-
-Type  : Fast 1100mV 85C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.641
-TNS   : -1.157
-
-Type  : Fast 1100mV 85C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.083
-TNS   : 0.000
+Slack : -1.646
+TNS   : -28.312
 
 Type  : Fast 1100mV 85C Model Hold 'CLOCK_50_B5B'
-Slack : 0.137
+Slack : -1.466
+TNS   : -6.397
+
+Type  : Fast 1100mV 85C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
+Slack : -0.172
+TNS   : -0.265
+
+Type  : Fast 1100mV 85C Model Hold 'spi:spi0|spi_clk'
+Slack : 0.212
 TNS   : 0.000
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.174
-TNS   : -359.977
+TNS   : -380.849
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.345
-TNS   : -14.375
+Slack : -0.133
+TNS   : -3.925
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
-Slack : 0.065
+Slack : 0.087
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Setup 'CLOCK_50_B5B'
-Slack : -3.160
-TNS   : -302.305
+Slack : -3.334
+TNS   : -276.329
 
 Type  : Fast 1100mV 0C Model Setup 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -2.929
-TNS   : -114.082
+Slack : -2.600
+TNS   : -97.350
 
 Type  : Fast 1100mV 0C Model Setup 'spi:spi0|spi_clk'
-Slack : -1.610
-TNS   : -26.995
-
-Type  : Fast 1100mV 0C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.543
-TNS   : -0.985
+Slack : -1.581
+TNS   : -25.860
 
 Type  : Fast 1100mV 0C Model Hold 'CLOCK_50_B5B'
-Slack : 0.050
-TNS   : 0.000
+Slack : -1.454
+TNS   : -8.290
+
+Type  : Fast 1100mV 0C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
+Slack : -0.179
+TNS   : -0.306
 
 Type  : Fast 1100mV 0C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.106
+Slack : 0.189
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.174
-TNS   : -388.455
+TNS   : -406.513
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.239
-TNS   : -9.212
+Slack : -0.082
+TNS   : -1.370
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
-Slack : 0.084
+Slack : 0.105
 TNS   : 0.000
 
 ------------------------------------------------------------

@@ -1,5 +1,5 @@
 Fitter report for FPGABlinky
-Thu Jun 13 12:16:15 2019
+Thu Jun 13 12:21:55 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -65,7 +65,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Fitter Summary                                                                ;
 +---------------------------------+---------------------------------------------+
-; Fitter Status                   ; Successful - Thu Jun 13 12:16:15 2019       ;
+; Fitter Status                   ; Successful - Thu Jun 13 12:21:55 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
@@ -164,8 +164,8 @@ refer to the applicable agreement for further details.
 ;     Processor 2            ;   1.0%      ;
 ;     Processor 3            ;   0.8%      ;
 ;     Processor 4            ;   0.8%      ;
-;     Processor 5            ;   0.8%      ;
-;     Processor 6            ;   0.8%      ;
+;     Processor 5            ;   0.7%      ;
+;     Processor 6            ;   0.7%      ;
 +----------------------------+-------------+
 
 
@@ -2763,7 +2763,7 @@ Info (170195): Router estimated average interconnect usage is 0% of the availabl
     Info (170196): Router estimated peak interconnect usage is 8% of the available device resources in the region that extends from location X0_Y0 to location X10_Y11
 Info (188005): Design requires adding a large amount of routing delay for some signals to meet hold time requirements, and there is an excessive demand for the available routing resources. The Fitter is reducing the routing delays of some signals to help the routing algorithm converge, but doing so may cause hold time failures. For more information, refer to the "Estimated Delay Added for Hold Timing" section in the Fitter report.
 Info (170194): Fitter routing operations ending: elapsed time is 00:00:12
-Info (11888): Total time spent on timing analysis during the Fitter is 1.52 seconds.
+Info (11888): Total time spent on timing analysis during the Fitter is 1.51 seconds.
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
@@ -2809,10 +2809,10 @@ Warning (169064): Following 36 pins have no output enable or a GND or VCC output
     Info (169065): Pin GPIO[13] has a permanently enabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
 Info (144001): Generated suppressed messages file C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/output_files/FPGABlinky.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 281 warnings
-    Info: Peak virtual memory: 6766 megabytes
-    Info: Processing ended: Thu Jun 13 12:16:16 2019
-    Info: Elapsed time: 00:00:50
-    Info: Total CPU time (on all processors): 00:02:17
+    Info: Peak virtual memory: 6757 megabytes
+    Info: Processing ended: Thu Jun 13 12:21:56 2019
+    Info: Elapsed time: 00:00:49
+    Info: Total CPU time (on all processors): 00:02:14
 
 
 +----------------------------+

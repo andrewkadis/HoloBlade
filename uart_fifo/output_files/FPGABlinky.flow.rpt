@@ -1,5 +1,5 @@
 Flow report for FPGABlinky
-Thu Jun 13 12:16:22 2019
+Thu Jun 13 12:22:14 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -40,7 +40,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Assembler Failed - Thu Jun 13 12:16:22 2019 ;
+; Flow Status                     ; Successful - Thu Jun 13 12:22:14 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
@@ -67,7 +67,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 06/13/2019 12:15:17 ;
+; Start date & time ; 06/13/2019 12:20:58 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; FPGABlinky          ;
 +-------------------+---------------------+
@@ -78,7 +78,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+---------------+---------------+----------------+
 ; Assignment Name                     ; Value                                  ; Default Value ; Entity Name   ; Section Id     ;
 +-------------------------------------+----------------------------------------+---------------+---------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 5311868015734.156042451716164          ; --            ; --            ; --             ;
+; COMPILER_SIGNATURE_ID               ; 5311868015734.156042485719340          ; --            ; --            ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Verilog Hdl                            ; --            ; --            ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (Verilog)              ; <None>        ; --            ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                   ; --            ; --            ; eda_simulation ;
@@ -106,9 +106,11 @@ refer to the applicable agreement for further details.
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Analysis & Synthesis ; 00:00:09     ; 1.0                     ; 4880 MB             ; 00:00:17                           ;
-; Fitter               ; 00:00:49     ; 1.0                     ; 6766 MB             ; 00:02:16                           ;
-; Assembler            ; 00:00:05     ; 1.0                     ; 4849 MB             ; 00:00:06                           ;
-; Total                ; 00:01:03     ; --                      ; --                  ; 00:02:39                           ;
+; Fitter               ; 00:00:48     ; 1.0                     ; 6757 MB             ; 00:02:13                           ;
+; Assembler            ; 00:00:07     ; 1.0                     ; 4849 MB             ; 00:00:07                           ;
+; Timing Analyzer      ; 00:00:07     ; 1.3                     ; 5247 MB             ; 00:00:08                           ;
+; EDA Netlist Writer   ; 00:00:01     ; 1.0                     ; 4773 MB             ; 00:00:01                           ;
+; Total                ; 00:01:12     ; --                      ; --                  ; 00:02:46                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -120,6 +122,8 @@ refer to the applicable agreement for further details.
 ; Analysis & Synthesis ; DESKTOP-CVLSB42  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Fitter               ; DESKTOP-CVLSB42  ; Windows 10 ; 10.0       ; x86_64         ;
 ; Assembler            ; DESKTOP-CVLSB42  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; DESKTOP-CVLSB42  ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer   ; DESKTOP-CVLSB42  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 
@@ -129,6 +133,8 @@ refer to the applicable agreement for further details.
 quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 quartus_fit --read_settings_files=off --write_settings_files=off FPGABlinky -c FPGABlinky
 quartus_asm --read_settings_files=off --write_settings_files=off FPGABlinky -c FPGABlinky
+quartus_sta FPGABlinky -c FPGABlinky
+quartus_eda --read_settings_files=off --write_settings_files=off FPGABlinky -c FPGABlinky
 
 
 

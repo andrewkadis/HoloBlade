@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Thu Jun 13 12:15:25 2019
+Thu Jun 13 12:21:06 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -67,7 +67,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Thu Jun 13 12:15:25 2019       ;
+; Analysis & Synthesis Status     ; Successful - Thu Jun 13 12:21:06 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
@@ -686,7 +686,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Thu Jun 13 12:15:16 2019
+    Info: Processing started: Thu Jun 13 12:20:57 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -981,7 +981,7 @@ Info (21057): Implemented 709 device resources after synthesis - the final resou
     Info (21064): Implemented 32 RAM segments
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 183 warnings
     Info: Peak virtual memory: 4880 megabytes
-    Info: Processing ended: Thu Jun 13 12:15:25 2019
+    Info: Processing ended: Thu Jun 13 12:21:06 2019
     Info: Elapsed time: 00:00:09
     Info: Total CPU time (on all processors): 00:00:18
 
