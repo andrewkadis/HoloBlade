@@ -1,6 +1,6 @@
 |baseline_c5gx
 CLOCK_125_p => ~NO_FANOUT~
-CLOCK_50_B5B => CLOCK_50_B5B.IN4
+CLOCK_50_B5B => CLOCK_50_B5B.IN2
 CLOCK_50_B6A => ~NO_FANOUT~
 CLOCK_50_B7A => ~NO_FANOUT~
 CLOCK_50_B8A => ~NO_FANOUT~
@@ -17,7 +17,7 @@ GPIO[10] <> GPIO[10]
 GPIO[11] <> GPIO[11]
 GPIO[12] <> GPIO[12]
 GPIO[13] <> GPIO[13]
-GPIO[14] <> <UNC>
+GPIO[14] <> GPIO[14]
 GPIO[15] <> <UNC>
 GPIO[16] <> <UNC>
 GPIO[17] <> <UNC>
@@ -119,7 +119,8 @@ LEDR[6] <= <GND>
 LEDR[7] <= <GND>
 LEDR[8] <= <GND>
 LEDR[9] <= <GND>
-UART_RX => UART_RX.IN1
+UART_RX => PC_RX:pc_rx.i_rx_serial
+UART_RX => GPIO[11].DATAIN
 UART_TX <= uart_tx:pc_tx.o_Tx_Serial
 
 
@@ -227,6 +228,8 @@ o_fifo_output_word[29] <= testFIFO:uart_rx_FIFO.q
 o_fifo_output_word[30] <= testFIFO:uart_rx_FIFO.q
 o_fifo_output_word[31] <= testFIFO:uart_rx_FIFO.q
 o_fifo_is_empty_sig <= testFIFO:uart_rx_FIFO.empty
+o_debug_out_b <= PACKET_DECODE_FSM:packet_decode_fsm.o_payload_word_recv
+o_debug_out_y <= PACKET_DECODE_FSM:packet_decode_fsm.o_packet_fully_decoded
 
 
 |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx
@@ -1641,7 +1644,7 @@ sclr => counter_reg_bit[1].SCLR
 sclr => counter_reg_bit[0].SCLR
 
 
-|baseline_c5gx|DATA_MANAGER:data_manager
+|baseline_c5gx|DATA_ROUTER:data_router
 i_clock => r_data_manager_output_data_word[0].CLK
 i_clock => r_data_manager_output_data_word[1].CLK
 i_clock => r_data_manager_output_data_word[2].CLK
@@ -1711,8 +1714,8 @@ i_packet_fully_decoded => r_data_manager_output_data_word.OUTPUTSELECT
 i_packet_fully_decoded => r_data_manager_output_data_word.OUTPUTSELECT
 i_packet_fully_decoded => r_data_manager_output_data_word.OUTPUTSELECT
 i_packet_fully_decoded => r_data_manager_output_data_word.OUTPUTSELECT
+i_packet_fully_decoded => r_rx_fifo_next_word_cmd.DATAIN
 i_packet_fully_decoded => r_data_manager_output_next_cmd.DATAIN
-i_packet_fully_decoded => r_rx_fifo_next_word_cmd.ENA
 o_rx_fifo_next_word_cmd <= r_rx_fifo_next_word_cmd.DB_MAX_OUTPUT_PORT_TYPE
 i_rx_fifo_output_word[0] => r_data_manager_output_data_word.DATAB
 i_rx_fifo_output_word[1] => r_data_manager_output_data_word.DATAB
@@ -1780,6 +1783,8 @@ o_data_manager_output_data_word[29] <= r_data_manager_output_data_word[29].DB_MA
 o_data_manager_output_data_word[30] <= r_data_manager_output_data_word[30].DB_MAX_OUTPUT_PORT_TYPE
 o_data_manager_output_data_word[31] <= r_data_manager_output_data_word[31].DB_MAX_OUTPUT_PORT_TYPE
 o_data_manager_output_next_cmd <= r_data_manager_output_next_cmd.DB_MAX_OUTPUT_PORT_TYPE
+o_debug_out_b <= <GND>
+o_debug_out_y <= <GND>
 
 
 |baseline_c5gx|SERIALISER:serialiser

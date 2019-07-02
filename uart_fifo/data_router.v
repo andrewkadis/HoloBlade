@@ -8,11 +8,14 @@
 
 // TODO: Add decent reset functionality to all the sub-blocks
 
-module DATA_MANAGER(
+module DATA_ROUTER(
 	
 	// Control Signals
 	input i_clock,
 	input i_reset,
+	
+	// Operating signals
+//	input i_loopback_on,
 	
 	// PC_RX
    input[1:0]  i_packet_command,
@@ -23,21 +26,31 @@ module DATA_MANAGER(
 	
 	// PC_TX
    output[31:0] o_data_manager_output_data_word, // Data Output for the PC
-	output       o_data_manager_output_next_cmd  // Instruction to start the Tx of the next Word to the PC
+	output       o_data_manager_output_next_cmd,  // Instruction to start the Tx of the next Word to the PC
 	// TBD....
 	 
 	// SLM_CONFIG
 	// TBD...
 	
-//	// Debug
-//	output o_debug_out_b,
-//	output o_debug_out_y
+	// Debug
+	output o_debug_out_b,
+	output o_debug_out_y
 	  
 	
    );
 	
+//assign o_debug_out_b = i_packet_fully_decoded;
 	
-	
+// Data Router operates in one of three modes
+//
+//localparam [1:0] // for 4 states : size_state = 1:0
+//    sLOOPBACK       = 0,
+//    sDATA_COMMAND   = 1,
+//	 sDATA_NUM_WORDS = 2,
+//	 sDATA_PAYLOAD   = 3;
+//    
+//	 // State registers
+//    reg[1:0] state_reg, state_next;  
 	
 //////////////////////////
 ////// Loopback ////////

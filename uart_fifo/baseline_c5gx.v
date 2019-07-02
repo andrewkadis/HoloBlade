@@ -262,9 +262,11 @@ assign GPIO[0] = 1;
 assign GPIO[10]  = UART_TX;
 wire debug_out_b;
 wire debug_out_y;
+wire debug_out_LA2;
 assign GPIO[11] = UART_RX;
 assign GPIO[12] = debug_out_b;
 assign GPIO[13] = debug_out_y;
+assign GPIO[14] = debug_out_LA2;
 
 spi spi0(
 	
@@ -305,12 +307,11 @@ spi spi0(
 
 // 
 // With PC_RX module
-//reg read_next_word_cmd = 0;
 //wire start_packet_sign;
 // Interfacing Signals for PC_RX
 wire      reset_all;
 wire[1:0] packet_command;
-wire      packet_fully_decoded;
+wire      w_packet_fully_decoded;
 wire       rx_fifo_next_word_cmd;
 wire[31:0] rx_fifo_output_word;
 wire       rx_fifo_is_empty_sig;
@@ -324,43 +325,49 @@ PC_RX pc_rx(
    .i_rx_serial(UART_RX),                         // UART RX Line
 	
 	// DataManager-Side
-   .i_read_next_word_cmd(read_next_word_cmd),     // Command to get next word from FIFO, set high for 1 cycle to read word
+   .i_read_next_word_cmd(r_read_next_word_cmd),   // Command to get next word from FIFO, set high for 1 cycle to read word
 	.o_packet_command(packet_command),             // Which packet we have received
-	.o_packet_fully_decoded(packet_fully_decoded), // Goes high for 1-cycle after a packet has been fully decoded
+	.o_packet_fully_decoded(w_packet_fully_decoded), // Goes high for 1-cycle after a packet has been fully decoded
 	.o_fifo_output_word(rx_fifo_output_word),      // Current output from the FIFO
 	.o_fifo_is_empty_sig(rx_fifo_is_empty_sig),    // Signal to indicates whether or not the FIFO is empty 
 	
 	// Debug
-//	.o_debug_out_b(GPIO[12]),
-//	.o_debug_out_y(GPIO[13])
+	.o_debug_out_b(debug_out_b),
+	.o_debug_out_y(debug_out_y)
 	
  );
 
- assign debug_out_b = packet_fully_decoded;
- assign debug_out_y = read_next_word_cmd;
+assign debug_out_LA2 = w_packet_fully_decoded;
 
  
  
  // Interfacing Signals for PC_RX
 wire[31:0] data_manager_output_data_word;
 wire       data_manager_output_next_cmd;
-// DataManager contains the bulk of the clever parts and the data routing, this is where packets are decoded and passed between different modules
-DATA_MANAGER data_manager(
+// The data_router grabs the words out of the pc_rx one-at-a-time because it has a FIFO - latch this command when received
+reg r_read_next_word_cmd = 0;
+wire o_rx_fifo_next_word_cmd;
+always @(posedge CLOCK_50_B5B) begin
+	r_read_next_word_cmd = o_rx_fifo_next_word_cmd;
+end
+
+// DataRouter contains the bulk of the clever parts and the data routing, this is where packets are decoded and passed between different modules
+DATA_ROUTER data_router(
 
 	// Control Signals
 	.i_clock(CLOCK_50_B5B),
 	.i_reset(),
 	
 	// PC_RX
-   .i_packet_command(packet_command),
-	.i_packet_fully_decoded(new_packet_recv),
-	.o_rx_fifo_next_word_cmd(rx_fifo_next_word_cmd),
+   .i_packet_command(r_read_next_word_cmd),
+	.i_packet_fully_decoded(w_packet_fully_decoded),
+	.o_rx_fifo_next_word_cmd(o_rx_fifo_next_word_cmd),
 	.i_rx_fifo_output_word(rx_fifo_output_word),
 	.i_rx_fifo_is_empty_sig(rx_fifo_is_empty_sig),
 	
 	// PC_TX
    .o_data_manager_output_data_word(data_manager_output_data_word), // Data Output for the PC
-	.o_data_manager_output_next_cmd(data_manager_output_next_cmd)   // Instruction to start the Tx of the next Word to the PC
+	.o_data_manager_output_next_cmd(data_manager_output_next_cmd)    // Instruction to start the Tx of the next Word to the PC
 
 	// TBD....
 	 
@@ -368,8 +375,8 @@ DATA_MANAGER data_manager(
 	// TBD...
 	
 //	// Debug
-//	.o_debug_out_b(GPIO[12]),
-//	.o_debug_out_y(GPIO[13])
+//	.o_debug_out_b(debug_out_b),
+//	.o_debug_out_y(debug_out_y)
 	  
  );
 

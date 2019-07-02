@@ -3,179 +3,179 @@ Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1100mV 85C Model Setup 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -7.292
-TNS   : -286.444
+Slack : -7.759
+TNS   : -312.145
 
 Type  : Slow 1100mV 85C Model Setup 'CLOCK_50_B5B'
-Slack : -7.090
-TNS   : -390.313
+Slack : -7.374
+TNS   : -1044.160
 
 Type  : Slow 1100mV 85C Model Setup 'spi:spi0|spi_clk'
-Slack : -4.500
-TNS   : -73.908
+Slack : -4.531
+TNS   : -78.207
 
 Type  : Slow 1100mV 85C Model Hold 'CLOCK_50_B5B'
-Slack : -3.090
-TNS   : -70.708
+Slack : 0.023
+TNS   : 0.000
 
 Type  : Slow 1100mV 85C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : 0.109
+Slack : 0.228
 TNS   : 0.000
 
 Type  : Slow 1100mV 85C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.211
+Slack : 0.304
 TNS   : 0.000
 
 Type  : Slow 1100mV 85C Model Recovery 'CLOCK_50_B5B'
-Slack : -3.612
-TNS   : -14.031
+Slack : -4.336
+TNS   : -17.143
 
 Type  : Slow 1100mV 85C Model Removal 'CLOCK_50_B5B'
-Slack : 0.290
+Slack : 0.379
 TNS   : 0.000
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
-Slack : -0.806
-TNS   : -156.017
+Slack : -2.636
+TNS   : -422.020
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.599
-TNS   : -80.890
+Slack : -1.139
+TNS   : -125.193
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
 Slack : -0.538
-TNS   : -24.027
+TNS   : -24.716
 
 Type  : Slow 1100mV 0C Model Setup 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -7.376
-TNS   : -296.107
+Slack : -7.762
+TNS   : -320.556
 
 Type  : Slow 1100mV 0C Model Setup 'CLOCK_50_B5B'
-Slack : -7.354
-TNS   : -386.961
+Slack : -7.687
+TNS   : -999.134
 
 Type  : Slow 1100mV 0C Model Setup 'spi:spi0|spi_clk'
-Slack : -4.676
-TNS   : -75.106
+Slack : -4.787
+TNS   : -79.726
 
 Type  : Slow 1100mV 0C Model Hold 'CLOCK_50_B5B'
-Slack : -3.160
-TNS   : -75.162
+Slack : -0.334
+TNS   : -11.442
 
 Type  : Slow 1100mV 0C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.120
-TNS   : -0.284
+Slack : 0.003
+TNS   : 0.000
 
 Type  : Slow 1100mV 0C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.256
+Slack : 0.333
 TNS   : 0.000
 
 Type  : Slow 1100mV 0C Model Recovery 'CLOCK_50_B5B'
-Slack : -3.317
-TNS   : -12.835
+Slack : -3.901
+TNS   : -15.387
 
 Type  : Slow 1100mV 0C Model Removal 'CLOCK_50_B5B'
-Slack : -0.159
-TNS   : -0.159
+Slack : -0.067
+TNS   : -0.104
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
-Slack : -0.838
-TNS   : -153.232
+Slack : -2.636
+TNS   : -419.710
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.552
-TNS   : -77.759
+Slack : -1.051
+TNS   : -116.402
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
 Slack : -0.538
-TNS   : -23.976
-
-Type  : Fast 1100mV 85C Model Setup 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -3.377
-TNS   : -114.777
+TNS   : -24.703
 
 Type  : Fast 1100mV 85C Model Setup 'CLOCK_50_B5B'
-Slack : -3.078
-TNS   : -124.173
+Slack : -4.002
+TNS   : -472.506
+
+Type  : Fast 1100mV 85C Model Setup 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
+Slack : -3.712
+TNS   : -130.448
 
 Type  : Fast 1100mV 85C Model Setup 'spi:spi0|spi_clk'
-Slack : -1.674
-TNS   : -28.613
-
-Type  : Fast 1100mV 85C Model Hold 'CLOCK_50_B5B'
-Slack : -1.562
-TNS   : -32.089
+Slack : -1.703
+TNS   : -31.012
 
 Type  : Fast 1100mV 85C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.052
-TNS   : -0.052
+Slack : -0.044
+TNS   : -0.044
+
+Type  : Fast 1100mV 85C Model Hold 'CLOCK_50_B5B'
+Slack : 0.135
+TNS   : 0.000
 
 Type  : Fast 1100mV 85C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.110
+Slack : 0.166
 TNS   : 0.000
 
 Type  : Fast 1100mV 85C Model Recovery 'CLOCK_50_B5B'
-Slack : -1.921
-TNS   : -7.442
+Slack : -2.547
+TNS   : -9.923
 
 Type  : Fast 1100mV 85C Model Removal 'CLOCK_50_B5B'
-Slack : 0.281
+Slack : 0.299
 TNS   : 0.000
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
-Slack : -0.862
-TNS   : -81.588
+Slack : -2.174
+TNS   : -270.667
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.131
-TNS   : -3.943
+Slack : -0.496
+TNS   : -28.019
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
-Slack : 0.074
+Slack : 0.011
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Setup 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -3.144
-TNS   : -110.223
+Slack : -3.418
+TNS   : -123.738
 
 Type  : Fast 1100mV 0C Model Setup 'CLOCK_50_B5B'
-Slack : -2.702
-TNS   : -102.325
+Slack : -3.365
+TNS   : -388.582
 
 Type  : Fast 1100mV 0C Model Setup 'spi:spi0|spi_clk'
-Slack : -1.597
-TNS   : -26.220
-
-Type  : Fast 1100mV 0C Model Hold 'CLOCK_50_B5B'
-Slack : -1.544
-TNS   : -33.690
+Slack : -1.608
+TNS   : -28.589
 
 Type  : Fast 1100mV 0C Model Hold 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.047
-TNS   : -0.047
+Slack : -0.031
+TNS   : -0.044
+
+Type  : Fast 1100mV 0C Model Hold 'CLOCK_50_B5B'
+Slack : -0.012
+TNS   : -0.220
 
 Type  : Fast 1100mV 0C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.098
+Slack : 0.164
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Recovery 'CLOCK_50_B5B'
-Slack : -1.514
-TNS   : -5.844
+Slack : -2.022
+TNS   : -7.871
 
 Type  : Fast 1100mV 0C Model Removal 'CLOCK_50_B5B'
-Slack : 0.060
+Slack : 0.064
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
-Slack : -0.873
-TNS   : -98.982
+Slack : -2.174
+TNS   : -300.650
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'PC_RX:pc_rx|DESERIALISER:deserialiser|r_pc_full_word_recv_sig'
-Slack : -0.059
-TNS   : -0.367
+Slack : -0.372
+TNS   : -19.380
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
-Slack : 0.087
+Slack : 0.049
 TNS   : 0.000
 
 ------------------------------------------------------------

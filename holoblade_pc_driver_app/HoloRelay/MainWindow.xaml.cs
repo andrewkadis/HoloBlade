@@ -274,13 +274,37 @@ namespace HoloRelay
 
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Send_who_am_i_Click(object sender, RoutedEventArgs e)
         {
+
+            // Open Serial Port
+            SerialPort fpga_com_port = setup_serial_port();
+
+            // Send Test Sequences in little-endian
+            byte[] tx_data = {
+                // Reset - we transmit in little-endian
+                0x1E, 0xDC, 0x6F, 0x41,
+                // StartOfPacket
+                0x74, 0x1B, 0x8C, 0xD7,
+                // Command
+                0x01, 0x00, 0x00, 0x00,
+                // NumOfPayloadWords
+                0x01, 0x00, 0x00, 0x00,
+                // Payload - Just Address of HardwareConfigurationRegister
+                0x78, 0x00, 0x00, 0x00
+            };
+            string tx_string = Send_serial_data(tx_data, fpga_com_port);
+            // Rx Reply
+            string rx_string = Read_serial_data(fpga_com_port);
+
+            // Print
+            Debug.WriteLine("Write: 0x" + tx_string);
+            Debug.WriteLine("Read:  0x" + rx_string);
+            Debug.WriteLine("Data Equal: " + tx_string.Equals(rx_string));
+
+            // Close Serial Port
+            close_serial_port(fpga_com_port);
 
         }
-
-        private void Send_test_packet_Button_Click(object sender, RoutedEventArgs e)
-        {
-                    }
     }
 }
