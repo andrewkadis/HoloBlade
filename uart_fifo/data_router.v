@@ -25,6 +25,7 @@ module DATA_ROUTER(
 	input       i_rx_fifo_is_empty_sig,
 	
 	// PC_TX
+	input        i_serial_is_busy_sig,            // Need to know if our output can take another word or not. TODO: Upgrade with a FIFO
    output[31:0] o_data_manager_output_data_word, // Data Output for the PC
 	output       o_data_manager_output_next_cmd,  // Instruction to start the Tx of the next Word to the PC
 	// TBD....
@@ -87,9 +88,10 @@ reg[31:0] r_data_manager_output_data_word = 0;
 
 // Initially, we simply pump out the last word of the packet received
 // Pulse when we rx a byte
+// This is basically 'readback' mode, we'll extend to config shortly
 always @(posedge i_clock) begin
 	// If data in fifo and Serialiser is not active, start another serialisation sequence
-	if( i_packet_fully_decoded ) begin //(rx_fifo_is_empty_sig==0) && (serial_is_busy_sig==0) ) begin
+	if( (i_rx_fifo_is_empty_sig==0) && (i_serial_is_busy_sig==0) ) begin
 	
 		// Get next word from FIFO
 		r_rx_fifo_next_word_cmd = 1;

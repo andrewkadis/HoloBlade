@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Tue Jul 02 10:56:56 2019
+Tue Jul 02 11:29:20 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -34,16 +34,15 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  26. Parameter Settings for User Entity Instance: PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component
  27. Parameter Settings for User Entity Instance: uart_tx:pc_tx
  28. scfifo Parameter Settings by Entity Instance
- 29. Port Connectivity Checks: "uart_tx:pc_tx"
- 30. Port Connectivity Checks: "SERIALISER:serialiser"
- 31. Port Connectivity Checks: "DATA_ROUTER:data_router"
- 32. Port Connectivity Checks: "PC_RX:pc_rx|testFIFO:uart_rx_FIFO"
- 33. Port Connectivity Checks: "PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm"
- 34. Port Connectivity Checks: "PC_RX:pc_rx"
- 35. Port Connectivity Checks: "spi:spi0"
- 36. Post-Synthesis Netlist Statistics for Top Partition
- 37. Elapsed Time Per Partition
- 38. Analysis & Synthesis Messages
+ 29. Port Connectivity Checks: "SERIALISER:serialiser"
+ 30. Port Connectivity Checks: "DATA_ROUTER:data_router"
+ 31. Port Connectivity Checks: "PC_RX:pc_rx|testFIFO:uart_rx_FIFO"
+ 32. Port Connectivity Checks: "PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm"
+ 33. Port Connectivity Checks: "PC_RX:pc_rx"
+ 34. Port Connectivity Checks: "spi:spi0"
+ 35. Post-Synthesis Netlist Statistics for Top Partition
+ 36. Elapsed Time Per Partition
+ 37. Analysis & Synthesis Messages
 
 
 
@@ -69,13 +68,13 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Tue Jul 02 10:56:56 2019       ;
+; Analysis & Synthesis Status     ; Successful - Tue Jul 02 11:29:20 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 333                                         ;
+; Total registers                 ; 334                                         ;
 ; Total pins                      ; 72                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 2,048                                       ;
@@ -230,16 +229,16 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------+
 ; Resource                                    ; Usage              ;
 +---------------------------------------------+--------------------+
-; Estimate of Logic utilization (ALMs needed) ; 268                ;
+; Estimate of Logic utilization (ALMs needed) ; 269                ;
 ;                                             ;                    ;
-; Combinational ALUT usage for logic          ; 421                ;
+; Combinational ALUT usage for logic          ; 423                ;
 ;     -- 7 input functions                    ; 2                  ;
 ;     -- 6 input functions                    ; 97                 ;
 ;     -- 5 input functions                    ; 35                 ;
-;     -- 4 input functions                    ; 50                 ;
-;     -- <=3 input functions                  ; 237                ;
+;     -- 4 input functions                    ; 51                 ;
+;     -- <=3 input functions                  ; 238                ;
 ;                                             ;                    ;
-; Dedicated logic registers                   ; 333                ;
+; Dedicated logic registers                   ; 334                ;
 ;                                             ;                    ;
 ; I/O pins                                    ; 72                 ;
 ; Total MLAB memory bits                      ; 0                  ;
@@ -248,8 +247,8 @@ refer to the applicable agreement for further details.
 ; Total DSP Blocks                            ; 0                  ;
 ;                                             ;                    ;
 ; Maximum fan-out node                        ; CLOCK_50_B5B~input ;
-; Maximum fan-out                             ; 305                ;
-; Total fan-out                               ; 3053               ;
+; Maximum fan-out                             ; 306                ;
+; Total fan-out                               ; 3061               ;
 ; Average fan-out                             ; 3.16               ;
 +---------------------------------------------+--------------------+
 
@@ -259,8 +258,8 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 ; Compilation Hierarchy Node                  ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                              ; Entity Name       ; Library Name ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
-; |baseline_c5gx                              ; 421 (28)            ; 333 (37)                  ; 2048              ; 0          ; 72   ; 0            ; |baseline_c5gx                                                                                                                                   ; baseline_c5gx     ; work         ;
-;    |DATA_ROUTER:data_router|                ; 0 (0)               ; 33 (33)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|DATA_ROUTER:data_router                                                                                                           ; DATA_ROUTER       ; work         ;
+; |baseline_c5gx                              ; 423 (28)            ; 334 (37)                  ; 2048              ; 0          ; 72   ; 0            ; |baseline_c5gx                                                                                                                                   ; baseline_c5gx     ; work         ;
+;    |DATA_ROUTER:data_router|                ; 1 (1)               ; 33 (33)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|DATA_ROUTER:data_router                                                                                                           ; DATA_ROUTER       ; work         ;
 ;    |PC_RX:pc_rx|                            ; 301 (0)             ; 162 (32)                  ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx                                                                                                                       ; PC_RX             ; work         ;
 ;       |DESERIALISER:deserialiser|           ; 3 (3)               ; 35 (35)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|DESERIALISER:deserialiser                                                                                             ; DESERIALISER      ; work         ;
 ;       |PACKET_DECODE_FSM:packet_decode_fsm| ; 222 (222)           ; 37 (37)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm                                                                                   ; PACKET_DECODE_FSM ; work         ;
@@ -275,7 +274,7 @@ refer to the applicable agreement for further details.
 ;       |uart_rx:pc_rx|                       ; 40 (40)             ; 29 (29)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx                                                                                                         ; uart_rx           ; work         ;
 ;    |SERIALISER:serialiser|                  ; 19 (19)             ; 39 (39)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|SERIALISER:serialiser                                                                                                             ; SERIALISER        ; work         ;
 ;    |spi:spi0|                               ; 46 (46)             ; 34 (34)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|spi:spi0                                                                                                                          ; spi               ; work         ;
-;    |uart_tx:pc_tx|                          ; 27 (27)             ; 28 (28)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|uart_tx:pc_tx                                                                                                                     ; uart_tx           ; work         ;
+;    |uart_tx:pc_tx|                          ; 28 (28)             ; 29 (29)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|uart_tx:pc_tx                                                                                                                     ; uart_tx           ; work         ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -434,7 +433,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 333   ;
+; Total registers                              ; 334   ;
 ; Number of registers using Synchronous Clear  ; 53    ;
 ; Number of registers using Synchronous Load   ; 42    ;
 ; Number of registers using Asynchronous Clear ; 15    ;
@@ -462,10 +461,10 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                              ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
 ; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|SERIALISER:serialiser|num_bytes_to_send[0]                               ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[0]                                                          ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[7]                                                          ;
 ; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|uart_tx:pc_tx|r_Clock_Count[4]                                           ;
 ; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|SERIALISER:serialiser|r_serial_data_byte[3]                              ;
-; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[9]                               ;
+; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[8]                               ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|uart_tx:pc_tx|r_Bit_Index                                                ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Bit_Index                                    ;
 ; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|o_payload_data_word[12]  ;
@@ -591,15 +590,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------------------+-----------------------------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "uart_tx:pc_tx"                                                                             ;
-+-------------+--------+----------+-------------------------------------------------------------------------------------+
-; Port        ; Type   ; Severity ; Details                                                                             ;
-+-------------+--------+----------+-------------------------------------------------------------------------------------+
-; o_Tx_Active ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+-------------+--------+----------+-------------------------------------------------------------------------------------+
-
-
 +--------------------------------------------------------------------------------------------------------------------------------+
 ; Port Connectivity Checks: "SERIALISER:serialiser"                                                                              ;
 +----------------------+--------+----------+-------------------------------------------------------------------------------------+
@@ -664,27 +654,27 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 333                         ;
+; arriav_ff             ; 334                         ;
 ;     CLR               ; 15                          ;
 ;     ENA               ; 89                          ;
 ;     ENA SCLR          ; 20                          ;
 ;     ENA SLD           ; 8                           ;
 ;     SCLR              ; 33                          ;
 ;     SLD               ; 34                          ;
-;     plain             ; 134                         ;
+;     plain             ; 135                         ;
 ; arriav_io_obuf        ; 36                          ;
-; arriav_lcell_comb     ; 422                         ;
+; arriav_lcell_comb     ; 424                         ;
 ;     arith             ; 92                          ;
 ;         1 data inputs ; 54                          ;
 ;         2 data inputs ; 38                          ;
 ;     extend            ; 2                           ;
 ;         7 data inputs ; 2                           ;
-;     normal            ; 328                         ;
+;     normal            ; 330                         ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 6                           ;
-;         2 data inputs ; 92                          ;
+;         2 data inputs ; 93                          ;
 ;         3 data inputs ; 47                          ;
-;         4 data inputs ; 50                          ;
+;         4 data inputs ; 51                          ;
 ;         5 data inputs ; 35                          ;
 ;         6 data inputs ; 97                          ;
 ; boundary_port         ; 72                          ;
@@ -710,7 +700,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Tue Jul 02 10:56:46 2019
+    Info: Processing started: Tue Jul 02 11:29:11 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -718,7 +708,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file seriali
     Info (12023): Found entity 1: SERIALISER File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/serialiser.v Line: 10
 Info (12021): Found 1 design units, including 1 entities, in source file pc_rx.v
     Info (12023): Found entity 1: PC_RX File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 12
-Warning (10275): Verilog HDL Module Instantiation warning at baseline_c5gx.v(435): ignored dangling comma in List of Port Connections File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 435
+Warning (10275): Verilog HDL Module Instantiation warning at baseline_c5gx.v(436): ignored dangling comma in List of Port Connections File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 436
 Info (12021): Found 1 design units, including 1 entities, in source file baseline_c5gx.v
     Info (12023): Found entity 1: baseline_c5gx File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 50
 Info (12021): Found 1 design units, including 1 entities, in source file spi.v
@@ -735,7 +725,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file packet_
     Info (12023): Found entity 1: PACKET_DECODE_FSM File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/packet_decode_fsm.v Line: 9
 Info (12021): Found 1 design units, including 1 entities, in source file data_router.v
     Info (12023): Found entity 1: DATA_ROUTER File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 11
-Warning (10236): Verilog HDL Implicit Net warning at baseline_c5gx.v(433): created implicit net for "serial_is_busy_sig" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 433
+Warning (10236): Verilog HDL Implicit Net warning at baseline_c5gx.v(434): created implicit net for "serial_is_busy_sig" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 434
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(23): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 23
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(24): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 24
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(25): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 25
@@ -850,11 +840,11 @@ Info (12128): Elaborating entity "cntr_t27" for hierarchy "PC_RX:pc_rx|testFIFO:
 Info (12021): Found 1 design units, including 1 entities, in source file db/cntr_h2b.tdf
     Info (12023): Found entity 1: cntr_h2b File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/cntr_h2b.tdf Line: 25
 Info (12128): Elaborating entity "cntr_h2b" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/a_dpfifo_8691.tdf Line: 57
-Info (12128): Elaborating entity "DATA_ROUTER" for hierarchy "DATA_ROUTER:data_router" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 381
-Warning (10034): Output port "o_debug_out_b" at data_router.v(36) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 36
-Warning (10034): Output port "o_debug_out_y" at data_router.v(40) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 40
-Info (12128): Elaborating entity "SERIALISER" for hierarchy "SERIALISER:serialiser" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 435
-Info (12128): Elaborating entity "uart_tx" for hierarchy "uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 540
+Info (12128): Elaborating entity "DATA_ROUTER" for hierarchy "DATA_ROUTER:data_router" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 382
+Warning (10034): Output port "o_debug_out_b" at data_router.v(37) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 37
+Warning (10034): Output port "o_debug_out_y" at data_router.v(41) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 41
+Info (12128): Elaborating entity "SERIALISER" for hierarchy "SERIALISER:serialiser" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 436
+Info (12128): Elaborating entity "uart_tx" for hierarchy "uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 541
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(68): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 68
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(86): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 86
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(96): truncated value with size 32 to match size of target (3) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 96
@@ -1001,16 +991,16 @@ Warning (21074): Design contains 4 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "CLOCK_50_B6A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 69
     Warning (15610): No output dependent on input pin "CLOCK_50_B7A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 70
     Warning (15610): No output dependent on input pin "CLOCK_50_B8A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 71
-Info (21057): Implemented 707 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 710 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 10 input pins
     Info (21059): Implemented 26 output pins
     Info (21060): Implemented 36 bidirectional pins
-    Info (21061): Implemented 603 logic cells
+    Info (21061): Implemented 606 logic cells
     Info (21064): Implemented 32 RAM segments
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 184 warnings
-    Info: Peak virtual memory: 4877 megabytes
-    Info: Processing ended: Tue Jul 02 10:56:56 2019
-    Info: Elapsed time: 00:00:10
-    Info: Total CPU time (on all processors): 00:00:18
+    Info: Peak virtual memory: 4881 megabytes
+    Info: Processing ended: Tue Jul 02 11:29:20 2019
+    Info: Elapsed time: 00:00:09
+    Info: Total CPU time (on all processors): 00:00:17
 
 

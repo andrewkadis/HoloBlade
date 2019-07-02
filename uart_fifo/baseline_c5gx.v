@@ -366,7 +366,8 @@ DATA_ROUTER data_router(
 	.i_rx_fifo_is_empty_sig(rx_fifo_is_empty_sig),
 	
 	// PC_TX
-   .o_data_manager_output_data_word(data_manager_output_data_word), // Data Output for the PC
+	.i_serial_is_busy_sig(tx_active),                                // Need to know if our output can take another word or not. TODO: Upgrade with a FIFO
+	.o_data_manager_output_data_word(data_manager_output_data_word), // Data Output for the PC
 	.o_data_manager_output_next_cmd(data_manager_output_next_cmd)    // Instruction to start the Tx of the next Word to the PC
 
 	// TBD....
