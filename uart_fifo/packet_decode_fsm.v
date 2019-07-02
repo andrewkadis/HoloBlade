@@ -67,7 +67,7 @@ always @(posedge i_clk, posedge i_reset) begin
 end 
 
 // Main State Machine for Decoding, based on template for a regular Mealy Machine
-always @(i_recv_word_cmd, state_reg) begin 
+always @(state_reg) begin 
 
 	// Defaults
    state_next             = state_reg;

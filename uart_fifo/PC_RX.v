@@ -111,12 +111,22 @@ DESERIALISER deserialiser(
 /////////////////////////////
 
 // Control Signals
-// Start a decode when we have deserialised a data work
-wire start_packet_decode_cmd;
-assign start_packet_decode_cmd = pc_full_word_recv_sig;
+// We start a decode when we have deserialised a data work
+// Need to ensure that start_packet_decode_cmd is only high for 1 cycle
+// An edge detector is put on pc_full_word_recv_sig to make it reliable
+reg start_packet_decode_cmd_edge;
+reg pc_full_word_recv_sig_prev = 0;
+always @(posedge i_clock) begin
+	if( (pc_full_word_recv_sig_prev==0) && (pc_full_word_recv_sig==1) )
+		start_packet_decode_cmd_edge = 1;
+	else
+		start_packet_decode_cmd_edge = 0;
+	pc_full_word_recv_sig_prev = pc_full_word_recv_sig;
+end
+
 // The packet that we decode is what came out of the Deserialiser - we latch this
 reg[31:0] recv_word_data_latched;
-always @(posedge start_packet_decode_cmd) begin
+always @(posedge start_packet_decode_cmd_edge) begin
 	recv_word_data_latched = deserialised_data_word;
 end
 
@@ -134,7 +144,7 @@ PACKET_DECODE_FSM packet_decode_fsm(
 	.i_reset(o_reset_all),
 	
 	// Inputs
-	.i_recv_word_cmd(start_packet_decode_cmd),
+	.i_recv_word_cmd(start_packet_decode_cmd_edge),
 	.i_recv_word_data(recv_word_data_latched),
 	
 	// Outputs
