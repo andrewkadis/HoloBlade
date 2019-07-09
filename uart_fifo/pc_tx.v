@@ -73,12 +73,30 @@ reg r_fifo_read_word_cmd = 0;
 wire w_fifo_read_word_cmd;
 always @(posedge i_clock) begin
 	if( (fifo_is_empty==0) && (serial_is_busy_sig==0) ) begin
+	
+	
+		// Get next word from FIFO
 		r_fifo_read_word_cmd = 1;
+		// Latch data and start a serialisation process
+		serial_next_word_cmd = 1;
+		tx_byte_input        = 8'h54;//fifo_output_word;
+		
 	end else begin
-		r_fifo_read_word_cmd = 0;
+	
+		// Clear latches when not pulling data from FIFO
+		r_fifo_read_word_cmd  = 0;
+		serial_next_word_cmd  = 0;
+		tx_byte_input         = 0;
+		
 	end
 end
 assign w_fifo_read_word_cmd = r_fifo_read_word_cmd;
+
+
+//		r_rx_fifo_next_word_cmd = 1;
+
+//		r_data_manager_output_next_cmd  = 1;
+//		r_data_manager_output_data_word = i_rx_fifo_output_word;
 
 // FIFO
 pc_rx_fifo pc_rx_FIFO(
@@ -93,7 +111,7 @@ pc_rx_fifo pc_rx_FIFO(
 	.full(is_fifo_full_sig),        // Full Flag
 //	
 //	// Read Side
-	.rdreq(fifo_read_word_cmd),     // Read Data Valid, set High for 1 cycle to read into current data
+	.rdreq(w_fifo_read_word_cmd),   // Read Data Valid, set High for 1 cycle to read into current data
 	.q(fifo_output_word),           // Output Data
 	.empty(fifo_is_empty)           // Empty Flag
 	
@@ -106,9 +124,11 @@ pc_rx_fifo pc_rx_FIFO(
 //////////////////////////
 
 // Interfacing signals for Serialiser
+reg serial_next_word_cmd;
 wire send_next_byte_cmd;
 wire serial_is_busy_sig;
 // Byte to output from UART - controlled by the Serialiser
+reg[7:0] tx_byte_input;
 wire[7:0] tx_byte_output;
 // Serialiser handles transforming our 4-byte word into a stream of single bytes
  SERIALISER serialiser(
@@ -117,8 +137,8 @@ wire[7:0] tx_byte_output;
 	.i_clock(i_clock),
 	
 	// Input-Side
-	.i_fifo_word_data(fifo_output_word),                   // Data from Uart
-	.i_serial_next_word_cmd(fifo_read_next_word_cmd),      // New byte from Uart Received signal
+	.i_fifo_word_data(tx_byte_input),                   // Data from Uart
+	.i_serial_next_word_cmd(serial_next_word_cmd),         // New byte from Uart Received signal
 	.i_tx_byte_complete(tx_done),                          // Byte has been successfully Tx'd
 	
 	// Output-Side
