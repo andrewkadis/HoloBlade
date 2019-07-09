@@ -11,12 +11,12 @@
 
 module PC_TX(
 
-	input       i_clock,
-   input       i_send_next_byte_cmd, // Command to start TX of individual Byte
-   input[7:0]  i_tx_byte_output,     // Byte of data to send
-   output      o_tx_active,          // Flag for whether or not UART is active
-   output      o_UART_TX,            // Output line for UART
-   output      o_tx_done             // Flag which is high for 1 cycle after Tx Complete
+//	input       i_clock,
+//   input       i_send_next_byte_cmd, // Command to start TX of individual Byte
+//   input[7:0]  i_tx_byte_output,     // Byte of data to send
+//   output      o_tx_active,          // Flag for whether or not UART is active
+//   output      o_UART_TX,            // Output line for UART
+//   output      o_tx_done             // Flag which is high for 1 cycle after Tx Complete
 
 //	// Control Signals
 //   input        i_clock,
@@ -36,8 +36,30 @@ module PC_TX(
 //	output o_debug_out_b,
 //	output o_debug_out_y
 
+
+
+	// Control Signals
+	input i_clock,
+
+	// DataRouter Side
+	input[31:0] i_fifo_word_data,        // Data from Uart
+	input       i_serial_next_word_cmd,  // New byte from Uart Received signal
+	output      o_tx_active,             // Use the active signal to drive the DataRouter sending more data TODO: Hack atm, upgrade with a FIFO
+
+	// PC Side
+   output o_UART_TX                     // Output line for UART
+
    );
 	
+	// Input-Side
+//	.i_fifo_word_data(data_manager_output_data_word),      // Data from Uart
+//	.i_serial_next_word_cmd(data_manager_output_next_cmd), // New byte from Uart Received signal
+//	.i_tx_byte_complete(tx_done),                          // Byte has been successfully Tx'd
+	
+	// Output-Side
+//	.o_send_next_byte_cmd(send_next_byte_cmd),             // Flag to indicate whether or not the serialisation Unit is busy
+//   .o_serial_data_byte(tx_byte_output),                   // Data Output for FIFO
+//   .o_serial_is_busy_sig(serial_is_busy_sig),             // Signal to indicate that serialse is complete
 	
 	
 	
@@ -47,6 +69,38 @@ module PC_TX(
 	
 	
 	
+	
+//////////////////////////
+////// Serialiser ////////
+//////////////////////////
+
+// Buffer for latching
+//reg[31:0] fifo_output_latched = 0; 
+// Control Lines
+//reg  serialise_next_word_cmd = 0;
+//wire serial_is_busy_sig;
+
+// Interfacing signals for Serialiser
+wire send_next_byte_cmd;
+// Byte to output from UART - controlled by the Serialiser
+wire[7:0] tx_byte_output;
+// Serialiser handles transforming our 4-byte word into a stream of single bytes
+ SERIALISER serialiser(
+
+	// Control Signals
+	.i_clock(i_clock),
+	
+	// Input-Side
+	.i_fifo_word_data(i_fifo_word_data),                   // Data from Uart
+	.i_serial_next_word_cmd(i_serial_next_word_cmd),       // New byte from Uart Received signal
+	.i_tx_byte_complete(tx_done),                          // Byte has been successfully Tx'd
+	
+	// Output-Side
+	.o_send_next_byte_cmd(send_next_byte_cmd),             // Flag to indicate whether or not the serialisation Unit is busy
+   .o_serial_data_byte(tx_byte_output),                   // Data Output for FIFO
+   .o_serial_is_busy_sig(serial_is_busy_sig),             // Signal to indicate that serialse is complete
+	  
+ );	
 	
 	
 	
@@ -64,19 +118,27 @@ module PC_TX(
 // Control Flags for Tx UART
 //wire tx_active;
 //wire tx_done;
+
+
+// Interfacing signals for uart_tx
+//wire tx_active;
+wire tx_done;
 // Want to interface to 115200 baud UART with our 50 MHz clock
 // 50000000 / 115200 = 435 Clocks Per Bit.
 parameter c_CLKS_PER_BIT    = 435;
+// Module to control uart to pc
 uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 
-	.i_Clock(i_clock),            // Clock
-   .i_Tx_DV(i_send_next_byte_cmd), // Command to start TX of individual Byte
-   .i_Tx_Byte(i_tx_byte_output),   // Byte of data to send
+	.i_Clock(i_clock),              // Clock
+   .i_Tx_DV(send_next_byte_cmd),   // Command to start TX of individual Byte
+   .i_Tx_Byte(tx_byte_output),     // Byte of data to send
    .o_Tx_Active(o_tx_active),      // Flag for whether or not UART is active
    .o_Tx_Serial(o_UART_TX),        // Output line for UART
-   .o_Tx_Done(o_tx_done)           // Flag which is high for 1 cycle after Tx Complete
+   .o_Tx_Done(tx_done)             // Flag which is high for 1 cycle after Tx Complete
 	  
  );
+ // Make sure we route out tx_active from the module
+// asssign o_tx_active = tx_active;
 
 
 

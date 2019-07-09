@@ -263,10 +263,13 @@ assign GPIO[10]  = UART_TX;
 wire debug_out_b;
 wire debug_out_y;
 wire debug_out_LA2;
+wire debug_out_LA3;
 assign GPIO[11] = UART_RX;
 assign GPIO[12] = debug_out_b;
 assign GPIO[13] = debug_out_y;
 assign GPIO[14] = debug_out_LA2;
+assign GPIO[15] = debug_out_LA3;
+
 
 spi spi0(
 	
@@ -337,7 +340,7 @@ PC_RX pc_rx(
 	
  );
 
-assign debug_out_LA2 = w_packet_fully_decoded;
+//assign debug_out_LA2 = w_packet_fully_decoded;
 
  
  
@@ -402,67 +405,70 @@ DATA_ROUTER data_router(
 
 
 
+assign debug_out_LA2 = data_manager_output_next_cmd;
+assign debug_out_LA3 = tx_active;
 
+// PC_TX to send data to PC 
 
-
-
-
-
-//////////////////////////
-////// Serialiser ////////
-//////////////////////////
-
-// Buffer for latching
-//reg[31:0] fifo_output_latched = 0; 
-// Control Lines
-//reg  serialise_next_word_cmd = 0;
-//wire serial_is_busy_sig;
-
-// Interfacing signals for Serialiser
-wire send_next_byte_cmd;
-// Byte to output from UART - controlled by the Serialiser
-wire[7:0] tx_byte_output;
-// Serialiser handles transforming our 4-byte word into a stream of single bytes
- SERIALISER serialiser(
-
-	// Control Signals
-	.i_clock(CLOCK_50_B5B),
-	
-	// Input-Side
-	.i_fifo_word_data(data_manager_output_data_word),      // Data from Uart
-	.i_serial_next_word_cmd(data_manager_output_next_cmd), // New byte from Uart Received signal
-	.i_tx_byte_complete(tx_done),                          // Byte has been successfully Tx'd
-	
-	// Output-Side
-	.o_send_next_byte_cmd(send_next_byte_cmd),             // Flag to indicate whether or not the serialisation Unit is busy
-   .o_serial_data_byte(tx_byte_output),                   // Data Output for FIFO
-   .o_serial_is_busy_sig(serial_is_busy_sig),             // Signal to indicate that serialse is complete
-	  
- );
- 
- 
- 
- 
- 
- 
- 
- 
-// Spit out to PC TX 
-
-// Interfacing signals for PC RX
+// Interfacing signals for PC Tx
 wire tx_active;
-wire tx_done;
 // PC Tx handles buffering and output to PC
 PC_TX pc_tx(
 
+	// Control Signals
 	.i_clock(CLOCK_50_B5B),
-   .i_send_next_byte_cmd(send_next_byte_cmd), // Command to start TX of individual Byte
-   .i_tx_byte_output(tx_byte_output),         // Byte of data to send
-   .o_tx_active(tx_active),                   // Flag for whether or not UART is active
-   .o_UART_TX(UART_TX),                       // Output line for UART
-   .o_tx_done(tx_done)                        // Flag which is high for 1 cycle after Tx Complete
 
+	// DataRouter Side
+	.i_fifo_word_data(data_manager_output_data_word),      // Data to transmit
+	.i_serial_next_word_cmd(data_manager_output_next_cmd), // New byte from Uart Received signal
+	.o_tx_active(tx_active),                               // Use the active signal to drive the DataRouter sending more data TODO: Hack atm, upgrade with a FIFO
+
+	// PC Side
+   .o_UART_TX(UART_TX)                                    // Output line for UART	
+	
    );
+
+
+////////////////////////////
+//////// Serialiser ////////
+////////////////////////////
+//
+//// Buffer for latching
+////reg[31:0] fifo_output_latched = 0; 
+//// Control Lines
+////reg  serialise_next_word_cmd = 0;
+////wire serial_is_busy_sig;
+//
+//// Interfacing signals for Serialiser
+//wire send_next_byte_cmd;
+//// Byte to output from UART - controlled by the Serialiser
+//wire[7:0] tx_byte_output;
+//// Serialiser handles transforming our 4-byte word into a stream of single bytes
+// SERIALISER serialiser(
+//
+//	// Control Signals
+//	.i_clock(CLOCK_50_B5B),
+//	
+//	// Input-Side
+//	.i_fifo_word_data(data_manager_output_data_word),      // Data from Uart
+//	.i_serial_next_word_cmd(data_manager_output_next_cmd), // New byte from Uart Received signal
+//	.i_tx_byte_complete(tx_done),                          // Byte has been successfully Tx'd
+//	
+//	// Output-Side
+//	.o_send_next_byte_cmd(send_next_byte_cmd),             // Flag to indicate whether or not the serialisation Unit is busy
+//   .o_serial_data_byte(tx_byte_output),                   // Data Output for FIFO
+//   .o_serial_is_busy_sig(serial_is_busy_sig),             // Signal to indicate that serialse is complete
+//	  
+// );
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
 	
 //	.i_Clock(CLOCK_50_B5B),       // Clock
 //   .i_Tx_DV(send_next_byte_cmd), // Command to start TX of individual Byte

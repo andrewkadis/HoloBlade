@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Tue Jul 09 10:46:59 2019
+Tue Jul 09 11:41:45 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -34,7 +34,7 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  26. Parameter Settings for User Entity Instance: PC_TX:pc_tx
  27. Parameter Settings for User Entity Instance: PC_TX:pc_tx|uart_tx:pc_tx
  28. scfifo Parameter Settings by Entity Instance
- 29. Port Connectivity Checks: "SERIALISER:serialiser"
+ 29. Port Connectivity Checks: "PC_TX:pc_tx|SERIALISER:serialiser"
  30. Port Connectivity Checks: "DATA_ROUTER:data_router"
  31. Port Connectivity Checks: "PC_RX:pc_rx|testFIFO:uart_rx_FIFO"
  32. Port Connectivity Checks: "PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm"
@@ -68,7 +68,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Tue Jul 09 10:46:59 2019       ;
+; Analysis & Synthesis Status     ; Successful - Tue Jul 09 11:41:45 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
@@ -249,7 +249,7 @@ refer to the applicable agreement for further details.
 ;                                             ;                    ;
 ; Maximum fan-out node                        ; CLOCK_50_B5B~input ;
 ; Maximum fan-out                             ; 308                ;
-; Total fan-out                               ; 3064               ;
+; Total fan-out                               ; 3065               ;
 ; Average fan-out                             ; 3.15               ;
 +---------------------------------------------+--------------------+
 
@@ -273,9 +273,9 @@ refer to the applicable agreement for further details.
 ;                   |cntr_h2b:wr_ptr|         ; 6 (6)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr         ; cntr_h2b          ; work         ;
 ;                   |cntr_t27:usedw_counter|  ; 6 (6)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter  ; cntr_t27          ; work         ;
 ;       |uart_rx:pc_rx|                       ; 40 (40)             ; 29 (29)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx                                                                                                         ; uart_rx           ; work         ;
-;    |PC_TX:pc_tx|                            ; 28 (0)              ; 29 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx                                                                                                                       ; PC_TX             ; work         ;
+;    |PC_TX:pc_tx|                            ; 47 (0)              ; 68 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx                                                                                                                       ; PC_TX             ; work         ;
+;       |SERIALISER:serialiser|               ; 19 (19)             ; 39 (39)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser                                                                                                 ; SERIALISER        ; work         ;
 ;       |uart_tx:pc_tx|                       ; 28 (28)             ; 29 (29)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx                                                                                                         ; uart_tx           ; work         ;
-;    |SERIALISER:serialiser|                  ; 19 (19)             ; 39 (39)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|SERIALISER:serialiser                                                                                                             ; SERIALISER        ; work         ;
 ;    |spi:spi0|                               ; 46 (46)             ; 34 (34)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|spi:spi0                                                                                                                          ; spi               ; work         ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
@@ -462,10 +462,10 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                              ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|SERIALISER:serialiser|num_bytes_to_send[3]                               ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[0]                                                          ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|num_bytes_to_send[3]                   ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[7]                                                          ;
 ; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Clock_Count[4]                               ;
-; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|SERIALISER:serialiser|r_serial_data_byte[1]                              ;
+; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|r_serial_data_byte[1]                  ;
 ; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[9]                               ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Bit_Index                                    ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Bit_Index                                    ;
@@ -593,7 +593,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +--------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "SERIALISER:serialiser"                                                                              ;
+; Port Connectivity Checks: "PC_TX:pc_tx|SERIALISER:serialiser"                                                                  ;
 +----------------------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port                 ; Type   ; Severity ; Details                                                                             ;
 +----------------------+--------+----------+-------------------------------------------------------------------------------------+
@@ -702,7 +702,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Tue Jul 09 10:46:50 2019
+    Info: Processing started: Tue Jul 09 11:41:36 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -710,7 +710,6 @@ Info (12021): Found 1 design units, including 1 entities, in source file seriali
     Info (12023): Found entity 1: SERIALISER File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/serialiser.v Line: 10
 Info (12021): Found 1 design units, including 1 entities, in source file pc_rx.v
     Info (12023): Found entity 1: PC_RX File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 12
-Warning (10275): Verilog HDL Module Instantiation warning at baseline_c5gx.v(441): ignored dangling comma in List of Port Connections File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 441
 Info (12021): Found 1 design units, including 1 entities, in source file baseline_c5gx.v
     Info (12023): Found entity 1: baseline_c5gx File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 50
 Info (12021): Found 1 design units, including 1 entities, in source file spi.v
@@ -727,9 +726,10 @@ Info (12021): Found 1 design units, including 1 entities, in source file packet_
     Info (12023): Found entity 1: PACKET_DECODE_FSM File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/packet_decode_fsm.v Line: 9
 Info (12021): Found 1 design units, including 1 entities, in source file data_router.v
     Info (12023): Found entity 1: DATA_ROUTER File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 11
+Warning (10275): Verilog HDL Module Instantiation warning at pc_tx.v(103): ignored dangling comma in List of Port Connections File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 103
 Info (12021): Found 1 design units, including 1 entities, in source file pc_tx.v
     Info (12023): Found entity 1: PC_TX File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 12
-Warning (10236): Verilog HDL Implicit Net warning at baseline_c5gx.v(439): created implicit net for "serial_is_busy_sig" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 439
+Warning (10236): Verilog HDL Implicit Net warning at pc_tx.v(101): created implicit net for "serial_is_busy_sig" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 101
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(23): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 23
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(24): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 24
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(25): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 25
@@ -744,7 +744,7 @@ Info (12127): Elaborating entity "baseline_c5gx" for the top level hierarchy
 Warning (10230): Verilog HDL assignment warning at baseline_c5gx.v(200): truncated value with size 32 to match size of target (24) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 200
 Warning (10034): Output port "LEDG" at baseline_c5gx.v(144) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 144
 Warning (10034): Output port "LEDR" at baseline_c5gx.v(147) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 147
-Info (12128): Elaborating entity "spi" for hierarchy "spi:spi0" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 295
+Info (12128): Elaborating entity "spi" for hierarchy "spi:spi0" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 298
 Warning (10230): Verilog HDL assignment warning at spi.v(157): truncated value with size 32 to match size of target (4) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 157
 Warning (10235): Verilog HDL Always Construct warning at spi.v(172): variable "enable" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 172
 Warning (10235): Verilog HDL Always Construct warning at spi.v(174): variable "start_transfer" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 174
@@ -757,7 +757,7 @@ Warning (10235): Verilog HDL Always Construct warning at spi.v(223): variable "s
 Info (10264): Verilog HDL Case Statement information at spi.v(242): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 242
 Info (10264): Verilog HDL Case Statement information at spi.v(269): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 269
 Info (10264): Verilog HDL Case Statement information at spi.v(293): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 293
-Info (12128): Elaborating entity "PC_RX" for hierarchy "PC_RX:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 338
+Info (12128): Elaborating entity "PC_RX" for hierarchy "PC_RX:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 341
 Warning (10230): Verilog HDL assignment warning at pc_rx.v(184): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 184
 Info (12128): Elaborating entity "uart_rx" for hierarchy "PC_RX:pc_rx|uart_rx:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 66
 Warning (10230): Verilog HDL assignment warning at uart_rx.v(80): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 80
@@ -849,12 +849,12 @@ Info (12128): Elaborating entity "cntr_t27" for hierarchy "PC_RX:pc_rx|testFIFO:
 Info (12021): Found 1 design units, including 1 entities, in source file db/cntr_h2b.tdf
     Info (12023): Found entity 1: cntr_h2b File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/cntr_h2b.tdf Line: 25
 Info (12128): Elaborating entity "cntr_h2b" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/a_dpfifo_8691.tdf Line: 57
-Info (12128): Elaborating entity "DATA_ROUTER" for hierarchy "DATA_ROUTER:data_router" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 382
+Info (12128): Elaborating entity "DATA_ROUTER" for hierarchy "DATA_ROUTER:data_router" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 385
 Warning (10034): Output port "o_debug_out_b" at data_router.v(37) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 37
 Warning (10034): Output port "o_debug_out_y" at data_router.v(41) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 41
-Info (12128): Elaborating entity "SERIALISER" for hierarchy "SERIALISER:serialiser" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 441
-Info (12128): Elaborating entity "PC_TX" for hierarchy "PC_TX:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 465
-Info (12128): Elaborating entity "uart_tx" for hierarchy "PC_TX:pc_tx|uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 79
+Info (12128): Elaborating entity "PC_TX" for hierarchy "PC_TX:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 429
+Info (12128): Elaborating entity "SERIALISER" for hierarchy "PC_TX:pc_tx|SERIALISER:serialiser" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 103
+Info (12128): Elaborating entity "uart_tx" for hierarchy "PC_TX:pc_tx|uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 139
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(68): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 68
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(86): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 86
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(96): truncated value with size 32 to match size of target (3) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 96
@@ -869,6 +869,7 @@ Warning (13034): The following nodes have both tri-state and non-tri-state drive
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[12]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[13]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[14]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
+    Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[15]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
 Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "GPIO[8]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13040): bidirectional pin "GPIO[1]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
@@ -876,7 +877,6 @@ Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "GPIO[5]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13040): bidirectional pin "GPIO[7]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13040): bidirectional pin "GPIO[9]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
-    Warning (13040): bidirectional pin "GPIO[15]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13040): bidirectional pin "GPIO[16]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13040): bidirectional pin "GPIO[17]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13040): bidirectional pin "GPIO[18]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
@@ -973,6 +973,7 @@ Warning (13009): TRI or OPNDRN buffers permanently enabled
     Warning (13010): Node "GPIO[12]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13010): Node "GPIO[13]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13010): Node "GPIO[14]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
+    Warning (13010): Node "GPIO[15]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "LEDG[0]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 144
     Warning (13410): Pin "LEDG[1]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 144
@@ -1007,9 +1008,9 @@ Info (21057): Implemented 712 device resources after synthesis - the final resou
     Info (21060): Implemented 36 bidirectional pins
     Info (21061): Implemented 608 logic cells
     Info (21064): Implemented 32 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 189 warnings
-    Info: Peak virtual memory: 4883 megabytes
-    Info: Processing ended: Tue Jul 09 10:46:59 2019
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 190 warnings
+    Info: Peak virtual memory: 4881 megabytes
+    Info: Processing ended: Tue Jul 09 11:41:45 2019
     Info: Elapsed time: 00:00:09
     Info: Total CPU time (on all processors): 00:00:17
 

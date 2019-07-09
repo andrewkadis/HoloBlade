@@ -68,6 +68,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "GPIO[15]",
+					"strict" : false
+				},
+				{
 					"name" : "CLOCK_50_B5B",
 					"strict" : false
 				},

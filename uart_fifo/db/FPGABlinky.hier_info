@@ -1,6 +1,6 @@
 |baseline_c5gx
 CLOCK_125_p => ~NO_FANOUT~
-CLOCK_50_B5B => CLOCK_50_B5B.IN2
+CLOCK_50_B5B => CLOCK_50_B5B.IN1
 CLOCK_50_B6A => ~NO_FANOUT~
 CLOCK_50_B7A => ~NO_FANOUT~
 CLOCK_50_B8A => ~NO_FANOUT~
@@ -18,7 +18,7 @@ GPIO[11] <> GPIO[11]
 GPIO[12] <> GPIO[12]
 GPIO[13] <> GPIO[13]
 GPIO[14] <> GPIO[14]
-GPIO[15] <> <UNC>
+GPIO[15] <> GPIO[15]
 GPIO[16] <> <UNC>
 GPIO[17] <> <UNC>
 GPIO[18] <> <UNC>
@@ -39,13 +39,13 @@ GPIO[32] <> <UNC>
 GPIO[33] <> <UNC>
 GPIO[34] <> <UNC>
 GPIO[35] <> <UNC>
-HEX0[0] <= HEX0[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[1] <= HEX0[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[2] <= HEX0[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[3] <= HEX0[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[4] <= HEX0[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[5] <= HEX0[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
-HEX0[6] <= HEX0[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[0] << HEX0[0]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[1] << HEX0[1]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[2] << HEX0[2]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[3] << HEX0[3]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[4] << HEX0[4]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[5] << HEX0[5]~reg0.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[6] << HEX0[6]~reg0.DB_MAX_OUTPUT_PORT_TYPE
 KEY[0] => spi:spi0.reset
 KEY[1] => always2.IN0
 KEY[1] => tx_addr_byte.OUTPUTSELECT
@@ -101,27 +101,27 @@ KEY[3] => tx_data_byte.OUTPUTSELECT
 KEY[3] => tx_data_byte.OUTPUTSELECT
 KEY[3] => tx_data_byte.OUTPUTSELECT
 KEY[3] => start_transfer.DATAA
-LEDG[0] <= <GND>
-LEDG[1] <= <GND>
-LEDG[2] <= <GND>
-LEDG[3] <= <GND>
-LEDG[4] <= <GND>
-LEDG[5] <= <GND>
-LEDG[6] <= <GND>
-LEDG[7] <= <GND>
-LEDR[0] <= <GND>
-LEDR[1] <= <GND>
-LEDR[2] <= <GND>
-LEDR[3] <= <GND>
-LEDR[4] <= <GND>
-LEDR[5] <= <GND>
-LEDR[6] <= <GND>
-LEDR[7] <= <GND>
-LEDR[8] <= <GND>
-LEDR[9] <= <GND>
+LEDG[0] << <GND>
+LEDG[1] << <GND>
+LEDG[2] << <GND>
+LEDG[3] << <GND>
+LEDG[4] << <GND>
+LEDG[5] << <GND>
+LEDG[6] << <GND>
+LEDG[7] << <GND>
+LEDR[0] << <GND>
+LEDR[1] << <GND>
+LEDR[2] << <GND>
+LEDR[3] << <GND>
+LEDR[4] << <GND>
+LEDR[5] << <GND>
+LEDR[6] << <GND>
+LEDR[7] << <GND>
+LEDR[8] << <GND>
+LEDR[9] << <GND>
 UART_RX => PC_RX:pc_rx.i_rx_serial
 UART_RX => GPIO[11].DATAIN
-UART_TX <= PC_TX:pc_tx.o_UART_TX
+UART_TX << PC_TX:pc_tx.o_UART_TX
 
 
 |baseline_c5gx|spi:spi0
@@ -1755,7 +1755,46 @@ o_debug_out_b <= <GND>
 o_debug_out_y <= <GND>
 
 
-|baseline_c5gx|SERIALISER:serialiser
+|baseline_c5gx|PC_TX:pc_tx
+i_clock => i_clock.IN2
+i_fifo_word_data[0] => i_fifo_word_data[0].IN1
+i_fifo_word_data[1] => i_fifo_word_data[1].IN1
+i_fifo_word_data[2] => i_fifo_word_data[2].IN1
+i_fifo_word_data[3] => i_fifo_word_data[3].IN1
+i_fifo_word_data[4] => i_fifo_word_data[4].IN1
+i_fifo_word_data[5] => i_fifo_word_data[5].IN1
+i_fifo_word_data[6] => i_fifo_word_data[6].IN1
+i_fifo_word_data[7] => i_fifo_word_data[7].IN1
+i_fifo_word_data[8] => i_fifo_word_data[8].IN1
+i_fifo_word_data[9] => i_fifo_word_data[9].IN1
+i_fifo_word_data[10] => i_fifo_word_data[10].IN1
+i_fifo_word_data[11] => i_fifo_word_data[11].IN1
+i_fifo_word_data[12] => i_fifo_word_data[12].IN1
+i_fifo_word_data[13] => i_fifo_word_data[13].IN1
+i_fifo_word_data[14] => i_fifo_word_data[14].IN1
+i_fifo_word_data[15] => i_fifo_word_data[15].IN1
+i_fifo_word_data[16] => i_fifo_word_data[16].IN1
+i_fifo_word_data[17] => i_fifo_word_data[17].IN1
+i_fifo_word_data[18] => i_fifo_word_data[18].IN1
+i_fifo_word_data[19] => i_fifo_word_data[19].IN1
+i_fifo_word_data[20] => i_fifo_word_data[20].IN1
+i_fifo_word_data[21] => i_fifo_word_data[21].IN1
+i_fifo_word_data[22] => i_fifo_word_data[22].IN1
+i_fifo_word_data[23] => i_fifo_word_data[23].IN1
+i_fifo_word_data[24] => i_fifo_word_data[24].IN1
+i_fifo_word_data[25] => i_fifo_word_data[25].IN1
+i_fifo_word_data[26] => i_fifo_word_data[26].IN1
+i_fifo_word_data[27] => i_fifo_word_data[27].IN1
+i_fifo_word_data[28] => i_fifo_word_data[28].IN1
+i_fifo_word_data[29] => i_fifo_word_data[29].IN1
+i_fifo_word_data[30] => i_fifo_word_data[30].IN1
+i_fifo_word_data[31] => i_fifo_word_data[31].IN1
+i_serial_next_word_cmd => i_serial_next_word_cmd.IN1
+o_tx_active <= uart_tx:pc_tx.o_Tx_Active
+o_UART_TX <= uart_tx:pc_tx.o_Tx_Serial
+
+
+|baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser
 i_clock => num_bytes_to_send[0].CLK
 i_clock => num_bytes_to_send[1].CLK
 i_clock => num_bytes_to_send[2].CLK
@@ -1878,22 +1917,6 @@ o_serial_data_byte[5] <= r_serial_data_byte[5].DB_MAX_OUTPUT_PORT_TYPE
 o_serial_data_byte[6] <= r_serial_data_byte[6].DB_MAX_OUTPUT_PORT_TYPE
 o_serial_data_byte[7] <= r_serial_data_byte[7].DB_MAX_OUTPUT_PORT_TYPE
 o_serial_is_busy_sig <= r_serial_is_busy_sig.DB_MAX_OUTPUT_PORT_TYPE
-
-
-|baseline_c5gx|PC_TX:pc_tx
-i_clock => i_clock.IN1
-i_send_next_byte_cmd => i_send_next_byte_cmd.IN1
-i_tx_byte_output[0] => i_tx_byte_output[0].IN1
-i_tx_byte_output[1] => i_tx_byte_output[1].IN1
-i_tx_byte_output[2] => i_tx_byte_output[2].IN1
-i_tx_byte_output[3] => i_tx_byte_output[3].IN1
-i_tx_byte_output[4] => i_tx_byte_output[4].IN1
-i_tx_byte_output[5] => i_tx_byte_output[5].IN1
-i_tx_byte_output[6] => i_tx_byte_output[6].IN1
-i_tx_byte_output[7] => i_tx_byte_output[7].IN1
-o_tx_active <= uart_tx:pc_tx.o_Tx_Active
-o_UART_TX <= uart_tx:pc_tx.o_Tx_Serial
-o_tx_done <= uart_tx:pc_tx.o_Tx_Done
 
 
 |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx
