@@ -401,6 +401,7 @@ PC_TX pc_tx(
 
 	// Control Signals
 	.i_clock(CLOCK_50_B5B),
+	.i_reset(reset_all),
 
 	// DataRouter Side
 	.i_fifo_word_data(data_manager_output_data_word),      // Data to transmit

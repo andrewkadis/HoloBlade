@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Tue Jul 09 12:02:16 2019
+Tue Jul 09 13:38:49 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -71,16 +71,16 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Tue Jul 09 12:02:16 2019       ;
+; Analysis & Synthesis Status     ; Successful - Tue Jul 09 13:38:49 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 336                                         ;
+; Total registers                 ; 365                                         ;
 ; Total pins                      ; 72                                          ;
 ; Total virtual pins              ; 0                                           ;
-; Total block memory bits         ; 2,048                                       ;
+; Total block memory bits         ; 4,096                                       ;
 ; Total DSP Blocks                ; 0                                           ;
 ; Total HSSI RX PCSs              ; 0                                           ;
 ; Total HSSI PMA RX Deserializers ; 0                                           ;
@@ -191,7 +191,8 @@ refer to the applicable agreement for further details.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processors 2-6         ;   0.0%      ;
+;     Processor 2            ;   0.0%      ;
+;     Processors 3-6         ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -234,27 +235,27 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------+
 ; Resource                                    ; Usage              ;
 +---------------------------------------------+--------------------+
-; Estimate of Logic utilization (ALMs needed) ; 269                ;
+; Estimate of Logic utilization (ALMs needed) ; 294                ;
 ;                                             ;                    ;
-; Combinational ALUT usage for logic          ; 424                ;
+; Combinational ALUT usage for logic          ; 467                ;
 ;     -- 7 input functions                    ; 2                  ;
-;     -- 6 input functions                    ; 95                 ;
-;     -- 5 input functions                    ; 39                 ;
-;     -- 4 input functions                    ; 47                 ;
-;     -- <=3 input functions                  ; 241                ;
+;     -- 6 input functions                    ; 102                ;
+;     -- 5 input functions                    ; 48                 ;
+;     -- 4 input functions                    ; 53                 ;
+;     -- <=3 input functions                  ; 262                ;
 ;                                             ;                    ;
-; Dedicated logic registers                   ; 336                ;
+; Dedicated logic registers                   ; 365                ;
 ;                                             ;                    ;
 ; I/O pins                                    ; 72                 ;
 ; Total MLAB memory bits                      ; 0                  ;
-; Total block memory bits                     ; 2048               ;
+; Total block memory bits                     ; 4096               ;
 ;                                             ;                    ;
 ; Total DSP Blocks                            ; 0                  ;
 ;                                             ;                    ;
 ; Maximum fan-out node                        ; CLOCK_50_B5B~input ;
-; Maximum fan-out                             ; 308                ;
-; Total fan-out                               ; 3065               ;
-; Average fan-out                             ; 3.15               ;
+; Maximum fan-out                             ; 369                ;
+; Total fan-out                               ; 3794               ;
+; Average fan-out                             ; 3.53               ;
 +---------------------------------------------+--------------------+
 
 
@@ -263,7 +264,7 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 ; Compilation Hierarchy Node                  ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                              ; Entity Name       ; Library Name ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
-; |baseline_c5gx                              ; 424 (28)            ; 336 (37)                  ; 2048              ; 0          ; 72   ; 0            ; |baseline_c5gx                                                                                                                                   ; baseline_c5gx     ; work         ;
+; |baseline_c5gx                              ; 467 (28)            ; 365 (37)                  ; 4096              ; 0          ; 72   ; 0            ; |baseline_c5gx                                                                                                                                   ; baseline_c5gx     ; work         ;
 ;    |DATA_ROUTER:data_router|                ; 1 (1)               ; 33 (33)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|DATA_ROUTER:data_router                                                                                                           ; DATA_ROUTER       ; work         ;
 ;    |PC_RX:pc_rx|                            ; 302 (1)             ; 164 (34)                  ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx                                                                                                                       ; PC_RX             ; work         ;
 ;       |DESERIALISER:deserialiser|           ; 3 (3)               ; 35 (35)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|DESERIALISER:deserialiser                                                                                             ; DESERIALISER      ; work         ;
@@ -277,8 +278,16 @@ refer to the applicable agreement for further details.
 ;                   |cntr_h2b:wr_ptr|         ; 6 (6)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr         ; cntr_h2b          ; work         ;
 ;                   |cntr_t27:usedw_counter|  ; 6 (6)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter  ; cntr_t27          ; work         ;
 ;       |uart_rx:pc_rx|                       ; 40 (40)             ; 29 (29)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx                                                                                                         ; uart_rx           ; work         ;
-;    |PC_TX:pc_tx|                            ; 47 (0)              ; 68 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx                                                                                                                       ; PC_TX             ; work         ;
+;    |PC_TX:pc_tx|                            ; 90 (0)              ; 97 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx                                                                                                                       ; PC_TX             ; work         ;
 ;       |SERIALISER:serialiser|               ; 19 (19)             ; 39 (39)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser                                                                                                 ; SERIALISER        ; work         ;
+;       |pc_rx_fifo:pc_rx_FIFO|               ; 43 (0)              ; 29 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO                                                                                                 ; pc_rx_fifo        ; work         ;
+;          |scfifo:scfifo_component|          ; 43 (0)              ; 29 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component                                                                         ; scfifo            ; work         ;
+;             |scfifo_le91:auto_generated|    ; 43 (0)              ; 29 (0)                    ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated                                              ; scfifo_le91       ; work         ;
+;                |a_dpfifo_8691:dpfifo|       ; 43 (23)             ; 29 (12)                   ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo                         ; a_dpfifo_8691     ; work         ;
+;                   |altsyncram_j0i1:FIFOram| ; 0 (0)               ; 0 (0)                     ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram ; altsyncram_j0i1   ; work         ;
+;                   |cntr_g2b:rd_ptr_msb|     ; 6 (6)               ; 5 (5)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb     ; cntr_g2b          ; work         ;
+;                   |cntr_h2b:wr_ptr|         ; 7 (7)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr         ; cntr_h2b          ; work         ;
+;                   |cntr_t27:usedw_counter|  ; 7 (7)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter  ; cntr_t27          ; work         ;
 ;       |uart_tx:pc_tx|                       ; 28 (28)             ; 29 (29)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx                                                                                                         ; uart_tx           ; work         ;
 ;    |spi:spi0|                               ; 46 (46)             ; 34 (34)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|spi:spi0                                                                                                                          ; spi               ; work         ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
@@ -291,6 +300,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Name                                                                                                                                         ; Type ; Mode             ; Port A Depth ; Port A Width ; Port B Depth ; Port B Width ; Size ; MIF  ;
 +----------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+------+------+
 ; PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|ALTSYNCRAM ; AUTO ; Simple Dual Port ; 64           ; 32           ; 64           ; 32           ; 2048 ; None ;
+; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|ALTSYNCRAM ; AUTO ; Simple Dual Port ; 64           ; 32           ; 64           ; 32           ; 2048 ; None ;
 +----------------------------------------------------------------------------------------------------------------------------------------------+------+------------------+--------------+--------------+--------------+--------------+------+------+
 
 
@@ -402,56 +412,37 @@ Encoding Type:  One-Hot
 Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                                                                                                                                          ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
-; Register name                                                                                                                                          ; Reason for Removal                                                 ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff                                    ; Lost fanout                                                        ;
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|rd_ptr_lsb                                   ; Stuck at GND due to stuck port clock_enable                        ;
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr|counter_reg_bit[0..5]        ; Stuck at GND due to stuck port clock_enable                        ;
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter|counter_reg_bit[0..5] ; Stuck at GND due to stuck port clock_enable                        ;
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb|counter_reg_bit[0..4]    ; Stuck at GND due to stuck port clock_enable                        ;
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|full_dff                                     ; Lost fanout                                                        ;
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|low_addressa[0..5]                           ; Lost fanout                                                        ;
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|usedw_is_0_dff                               ; Lost fanout                                                        ;
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|usedw_is_1_dff                               ; Lost fanout                                                        ;
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|usedw_is_2_dff                               ; Lost fanout                                                        ;
-; DATA_ROUTER:data_router|r_rx_fifo_next_word_cmd                                                                                                        ; Merged with DATA_ROUTER:data_router|r_data_manager_output_next_cmd ;
-; tx_addr_byte[2..6]                                                                                                                                     ; Merged with tx_addr_byte[1]                                        ;
-; tx_data_byte[0,2..7]                                                                                                                                   ; Merged with tx_addr_byte[1]                                        ;
-; tx_addr_byte[1]                                                                                                                                        ; Stuck at GND due to stuck port data_in                             ;
-; spi:spi0|tx_shift_reg[0]                                                                                                                               ; Stuck at GND due to stuck port data_in                             ;
-; PC_TX:pc_tx|uart_tx:pc_tx|r_SM_Main~2                                                                                                                  ; Lost fanout                                                        ;
-; PC_TX:pc_tx|uart_tx:pc_tx|r_SM_Main~3                                                                                                                  ; Lost fanout                                                        ;
-; PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_reg~4                                                                                            ; Lost fanout                                                        ;
-; PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_reg~5                                                                                            ; Lost fanout                                                        ;
-; PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main~2                                                                                                                  ; Lost fanout                                                        ;
-; PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main~3                                                                                                                  ; Lost fanout                                                        ;
-; spi:spi0|state_reg~4                                                                                                                                   ; Lost fanout                                                        ;
-; spi:spi0|state_reg~5                                                                                                                                   ; Lost fanout                                                        ;
-; spi:spi0|state_reg~6                                                                                                                                   ; Lost fanout                                                        ;
-; Total Number of Removed Registers = 53                                                                                                                 ;                                                                    ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                               ;
++-------------------------------------------------------------+--------------------------------------------------------------------+
+; Register name                                               ; Reason for Removal                                                 ;
++-------------------------------------------------------------+--------------------------------------------------------------------+
+; DATA_ROUTER:data_router|r_rx_fifo_next_word_cmd             ; Merged with DATA_ROUTER:data_router|r_data_manager_output_next_cmd ;
+; tx_addr_byte[2..6]                                          ; Merged with tx_addr_byte[1]                                        ;
+; tx_data_byte[0,2..7]                                        ; Merged with tx_addr_byte[1]                                        ;
+; tx_addr_byte[1]                                             ; Stuck at GND due to stuck port data_in                             ;
+; spi:spi0|tx_shift_reg[0]                                    ; Stuck at GND due to stuck port data_in                             ;
+; PC_TX:pc_tx|uart_tx:pc_tx|r_SM_Main~2                       ; Lost fanout                                                        ;
+; PC_TX:pc_tx|uart_tx:pc_tx|r_SM_Main~3                       ; Lost fanout                                                        ;
+; PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_reg~4 ; Lost fanout                                                        ;
+; PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_reg~5 ; Lost fanout                                                        ;
+; PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main~2                       ; Lost fanout                                                        ;
+; PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main~3                       ; Lost fanout                                                        ;
+; spi:spi0|state_reg~4                                        ; Lost fanout                                                        ;
+; spi:spi0|state_reg~5                                        ; Lost fanout                                                        ;
+; spi:spi0|state_reg~6                                        ; Lost fanout                                                        ;
+; Total Number of Removed Registers = 24                      ;                                                                    ;
++-------------------------------------------------------------+--------------------------------------------------------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                                                                                                                                                                                               ;
-+----------------------------------------------------------------------------------------------------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-; Register name                                                                                                        ; Reason for Removal             ; Registers Removed due to This Register                                                                                                            ;
-+----------------------------------------------------------------------------------------------------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|rd_ptr_lsb ; Stuck at GND                   ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb|counter_reg_bit[4], ;
-;                                                                                                                      ; due to stuck port clock_enable ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb|counter_reg_bit[3], ;
-;                                                                                                                      ;                                ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb|counter_reg_bit[2], ;
-;                                                                                                                      ;                                ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb|counter_reg_bit[1], ;
-;                                                                                                                      ;                                ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb|counter_reg_bit[0]  ;
-; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|empty_dff  ; Lost Fanouts                   ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|full_dff,                               ;
-;                                                                                                                      ;                                ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|usedw_is_0_dff,                         ;
-;                                                                                                                      ;                                ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|usedw_is_1_dff,                         ;
-;                                                                                                                      ;                                ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|usedw_is_2_dff                          ;
-; tx_addr_byte[1]                                                                                                      ; Stuck at GND                   ; spi:spi0|tx_shift_reg[0]                                                                                                                          ;
-;                                                                                                                      ; due to stuck port data_in      ;                                                                                                                                                   ;
-+----------------------------------------------------------------------------------------------------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                          ;
++-----------------+---------------------------+----------------------------------------+
+; Register name   ; Reason for Removal        ; Registers Removed due to This Register ;
++-----------------+---------------------------+----------------------------------------+
+; tx_addr_byte[1] ; Stuck at GND              ; spi:spi0|tx_shift_reg[0]               ;
+;                 ; due to stuck port data_in ;                                        ;
++-----------------+---------------------------+----------------------------------------+
 
 
 +------------------------------------------------------+
@@ -459,12 +450,12 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 336   ;
-; Number of registers using Synchronous Clear  ; 53    ;
+; Total registers                              ; 365   ;
+; Number of registers using Synchronous Clear  ; 70    ;
 ; Number of registers using Synchronous Load   ; 42    ;
 ; Number of registers using Asynchronous Clear ; 15    ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 117   ;
+; Number of registers using Clock Enable       ; 135   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -481,24 +472,24 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------+---------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                        ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                              ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|num_bytes_to_send[3]                   ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[7]                                                          ;
-; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Clock_Count[4]                               ;
-; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|r_serial_data_byte[1]                  ;
-; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[9]                               ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Bit_Index                                    ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Bit_Index                                    ;
-; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|o_payload_data_word[12]  ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_next.sIDLE         ;
-; 9:1                ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_next.sDATA_PAYLOAD ;
-; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector4                                                       ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector2                                                       ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                          ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                                ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------------------------------------+
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|num_bytes_to_send[0]                     ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[0]                                                            ;
+; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Clock_Count[1]                                 ;
+; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|r_serial_data_byte[0]                    ;
+; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[5]                                 ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Bit_Index                                      ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Bit_Index                                      ;
+; 4:1                ; 32 bits   ; 64 LEs        ; 64 LEs               ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|o_payload_data_word[7]     ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_next.sIDLE           ;
+; 9:1                ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_next.sDATA_NUM_WORDS ;
+; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector1                                                         ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector2                                                         ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-------------------------------------------------------------------------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -669,19 +660,14 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO"                                                                                                            ;
-+-------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
-; Port  ; Type   ; Severity ; Details                                                                                                                                      ;
-+-------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
-; data  ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; rdreq ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; sclr  ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; wrreq ; Input  ; Warning  ; Declared by entity but not connected by instance. If a default value exists, it will be used.  Otherwise, the port will be connected to GND. ;
-; empty ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; full  ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-; q     ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed.                                     ;
-+-------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO"                                                                        ;
++-------+--------+----------+----------------------------------------------------------------------------------------------------------+
+; Port  ; Type   ; Severity ; Details                                                                                                  ;
++-------+--------+----------+----------------------------------------------------------------------------------------------------------+
+; full  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                      ;
+; empty ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
++-------+--------+----------+----------------------------------------------------------------------------------------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -719,7 +705,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 +------------------+--------+----------+-------------------------------------------------------------------------------------+
 ; Port             ; Type   ; Severity ; Details                                                                             ;
 +------------------+--------+----------+-------------------------------------------------------------------------------------+
-; o_reset_all      ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
 ; o_packet_command ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
 +------------------+--------+----------+-------------------------------------------------------------------------------------+
 
@@ -739,34 +724,34 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 336                         ;
+; arriav_ff             ; 365                         ;
 ;     CLR               ; 15                          ;
-;     ENA               ; 89                          ;
-;     ENA SCLR          ; 20                          ;
+;     ENA               ; 90                          ;
+;     ENA SCLR          ; 37                          ;
 ;     ENA SLD           ; 8                           ;
 ;     SCLR              ; 33                          ;
 ;     SLD               ; 34                          ;
-;     plain             ; 137                         ;
+;     plain             ; 148                         ;
 ; arriav_io_obuf        ; 36                          ;
-; arriav_lcell_comb     ; 425                         ;
-;     arith             ; 92                          ;
-;         1 data inputs ; 54                          ;
-;         2 data inputs ; 38                          ;
+; arriav_lcell_comb     ; 468                         ;
+;     arith             ; 109                         ;
+;         1 data inputs ; 66                          ;
+;         2 data inputs ; 43                          ;
 ;     extend            ; 2                           ;
 ;         7 data inputs ; 2                           ;
-;     normal            ; 331                         ;
+;     normal            ; 357                         ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 6                           ;
-;         2 data inputs ; 95                          ;
-;         3 data inputs ; 48                          ;
-;         4 data inputs ; 47                          ;
-;         5 data inputs ; 39                          ;
-;         6 data inputs ; 95                          ;
+;         2 data inputs ; 98                          ;
+;         3 data inputs ; 49                          ;
+;         4 data inputs ; 53                          ;
+;         5 data inputs ; 48                          ;
+;         6 data inputs ; 102                         ;
 ; boundary_port         ; 72                          ;
-; stratixv_ram_block    ; 32                          ;
+; stratixv_ram_block    ; 64                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 7.80                        ;
-; Average LUT depth     ; 2.67                        ;
+; Average LUT depth     ; 2.52                        ;
 +-----------------------+-----------------------------+
 
 
@@ -785,7 +770,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Tue Jul 09 12:02:07 2019
+    Info: Processing started: Tue Jul 09 13:38:40 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -809,13 +794,13 @@ Info (12021): Found 1 design units, including 1 entities, in source file packet_
     Info (12023): Found entity 1: PACKET_DECODE_FSM File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/packet_decode_fsm.v Line: 9
 Info (12021): Found 1 design units, including 1 entities, in source file data_router.v
     Info (12023): Found entity 1: DATA_ROUTER File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 11
-Warning (10275): Verilog HDL Module Instantiation warning at pc_tx.v(61): ignored dangling comma in List of Port Connections File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 61
-Warning (10275): Verilog HDL Module Instantiation warning at pc_tx.v(89): ignored dangling comma in List of Port Connections File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 89
+Warning (10275): Verilog HDL Module Instantiation warning at pc_tx.v(76): ignored dangling comma in List of Port Connections File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 76
+Warning (10275): Verilog HDL Module Instantiation warning at pc_tx.v(104): ignored dangling comma in List of Port Connections File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 104
 Info (12021): Found 1 design units, including 1 entities, in source file pc_tx.v
     Info (12023): Found entity 1: PC_TX File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 12
 Info (12021): Found 1 design units, including 1 entities, in source file pc_rx_fifo.v
     Info (12023): Found entity 1: pc_rx_fifo File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx_fifo.v Line: 39
-Warning (10236): Verilog HDL Implicit Net warning at pc_tx.v(87): created implicit net for "serial_is_busy_sig" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 87
+Warning (10236): Verilog HDL Implicit Net warning at pc_tx.v(102): created implicit net for "serial_is_busy_sig" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 102
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(23): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 23
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(24): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 24
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_rx.v(25): Parameter Declaration in module "uart_rx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 25
@@ -938,48 +923,14 @@ Info (12128): Elaborating entity "cntr_h2b" for hierarchy "PC_RX:pc_rx|testFIFO:
 Info (12128): Elaborating entity "DATA_ROUTER" for hierarchy "DATA_ROUTER:data_router" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 385
 Warning (10034): Output port "o_debug_out_b" at data_router.v(37) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 37
 Warning (10034): Output port "o_debug_out_y" at data_router.v(41) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 41
-Info (12128): Elaborating entity "PC_TX" for hierarchy "PC_TX:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 413
-Info (12128): Elaborating entity "pc_rx_fifo" for hierarchy "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 61
-Info (12128): Elaborating entity "SERIALISER" for hierarchy "PC_TX:pc_tx|SERIALISER:serialiser" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 89
-Info (12128): Elaborating entity "uart_tx" for hierarchy "PC_TX:pc_tx|uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 113
+Info (12128): Elaborating entity "PC_TX" for hierarchy "PC_TX:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 414
+Info (12128): Elaborating entity "pc_rx_fifo" for hierarchy "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 76
+Info (12128): Elaborating entity "SERIALISER" for hierarchy "PC_TX:pc_tx|SERIALISER:serialiser" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 104
+Info (12128): Elaborating entity "uart_tx" for hierarchy "PC_TX:pc_tx|uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 128
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(68): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 68
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(86): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 86
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(96): truncated value with size 32 to match size of target (3) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 96
 Warning (10230): Verilog HDL assignment warning at uart_tx.v(116): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 116
-Warning (14284): Synthesized away the following node(s):
-    Warning (14285): Synthesized away the following RAM node(s):
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[0]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 37
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[1]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 67
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[2]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 97
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[3]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 127
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[4]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 157
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[5]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 187
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[6]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 217
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[7]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 247
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[8]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 277
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[9]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 307
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[10]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 337
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[11]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 367
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[12]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 397
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[13]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 427
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[14]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 457
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[15]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 487
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[16]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 517
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[17]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 547
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[18]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 577
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[19]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 607
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[20]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 637
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[21]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 667
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[22]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 697
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[23]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 727
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[24]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 757
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[25]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 787
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[26]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 817
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[27]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 847
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[28]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 877
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[29]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 907
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[30]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 937
-        Warning (14320): Synthesized away node "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram|q_b[31]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/altsyncram_j0i1.tdf Line: 967
 Warning (12241): 5 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Warning (13034): The following nodes have both tri-state and non-tri-state drivers
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[2]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
@@ -1115,7 +1066,7 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "LEDR[8]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 147
     Warning (13410): Pin "LEDR[9]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 147
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 20 registers lost all their fanouts during netlist optimizations.
+Info (17049): 9 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 4 input pin(s) that do not drive logic
@@ -1123,15 +1074,15 @@ Warning (21074): Design contains 4 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "CLOCK_50_B6A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 69
     Warning (15610): No output dependent on input pin "CLOCK_50_B7A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 70
     Warning (15610): No output dependent on input pin "CLOCK_50_B8A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 71
-Info (21057): Implemented 712 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 788 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 10 input pins
     Info (21059): Implemented 26 output pins
     Info (21060): Implemented 36 bidirectional pins
-    Info (21061): Implemented 608 logic cells
-    Info (21064): Implemented 32 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 225 warnings
-    Info: Peak virtual memory: 4888 megabytes
-    Info: Processing ended: Tue Jul 09 12:02:16 2019
+    Info (21061): Implemented 652 logic cells
+    Info (21064): Implemented 64 RAM segments
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 191 warnings
+    Info: Peak virtual memory: 4911 megabytes
+    Info: Processing ended: Tue Jul 09 13:38:49 2019
     Info: Elapsed time: 00:00:09
     Info: Total CPU time (on all processors): 00:00:18
 

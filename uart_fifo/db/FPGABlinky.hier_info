@@ -1757,6 +1757,7 @@ o_debug_out_y <= <GND>
 
 |baseline_c5gx|PC_TX:pc_tx
 i_clock => i_clock.IN3
+i_reset => i_reset.IN1
 i_fifo_word_data[0] => i_fifo_word_data[0].IN1
 i_fifo_word_data[1] => i_fifo_word_data[1].IN1
 i_fifo_word_data[2] => i_fifo_word_data[2].IN1
@@ -1789,7 +1790,7 @@ i_fifo_word_data[28] => i_fifo_word_data[28].IN1
 i_fifo_word_data[29] => i_fifo_word_data[29].IN1
 i_fifo_word_data[30] => i_fifo_word_data[30].IN1
 i_fifo_word_data[31] => i_fifo_word_data[31].IN1
-i_serial_next_word_cmd => i_serial_next_word_cmd.IN1
+i_serial_next_word_cmd => i_serial_next_word_cmd.IN3
 o_tx_active <= uart_tx:pc_tx.o_Tx_Active
 o_UART_TX <= uart_tx:pc_tx.o_Tx_Serial
 

@@ -13,6 +13,7 @@ module PC_TX(
 
 	// Control Signals
 	input i_clock,
+	input i_reset,
 
 	// DataRouter Side
 	input[31:0] i_fifo_word_data,        // Data from Uart
@@ -41,21 +42,35 @@ module PC_TX(
 // If the FIFO is full, we simply drop the data
 //assign write_data_into_fifo = (is_fifo_full_sig==1) ? 0 : payload_word_decode_complete;
 
+// We use a FIFO in the PC_TX so any upstream functions can simply dump data here without worrying about timing
+
+// Interfacing signals
+// Write-side
+wire is_fifo_full_sig;
+// Read-side
+wire read_next_word_cmd;
+wire[31:0] fifo_output_word;
+
+// FIFO write-side is controller by the upstream module
+// FIFO read-side logic is listed below
+//assign read_data_from_fifo = (is_fifo_full_sig==1) ? 0 : payload_word_decode_complete;
+
+
 // FIFO
 pc_rx_fifo pc_rx_FIFO(
 
 	// Control Signals
 	.clock(i_clock),
-////	.sclr(sclr_sig),   // Reset FIFO
-//	
-//	// Write Side
-//	.data(fifo_data_input),       // Input Data
-//	.wrreq(write_data_into_fifo), // Write Data Valid, set High for 1 cycle to write current data
-//	.full(is_fifo_full_sig),      // Full Flag
+	.sclr(i_reset),   // Reset FIFO
+	
+	// Write Side
+	.data(i_fifo_word_data),        // Input Data
+	.wrreq(i_serial_next_word_cmd), // Write Data Valid, set High for 1 cycle to write current data
+	.full(is_fifo_full_sig),        // Full Flag
 //	
 //	// Read Side
-//	.rdreq(i_read_next_word_cmd), // Read Data Valid, set High for 1 cycle to read into current data
-//	.q(o_fifo_output_word),       // Output Data
+	.rdreq(i_serial_next_word_cmd), // Read Data Valid, set High for 1 cycle to read into current data
+	.q(fifo_output_word),       // Output Data
 //	.empty(o_fifo_is_empty_sig)   // Empty Flag
 	
 	);
@@ -77,7 +92,7 @@ wire[7:0] tx_byte_output;
 	.i_clock(i_clock),
 	
 	// Input-Side
-	.i_fifo_word_data(i_fifo_word_data),                   // Data from Uart
+	.i_fifo_word_data(fifo_output_word),                   // Data from Uart
 	.i_serial_next_word_cmd(i_serial_next_word_cmd),       // New byte from Uart Received signal
 	.i_tx_byte_complete(tx_done),                          // Byte has been successfully Tx'd
 	
