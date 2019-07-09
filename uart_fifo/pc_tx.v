@@ -28,6 +28,39 @@ module PC_TX(
 	
 	
 	
+////////////////////////
+///////// FIFO /////////
+////////////////////////
+
+// We pipe data into the FIFO when we receive the full word
+//wire is_fifo_full_sig;
+//wire[31:0] fifo_data_input;
+//wire       write_data_into_fifo;
+//assign fifo_data_input = decoded_data_payload_word;
+// It is very important that we do not write to the FIFO when it is full, so need a check here
+// If the FIFO is full, we simply drop the data
+//assign write_data_into_fifo = (is_fifo_full_sig==1) ? 0 : payload_word_decode_complete;
+
+// FIFO
+pc_rx_fifo pc_rx_FIFO(
+
+	// Control Signals
+	.clock(i_clock),
+////	.sclr(sclr_sig),   // Reset FIFO
+//	
+//	// Write Side
+//	.data(fifo_data_input),       // Input Data
+//	.wrreq(write_data_into_fifo), // Write Data Valid, set High for 1 cycle to write current data
+//	.full(is_fifo_full_sig),      // Full Flag
+//	
+//	// Read Side
+//	.rdreq(i_read_next_word_cmd), // Read Data Valid, set High for 1 cycle to read into current data
+//	.q(o_fifo_output_word),       // Output Data
+//	.empty(o_fifo_is_empty_sig)   // Empty Flag
+	
+	);
+	
+	
 	
 //////////////////////////
 ////// Serialiser ////////

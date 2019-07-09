@@ -1,10 +1,10 @@
-// megafunction wizard: %FIFO%
+// megafunction wizard: %FIFO%VBB%
 // GENERATION: STANDARD
 // VERSION: WM1.0
 // MODULE: scfifo 
 
 // ============================================================
-// File Name: testFIFO.v
+// File Name: pc_rx_fifo.v
 // Megafunction Name(s):
 // 			scfifo
 //
@@ -16,7 +16,6 @@
 //
 // 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 // ************************************************************
-
 
 //Copyright (C) 2018  Intel Corporation. All rights reserved.
 //Your use of Intel Corporation's design tools, logic functions 
@@ -32,11 +31,7 @@
 //Intel and sold by Intel or its authorized distributors.  Please
 //refer to the applicable agreement for further details.
 
-
-// synopsys translate_off
-`timescale 1 ps / 1 ps
-// synopsys translate_on
-module testFIFO (
+module pc_rx_fifo (
 	clock,
 	data,
 	rdreq,
@@ -55,40 +50,6 @@ module testFIFO (
 	output	  full;
 	output	[31:0]  q;
 
-	wire  sub_wire0;
-	wire  sub_wire1;
-	wire [31:0] sub_wire2;
-	wire  empty = sub_wire0;
-	wire  full = sub_wire1;
-	wire [31:0] q = sub_wire2[31:0];
-
-	scfifo	scfifo_component (
-				.clock (clock),
-				.data (data),
-				.rdreq (rdreq),
-				.sclr (sclr),
-				.wrreq (wrreq),
-				.empty (sub_wire0),
-				.full (sub_wire1),
-				.q (sub_wire2),
-				.aclr (),
-				.almost_empty (),
-				.almost_full (),
-				.eccstatus (),
-				.usedw ());
-	defparam
-		scfifo_component.add_ram_output_register = "OFF",
-		scfifo_component.intended_device_family = "Cyclone V",
-		scfifo_component.lpm_numwords = 64,
-		scfifo_component.lpm_showahead = "ON",
-		scfifo_component.lpm_type = "scfifo",
-		scfifo_component.lpm_width = 32,
-		scfifo_component.lpm_widthu = 6,
-		scfifo_component.overflow_checking = "ON",
-		scfifo_component.underflow_checking = "ON",
-		scfifo_component.use_eab = "ON";
-
-
 endmodule
 
 // ============================================================
@@ -98,7 +59,7 @@ endmodule
 // Retrieval info: PRIVATE: AlmostEmptyThr NUMERIC "-1"
 // Retrieval info: PRIVATE: AlmostFull NUMERIC "0"
 // Retrieval info: PRIVATE: AlmostFullThr NUMERIC "-1"
-// Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "1"
+// Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "0"
 // Retrieval info: PRIVATE: Clock NUMERIC "0"
 // Retrieval info: PRIVATE: Depth NUMERIC "64"
 // Retrieval info: PRIVATE: Empty NUMERIC "1"
@@ -153,10 +114,10 @@ endmodule
 // Retrieval info: CONNECT: empty 0 0 0 0 @empty 0 0 0 0
 // Retrieval info: CONNECT: full 0 0 0 0 @full 0 0 0 0
 // Retrieval info: CONNECT: q 0 0 32 0 @q 0 0 32 0
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO.bsf FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO_bb.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo.bsf FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf

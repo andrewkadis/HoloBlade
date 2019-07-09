@@ -16,7 +16,7 @@
 // PROGRAM "Quartus Prime"
 // VERSION "Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
 
-// DATE "07/09/2019 11:46:53"
+// DATE "07/09/2019 12:03:18"
 
 // 
 // Device: Altera 5CGXFC5C6F27C7 Package FBGA672
@@ -48,7 +48,7 @@ input 	CLOCK_50_B5B;
 input 	CLOCK_50_B6A;
 input 	CLOCK_50_B7A;
 input 	CLOCK_50_B8A;
-inout 	[35:0] GPIO;
+output 	[35:0] GPIO;
 output 	[6:0] HEX0;
 input 	[3:0] KEY;
 output 	[7:0] LEDG;

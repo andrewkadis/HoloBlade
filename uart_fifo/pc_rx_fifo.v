@@ -4,7 +4,7 @@
 // MODULE: scfifo 
 
 // ============================================================
-// File Name: testFIFO.v
+// File Name: pc_rx_fifo.v
 // Megafunction Name(s):
 // 			scfifo
 //
@@ -36,7 +36,7 @@
 // synopsys translate_off
 `timescale 1 ps / 1 ps
 // synopsys translate_on
-module testFIFO (
+module pc_rx_fifo (
 	clock,
 	data,
 	rdreq,
@@ -98,7 +98,7 @@ endmodule
 // Retrieval info: PRIVATE: AlmostEmptyThr NUMERIC "-1"
 // Retrieval info: PRIVATE: AlmostFull NUMERIC "0"
 // Retrieval info: PRIVATE: AlmostFullThr NUMERIC "-1"
-// Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "1"
+// Retrieval info: PRIVATE: CLOCKS_ARE_SYNCHRONIZED NUMERIC "0"
 // Retrieval info: PRIVATE: Clock NUMERIC "0"
 // Retrieval info: PRIVATE: Depth NUMERIC "64"
 // Retrieval info: PRIVATE: Empty NUMERIC "1"
@@ -153,10 +153,10 @@ endmodule
 // Retrieval info: CONNECT: empty 0 0 0 0 @empty 0 0 0 0
 // Retrieval info: CONNECT: full 0 0 0 0 @full 0 0 0 0
 // Retrieval info: CONNECT: q 0 0 32 0 @q 0 0 32 0
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO.bsf FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL testFIFO_bb.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo.bsf FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL pc_rx_fifo_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf
