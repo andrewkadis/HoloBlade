@@ -1,5 +1,5 @@
 Timing Analyzer report for FPGABlinky
-Tue Jul 09 13:39:56 2019
+Tue Jul 09 17:06:51 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -101,16 +101,16 @@ refer to the applicable agreement for further details.
 ; Number detected on machine ; 12          ;
 ; Maximum allowed            ; 6           ;
 ;                            ;             ;
-; Average used               ; 1.30        ;
+; Average used               ; 1.21        ;
 ; Maximum used               ; 6           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   6.3%      ;
-;     Processor 3            ;   6.1%      ;
-;     Processor 4            ;   6.1%      ;
-;     Processor 5            ;   5.7%      ;
-;     Processor 6            ;   5.7%      ;
+;     Processor 2            ;   4.4%      ;
+;     Processor 3            ;   4.2%      ;
+;     Processor 4            ;   4.2%      ;
+;     Processor 5            ;   3.9%      ;
+;     Processor 6            ;   3.9%      ;
 +----------------------------+-------------+
 
 
@@ -130,9 +130,9 @@ refer to the applicable agreement for further details.
 +------------+-----------------+------------------------------------------+------+
 ; Fmax       ; Restricted Fmax ; Clock Name                               ; Note ;
 +------------+-----------------+------------------------------------------+------+
-; 81.99 MHz  ; 81.99 MHz       ; PC_RX:pc_rx|start_packet_decode_cmd_edge ;      ;
-; 133.53 MHz ; 133.53 MHz      ; CLOCK_50_B5B                             ;      ;
-; 208.42 MHz ; 208.42 MHz      ; spi:spi0|spi_clk                         ;      ;
+; 101.19 MHz ; 101.19 MHz      ; PC_RX:pc_rx|start_packet_decode_cmd_edge ;      ;
+; 133.9 MHz  ; 133.9 MHz       ; CLOCK_50_B5B                             ;      ;
+; 244.5 MHz  ; 244.5 MHz       ; spi:spi0|spi_clk                         ;      ;
 +------------+-----------------+------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -148,9 +148,9 @@ HTML report is unavailable in plain text report export.
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -6.763 ; -279.419      ;
-; CLOCK_50_B5B                             ; -6.489 ; -1100.432     ;
-; spi:spi0|spi_clk                         ; -4.657 ; -77.150       ;
+; CLOCK_50_B5B                             ; -6.468 ; -504.231      ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -5.976 ; -259.101      ;
+; spi:spi0|spi_clk                         ; -4.769 ; -74.056       ;
 +------------------------------------------+--------+---------------+
 
 
@@ -159,9 +159,9 @@ HTML report is unavailable in plain text report export.
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -0.307 ; -2.647        ;
-; CLOCK_50_B5B                             ; 0.185  ; 0.000         ;
-; spi:spi0|spi_clk                         ; 0.273  ; 0.000         ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -2.479 ; -6.506        ;
+; CLOCK_50_B5B                             ; -2.436 ; -8.842        ;
+; spi:spi0|spi_clk                         ; 0.110  ; 0.000         ;
 +------------------------------------------+--------+---------------+
 
 
@@ -170,7 +170,7 @@ HTML report is unavailable in plain text report export.
 +--------------+--------+----------------+
 ; Clock        ; Slack  ; End Point TNS  ;
 +--------------+--------+----------------+
-; CLOCK_50_B5B ; -3.240 ; -12.563        ;
+; CLOCK_50_B5B ; -3.202 ; -12.335        ;
 +--------------+--------+----------------+
 
 
@@ -179,7 +179,7 @@ HTML report is unavailable in plain text report export.
 +--------------+-------+----------------+
 ; Clock        ; Slack ; End Point TNS  ;
 +--------------+-------+----------------+
-; CLOCK_50_B5B ; 0.359 ; 0.000          ;
+; CLOCK_50_B5B ; 0.217 ; 0.000          ;
 +--------------+-------+----------------+
 
 
@@ -188,9 +188,9 @@ HTML report is unavailable in plain text report export.
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                             ; -2.636 ; -643.862      ;
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -1.903 ; -227.226      ;
-; spi:spi0|spi_clk                         ; -0.538 ; -24.685       ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -1.177 ; -114.093      ;
+; CLOCK_50_B5B                             ; -0.914 ; -183.271      ;
+; spi:spi0|spi_clk                         ; -0.538 ; -23.796       ;
 +------------------------------------------+--------+---------------+
 
 
@@ -206,9 +206,9 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +------------+-----------------+------------------------------------------+------+
 ; Fmax       ; Restricted Fmax ; Clock Name                               ; Note ;
 +------------+-----------------+------------------------------------------+------+
-; 84.79 MHz  ; 84.79 MHz       ; PC_RX:pc_rx|start_packet_decode_cmd_edge ;      ;
-; 134.64 MHz ; 134.64 MHz      ; CLOCK_50_B5B                             ;      ;
-; 213.04 MHz ; 213.04 MHz      ; spi:spi0|spi_clk                         ;      ;
+; 105.86 MHz ; 105.86 MHz      ; PC_RX:pc_rx|start_packet_decode_cmd_edge ;      ;
+; 131.82 MHz ; 131.82 MHz      ; CLOCK_50_B5B                             ;      ;
+; 235.52 MHz ; 235.52 MHz      ; spi:spi0|spi_clk                         ;      ;
 +------------+-----------------+------------------------------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -218,9 +218,9 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -6.804 ; -287.679      ;
-; CLOCK_50_B5B                             ; -6.427 ; -1058.011     ;
-; spi:spi0|spi_clk                         ; -4.939 ; -78.687       ;
+; CLOCK_50_B5B                             ; -6.586 ; -493.185      ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -5.929 ; -265.945      ;
+; spi:spi0|spi_clk                         ; -5.063 ; -74.736       ;
 +------------------------------------------+--------+---------------+
 
 
@@ -229,9 +229,9 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -0.662 ; -7.856        ;
-; CLOCK_50_B5B                             ; -0.071 ; -1.708        ;
-; spi:spi0|spi_clk                         ; 0.294  ; 0.000         ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -2.568 ; -9.691        ;
+; CLOCK_50_B5B                             ; -2.557 ; -12.159       ;
+; spi:spi0|spi_clk                         ; 0.135  ; 0.000         ;
 +------------------------------------------+--------+---------------+
 
 
@@ -240,17 +240,17 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +--------------+--------+---------------+
 ; Clock        ; Slack  ; End Point TNS ;
 +--------------+--------+---------------+
-; CLOCK_50_B5B ; -2.923 ; -11.230       ;
+; CLOCK_50_B5B ; -2.878 ; -11.037       ;
 +--------------+--------+---------------+
 
 
-+--------------------------------------+
-; Slow 1100mV 0C Model Removal Summary ;
-+--------------+-------+---------------+
-; Clock        ; Slack ; End Point TNS ;
-+--------------+-------+---------------+
-; CLOCK_50_B5B ; 0.102 ; 0.000         ;
-+--------------+-------+---------------+
++---------------------------------------+
+; Slow 1100mV 0C Model Removal Summary  ;
++--------------+--------+---------------+
+; Clock        ; Slack  ; End Point TNS ;
++--------------+--------+---------------+
+; CLOCK_50_B5B ; -0.037 ; -0.072        ;
++--------------+--------+---------------+
 
 
 +-------------------------------------------------------------------+
@@ -258,9 +258,9 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                             ; -2.636 ; -630.269      ;
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -1.918 ; -230.141      ;
-; spi:spi0|spi_clk                         ; -0.538 ; -24.596       ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -1.097 ; -108.089      ;
+; CLOCK_50_B5B                             ; -0.981 ; -175.603      ;
+; spi:spi0|spi_clk                         ; -0.538 ; -23.625       ;
 +------------------------------------------+--------+---------------+
 
 
@@ -276,9 +276,9 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                             ; -3.377 ; -487.656      ;
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -3.211 ; -111.042      ;
-; spi:spi0|spi_clk                         ; -1.667 ; -27.892       ;
+; CLOCK_50_B5B                             ; -3.247 ; -208.933      ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -2.759 ; -100.304      ;
+; spi:spi0|spi_clk                         ; -1.743 ; -27.580       ;
 +------------------------------------------+--------+---------------+
 
 
@@ -287,9 +287,9 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -0.285 ; -4.080        ;
-; CLOCK_50_B5B                             ; 0.135  ; 0.000         ;
-; spi:spi0|spi_clk                         ; 0.143  ; 0.000         ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -1.341 ; -4.510        ;
+; CLOCK_50_B5B                             ; -1.131 ; -5.116        ;
+; spi:spi0|spi_clk                         ; 0.037  ; 0.000         ;
 +------------------------------------------+--------+---------------+
 
 
@@ -298,7 +298,7 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +--------------+--------+----------------+
 ; Clock        ; Slack  ; End Point TNS  ;
 +--------------+--------+----------------+
-; CLOCK_50_B5B ; -1.679 ; -6.384         ;
+; CLOCK_50_B5B ; -1.741 ; -6.723         ;
 +--------------+--------+----------------+
 
 
@@ -307,7 +307,7 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +--------------+-------+----------------+
 ; Clock        ; Slack ; End Point TNS  ;
 +--------------+-------+----------------+
-; CLOCK_50_B5B ; 0.121 ; 0.000          ;
+; CLOCK_50_B5B ; 0.174 ; 0.000          ;
 +--------------+-------+----------------+
 
 
@@ -316,9 +316,9 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                             ; -2.174 ; -456.638      ;
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -0.790 ; -58.711       ;
-; spi:spi0|spi_clk                         ; 0.073  ; 0.000         ;
+; CLOCK_50_B5B                             ; -1.000 ; -102.772      ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -0.488 ; -26.029       ;
+; spi:spi0|spi_clk                         ; 0.102  ; 0.000         ;
 +------------------------------------------+--------+---------------+
 
 
@@ -334,9 +334,9 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -2.962 ; -105.636      ;
-; CLOCK_50_B5B                             ; -2.894 ; -400.332      ;
-; spi:spi0|spi_clk                         ; -1.615 ; -25.806       ;
+; CLOCK_50_B5B                             ; -2.633 ; -170.533      ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -2.553 ; -95.248       ;
+; spi:spi0|spi_clk                         ; -1.688 ; -25.121       ;
 +------------------------------------------+--------+---------------+
 
 
@@ -345,9 +345,9 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -0.258 ; -4.228        ;
-; CLOCK_50_B5B                             ; -0.024 ; -0.040        ;
-; spi:spi0|spi_clk                         ; 0.134  ; 0.000         ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -1.205 ; -4.206        ;
+; CLOCK_50_B5B                             ; -1.146 ; -6.350        ;
+; spi:spi0|spi_clk                         ; 0.048  ; 0.000         ;
 +------------------------------------------+--------+---------------+
 
 
@@ -356,17 +356,17 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +--------------+--------+---------------+
 ; Clock        ; Slack  ; End Point TNS ;
 +--------------+--------+---------------+
-; CLOCK_50_B5B ; -1.315 ; -4.994        ;
+; CLOCK_50_B5B ; -1.355 ; -5.199        ;
 +--------------+--------+---------------+
 
 
-+---------------------------------------+
-; Fast 1100mV 0C Model Removal Summary  ;
-+--------------+--------+---------------+
-; Clock        ; Slack  ; End Point TNS ;
-+--------------+--------+---------------+
-; CLOCK_50_B5B ; -0.031 ; -0.060        ;
-+--------------+--------+---------------+
++--------------------------------------+
+; Fast 1100mV 0C Model Removal Summary ;
++--------------+-------+---------------+
+; Clock        ; Slack ; End Point TNS ;
++--------------+-------+---------------+
+; CLOCK_50_B5B ; 0.025 ; 0.000         ;
++--------------+-------+---------------+
 
 
 +-------------------------------------------------------------------+
@@ -374,9 +374,9 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +------------------------------------------+--------+---------------+
 ; Clock                                    ; Slack  ; End Point TNS ;
 +------------------------------------------+--------+---------------+
-; CLOCK_50_B5B                             ; -2.174 ; -489.062      ;
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -0.665 ; -49.437       ;
-; spi:spi0|spi_clk                         ; 0.086  ; 0.000         ;
+; CLOCK_50_B5B                             ; -0.996 ; -121.509      ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; -0.344 ; -17.581       ;
+; spi:spi0|spi_clk                         ; 0.103  ; 0.000         ;
 +------------------------------------------+--------+---------------+
 
 
@@ -389,18 +389,18 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 
 +-----------------------------------------------------------------------------------------------------------+
 ; Multicorner Timing Analysis Summary                                                                       ;
-+-------------------------------------------+-----------+--------+----------+---------+---------------------+
-; Clock                                     ; Setup     ; Hold   ; Recovery ; Removal ; Minimum Pulse Width ;
-+-------------------------------------------+-----------+--------+----------+---------+---------------------+
-; Worst-case Slack                          ; -6.804    ; -0.662 ; -3.240   ; -0.031  ; -2.636              ;
-;  CLOCK_50_B5B                             ; -6.489    ; -0.071 ; -3.240   ; -0.031  ; -2.636              ;
-;  PC_RX:pc_rx|start_packet_decode_cmd_edge ; -6.804    ; -0.662 ; N/A      ; N/A     ; -1.918              ;
-;  spi:spi0|spi_clk                         ; -4.939    ; 0.134  ; N/A      ; N/A     ; -0.538              ;
-; Design-wide TNS                           ; -1457.001 ; -9.564 ; -12.563  ; -0.06   ; -895.773            ;
-;  CLOCK_50_B5B                             ; -1100.432 ; -1.708 ; -12.563  ; -0.060  ; -643.862            ;
-;  PC_RX:pc_rx|start_packet_decode_cmd_edge ; -287.679  ; -7.856 ; N/A      ; N/A     ; -230.141            ;
-;  spi:spi0|spi_clk                         ; -78.687   ; 0.000  ; N/A      ; N/A     ; -24.685             ;
-+-------------------------------------------+-----------+--------+----------+---------+---------------------+
++-------------------------------------------+----------+---------+----------+---------+---------------------+
+; Clock                                     ; Setup    ; Hold    ; Recovery ; Removal ; Minimum Pulse Width ;
++-------------------------------------------+----------+---------+----------+---------+---------------------+
+; Worst-case Slack                          ; -6.586   ; -2.568  ; -3.202   ; -0.037  ; -1.177              ;
+;  CLOCK_50_B5B                             ; -6.586   ; -2.557  ; -3.202   ; -0.037  ; -1.000              ;
+;  PC_RX:pc_rx|start_packet_decode_cmd_edge ; -5.976   ; -2.568  ; N/A      ; N/A     ; -1.177              ;
+;  spi:spi0|spi_clk                         ; -5.063   ; 0.037   ; N/A      ; N/A     ; -0.538              ;
+; Design-wide TNS                           ; -837.388 ; -21.85  ; -12.335  ; -0.072  ; -321.16             ;
+;  CLOCK_50_B5B                             ; -504.231 ; -12.159 ; -12.335  ; -0.072  ; -183.271            ;
+;  PC_RX:pc_rx|start_packet_decode_cmd_edge ; -265.945 ; -9.691  ; N/A      ; N/A     ; -114.093            ;
+;  spi:spi0|spi_clk                         ; -74.736  ; 0.000   ; N/A      ; N/A     ; -23.796             ;
++-------------------------------------------+----------+---------+----------+---------+---------------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -439,7 +439,6 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[5]  ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; GPIO[7]  ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; GPIO[9]  ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
-; GPIO[16] ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; GPIO[17] ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; GPIO[18] ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; GPIO[19] ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
@@ -470,6 +469,7 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[13] ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; GPIO[14] ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 ; GPIO[15] ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; GPIO[16] ; 3.3-V LVTTL  ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
 +----------+--------------+-------------------+-------------------------+-------------------------+---------------+---------------------+----------------+------------------+--------+------------------+------------------------+------------------------+--------------+---------------+-----------------+-------+---------------------+--------------------+---------------+-----------------+-------------+
 
 
@@ -487,7 +487,6 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[5]        ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
 ; GPIO[7]        ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
 ; GPIO[9]        ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
-; GPIO[16]       ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
 ; GPIO[17]       ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
 ; GPIO[18]       ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
 ; GPIO[19]       ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
@@ -518,6 +517,7 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[13]       ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
 ; GPIO[14]       ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
 ; GPIO[15]       ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
+; GPIO[16]       ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
 ; CLOCK_50_B5B   ; 3.3-V LVTTL  ; 2640 ps         ; 2640 ps         ;
 ; UART_RX        ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
 ; KEY[0]         ; 1.2 V        ; 960 ps          ; 960 ps          ;
@@ -564,7 +564,6 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[5]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 1.58e-07 V                   ; 3.09 V              ; -0.13 V             ; 0.032 V                              ; 0.298 V                              ; 4.39e-10 s                  ; 1.69e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 1.58e-07 V                  ; 3.09 V             ; -0.13 V            ; 0.032 V                             ; 0.298 V                             ; 4.39e-10 s                 ; 1.69e-10 s                 ; Yes                       ; Yes                       ;
 ; GPIO[7]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 1.58e-07 V                   ; 3.09 V              ; -0.13 V             ; 0.032 V                              ; 0.298 V                              ; 4.39e-10 s                  ; 1.69e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 1.58e-07 V                  ; 3.09 V             ; -0.13 V            ; 0.032 V                             ; 0.298 V                             ; 4.39e-10 s                 ; 1.69e-10 s                 ; Yes                       ; Yes                       ;
 ; GPIO[9]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.1e-07 V                    ; 3.12 V              ; -0.169 V            ; 0.165 V                              ; 0.384 V                              ; 4.57e-10 s                  ; 1.75e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.1e-07 V                   ; 3.12 V             ; -0.169 V           ; 0.165 V                             ; 0.384 V                             ; 4.57e-10 s                 ; 1.75e-10 s                 ; Yes                       ; No                        ;
-; GPIO[16] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.01e-07 V                   ; 3.13 V              ; -0.229 V            ; 0.131 V                              ; 0.38 V                               ; 4.37e-10 s                  ; 1.58e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.01e-07 V                  ; 3.13 V             ; -0.229 V           ; 0.131 V                             ; 0.38 V                              ; 4.37e-10 s                 ; 1.58e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[17] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.1e-07 V                    ; 3.12 V              ; -0.169 V            ; 0.165 V                              ; 0.384 V                              ; 4.57e-10 s                  ; 1.75e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.1e-07 V                   ; 3.12 V             ; -0.169 V           ; 0.165 V                             ; 0.384 V                             ; 4.57e-10 s                 ; 1.75e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[18] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.01e-07 V                   ; 3.13 V              ; -0.229 V            ; 0.132 V                              ; 0.377 V                              ; 4.37e-10 s                  ; 1.58e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.01e-07 V                  ; 3.13 V             ; -0.229 V           ; 0.132 V                             ; 0.377 V                             ; 4.37e-10 s                 ; 1.58e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[19] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.01e-07 V                   ; 3.13 V              ; -0.229 V            ; 0.131 V                              ; 0.38 V                               ; 4.37e-10 s                  ; 1.58e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.01e-07 V                  ; 3.13 V             ; -0.229 V           ; 0.131 V                             ; 0.38 V                              ; 4.37e-10 s                 ; 1.58e-10 s                 ; Yes                       ; No                        ;
@@ -595,6 +594,7 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[13] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 1.58e-07 V                   ; 3.09 V              ; -0.13 V             ; 0.032 V                              ; 0.298 V                              ; 4.39e-10 s                  ; 1.69e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 1.58e-07 V                  ; 3.09 V             ; -0.13 V            ; 0.032 V                             ; 0.298 V                             ; 4.39e-10 s                 ; 1.69e-10 s                 ; Yes                       ; Yes                       ;
 ; GPIO[14] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.1e-07 V                    ; 3.12 V              ; -0.169 V            ; 0.165 V                              ; 0.384 V                              ; 4.57e-10 s                  ; 1.75e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.1e-07 V                   ; 3.12 V             ; -0.169 V           ; 0.165 V                             ; 0.384 V                             ; 4.57e-10 s                 ; 1.75e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[15] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 1.58e-07 V                   ; 3.09 V              ; -0.13 V             ; 0.032 V                              ; 0.298 V                              ; 4.39e-10 s                  ; 1.69e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 1.58e-07 V                  ; 3.09 V             ; -0.13 V            ; 0.032 V                             ; 0.298 V                             ; 4.39e-10 s                 ; 1.69e-10 s                 ; Yes                       ; Yes                       ;
+; GPIO[16] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.01e-07 V                   ; 3.13 V              ; -0.229 V            ; 0.131 V                              ; 0.38 V                               ; 4.37e-10 s                  ; 1.58e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.01e-07 V                  ; 3.13 V             ; -0.229 V           ; 0.131 V                             ; 0.38 V                              ; 4.37e-10 s                 ; 1.58e-10 s                 ; Yes                       ; No                        ;
 +----------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
 
 
@@ -634,7 +634,6 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[5]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 1.66e-05 V                   ; 3.09 V              ; -0.0542 V           ; 0.04 V                               ; 0.089 V                              ; 5.35e-10 s                  ; 3.01e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 1.66e-05 V                  ; 3.09 V             ; -0.0542 V          ; 0.04 V                              ; 0.089 V                             ; 5.35e-10 s                 ; 3.01e-10 s                 ; Yes                       ; Yes                       ;
 ; GPIO[7]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 1.66e-05 V                   ; 3.09 V              ; -0.0542 V           ; 0.04 V                               ; 0.089 V                              ; 5.35e-10 s                  ; 3.01e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 1.66e-05 V                  ; 3.09 V             ; -0.0542 V          ; 0.04 V                              ; 0.089 V                             ; 5.35e-10 s                 ; 3.01e-10 s                 ; Yes                       ; Yes                       ;
 ; GPIO[9]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.1e-05 V                    ; 3.11 V              ; -0.0931 V           ; 0.115 V                              ; 0.142 V                              ; 5.74e-10 s                  ; 3.17e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 2.1e-05 V                   ; 3.11 V             ; -0.0931 V          ; 0.115 V                             ; 0.142 V                             ; 5.74e-10 s                 ; 3.17e-10 s                 ; Yes                       ; Yes                       ;
-; GPIO[16] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.02e-05 V                   ; 3.11 V              ; -0.117 V            ; 0.087 V                              ; 0.147 V                              ; 5.3e-10 s                   ; 3.14e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.02e-05 V                  ; 3.11 V             ; -0.117 V           ; 0.087 V                             ; 0.147 V                             ; 5.3e-10 s                  ; 3.14e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[17] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.1e-05 V                    ; 3.11 V              ; -0.0931 V           ; 0.115 V                              ; 0.142 V                              ; 5.74e-10 s                  ; 3.17e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 2.1e-05 V                   ; 3.11 V             ; -0.0931 V          ; 0.115 V                             ; 0.142 V                             ; 5.74e-10 s                 ; 3.17e-10 s                 ; Yes                       ; Yes                       ;
 ; GPIO[18] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.02e-05 V                   ; 3.11 V              ; -0.117 V            ; 0.087 V                              ; 0.148 V                              ; 5.31e-10 s                  ; 3.14e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.02e-05 V                  ; 3.11 V             ; -0.117 V           ; 0.087 V                             ; 0.148 V                             ; 5.31e-10 s                 ; 3.14e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[19] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.02e-05 V                   ; 3.11 V              ; -0.117 V            ; 0.087 V                              ; 0.147 V                              ; 5.3e-10 s                   ; 3.14e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.02e-05 V                  ; 3.11 V             ; -0.117 V           ; 0.087 V                             ; 0.147 V                             ; 5.3e-10 s                  ; 3.14e-10 s                 ; Yes                       ; No                        ;
@@ -665,6 +664,7 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[13] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 1.66e-05 V                   ; 3.09 V              ; -0.0542 V           ; 0.04 V                               ; 0.089 V                              ; 5.35e-10 s                  ; 3.01e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 1.66e-05 V                  ; 3.09 V             ; -0.0542 V          ; 0.04 V                              ; 0.089 V                             ; 5.35e-10 s                 ; 3.01e-10 s                 ; Yes                       ; Yes                       ;
 ; GPIO[14] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.1e-05 V                    ; 3.11 V              ; -0.0931 V           ; 0.115 V                              ; 0.142 V                              ; 5.74e-10 s                  ; 3.17e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 2.1e-05 V                   ; 3.11 V             ; -0.0931 V          ; 0.115 V                             ; 0.142 V                             ; 5.74e-10 s                 ; 3.17e-10 s                 ; Yes                       ; Yes                       ;
 ; GPIO[15] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 1.66e-05 V                   ; 3.09 V              ; -0.0542 V           ; 0.04 V                               ; 0.089 V                              ; 5.35e-10 s                  ; 3.01e-10 s                  ; Yes                        ; Yes                        ; 3.08 V                      ; 1.66e-05 V                  ; 3.09 V             ; -0.0542 V          ; 0.04 V                              ; 0.089 V                             ; 5.35e-10 s                 ; 3.01e-10 s                 ; Yes                       ; Yes                       ;
+; GPIO[16] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.08 V                       ; 2.02e-05 V                   ; 3.11 V              ; -0.117 V            ; 0.087 V                              ; 0.147 V                              ; 5.3e-10 s                   ; 3.14e-10 s                  ; Yes                        ; No                         ; 3.08 V                      ; 2.02e-05 V                  ; 3.11 V             ; -0.117 V           ; 0.087 V                             ; 0.147 V                             ; 5.3e-10 s                  ; 3.14e-10 s                 ; Yes                       ; No                        ;
 +----------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
 
 
@@ -704,7 +704,6 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[5]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 3.63e-06 V                   ; 3.64 V              ; -0.326 V            ; 0.091 V                              ; 0.479 V                              ; 3.83e-10 s                  ; 1.5e-10 s                   ; Yes                        ; No                         ; 3.63 V                      ; 3.63e-06 V                  ; 3.64 V             ; -0.326 V           ; 0.091 V                             ; 0.479 V                             ; 3.83e-10 s                 ; 1.5e-10 s                  ; Yes                       ; No                        ;
 ; GPIO[7]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 3.63e-06 V                   ; 3.64 V              ; -0.326 V            ; 0.091 V                              ; 0.479 V                              ; 3.83e-10 s                  ; 1.5e-10 s                   ; Yes                        ; No                         ; 3.63 V                      ; 3.63e-06 V                  ; 3.64 V             ; -0.326 V           ; 0.091 V                             ; 0.479 V                             ; 3.83e-10 s                 ; 1.5e-10 s                  ; Yes                       ; No                        ;
 ; GPIO[9]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 4.94e-06 V                   ; 3.69 V              ; -0.414 V            ; 0.134 V                              ; 0.585 V                              ; 4.19e-10 s                  ; 1.53e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 4.94e-06 V                  ; 3.69 V             ; -0.414 V           ; 0.134 V                             ; 0.585 V                             ; 4.19e-10 s                 ; 1.53e-10 s                 ; Yes                       ; No                        ;
-; GPIO[16] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 4.72e-06 V                   ; 3.7 V               ; -0.49 V             ; 0.117 V                              ; 0.622 V                              ; 3.84e-10 s                  ; 1.48e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 4.72e-06 V                  ; 3.7 V              ; -0.49 V            ; 0.117 V                             ; 0.622 V                             ; 3.84e-10 s                 ; 1.48e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[17] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 4.94e-06 V                   ; 3.69 V              ; -0.414 V            ; 0.134 V                              ; 0.585 V                              ; 4.19e-10 s                  ; 1.53e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 4.94e-06 V                  ; 3.69 V             ; -0.414 V           ; 0.134 V                             ; 0.585 V                             ; 4.19e-10 s                 ; 1.53e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[18] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 4.72e-06 V                   ; 3.7 V               ; -0.49 V             ; 0.117 V                              ; 0.621 V                              ; 3.84e-10 s                  ; 1.48e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 4.72e-06 V                  ; 3.7 V              ; -0.49 V            ; 0.117 V                             ; 0.621 V                             ; 3.84e-10 s                 ; 1.48e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[19] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 4.72e-06 V                   ; 3.7 V               ; -0.49 V             ; 0.117 V                              ; 0.622 V                              ; 3.84e-10 s                  ; 1.48e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 4.72e-06 V                  ; 3.7 V              ; -0.49 V            ; 0.117 V                             ; 0.622 V                             ; 3.84e-10 s                 ; 1.48e-10 s                 ; Yes                       ; No                        ;
@@ -735,6 +734,7 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[13] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 3.63e-06 V                   ; 3.64 V              ; -0.326 V            ; 0.091 V                              ; 0.479 V                              ; 3.83e-10 s                  ; 1.5e-10 s                   ; Yes                        ; No                         ; 3.63 V                      ; 3.63e-06 V                  ; 3.64 V             ; -0.326 V           ; 0.091 V                             ; 0.479 V                             ; 3.83e-10 s                 ; 1.5e-10 s                  ; Yes                       ; No                        ;
 ; GPIO[14] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 4.94e-06 V                   ; 3.69 V              ; -0.414 V            ; 0.134 V                              ; 0.585 V                              ; 4.19e-10 s                  ; 1.53e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 4.94e-06 V                  ; 3.69 V             ; -0.414 V           ; 0.134 V                             ; 0.585 V                             ; 4.19e-10 s                 ; 1.53e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[15] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 3.63e-06 V                   ; 3.64 V              ; -0.326 V            ; 0.091 V                              ; 0.479 V                              ; 3.83e-10 s                  ; 1.5e-10 s                   ; Yes                        ; No                         ; 3.63 V                      ; 3.63e-06 V                  ; 3.64 V             ; -0.326 V           ; 0.091 V                             ; 0.479 V                             ; 3.83e-10 s                 ; 1.5e-10 s                  ; Yes                       ; No                        ;
+; GPIO[16] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 4.72e-06 V                   ; 3.7 V               ; -0.49 V             ; 0.117 V                              ; 0.622 V                              ; 3.84e-10 s                  ; 1.48e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 4.72e-06 V                  ; 3.7 V              ; -0.49 V            ; 0.117 V                             ; 0.622 V                             ; 3.84e-10 s                 ; 1.48e-10 s                 ; Yes                       ; No                        ;
 +----------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
 
 
@@ -774,7 +774,6 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[5]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000184 V                   ; 3.64 V              ; -0.19 V             ; 0.019 V                              ; 0.425 V                              ; 4.44e-10 s                  ; 1.91e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000184 V                  ; 3.64 V             ; -0.19 V            ; 0.019 V                             ; 0.425 V                             ; 4.44e-10 s                 ; 1.91e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[7]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000184 V                   ; 3.64 V              ; -0.19 V             ; 0.019 V                              ; 0.425 V                              ; 4.44e-10 s                  ; 1.91e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000184 V                  ; 3.64 V             ; -0.19 V            ; 0.019 V                             ; 0.425 V                             ; 4.44e-10 s                 ; 1.91e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[9]  ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000238 V                   ; 3.64 V              ; -0.254 V            ; 0.052 V                              ; 0.543 V                              ; 4.59e-10 s                  ; 1.96e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000238 V                  ; 3.64 V             ; -0.254 V           ; 0.052 V                             ; 0.543 V                             ; 4.59e-10 s                 ; 1.96e-10 s                 ; Yes                       ; No                        ;
-; GPIO[16] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000229 V                   ; 3.65 V              ; -0.316 V            ; 0.041 V                              ; 0.53 V                               ; 4.29e-10 s                  ; 1.87e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000229 V                  ; 3.65 V             ; -0.316 V           ; 0.041 V                             ; 0.53 V                              ; 4.29e-10 s                 ; 1.87e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[17] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000238 V                   ; 3.64 V              ; -0.254 V            ; 0.052 V                              ; 0.543 V                              ; 4.59e-10 s                  ; 1.96e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000238 V                  ; 3.64 V             ; -0.254 V           ; 0.052 V                             ; 0.543 V                             ; 4.59e-10 s                 ; 1.96e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[18] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000229 V                   ; 3.65 V              ; -0.319 V            ; 0.041 V                              ; 0.528 V                              ; 4.29e-10 s                  ; 1.87e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000229 V                  ; 3.65 V             ; -0.319 V           ; 0.041 V                             ; 0.528 V                             ; 4.29e-10 s                 ; 1.87e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[19] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000229 V                   ; 3.65 V              ; -0.316 V            ; 0.041 V                              ; 0.53 V                               ; 4.29e-10 s                  ; 1.87e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000229 V                  ; 3.65 V             ; -0.316 V           ; 0.041 V                             ; 0.53 V                              ; 4.29e-10 s                 ; 1.87e-10 s                 ; Yes                       ; No                        ;
@@ -805,6 +804,7 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 ; GPIO[13] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000184 V                   ; 3.64 V              ; -0.19 V             ; 0.019 V                              ; 0.425 V                              ; 4.44e-10 s                  ; 1.91e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000184 V                  ; 3.64 V             ; -0.19 V            ; 0.019 V                             ; 0.425 V                             ; 4.44e-10 s                 ; 1.91e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[14] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000238 V                   ; 3.64 V              ; -0.254 V            ; 0.052 V                              ; 0.543 V                              ; 4.59e-10 s                  ; 1.96e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000238 V                  ; 3.64 V             ; -0.254 V           ; 0.052 V                             ; 0.543 V                             ; 4.59e-10 s                 ; 1.96e-10 s                 ; Yes                       ; No                        ;
 ; GPIO[15] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000184 V                   ; 3.64 V              ; -0.19 V             ; 0.019 V                              ; 0.425 V                              ; 4.44e-10 s                  ; 1.91e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000184 V                  ; 3.64 V             ; -0.19 V            ; 0.019 V                             ; 0.425 V                             ; 4.44e-10 s                 ; 1.91e-10 s                 ; Yes                       ; No                        ;
+; GPIO[16] ; 3.3-V LVTTL  ; 0 s                 ; 0 s                 ; 3.63 V                       ; 0.000229 V                   ; 3.65 V              ; -0.316 V            ; 0.041 V                              ; 0.53 V                               ; 4.29e-10 s                  ; 1.87e-10 s                  ; Yes                        ; No                         ; 3.63 V                      ; 0.000229 V                  ; 3.65 V             ; -0.316 V           ; 0.041 V                             ; 0.53 V                              ; 4.29e-10 s                 ; 1.87e-10 s                 ; Yes                       ; No                        ;
 +----------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
 
 
@@ -813,13 +813,13 @@ Design MTBF is not calculated because the design doesn't meet its timing require
 +------------------------------------------+------------------------------------------+----------+----------+----------+----------+
 ; From Clock                               ; To Clock                                 ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +------------------------------------------+------------------------------------------+----------+----------+----------+----------+
-; CLOCK_50_B5B                             ; CLOCK_50_B5B                             ; 7070     ; 0        ; 0        ; 0        ;
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; CLOCK_50_B5B                             ; 4897     ; 249      ; 0        ; 0        ;
+; CLOCK_50_B5B                             ; CLOCK_50_B5B                             ; 6298     ; 0        ; 0        ; 0        ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; CLOCK_50_B5B                             ; 2522     ; 177      ; 0        ; 0        ;
 ; spi:spi0|spi_clk                         ; CLOCK_50_B5B                             ; 2        ; 1        ; 0        ; 0        ;
 ; CLOCK_50_B5B                             ; PC_RX:pc_rx|start_packet_decode_cmd_edge ; 32       ; 0        ; 32       ; 0        ;
 ; PC_RX:pc_rx|start_packet_decode_cmd_edge ; PC_RX:pc_rx|start_packet_decode_cmd_edge ; 0        ; 0        ; 32       ; 0        ;
 ; CLOCK_50_B5B                             ; spi:spi0|spi_clk                         ; 30       ; 0        ; 3        ; 0        ;
-; spi:spi0|spi_clk                         ; spi:spi0|spi_clk                         ; 305      ; 0        ; 45       ; 14       ;
+; spi:spi0|spi_clk                         ; spi:spi0|spi_clk                         ; 300      ; 0        ; 45       ; 14       ;
 +------------------------------------------+------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -829,13 +829,13 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +------------------------------------------+------------------------------------------+----------+----------+----------+----------+
 ; From Clock                               ; To Clock                                 ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +------------------------------------------+------------------------------------------+----------+----------+----------+----------+
-; CLOCK_50_B5B                             ; CLOCK_50_B5B                             ; 7070     ; 0        ; 0        ; 0        ;
-; PC_RX:pc_rx|start_packet_decode_cmd_edge ; CLOCK_50_B5B                             ; 4897     ; 249      ; 0        ; 0        ;
+; CLOCK_50_B5B                             ; CLOCK_50_B5B                             ; 6298     ; 0        ; 0        ; 0        ;
+; PC_RX:pc_rx|start_packet_decode_cmd_edge ; CLOCK_50_B5B                             ; 2522     ; 177      ; 0        ; 0        ;
 ; spi:spi0|spi_clk                         ; CLOCK_50_B5B                             ; 2        ; 1        ; 0        ; 0        ;
 ; CLOCK_50_B5B                             ; PC_RX:pc_rx|start_packet_decode_cmd_edge ; 32       ; 0        ; 32       ; 0        ;
 ; PC_RX:pc_rx|start_packet_decode_cmd_edge ; PC_RX:pc_rx|start_packet_decode_cmd_edge ; 0        ; 0        ; 32       ; 0        ;
 ; CLOCK_50_B5B                             ; spi:spi0|spi_clk                         ; 30       ; 0        ; 3        ; 0        ;
-; spi:spi0|spi_clk                         ; spi:spi0|spi_clk                         ; 305      ; 0        ; 45       ; 14       ;
+; spi:spi0|spi_clk                         ; spi:spi0|spi_clk                         ; 300      ; 0        ; 45       ; 14       ;
 +------------------------------------------+------------------------------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -880,9 +880,9 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; Illegal Clocks                  ; 0     ; 0    ;
 ; Unconstrained Clocks            ; 0     ; 0    ;
 ; Unconstrained Input Ports       ; 5     ; 5    ;
-; Unconstrained Input Port Paths  ; 31    ; 31   ;
-; Unconstrained Output Ports      ; 17    ; 17   ;
-; Unconstrained Output Port Paths ; 52    ; 52   ;
+; Unconstrained Input Port Paths  ; 30    ; 30   ;
+; Unconstrained Output Ports      ; 18    ; 18   ;
+; Unconstrained Output Port Paths ; 21    ; 21   ;
 +---------------------------------+-------+------+
 
 
@@ -924,6 +924,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; GPIO[13]    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; GPIO[14]    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; GPIO[15]    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; GPIO[16]    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; HEX0[0]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; HEX0[1]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; HEX0[2]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
@@ -962,6 +963,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; GPIO[13]    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; GPIO[14]    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; GPIO[15]    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; GPIO[16]    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; HEX0[0]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; HEX0[1]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; HEX0[2]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
@@ -979,7 +981,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Tue Jul 09 13:39:49 2019
+    Info: Processing started: Tue Jul 09 17:06:44 2019
 Info: Command: quartus_sta FPGABlinky -c FPGABlinky
 Info: qsta_default_script.tcl version: #1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
@@ -994,153 +996,153 @@ Info (332105): Deriving Clocks
     Info (332105): create_clock -period 1.000 -name PC_RX:pc_rx|start_packet_decode_cmd_edge PC_RX:pc_rx|start_packet_decode_cmd_edge
     Info (332105): create_clock -period 1.000 -name spi:spi0|spi_clk spi:spi0|spi_clk
 Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
-    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: dataa  to: combout
+    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: datad  to: combout
 Info (332143): No user constrained clock uncertainty found in the design. Calling "derive_clock_uncertainty"
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1100mV 85C Model
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -6.763
+Info (332146): Worst-case setup slack is -6.468
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -6.763            -279.419 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):    -6.489           -1100.432 CLOCK_50_B5B 
-    Info (332119):    -4.657             -77.150 spi:spi0|spi_clk 
-Info (332146): Worst-case hold slack is -0.307
+    Info (332119):    -6.468            -504.231 CLOCK_50_B5B 
+    Info (332119):    -5.976            -259.101 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):    -4.769             -74.056 spi:spi0|spi_clk 
+Info (332146): Worst-case hold slack is -2.479
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.307              -2.647 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):     0.185               0.000 CLOCK_50_B5B 
-    Info (332119):     0.273               0.000 spi:spi0|spi_clk 
-Info (332146): Worst-case recovery slack is -3.240
+    Info (332119):    -2.479              -6.506 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):    -2.436              -8.842 CLOCK_50_B5B 
+    Info (332119):     0.110               0.000 spi:spi0|spi_clk 
+Info (332146): Worst-case recovery slack is -3.202
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -3.240             -12.563 CLOCK_50_B5B 
-Info (332146): Worst-case removal slack is 0.359
+    Info (332119):    -3.202             -12.335 CLOCK_50_B5B 
+Info (332146): Worst-case removal slack is 0.217
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.359               0.000 CLOCK_50_B5B 
-Info (332146): Worst-case minimum pulse width slack is -2.636
+    Info (332119):     0.217               0.000 CLOCK_50_B5B 
+Info (332146): Worst-case minimum pulse width slack is -1.177
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636            -643.862 CLOCK_50_B5B 
-    Info (332119):    -1.903            -227.226 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):    -0.538             -24.685 spi:spi0|spi_clk 
+    Info (332119):    -1.177            -114.093 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):    -0.914            -183.271 CLOCK_50_B5B 
+    Info (332119):    -0.538             -23.796 spi:spi0|spi_clk 
 Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info: Analyzing Slow 1100mV 0C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
-    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: dataa  to: combout
+    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: datad  to: combout
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -6.804
+Info (332146): Worst-case setup slack is -6.586
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -6.804            -287.679 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):    -6.427           -1058.011 CLOCK_50_B5B 
-    Info (332119):    -4.939             -78.687 spi:spi0|spi_clk 
-Info (332146): Worst-case hold slack is -0.662
+    Info (332119):    -6.586            -493.185 CLOCK_50_B5B 
+    Info (332119):    -5.929            -265.945 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):    -5.063             -74.736 spi:spi0|spi_clk 
+Info (332146): Worst-case hold slack is -2.568
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.662              -7.856 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):    -0.071              -1.708 CLOCK_50_B5B 
-    Info (332119):     0.294               0.000 spi:spi0|spi_clk 
-Info (332146): Worst-case recovery slack is -2.923
+    Info (332119):    -2.568              -9.691 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):    -2.557             -12.159 CLOCK_50_B5B 
+    Info (332119):     0.135               0.000 spi:spi0|spi_clk 
+Info (332146): Worst-case recovery slack is -2.878
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.923             -11.230 CLOCK_50_B5B 
-Info (332146): Worst-case removal slack is 0.102
+    Info (332119):    -2.878             -11.037 CLOCK_50_B5B 
+Info (332146): Worst-case removal slack is -0.037
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.102               0.000 CLOCK_50_B5B 
-Info (332146): Worst-case minimum pulse width slack is -2.636
+    Info (332119):    -0.037              -0.072 CLOCK_50_B5B 
+Info (332146): Worst-case minimum pulse width slack is -1.097
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.636            -630.269 CLOCK_50_B5B 
-    Info (332119):    -1.918            -230.141 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):    -0.538             -24.596 spi:spi0|spi_clk 
+    Info (332119):    -1.097            -108.089 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):    -0.981            -175.603 CLOCK_50_B5B 
+    Info (332119):    -0.538             -23.625 spi:spi0|spi_clk 
 Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info: Analyzing Fast 1100mV 85C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
-    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: dataa  to: combout
+    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: datad  to: combout
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -3.377
+Info (332146): Worst-case setup slack is -3.247
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -3.377            -487.656 CLOCK_50_B5B 
-    Info (332119):    -3.211            -111.042 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):    -1.667             -27.892 spi:spi0|spi_clk 
-Info (332146): Worst-case hold slack is -0.285
+    Info (332119):    -3.247            -208.933 CLOCK_50_B5B 
+    Info (332119):    -2.759            -100.304 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):    -1.743             -27.580 spi:spi0|spi_clk 
+Info (332146): Worst-case hold slack is -1.341
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.285              -4.080 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):     0.135               0.000 CLOCK_50_B5B 
-    Info (332119):     0.143               0.000 spi:spi0|spi_clk 
-Info (332146): Worst-case recovery slack is -1.679
+    Info (332119):    -1.341              -4.510 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):    -1.131              -5.116 CLOCK_50_B5B 
+    Info (332119):     0.037               0.000 spi:spi0|spi_clk 
+Info (332146): Worst-case recovery slack is -1.741
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.679              -6.384 CLOCK_50_B5B 
-Info (332146): Worst-case removal slack is 0.121
+    Info (332119):    -1.741              -6.723 CLOCK_50_B5B 
+Info (332146): Worst-case removal slack is 0.174
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.121               0.000 CLOCK_50_B5B 
-Info (332146): Worst-case minimum pulse width slack is -2.174
+    Info (332119):     0.174               0.000 CLOCK_50_B5B 
+Info (332146): Worst-case minimum pulse width slack is -1.000
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.174            -456.638 CLOCK_50_B5B 
-    Info (332119):    -0.790             -58.711 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):     0.073               0.000 spi:spi0|spi_clk 
+    Info (332119):    -1.000            -102.772 CLOCK_50_B5B 
+    Info (332119):    -0.488             -26.029 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):     0.102               0.000 spi:spi0|spi_clk 
 Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info: Analyzing Fast 1100mV 0C Model
 Info (332097): The following timing edges are non-unate.  The Timing Analyzer will assume pos-unate behavior for these edges in the clock network.
-    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: dataa  to: combout
+    Info (332098): Cell: pc_rx|packet_decode_fsm|r_num_words_payload_to_recv[1]~0  from: datad  to: combout
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -2.962
+Info (332146): Worst-case setup slack is -2.633
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.962            -105.636 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):    -2.894            -400.332 CLOCK_50_B5B 
-    Info (332119):    -1.615             -25.806 spi:spi0|spi_clk 
-Info (332146): Worst-case hold slack is -0.258
+    Info (332119):    -2.633            -170.533 CLOCK_50_B5B 
+    Info (332119):    -2.553             -95.248 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):    -1.688             -25.121 spi:spi0|spi_clk 
+Info (332146): Worst-case hold slack is -1.205
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.258              -4.228 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):    -0.024              -0.040 CLOCK_50_B5B 
-    Info (332119):     0.134               0.000 spi:spi0|spi_clk 
-Info (332146): Worst-case recovery slack is -1.315
+    Info (332119):    -1.205              -4.206 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):    -1.146              -6.350 CLOCK_50_B5B 
+    Info (332119):     0.048               0.000 spi:spi0|spi_clk 
+Info (332146): Worst-case recovery slack is -1.355
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -1.315              -4.994 CLOCK_50_B5B 
-Info (332146): Worst-case removal slack is -0.031
+    Info (332119):    -1.355              -5.199 CLOCK_50_B5B 
+Info (332146): Worst-case removal slack is 0.025
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.031              -0.060 CLOCK_50_B5B 
-Info (332146): Worst-case minimum pulse width slack is -2.174
+    Info (332119):     0.025               0.000 CLOCK_50_B5B 
+Info (332146): Worst-case minimum pulse width slack is -0.996
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -2.174            -489.062 CLOCK_50_B5B 
-    Info (332119):    -0.665             -49.437 PC_RX:pc_rx|start_packet_decode_cmd_edge 
-    Info (332119):     0.086               0.000 spi:spi0|spi_clk 
+    Info (332119):    -0.996            -121.509 CLOCK_50_B5B 
+    Info (332119):    -0.344             -17.581 PC_RX:pc_rx|start_packet_decode_cmd_edge 
+    Info (332119):     0.103               0.000 spi:spi0|spi_clk 
 Info (332114): Report Metastability: Found 1 synchronizer chains.
     Info (332114): Design MTBF is not calculated because the design doesn't meet its timing requirements.
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus Prime Timing Analyzer was successful. 0 errors, 7 warnings
-    Info: Peak virtual memory: 5247 megabytes
-    Info: Processing ended: Tue Jul 09 13:39:56 2019
+    Info: Peak virtual memory: 5194 megabytes
+    Info: Processing ended: Tue Jul 09 17:06:51 2019
     Info: Elapsed time: 00:00:07
-    Info: Total CPU time (on all processors): 00:00:08
+    Info: Total CPU time (on all processors): 00:00:07
 
 

@@ -260,15 +260,17 @@ assign GPIO[0] = 1;
 // Debugging Lines
 // Assign UART_TX and UART_RX Data to Arduino GPIO10 + 12 for Debug
 assign GPIO[10]  = UART_TX;
-wire debug_out_b;
-wire debug_out_y;
+wire debug_out_LA0;
+wire debug_out_LA1;
 wire debug_out_LA2;
 wire debug_out_LA3;
+wire debug_out_LA4;
 assign GPIO[11] = UART_RX;
-assign GPIO[12] = debug_out_b;
-assign GPIO[13] = debug_out_y;
+assign GPIO[12] = debug_out_LA0;
+assign GPIO[13] = debug_out_LA1;
 assign GPIO[14] = debug_out_LA2;
 assign GPIO[15] = debug_out_LA3;
+assign GPIO[16] = debug_out_LA4;
 
 
 spi spi0(
@@ -332,15 +334,15 @@ PC_RX pc_rx(
 	.o_packet_command(packet_command),             // Which packet we have received
 	.o_packet_fully_decoded(w_packet_fully_decoded), // Goes high for 1-cycle after a packet has been fully decoded
 	.o_fifo_output_word(rx_fifo_output_word),      // Current output from the FIFO
-	.o_fifo_is_empty_sig(rx_fifo_is_empty_sig),    // Signal to indicates whether or not the FIFO is empty 
+	.o_fifo_is_empty_sig(rx_fifo_is_empty_sig)    // Signal to indicates whether or not the FIFO is empty 
 	
 	// Debug
-	.o_debug_out_b(debug_out_b),
-	.o_debug_out_y(debug_out_y)
+//	.o_debug_out_b(debug_out_b),
+//	.o_debug_out_y(debug_out_y)
 	
  );
 
-//assign debug_out_LA2 = w_packet_fully_decoded;
+assign debug_out_LA0 = w_packet_fully_decoded;
 
  
  
@@ -389,8 +391,7 @@ DATA_ROUTER data_router(
 
 
 
-assign debug_out_LA2 = data_manager_output_next_cmd;
-assign debug_out_LA3 = tx_active;
+assign debug_out_LA1 = data_manager_output_next_cmd;
 
 // PC_TX to send data to PC 
 
@@ -404,12 +405,17 @@ PC_TX pc_tx(
 	.i_reset(reset_all),
 
 	// DataRouter Side
-	.i_fifo_word_data(data_manager_output_data_word),      // Data to transmit
-	.i_serial_next_word_cmd(data_manager_output_next_cmd), // New byte from Uart Received signal
-	.o_tx_active(tx_active),                               // Use the active signal to drive the DataRouter sending more data TODO: Hack atm, upgrade with a FIFO
+	.i_fifo_write_word_data(data_manager_output_data_word), // Data to transmit
+	.i_fifo_write_word_cmd(data_manager_output_next_cmd),   // New byte from Uart Received signal
+	.o_tx_active(tx_active),                                // Use the active signal to drive the DataRouter sending more data TODO: Hack atm, upgrade with a FIFO
 
 	// PC Side
-   .o_UART_TX(UART_TX)                                    // Output line for UART	
+   .o_UART_TX(UART_TX),                                    // Output line for UART	
+	
+	// Debug
+	.debug_out_LA2(debug_out_LA2),
+	.debug_out_LA3(debug_out_LA3),
+	.debug_out_LA4(debug_out_LA4)
 	
    );
 

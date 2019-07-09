@@ -23,11 +23,11 @@ module PC_RX(
 	output       o_packet_command,       // Which packet we have received
 	output       o_packet_fully_decoded, // Goes high for 1-cycle after a packet has been fully decoded
 	output[31:0] o_fifo_output_word,     // Current output from the FIFO
-	output       o_fifo_is_empty_sig,    // Signal to indicates whether or not the FIFO is empty
+	output       o_fifo_is_empty_sig     // Signal to indicates whether or not the FIFO is empty
 	
 //		// Debug
-	output o_debug_out_b,
-	output o_debug_out_y
+//	output o_debug_out_b,
+//	output o_debug_out_y
 
    );
 
@@ -160,8 +160,8 @@ PACKET_DECODE_FSM packet_decode_fsm(
 //assign o_debug_out_y = o_reset_all;
 
 
-assign o_debug_out_b = payload_word_decode_complete;
-assign o_debug_out_y = w_packet_fully_decoded;
+//assign o_debug_out_b = payload_word_decode_complete;
+//assign o_debug_out_y = w_packet_fully_decoded;
 
 //assign o_packet_fully_decoded = packet_fully_decoded;
  

@@ -16,12 +16,17 @@ module PC_TX(
 	input i_reset,
 
 	// DataRouter Side
-	input[31:0] i_fifo_word_data,        // Data from Uart
-	input       i_serial_next_word_cmd,  // New byte from Uart Received signal
+	input[31:0] i_fifo_write_word_data,  // Data from Uart
+	input       i_fifo_write_word_cmd,   // New byte from Uart Received signal
 	output      o_tx_active,             // Use the active signal to drive the DataRouter sending more data TODO: Hack atm, upgrade with a FIFO
 
 	// PC Side
-   output o_UART_TX                     // Output line for UART
+   output o_UART_TX,                     // Output line for UART
+	
+	// Debug
+	output debug_out_LA2,
+	output debug_out_LA3,
+	output debug_out_LA4
 
    );
 	
@@ -36,25 +41,44 @@ module PC_TX(
 // We pipe data into the FIFO when we receive the full word
 //wire is_fifo_full_sig;
 //wire[31:0] fifo_data_input;
-//wire       write_data_into_fifo;
+
 //assign fifo_data_input = decoded_data_payload_word;
-// It is very important that we do not write to the FIFO when it is full, so need a check here
-// If the FIFO is full, we simply drop the data
-//assign write_data_into_fifo = (is_fifo_full_sig==1) ? 0 : payload_word_decode_complete;
+
+assign debug_out_LA2 = fifo_write_word_cmd;
+assign debug_out_LA3 = fifo_is_empty;
+assign debug_out_LA4 = w_fifo_read_word_cmd;
+
+
 
 // We use a FIFO in the PC_TX so any upstream functions can simply dump data here without worrying about timing
 
 // Interfacing signals
 // Write-side
 wire is_fifo_full_sig;
+wire fifo_write_word_cmd;
 // Read-side
-wire read_next_word_cmd;
+//reg       fifo_read_word_cmd = 0;
 wire[31:0] fifo_output_word;
+wire       fifo_is_empty;
 
-// FIFO write-side is controller by the upstream module
+// FIFO write-side logic is mainly controlled by the upstream module
+// However, it is very important that we do not write to the FIFO when it is full, so need a check here
+// If the FIFO is full, we simply drop the data
+assign fifo_write_word_cmd = (is_fifo_full_sig==1) ? 0 : i_fifo_write_word_cmd;
+
 // FIFO read-side logic is listed below
-//assign read_data_from_fifo = (is_fifo_full_sig==1) ? 0 : payload_word_decode_complete;
-
+// We process another word if there is data in our FIFO and we are not currently proccesing any
+//assign fifo_read_word_cmd = ~fifo_is_empty;//( (fifo_is_empty==0) ) ? 1 : 0; //&& (serial_is_busy_sig==0) ) ? 0 : 1;
+reg r_fifo_read_word_cmd = 0;
+wire w_fifo_read_word_cmd;
+always @(posedge i_clock) begin
+	if( (fifo_is_empty==0) && (serial_is_busy_sig==0) ) begin
+		r_fifo_read_word_cmd = 1;
+	end else begin
+		r_fifo_read_word_cmd = 0;
+	end
+end
+assign w_fifo_read_word_cmd = r_fifo_read_word_cmd;
 
 // FIFO
 pc_rx_fifo pc_rx_FIFO(
@@ -65,13 +89,13 @@ pc_rx_fifo pc_rx_FIFO(
 	
 	// Write Side
 	.data(i_fifo_word_data),        // Input Data
-	.wrreq(i_serial_next_word_cmd), // Write Data Valid, set High for 1 cycle to write current data
+	.wrreq(fifo_write_word_cmd),    // Write Data Valid, set High for 1 cycle to write current data
 	.full(is_fifo_full_sig),        // Full Flag
 //	
 //	// Read Side
-	.rdreq(i_serial_next_word_cmd), // Read Data Valid, set High for 1 cycle to read into current data
-	.q(fifo_output_word),       // Output Data
-//	.empty(o_fifo_is_empty_sig)   // Empty Flag
+	.rdreq(fifo_read_word_cmd),     // Read Data Valid, set High for 1 cycle to read into current data
+	.q(fifo_output_word),           // Output Data
+	.empty(fifo_is_empty)           // Empty Flag
 	
 	);
 	
@@ -83,6 +107,7 @@ pc_rx_fifo pc_rx_FIFO(
 
 // Interfacing signals for Serialiser
 wire send_next_byte_cmd;
+wire serial_is_busy_sig;
 // Byte to output from UART - controlled by the Serialiser
 wire[7:0] tx_byte_output;
 // Serialiser handles transforming our 4-byte word into a stream of single bytes
@@ -93,7 +118,7 @@ wire[7:0] tx_byte_output;
 	
 	// Input-Side
 	.i_fifo_word_data(fifo_output_word),                   // Data from Uart
-	.i_serial_next_word_cmd(i_serial_next_word_cmd),       // New byte from Uart Received signal
+	.i_serial_next_word_cmd(fifo_read_next_word_cmd),      // New byte from Uart Received signal
 	.i_tx_byte_complete(tx_done),                          // Byte has been successfully Tx'd
 	
 	// Output-Side
