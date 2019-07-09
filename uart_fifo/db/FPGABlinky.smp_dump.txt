@@ -1,5 +1,5 @@
 
-State Machine - |baseline_c5gx|uart_tx:pc_tx|r_SM_Main
+State Machine - |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_SM_Main
 Name r_SM_Main.s_TX_STOP_BIT r_SM_Main.s_TX_DATA_BITS r_SM_Main.s_TX_START_BIT r_SM_Main.000 r_SM_Main.s_CLEANUP 
 r_SM_Main.000 0 0 0 0 0 
 r_SM_Main.s_TX_START_BIT 0 0 1 1 0 

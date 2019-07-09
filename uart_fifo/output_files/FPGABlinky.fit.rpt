@@ -1,5 +1,5 @@
 Fitter report for FPGABlinky
-Tue Jul 02 11:51:34 2019
+Tue Jul 09 10:47:46 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -65,7 +65,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Fitter Summary                                                                ;
 +---------------------------------+---------------------------------------------+
-; Fitter Status                   ; Successful - Tue Jul 02 11:51:34 2019       ;
+; Fitter Status                   ; Successful - Tue Jul 09 10:47:46 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
@@ -161,11 +161,11 @@ refer to the applicable agreement for further details.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   1.1%      ;
+;     Processor 2            ;   1.2%      ;
 ;     Processor 3            ;   0.9%      ;
 ;     Processor 4            ;   0.9%      ;
-;     Processor 5            ;   0.8%      ;
-;     Processor 6            ;   0.8%      ;
+;     Processor 5            ;   0.9%      ;
+;     Processor 6            ;   0.9%      ;
 +----------------------------+-------------+
 
 
@@ -192,6 +192,7 @@ refer to the applicable agreement for further details.
 ; PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main.000                            ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main.000~DUPLICATE                            ;                  ;                       ;
 ; PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main.s_RX_DATA_BITS                 ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main.s_RX_DATA_BITS~DUPLICATE                 ;                  ;                       ;
 ; PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main.s_RX_START_BIT                 ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; PC_RX:pc_rx|uart_rx:pc_rx|r_SM_Main.s_RX_START_BIT~DUPLICATE                 ;                  ;                       ;
+; PC_TX:pc_tx|uart_tx:pc_tx|r_SM_Main.000                            ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; PC_TX:pc_tx|uart_tx:pc_tx|r_SM_Main.000~DUPLICATE                            ;                  ;                       ;
 ; SERIALISER:serialiser|num_bytes_to_send[2]                         ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; SERIALISER:serialiser|num_bytes_to_send[2]~DUPLICATE                         ;                  ;                       ;
 ; SERIALISER:serialiser|num_bytes_to_send[3]                         ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; SERIALISER:serialiser|num_bytes_to_send[3]~DUPLICATE                         ;                  ;                       ;
 ; spi:spi0|CS                                                        ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; spi:spi0|CS~DUPLICATE                                                        ;                  ;                       ;
@@ -201,7 +202,6 @@ refer to the applicable agreement for further details.
 ; spi:spi0|state_reg.UNLOAD_DATA                                     ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; spi:spi0|state_reg.UNLOAD_DATA~DUPLICATE                                     ;                  ;                       ;
 ; spi:spi0|state_reg.UNLOAD_LAST_BIT                                 ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; spi:spi0|state_reg.UNLOAD_LAST_BIT~DUPLICATE                                 ;                  ;                       ;
 ; spi:spi0|state_reg.UPPER_BYTE_TRANSFER                             ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; spi:spi0|state_reg.UPPER_BYTE_TRANSFER~DUPLICATE                             ;                  ;                       ;
-; uart_tx:pc_tx|r_SM_Main.000                                        ; Duplicated ; Router Logic Cell Insertion and Logic Duplication ; Routability optimization   ;           ;                ; uart_tx:pc_tx|r_SM_Main.000~DUPLICATE                                        ;                  ;                       ;
 +--------------------------------------------------------------------+------------+---------------------------------------------------+----------------------------+-----------+----------------+------------------------------------------------------------------------------+------------------+-----------------------+
 
 
@@ -1855,9 +1855,10 @@ Note: Pin directions (input, output or bidir) are based on device operating in u
 ;                   |cntr_h2b:wr_ptr|         ; 3.0 (3.0)            ; 3.0 (3.0)                        ; 0.0 (0.0)                                         ; 0.0 (0.0)                        ; 0.0 (0.0)            ; 6 (6)               ; 6 (6)                     ; 0 (0)         ; 0                 ; 0     ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr         ; cntr_h2b          ; work         ;
 ;                   |cntr_t27:usedw_counter|  ; 3.0 (3.0)            ; 3.0 (3.0)                        ; 0.0 (0.0)                                         ; 0.0 (0.0)                        ; 0.0 (0.0)            ; 6 (6)               ; 6 (6)                     ; 0 (0)         ; 0                 ; 0     ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter  ; cntr_t27          ; work         ;
 ;       |uart_rx:pc_rx|                       ; 20.7 (20.7)          ; 24.7 (24.7)                      ; 4.0 (4.0)                                         ; 0.0 (0.0)                        ; 0.0 (0.0)            ; 40 (40)             ; 38 (38)                   ; 0 (0)         ; 0                 ; 0     ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx                                                                                                         ; uart_rx           ; work         ;
+;    |PC_TX:pc_tx|                            ; 16.9 (0.0)           ; 21.0 (0.0)                       ; 4.1 (0.0)                                         ; 0.0 (0.0)                        ; 0.0 (0.0)            ; 28 (0)              ; 30 (0)                    ; 0 (0)         ; 0                 ; 0     ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx                                                                                                                       ; PC_TX             ; work         ;
+;       |uart_tx:pc_tx|                       ; 16.9 (16.9)          ; 21.0 (21.0)                      ; 4.1 (4.1)                                         ; 0.0 (0.0)                        ; 0.0 (0.0)            ; 28 (28)             ; 30 (30)                   ; 0 (0)         ; 0                 ; 0     ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx                                                                                                         ; uart_tx           ; work         ;
 ;    |SERIALISER:serialiser|                  ; 14.1 (14.1)          ; 26.0 (26.0)                      ; 11.9 (11.9)                                       ; 0.0 (0.0)                        ; 0.0 (0.0)            ; 19 (19)             ; 41 (41)                   ; 0 (0)         ; 0                 ; 0     ; 0          ; 0    ; 0            ; |baseline_c5gx|SERIALISER:serialiser                                                                                                             ; SERIALISER        ; work         ;
 ;    |spi:spi0|                               ; 28.3 (28.3)          ; 32.3 (32.3)                      ; 4.0 (4.0)                                         ; 0.0 (0.0)                        ; 0.0 (0.0)            ; 46 (46)             ; 41 (41)                   ; 0 (0)         ; 0                 ; 0     ; 0          ; 0    ; 0            ; |baseline_c5gx|spi:spi0                                                                                                                          ; spi               ; work         ;
-;    |uart_tx:pc_tx|                          ; 16.9 (16.9)          ; 21.0 (21.0)                      ; 4.1 (4.1)                                         ; 0.0 (0.0)                        ; 0.0 (0.0)            ; 28 (28)             ; 30 (30)                   ; 0 (0)         ; 0                 ; 0     ; 0          ; 0    ; 0            ; |baseline_c5gx|uart_tx:pc_tx                                                                                                                     ; uart_tx           ; work         ;
 +---------------------------------------------+----------------------+----------------------------------+---------------------------------------------------+----------------------------------+----------------------+---------------------+---------------------------+---------------+-------------------+-------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -2048,13 +2049,13 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[9]~0                                                                           ; MLABCELL_X8_Y4_N15 ; 14      ; Sync. clear                ; no     ; --                   ; --               ; --                        ;
 ; PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[9]~1                                                                           ; LABCELL_X7_Y4_N27  ; 14      ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; PC_RX:pc_rx|uart_rx:pc_rx|r_Rx_DV                                                                                      ; FF_X7_Y4_N14       ; 44      ; Clock enable, Sync. clear  ; no     ; --                   ; --               ; --                        ;
+; PC_TX:pc_tx|uart_tx:pc_tx|Selector17~0                                                                                 ; LABCELL_X18_Y6_N27 ; 9       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
+; PC_TX:pc_tx|uart_tx:pc_tx|r_Clock_Count[4]~0                                                                           ; LABCELL_X21_Y6_N42 ; 10      ; Sync. clear                ; no     ; --                   ; --               ; --                        ;
+; PC_TX:pc_tx|uart_tx:pc_tx|r_SM_Main.s_CLEANUP                                                                          ; FF_X18_Y6_N59      ; 13      ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; SERIALISER:serialiser|num_bytes_to_send[3]~1                                                                           ; LABCELL_X15_Y6_N15 ; 4       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; SERIALISER:serialiser|r_serial_data_byte[1]~4                                                                          ; LABCELL_X15_Y6_N27 ; 8       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; always2~0                                                                                                              ; LABCELL_X45_Y4_N48 ; 3       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 ; spi:spi0|spi_clk                                                                                                       ; FF_X46_Y6_N23      ; 34      ; Clock                      ; no     ; --                   ; --               ; --                        ;
-; uart_tx:pc_tx|Selector17~0                                                                                             ; LABCELL_X18_Y6_N27 ; 9       ; Clock enable               ; no     ; --                   ; --               ; --                        ;
-; uart_tx:pc_tx|r_Clock_Count[4]~0                                                                                       ; LABCELL_X21_Y6_N42 ; 10      ; Sync. clear                ; no     ; --                   ; --               ; --                        ;
-; uart_tx:pc_tx|r_SM_Main.s_CLEANUP                                                                                      ; FF_X18_Y6_N59      ; 13      ; Clock enable               ; no     ; --                   ; --               ; --                        ;
 +------------------------------------------------------------------------------------------------------------------------+--------------------+---------+----------------------------+--------+----------------------+------------------+---------------------------+
 
 
@@ -2728,7 +2729,7 @@ Info (170193): Fitter routing operations beginning
 Info (170195): Router estimated average interconnect usage is 0% of the available device resources
     Info (170196): Router estimated peak interconnect usage is 6% of the available device resources in the region that extends from location X0_Y0 to location X10_Y11
 Info (170194): Fitter routing operations ending: elapsed time is 00:00:10
-Info (11888): Total time spent on timing analysis during the Fitter is 1.58 seconds.
+Info (11888): Total time spent on timing analysis during the Fitter is 1.60 seconds.
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
@@ -2774,10 +2775,10 @@ Warning (169064): Following 36 pins have no output enable or a GND or VCC output
     Info (169065): Pin GPIO[14] has a permanently enabled output enable File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
 Info (144001): Generated suppressed messages file C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/output_files/FPGABlinky.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 281 warnings
-    Info: Peak virtual memory: 6767 megabytes
-    Info: Processing ended: Tue Jul 02 11:51:35 2019
+    Info: Peak virtual memory: 6765 megabytes
+    Info: Processing ended: Tue Jul 09 10:47:47 2019
     Info: Elapsed time: 00:00:47
-    Info: Total CPU time (on all processors): 00:02:13
+    Info: Total CPU time (on all processors): 00:02:17
 
 
 +----------------------------+

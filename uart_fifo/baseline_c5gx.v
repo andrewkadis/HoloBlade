@@ -418,6 +418,11 @@ DATA_ROUTER data_router(
 //reg  serialise_next_word_cmd = 0;
 //wire serial_is_busy_sig;
 
+// Interfacing signals for Serialiser
+wire send_next_byte_cmd;
+// Byte to output from UART - controlled by the Serialiser
+wire[7:0] tx_byte_output;
+// Serialiser handles transforming our 4-byte word into a stream of single bytes
  SERIALISER serialiser(
 
 	// Control Signals
@@ -434,6 +439,38 @@ DATA_ROUTER data_router(
    .o_serial_is_busy_sig(serial_is_busy_sig),             // Signal to indicate that serialse is complete
 	  
  );
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+// Spit out to PC TX 
+
+// Interfacing signals for PC RX
+wire tx_active;
+wire tx_done;
+// PC Tx handles buffering and output to PC
+PC_TX pc_tx(
+
+	.i_clock(CLOCK_50_B5B),
+   .i_send_next_byte_cmd(send_next_byte_cmd), // Command to start TX of individual Byte
+   .i_tx_byte_output(tx_byte_output),         // Byte of data to send
+   .o_tx_active(tx_active),                   // Flag for whether or not UART is active
+   .o_UART_TX(UART_TX),                       // Output line for UART
+   .o_tx_done(tx_done)                        // Flag which is high for 1 cycle after Tx Complete
+
+   );
+	
+//	.i_Clock(CLOCK_50_B5B),       // Clock
+//   .i_Tx_DV(send_next_byte_cmd), // Command to start TX of individual Byte
+//   .i_Tx_Byte(tx_byte_output),   // Byte of data to send
+//   .o_Tx_Active(tx_active),      // Flag for whether or not UART is active
+//   .o_Tx_Serial(UART_TX),        // Output line for UART
+//   .o_Tx_Done(tx_done)           // Flag which is high for 1 cycle after Tx Complete
+//	  
  
 
 //
@@ -515,30 +552,30 @@ DATA_ROUTER data_router(
 
 
 
-//////////////////////////
-//////// Uart TX /////////
-//////////////////////////
-
-// Command to send next byte over UART - controlled by the Serialiser
-wire send_next_byte_cmd;
-// Byte to output from UART - controlled by the Serialiser
-wire[7:0] tx_byte_output;
-// Control Flags for Tx UART
-wire tx_active;
-wire tx_done;
-// Want to interface to 115200 baud UART with our 50 MHz clock
-// 50000000 / 115200 = 435 Clocks Per Bit.
-parameter c_CLKS_PER_BIT    = 435;
-uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
-
-	.i_Clock(CLOCK_50_B5B),       // Clock
-   .i_Tx_DV(send_next_byte_cmd), // Command to start TX of individual Byte
-   .i_Tx_Byte(tx_byte_output),   // Byte of data to send
-   .o_Tx_Active(tx_active),      // Flag for whether or not UART is active
-   .o_Tx_Serial(UART_TX),        // Output line for UART
-   .o_Tx_Done(tx_done)           // Flag which is high for 1 cycle after Tx Complete
-	  
- );
+////////////////////////////
+////////// Uart TX /////////
+////////////////////////////
+//
+//// Command to send next byte over UART - controlled by the Serialiser
+//wire send_next_byte_cmd;
+//// Byte to output from UART - controlled by the Serialiser
+//wire[7:0] tx_byte_output;
+//// Control Flags for Tx UART
+//wire tx_active;
+//wire tx_done;
+//// Want to interface to 115200 baud UART with our 50 MHz clock
+//// 50000000 / 115200 = 435 Clocks Per Bit.
+//parameter c_CLKS_PER_BIT    = 435;
+//uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
+//
+//	.i_Clock(CLOCK_50_B5B),       // Clock
+//   .i_Tx_DV(send_next_byte_cmd), // Command to start TX of individual Byte
+//   .i_Tx_Byte(tx_byte_output),   // Byte of data to send
+//   .o_Tx_Active(tx_active),      // Flag for whether or not UART is active
+//   .o_Tx_Serial(UART_TX),        // Output line for UART
+//   .o_Tx_Done(tx_done)           // Flag which is high for 1 cycle after Tx Complete
+//	  
+// );
 
 endmodule
 
