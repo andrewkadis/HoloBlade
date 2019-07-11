@@ -44,9 +44,9 @@ module PC_TX(
 
 //assign fifo_data_input = decoded_data_payload_word;
 
-assign debug_out_LA2 = fifo_write_word_cmd;
+assign debug_out_LA2 = r_fifo_read_word_cmd;
 assign debug_out_LA3 = fifo_is_empty;
-assign debug_out_LA4 = w_fifo_read_word_cmd;
+assign debug_out_LA4 = serial_is_busy_sig; 
 
 
 
@@ -70,7 +70,7 @@ assign fifo_write_word_cmd = (is_fifo_full_sig==1) ? 0 : i_fifo_write_word_cmd;
 // We process another word if there is data in our FIFO and we are not currently proccesing any
 //assign fifo_read_word_cmd = ~fifo_is_empty;//( (fifo_is_empty==0) ) ? 1 : 0; //&& (serial_is_busy_sig==0) ) ? 0 : 1;
 reg r_fifo_read_word_cmd = 0;
-wire w_fifo_read_word_cmd;
+//wire w_fifo_read_word_cmd;
 always @(posedge i_clock) begin
 	if( (fifo_is_empty==0) && (serial_is_busy_sig==0) ) begin
 	
@@ -90,7 +90,7 @@ always @(posedge i_clock) begin
 		
 	end
 end
-assign w_fifo_read_word_cmd = r_fifo_read_word_cmd;
+//assign w_fifo_read_word_cmd = r_fifo_read_word_cmd;
 
 
 //		r_rx_fifo_next_word_cmd = 1;
@@ -111,7 +111,7 @@ pc_rx_fifo pc_rx_FIFO(
 	.full(is_fifo_full_sig),        // Full Flag
 //	
 //	// Read Side
-	.rdreq(w_fifo_read_word_cmd),   // Read Data Valid, set High for 1 cycle to read into current data
+	.rdreq(r_fifo_read_word_cmd),   // Read Data Valid, set High for 1 cycle to read into current data
 	.q(fifo_output_word),           // Output Data
 	.empty(fifo_is_empty)           // Empty Flag
 	
@@ -142,10 +142,10 @@ wire[7:0] tx_byte_output;
 	.i_tx_byte_complete(tx_done),                          // Byte has been successfully Tx'd
 	
 	// Output-Side
-	.o_send_next_byte_cmd(send_next_byte_cmd),             // Flag to indicate whether or not the serialisation Unit is busy
-   .o_serial_data_byte(tx_byte_output),                   // Data Output for FIFO
-   .o_serial_is_busy_sig(serial_is_busy_sig),             // Signal to indicate that serialse is complete
-	  
+	.o_send_next_byte_cmd(send_next_byte_cmd),             // Tx next byte over UART
+   .o_serial_data_byte(tx_byte_output),                   // Serialisation Output Byte
+   .o_serial_is_busy_sig(serial_is_busy_sig),             // Flag to indicate whether or not the serialisation Unit is busy
+
  );	
 	
 	

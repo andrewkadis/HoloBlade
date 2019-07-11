@@ -330,7 +330,7 @@ PC_RX pc_rx(
    .i_rx_serial(UART_RX),                         // UART RX Line
 	
 	// DataManager-Side
-   .i_read_next_word_cmd(r_read_next_word_cmd),   // Command to get next word from FIFO, set high for 1 cycle to read word
+   .i_read_next_word_cmd(rx_fifo_next_word_cmd),  // Command to get next word from FIFO, set high for 1 cycle to read word
 	.o_packet_command(packet_command),             // Which packet we have received
 	.o_packet_fully_decoded(w_packet_fully_decoded), // Goes high for 1-cycle after a packet has been fully decoded
 	.o_fifo_output_word(rx_fifo_output_word),      // Current output from the FIFO
@@ -342,7 +342,9 @@ PC_RX pc_rx(
 	
  );
 
-assign debug_out_LA0 = w_packet_fully_decoded;
+
+assign debug_out_LA0 = rx_fifo_is_empty_sig;
+assign debug_out_LA1 = rx_fifo_next_word_cmd;
 
  
  
@@ -351,10 +353,10 @@ wire[31:0] data_manager_output_data_word;
 wire       data_manager_output_next_cmd;
 // The data_router grabs the words out of the pc_rx one-at-a-time because it has a FIFO - latch this command when received
 reg r_read_next_word_cmd = 0;
-wire o_rx_fifo_next_word_cmd;
-always @(posedge CLOCK_50_B5B) begin
-	r_read_next_word_cmd = o_rx_fifo_next_word_cmd;
-end
+//wire rx_fifo_next_word_cmd;
+//always @(posedge CLOCK_50_B5B) begin
+//	r_read_next_word_cmd = o_rx_fifo_next_word_cmd;
+//end
 
 // DataRouter contains the bulk of the clever parts and the data routing, this is where packets are decoded and passed between different modules
 DATA_ROUTER data_router(
@@ -364,9 +366,9 @@ DATA_ROUTER data_router(
 	.i_reset(),
 	
 	// PC_RX
-   .i_packet_command(r_read_next_word_cmd),
+   .i_packet_command(),
 	.i_packet_fully_decoded(w_packet_fully_decoded),
-	.o_rx_fifo_next_word_cmd(o_rx_fifo_next_word_cmd),
+	.o_rx_fifo_next_word_cmd(rx_fifo_next_word_cmd),
 	.i_rx_fifo_output_word(rx_fifo_output_word),
 	.i_rx_fifo_is_empty_sig(rx_fifo_is_empty_sig),
 	
@@ -391,7 +393,7 @@ DATA_ROUTER data_router(
 
 
 
-assign debug_out_LA1 = data_manager_output_next_cmd;
+//assign debug_out_LA1 = data_manager_output_next_cmd;
 
 // PC_TX to send data to PC 
 

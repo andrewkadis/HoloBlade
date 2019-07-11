@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Tue Jul 09 17:43:33 2019
+Thu Jul 11 10:43:42 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -70,13 +70,13 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Tue Jul 09 17:43:33 2019       ;
+; Analysis & Synthesis Status     ; Successful - Thu Jul 11 10:43:42 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 264                                         ;
+; Total registers                 ; 262                                         ;
 ; Total pins                      ; 72                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 0                                           ;
@@ -233,24 +233,24 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------+
 ; Resource                                    ; Usage              ;
 +---------------------------------------------+--------------------+
-; Estimate of Logic utilization (ALMs needed) ; 227                ;
+; Estimate of Logic utilization (ALMs needed) ; 226                ;
 ;                                             ;                    ;
-; Combinational ALUT usage for logic          ; 383                ;
+; Combinational ALUT usage for logic          ; 381                ;
 ;     -- 7 input functions                    ; 1                  ;
 ;     -- 6 input functions                    ; 60                 ;
-;     -- 5 input functions                    ; 42                 ;
-;     -- 4 input functions                    ; 42                 ;
-;     -- <=3 input functions                  ; 238                ;
+;     -- 5 input functions                    ; 40                 ;
+;     -- 4 input functions                    ; 45                 ;
+;     -- <=3 input functions                  ; 235                ;
 ;                                             ;                    ;
-; Dedicated logic registers                   ; 264                ;
+; Dedicated logic registers                   ; 262                ;
 ;                                             ;                    ;
 ; I/O pins                                    ; 72                 ;
 ;                                             ;                    ;
 ; Total DSP Blocks                            ; 0                  ;
 ;                                             ;                    ;
 ; Maximum fan-out node                        ; CLOCK_50_B5B~input ;
-; Maximum fan-out                             ; 204                ;
-; Total fan-out                               ; 2133               ;
+; Maximum fan-out                             ; 202                ;
+; Total fan-out                               ; 2124               ;
 ; Average fan-out                             ; 2.58               ;
 +---------------------------------------------+--------------------+
 
@@ -260,25 +260,25 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 ; Compilation Hierarchy Node                  ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                             ; Entity Name       ; Library Name ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
-; |baseline_c5gx                              ; 383 (28)            ; 264 (37)                  ; 0                 ; 0          ; 72   ; 0            ; |baseline_c5gx                                                                                                                                  ; baseline_c5gx     ; work         ;
-;    |DATA_ROUTER:data_router|                ; 1 (1)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|DATA_ROUTER:data_router                                                                                                          ; DATA_ROUTER       ; work         ;
+; |baseline_c5gx                              ; 381 (28)            ; 262 (36)                  ; 0                 ; 0          ; 72   ; 0            ; |baseline_c5gx                                                                                                                                  ; baseline_c5gx     ; work         ;
+;    |DATA_ROUTER:data_router|                ; 0 (0)               ; 1 (1)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|DATA_ROUTER:data_router                                                                                                          ; DATA_ROUTER       ; work         ;
 ;    |PC_RX:pc_rx|                            ; 251 (1)             ; 146 (34)                  ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx                                                                                                                      ; PC_RX             ; work         ;
 ;       |DESERIALISER:deserialiser|           ; 3 (3)               ; 35 (35)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|DESERIALISER:deserialiser                                                                                            ; DESERIALISER      ; work         ;
-;       |PACKET_DECODE_FSM:packet_decode_fsm| ; 190 (190)           ; 37 (37)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm                                                                                  ; PACKET_DECODE_FSM ; work         ;
-;       |testFIFO:uart_rx_FIFO|               ; 17 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO                                                                                                ; testFIFO          ; work         ;
-;          |scfifo:scfifo_component|          ; 17 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component                                                                        ; scfifo            ; work         ;
-;             |scfifo_le91:auto_generated|    ; 17 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated                                             ; scfifo_le91       ; work         ;
-;                |a_dpfifo_8691:dpfifo|       ; 17 (11)             ; 11 (5)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo                        ; a_dpfifo_8691     ; work         ;
+;       |PACKET_DECODE_FSM:packet_decode_fsm| ; 188 (188)           ; 37 (37)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm                                                                                  ; PACKET_DECODE_FSM ; work         ;
+;       |testFIFO:uart_rx_FIFO|               ; 19 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO                                                                                                ; testFIFO          ; work         ;
+;          |scfifo:scfifo_component|          ; 19 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component                                                                        ; scfifo            ; work         ;
+;             |scfifo_le91:auto_generated|    ; 19 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated                                             ; scfifo_le91       ; work         ;
+;                |a_dpfifo_8691:dpfifo|       ; 19 (13)             ; 11 (5)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo                        ; a_dpfifo_8691     ; work         ;
 ;                   |cntr_t27:usedw_counter|  ; 6 (6)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter ; cntr_t27          ; work         ;
 ;       |uart_rx:pc_rx|                       ; 40 (40)             ; 29 (29)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx                                                                                                        ; uart_rx           ; work         ;
-;    |PC_TX:pc_tx|                            ; 57 (2)              ; 46 (1)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx                                                                                                                      ; PC_TX             ; work         ;
+;    |PC_TX:pc_tx|                            ; 56 (1)              ; 45 (1)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx                                                                                                                      ; PC_TX             ; work         ;
 ;       |SERIALISER:serialiser|               ; 12 (12)             ; 11 (11)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser                                                                                                ; SERIALISER        ; work         ;
-;       |pc_rx_fifo:pc_rx_FIFO|               ; 16 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO                                                                                                ; pc_rx_fifo        ; work         ;
-;          |scfifo:scfifo_component|          ; 16 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component                                                                        ; scfifo            ; work         ;
-;             |scfifo_le91:auto_generated|    ; 16 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated                                             ; scfifo_le91       ; work         ;
-;                |a_dpfifo_8691:dpfifo|       ; 16 (9)              ; 11 (5)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo                        ; a_dpfifo_8691     ; work         ;
+;       |pc_rx_fifo:pc_rx_FIFO|               ; 17 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO                                                                                                ; pc_rx_fifo        ; work         ;
+;          |scfifo:scfifo_component|          ; 17 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component                                                                        ; scfifo            ; work         ;
+;             |scfifo_le91:auto_generated|    ; 17 (0)              ; 11 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated                                             ; scfifo_le91       ; work         ;
+;                |a_dpfifo_8691:dpfifo|       ; 17 (10)             ; 11 (5)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo                        ; a_dpfifo_8691     ; work         ;
 ;                   |cntr_t27:usedw_counter|  ; 7 (7)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter ; cntr_t27          ; work         ;
-;       |uart_tx:pc_tx|                       ; 27 (27)             ; 23 (23)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx                                                                                                        ; uart_tx           ; work         ;
+;       |uart_tx:pc_tx|                       ; 26 (26)             ; 22 (22)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx                                                                                                        ; uart_tx           ; work         ;
 ;    |spi:spi0|                               ; 46 (46)             ; 34 (34)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|spi:spi0                                                                                                                         ; spi               ; work         ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
@@ -458,7 +458,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 264   ;
+; Total registers                              ; 262   ;
 ; Number of registers using Synchronous Clear  ; 27    ;
 ; Number of registers using Synchronous Load   ; 32    ;
 ; Number of registers using Asynchronous Clear ; 15    ;
@@ -487,14 +487,14 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
 ; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|num_bytes_to_send[3]                   ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; Yes        ; |baseline_c5gx|tx_addr_byte[7]                                                          ;
-; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Clock_Count[1]                               ;
-; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[6]                               ;
+; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Clock_Count[4]                               ;
+; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[0]                               ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Bit_Index                                    ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Bit_Index                                    ;
 ; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_next.sDATA_COMMAND ;
 ; 9:1                ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_next.sDATA_PAYLOAD ;
-; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector4                                                       ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector5                                                       ;
+; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector1                                                       ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector2                                                       ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
 
 
@@ -666,26 +666,26 @@ Note: In order to hide this table in the UI and the text report file, please set
 +------------------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO"                                                                                                             ;
-+------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port ; Type   ; Severity ; Details                                                                                                                                        ;
-+------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------+
-; data ; Input  ; Warning  ; Input port expression (1 bits) is smaller than the input port (32 bits) it drives.  Extra input bit(s) "data[31..1]" will be connected to GND. ;
-; q    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                                                            ;
-+------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO"                                                  ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                             ;
++------+--------+----------+-------------------------------------------------------------------------------------+
+; data ; Input  ; Info     ; Stuck at GND                                                                        ;
+; q    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+-------------------------------------------------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "DATA_ROUTER:data_router"                                                                                                ;
-+---------------------+--------+----------+----------------------------------------------------------------------------------------------------------+
-; Port                ; Type   ; Severity ; Details                                                                                                  ;
-+---------------------+--------+----------+----------------------------------------------------------------------------------------------------------+
-; i_reset             ; Input  ; Info     ; Explicitly unconnected                                                                                   ;
-; i_packet_command[1] ; Input  ; Info     ; Stuck at GND                                                                                             ;
-; o_debug_out_b       ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
-; o_debug_out_y       ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
-+---------------------+--------+----------+----------------------------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "DATA_ROUTER:data_router"                                                                                             ;
++------------------+--------+----------+----------------------------------------------------------------------------------------------------------+
+; Port             ; Type   ; Severity ; Details                                                                                                  ;
++------------------+--------+----------+----------------------------------------------------------------------------------------------------------+
+; i_reset          ; Input  ; Info     ; Explicitly unconnected                                                                                   ;
+; i_packet_command ; Input  ; Info     ; Explicitly unconnected                                                                                   ;
+; o_debug_out_b    ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
+; o_debug_out_y    ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
++------------------+--------+----------+----------------------------------------------------------------------------------------------------------+
 
 
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -706,13 +706,14 @@ Note: In order to hide this table in the UI and the text report file, please set
 +------------------+--------+----------+-------------------------------------------------------------------------------------------------------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "PC_RX:pc_rx"                                                                                    ;
-+------------------+--------+----------+-------------------------------------------------------------------------------------+
-; Port             ; Type   ; Severity ; Details                                                                             ;
-+------------------+--------+----------+-------------------------------------------------------------------------------------+
-; o_packet_command ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+------------------+--------+----------+-------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "PC_RX:pc_rx"                                                                                                                                                                          ;
++----------------------+--------+----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port                 ; Type   ; Severity ; Details                                                                                                                                                               ;
++----------------------+--------+----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; o_packet_command     ; Output ; Warning  ; Output or bidir port (1 bits) is smaller than the port expression (2 bits) it drives.  The 1 most-significant bit(s) in the port expression will be connected to GND. ;
+; o_packet_command[-1] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                                                                                   ;
++----------------------+--------+----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------+
@@ -730,32 +731,32 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 264                         ;
+; arriav_ff             ; 262                         ;
 ;     CLR               ; 15                          ;
 ;     ENA               ; 49                          ;
 ;     ENA SCLR          ; 26                          ;
 ;     SCLR              ; 1                           ;
 ;     SLD               ; 32                          ;
-;     plain             ; 141                         ;
+;     plain             ; 139                         ;
 ; arriav_io_obuf        ; 36                          ;
-; arriav_lcell_comb     ; 384                         ;
+; arriav_lcell_comb     ; 382                         ;
 ;     arith             ; 87                          ;
 ;         1 data inputs ; 44                          ;
 ;         2 data inputs ; 43                          ;
 ;     extend            ; 1                           ;
 ;         7 data inputs ; 1                           ;
-;     normal            ; 296                         ;
+;     normal            ; 294                         ;
 ;         0 data inputs ; 1                           ;
 ;         1 data inputs ; 5                           ;
-;         2 data inputs ; 100                         ;
-;         3 data inputs ; 46                          ;
-;         4 data inputs ; 42                          ;
-;         5 data inputs ; 42                          ;
+;         2 data inputs ; 98                          ;
+;         3 data inputs ; 45                          ;
+;         4 data inputs ; 45                          ;
+;         5 data inputs ; 40                          ;
 ;         6 data inputs ; 60                          ;
 ; boundary_port         ; 72                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 7.80                        ;
-; Average LUT depth     ; 2.99                        ;
+; Average LUT depth     ; 2.97                        ;
 +-----------------------+-----------------------------+
 
 
@@ -774,7 +775,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Tue Jul 09 17:43:24 2019
+    Info: Processing started: Thu Jul 11 10:43:33 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -815,6 +816,7 @@ Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(27): Par
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(28): Parameter Declaration in module "uart_tx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 28
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(29): Parameter Declaration in module "uart_tx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 29
 Info (12127): Elaborating entity "baseline_c5gx" for the top level hierarchy
+Warning (10036): Verilog HDL or VHDL warning at baseline_c5gx.v(355): object "r_read_next_word_cmd" assigned a value but never read File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 355
 Warning (10230): Verilog HDL assignment warning at baseline_c5gx.v(200): truncated value with size 32 to match size of target (24) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 200
 Warning (10034): Output port "LEDG" at baseline_c5gx.v(144) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 144
 Warning (10034): Output port "LEDR" at baseline_c5gx.v(147) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 147
@@ -832,7 +834,8 @@ Info (10264): Verilog HDL Case Statement information at spi.v(242): all case ite
 Info (10264): Verilog HDL Case Statement information at spi.v(269): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 269
 Info (10264): Verilog HDL Case Statement information at spi.v(293): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 293
 Info (12128): Elaborating entity "PC_RX" for hierarchy "PC_RX:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 343
-Warning (10230): Verilog HDL assignment warning at pc_rx.v(184): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 184
+Warning (10230): Verilog HDL assignment warning at pc_rx.v(185): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 185
+Warning (10230): Verilog HDL assignment warning at pc_rx.v(188): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 188
 Info (12128): Elaborating entity "uart_rx" for hierarchy "PC_RX:pc_rx|uart_rx:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 66
 Warning (10230): Verilog HDL assignment warning at uart_rx.v(80): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 80
 Warning (10230): Verilog HDL assignment warning at uart_rx.v(91): truncated value with size 32 to match size of target (10) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_rx.v Line: 91
@@ -887,7 +890,7 @@ Info (10041): Inferred latch for "r_num_words_payload_to_recv[28]" at packet_dec
 Info (10041): Inferred latch for "r_num_words_payload_to_recv[29]" at packet_decode_fsm.v(90) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/packet_decode_fsm.v Line: 90
 Info (10041): Inferred latch for "r_num_words_payload_to_recv[30]" at packet_decode_fsm.v(90) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/packet_decode_fsm.v Line: 90
 Info (10041): Inferred latch for "r_num_words_payload_to_recv[31]" at packet_decode_fsm.v(90) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/packet_decode_fsm.v Line: 90
-Info (12128): Elaborating entity "testFIFO" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 203
+Info (12128): Elaborating entity "testFIFO" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 207
 Info (12128): Elaborating entity "scfifo" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/testFIFO/testFIFO.v Line: 78
 Info (12130): Elaborated megafunction instantiation "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/testFIFO/testFIFO.v Line: 78
 Info (12133): Instantiated megafunction "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component" with the following parameter: File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/testFIFO/testFIFO.v Line: 78
@@ -923,11 +926,12 @@ Info (12128): Elaborating entity "cntr_t27" for hierarchy "PC_RX:pc_rx|testFIFO:
 Info (12021): Found 1 design units, including 1 entities, in source file db/cntr_h2b.tdf
     Info (12023): Found entity 1: cntr_h2b File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/cntr_h2b.tdf Line: 25
 Info (12128): Elaborating entity "cntr_h2b" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/a_dpfifo_8691.tdf Line: 57
-Info (12128): Elaborating entity "DATA_ROUTER" for hierarchy "DATA_ROUTER:data_router" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 387
+Info (12128): Elaborating entity "DATA_ROUTER" for hierarchy "DATA_ROUTER:data_router" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 389
 Warning (10034): Output port "o_debug_out_b" at data_router.v(37) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 37
 Warning (10034): Output port "o_debug_out_y" at data_router.v(41) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/data_router.v Line: 41
-Info (12128): Elaborating entity "PC_TX" for hierarchy "PC_TX:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 420
+Info (12128): Elaborating entity "PC_TX" for hierarchy "PC_TX:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 422
 Warning (10230): Verilog HDL assignment warning at pc_tx.v(67): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 67
+Warning (10030): Net "i_fifo_word_data" at pc_tx.v(109) has no driver or initial value, using a default initial value '0' File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 109
 Info (12128): Elaborating entity "pc_rx_fifo" for hierarchy "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 118
 Info (12128): Elaborating entity "SERIALISER" for hierarchy "PC_TX:pc_tx|SERIALISER:serialiser" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 149
 Info (12128): Elaborating entity "uart_tx" for hierarchy "PC_TX:pc_tx|uart_tx:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 173
@@ -1145,15 +1149,15 @@ Warning (21074): Design contains 4 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "CLOCK_50_B6A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 69
     Warning (15610): No output dependent on input pin "CLOCK_50_B7A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 70
     Warning (15610): No output dependent on input pin "CLOCK_50_B8A" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 71
-Info (21057): Implemented 571 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 568 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 10 input pins
     Info (21059): Implemented 26 output pins
     Info (21060): Implemented 36 bidirectional pins
-    Info (21061): Implemented 499 logic cells
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 258 warnings
+    Info (21061): Implemented 496 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 261 warnings
     Info: Peak virtual memory: 4888 megabytes
-    Info: Processing ended: Tue Jul 09 17:43:33 2019
+    Info: Processing ended: Thu Jul 11 10:43:42 2019
     Info: Elapsed time: 00:00:09
-    Info: Total CPU time (on all processors): 00:00:18
+    Info: Total CPU time (on all processors): 00:00:19
 
 

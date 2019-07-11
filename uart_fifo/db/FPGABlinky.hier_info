@@ -1,6 +1,6 @@
 |baseline_c5gx
 CLOCK_125_p => ~NO_FANOUT~
-CLOCK_50_B5B => CLOCK_50_B5B.IN1
+CLOCK_50_B5B => CLOCK_50_B5B.IN3
 CLOCK_50_B6A => ~NO_FANOUT~
 CLOCK_50_B7A => ~NO_FANOUT~
 CLOCK_50_B8A => ~NO_FANOUT~
@@ -119,8 +119,7 @@ LEDR[6] << <GND>
 LEDR[7] << <GND>
 LEDR[8] << <GND>
 LEDR[9] << <GND>
-UART_RX => PC_RX:pc_rx.i_rx_serial
-UART_RX => GPIO[11].DATAIN
+UART_RX => UART_RX.IN1
 UART_TX << PC_TX:pc_tx.o_UART_TX
 
 
@@ -192,7 +191,7 @@ sys_clk => spi_clk_counter[4].CLK
 i_clock => i_clock.IN4
 o_reset_all <= o_reset_all.DB_MAX_OUTPUT_PORT_TYPE
 i_rx_serial => i_rx_serial.IN1
-i_read_next_word_cmd => i_read_next_word_cmd.IN1
+i_read_next_word_cmd => read_data_from_fifo.DATAA
 o_packet_command <= PACKET_DECODE_FSM:packet_decode_fsm.o_packet_command
 o_packet_fully_decoded <= PACKET_DECODE_FSM:packet_decode_fsm.o_packet_fully_decoded
 o_fifo_output_word[0] <= testFIFO:uart_rx_FIFO.q
@@ -1714,8 +1713,41 @@ i_rx_fifo_output_word[28] => r_data_manager_output_data_word.DATAB
 i_rx_fifo_output_word[29] => r_data_manager_output_data_word.DATAB
 i_rx_fifo_output_word[30] => r_data_manager_output_data_word.DATAB
 i_rx_fifo_output_word[31] => r_data_manager_output_data_word.DATAB
-i_rx_fifo_is_empty_sig => always0.IN0
-i_serial_is_busy_sig => always0.IN1
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_data_manager_output_data_word.OUTPUTSELECT
+i_rx_fifo_is_empty_sig => r_rx_fifo_next_word_cmd.DATAIN
+i_rx_fifo_is_empty_sig => r_data_manager_output_next_cmd.DATAIN
+i_serial_is_busy_sig => ~NO_FANOUT~
 o_data_manager_output_data_word[0] <= r_data_manager_output_data_word[0].DB_MAX_OUTPUT_PORT_TYPE
 o_data_manager_output_data_word[1] <= r_data_manager_output_data_word[1].DB_MAX_OUTPUT_PORT_TYPE
 o_data_manager_output_data_word[2] <= r_data_manager_output_data_word[2].DB_MAX_OUTPUT_PORT_TYPE
@@ -1754,8 +1786,8 @@ o_debug_out_y <= <GND>
 
 
 |baseline_c5gx|PC_TX:pc_tx
-i_clock => i_clock.IN3
-i_reset => i_reset.IN1
+i_clock => i_clock.IN2
+i_reset => pc_rx_fifo:pc_rx_FIFO.sclr
 i_fifo_write_word_data[0] => ~NO_FANOUT~
 i_fifo_write_word_data[1] => ~NO_FANOUT~
 i_fifo_write_word_data[2] => ~NO_FANOUT~
@@ -1791,9 +1823,9 @@ i_fifo_write_word_data[31] => ~NO_FANOUT~
 i_fifo_write_word_cmd => fifo_write_word_cmd.DATAA
 o_tx_active <= uart_tx:pc_tx.o_Tx_Active
 o_UART_TX <= uart_tx:pc_tx.o_Tx_Serial
-debug_out_LA2 <= fifo_write_word_cmd.DB_MAX_OUTPUT_PORT_TYPE
+debug_out_LA2 <= r_fifo_read_word_cmd.DB_MAX_OUTPUT_PORT_TYPE
 debug_out_LA3 <= pc_rx_fifo:pc_rx_FIFO.empty
-debug_out_LA4 <= w_fifo_read_word_cmd.DB_MAX_OUTPUT_PORT_TYPE
+debug_out_LA4 <= SERIALISER:serialiser.o_serial_is_busy_sig
 
 
 |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO
