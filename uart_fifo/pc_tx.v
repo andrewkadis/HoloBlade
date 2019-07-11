@@ -79,7 +79,7 @@ always @(posedge i_clock) begin
 		r_fifo_read_word_cmd = 1;
 		// Latch data and start a serialisation process
 		serial_next_word_cmd = 1;
-		tx_byte_input        = 8'h54;//fifo_output_word;
+		tx_byte_input        = i_fifo_write_word_data;//8'h54;//fifo_output_word;
 		
 	end else begin
 	
@@ -128,7 +128,7 @@ reg serial_next_word_cmd;
 wire send_next_byte_cmd;
 wire serial_is_busy_sig;
 // Byte to output from UART - controlled by the Serialiser
-reg[7:0] tx_byte_input;
+reg[31:0] tx_byte_input;
 wire[7:0] tx_byte_output;
 // Serialiser handles transforming our 4-byte word into a stream of single bytes
  SERIALISER serialiser(

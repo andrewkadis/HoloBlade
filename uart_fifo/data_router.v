@@ -108,7 +108,7 @@ always @(posedge i_clock) begin
 		// Otherwise, do nothing
 		r_rx_fifo_next_word_cmd         = 0;
 		r_data_manager_output_next_cmd  = 0;
-		r_data_manager_output_data_word = 0;
+//		r_data_manager_output_data_word = 0;
 			
 	end
 	
