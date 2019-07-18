@@ -20,7 +20,7 @@ module PC_RX(
 	
 	// DataManager-Side
 	input        i_read_next_word_cmd,   // Command to get next word from FIFO, set high for 1 cycle to read word
-	output       o_packet_command,       // Which packet we have received
+	output[1:0]  o_packet_command,       // Which packet we have received
 	output       o_packet_fully_decoded, // Goes high for 1-cycle after a packet has been fully decoded
 	output[31:0] o_fifo_output_word,     // Current output from the FIFO
 	output       o_fifo_is_empty_sig     // Signal to indicates whether or not the FIFO is empty

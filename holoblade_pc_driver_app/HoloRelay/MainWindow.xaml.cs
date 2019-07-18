@@ -287,7 +287,7 @@ namespace HoloRelay
                 // StartOfPacket
                 0x74, 0x1B, 0x8C, 0xD7,
                 // Command
-                0x01, 0x00, 0x00, 0x00,
+                0x02, 0x00, 0x00, 0x00,
                 // NumOfPayloadWords
                 0x01, 0x00, 0x00, 0x00,
                 // Payload - Just Address of HardwareConfigurationRegister

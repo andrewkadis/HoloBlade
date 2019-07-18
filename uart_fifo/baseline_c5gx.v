@@ -343,8 +343,8 @@ PC_RX pc_rx(
  );
 
 
-assign debug_out_LA0 = rx_fifo_is_empty_sig;
-assign debug_out_LA1 = rx_fifo_next_word_cmd;
+assign debug_out_LA0 = packet_command[0];
+assign debug_out_LA1 = packet_command[1];
 
  
  
@@ -366,7 +366,7 @@ DATA_ROUTER data_router(
 	.i_reset(),
 	
 	// PC_RX
-   .i_packet_command(),
+   .i_packet_command(packet_command),
 	.i_packet_fully_decoded(w_packet_fully_decoded),
 	.o_rx_fifo_next_word_cmd(rx_fifo_next_word_cmd),
 	.i_rx_fifo_output_word(rx_fifo_output_word),
