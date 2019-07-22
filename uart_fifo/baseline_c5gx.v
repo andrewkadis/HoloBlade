@@ -202,67 +202,42 @@ always @(posedge CLOCK_50_B5B) begin
 end
 
 
-reg spi_enable   = 0;
-reg start_transfer = 0;
-
-//reg spi_reset    = 0;
-//reg read_start   = 0;
-
-wire spi_busy;
 
 
-//reg[7:0] tx_addr_byte = 8'hF8; // Test the WHOAMI register
-reg[7:0] tx_addr_byte = 8'h00; // Test the Mode Register
-reg[7:0] tx_data_byte = 8'h00; // Data
-
-// RX Bytes
-wire[7:0] rx_buf_byte;
-//assign LEDR[7:0] = rx_buf_byte;
-//assign LEDR[8]   = spi_busy;
-reg reset;
-
-// Read Register Button Press
-always @(posedge CLOCK_50_B5B) begin
-	
-	// If we have pressed either button, send appropirate data and start transfer
-	start_transfer <= 1;
-	if(~KEY[1]) begin
-		tx_addr_byte <= 8'hF8; // Read from the Mode Register
-		tx_data_byte <= 8'h00; // Data is irrelevant
-	end else if(~KEY[2]) begin
-		tx_addr_byte <= 8'h01; // Write to the Mode Register
-		tx_data_byte <= 8'h00; // Set to Sleep Mode
-	end else if(~KEY[3]) begin
-		tx_addr_byte <= 8'h01; // Write to the Mode Register
-		tx_data_byte <= 8'h02; // Set to Normal Mode
-	end else 
-		start_transfer <= 0;
-		
-end
-
-always @(posedge CLOCK_50_B5B) begin
-	// We only ever want one transfer, so if SPI is busy, disable SPI for subsequent transfer
-	if(spi_busy)
-		spi_enable <= 0;
-	// Okay to reenable once all buttons are released
-	if(KEY[1] && KEY[2] && KEY[3])
-		spi_enable <= 1;
-end
+//// Read Register Button Press
+//always @(posedge CLOCK_50_B5B) begin
+//	
+//	// If we have pressed either button, send appropirate data and start transfer
+//	start_transfer <= 1;
+//	if(~KEY[1]) begin
+//		tx_addr_byte <= 8'h80;//8'hF8; // Read from the Mode Register
+//		tx_data_byte <= 8'h00; // Data is irrelevant
+//	end else if(~KEY[2]) begin
+//		tx_addr_byte <= 8'h01; // Write to the Mode Register
+//		tx_data_byte <= 8'h00; // Set to Sleep Mode
+//	end else if(~KEY[3]) begin
+//		tx_addr_byte <= 8'h01; // Write to the Mode Register
+//		tx_data_byte <= 8'h02; // Set to Normal Mode
+//	end else 
+//		start_transfer <= 0;
+//		
+//end
+//
+//always @(posedge CLOCK_50_B5B) begin
+//	// We only ever want one transfer, so if SPI is busy, disable SPI for subsequent transfer
+//	if(spi_busy)
+//		spi_enable <= 0;
+//	// Okay to reenable once all buttons are released
+//	if(KEY[1] && KEY[2] && KEY[3])
+//		spi_enable <= 1;
+//end
 
 //// Write Register Button Press
 //always @(negedge KEY[2]) begin
 //	tx_addr_byte = 8'h01; // Read the Mode Register
 //end
 
-// Reset Line for SLM needs to be high
-assign GPIO[0] = 1;
 
-// Clock
-//reg half_clk;
-//always @(CLOCK_50_B5B) begin
-//	half_clk <= ~half_clk;
-//end
-assign GPIO[35] = CLOCK_50_B5B;
 
 // Debugging Lines
 // Assign UART_TX and UART_RX Data to Arduino GPIO10 + 12 for Debug
@@ -280,15 +255,47 @@ assign GPIO[15] = debug_out_LA3;
 assign GPIO[16] = debug_out_LA4;
 
 
+
+
+// SLM - Specific Requirements
+// Reset Line for SLM needs to be high
+assign GPIO[0] = 1;
+// Clock
+//reg half_clk;
+//always @(CLOCK_50_B5B) begin
+//	half_clk <= ~half_clk;
+//end
+assign GPIO[35] = CLOCK_50_B5B;
+
+
+// SPI Interface signals
+wire spi_enable;
+wire start_transfer;
+//reg spi_reset    = 0;
+//reg read_start   = 0;
+wire spi_busy;
+wire transaction_complete;
+wire[7:0] tx_addr_byte;// = 8'hF8; // Test the WHOAMI register
+//reg[7:0] tx_addr_byte = 8'h00; // Test the Mode Register
+wire[7:0] tx_data_byte;// = 8'h00; // Data
+// RX Bytes
+wire[7:0] rx_buf_byte;
+//assign LEDR[7:0] = rx_buf_byte;
+//assign LEDR[8]   = spi_busy;
+reg reset;
+
+
 spi spi0(
 	
 	// Control Signals
+	.i_clock(CLOCK_50_B5B),
+	.i_reset(reset_all),                       // The PC is able to reset the entire FPGA
 	.enable(spi_enable),
-	.reset(~KEY[0]),
 	.start_transfer(start_transfer),
 	
 	// Status Flags
 	.busy(spi_busy),
+	.o_transaction_complete(transaction_complete),
 
 	// SPI Outputs
 	.MOSI(GPIO[6]),
@@ -301,8 +308,6 @@ spi spi0(
 	.Tx_Lower_Byte(tx_data_byte),
 	.Rx_Lower_Byte(rx_buf_byte),
 	
-	// System Signals
-	.sys_clk(CLOCK_50_B5B)
 	
 );
 
@@ -391,7 +396,14 @@ DATA_ROUTER data_router(
 	// TBD....
 	 
 	// SLM_CONFIG
-	// TBD...
+	.o_enable_spi(spi_enable),
+	.o_start_spi_transfer_cmd(start_transfer),              // Intruction to start a SPI transfer
+	.i_transaction_complete(transaction_complete),          // Need to know when our SPI transaction is complete
+	// Data Lines - Note that Bytes {1,2} correspond to {Upper, Lower} respectively
+	.o_Tx_Upper_Byte(tx_addr_byte),  // Typically used for register address
+	.o_Tx_Lower_Byte(tx_data_byte),  // Typically used to set data to a register
+//	.i_Rx_Upper_Byte(rx_buf_byte),  // Not typically used
+	.i_Rx_Lower_Byte(rx_buf_byte),  // Typically used to read data from a register
 	
 	// Debug
 	.debug_out_LA0(debug_out_LA0),

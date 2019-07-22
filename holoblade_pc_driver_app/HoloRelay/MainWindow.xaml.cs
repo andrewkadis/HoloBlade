@@ -291,7 +291,7 @@ namespace HoloRelay
                 // NumOfPayloadWords
                 0x01, 0x00, 0x00, 0x00,
                 // Payload - Just Address of HardwareConfigurationRegister
-                0x78, 0x00, 0x00, 0x00
+                0xF8, 0x00, 0x00, 0x00
             };
             string tx_string = Send_serial_data(tx_data, fpga_com_port);
             // Rx Reply

@@ -33,7 +33,14 @@ module DATA_ROUTER(
 	// TBD....
 	 
 	// SLM_CONFIG
-	// TBD...
+	output o_enable_spi,
+	output o_start_spi_transfer_cmd,              // Intruction to start a SPI transfer
+	input  i_transaction_complete,                // Need to know when our SPI transaction is complete
+	// Data Lines - Note that Bytes {1,2} correspond to {Upper, Lower} respectively
+	output[7:0] o_Tx_Upper_Byte,  // Typically used for register address
+	output[7:0] o_Tx_Lower_Byte,  // Typically used to set data to a register
+	input[7:0] i_Rx_Upper_Byte,   // Not typically used
+	input[7:0] i_Rx_Lower_Byte,   // Typically used to read data from a register
 	
 	// Debug
 	output debug_out_LA0,
@@ -43,6 +50,7 @@ module DATA_ROUTER(
 	
    );
 	
+
 	
 	
 	
@@ -96,19 +104,33 @@ end
 
 
 // Latching registers for output
+// Serial
 reg       r_rx_fifo_next_word_cmd         = 0;
 reg       r_data_manager_output_next_cmd  = 0;
 reg[31:0] r_data_manager_output_data_word = 0;
+// SPI
+reg r_enable_spi              = 0;
+reg r_start_spi_transfer_cmd  = 0;
+reg[7:0] r_Tx_Upper_Byte      = 0;
+reg[7:0] r_Tx_Lower_Byte      = 0;
+
+
 
 // Output is dependent on what mode the FSM is in
 
 
 always @(posedge i_clock) begin
 
+	// Defaults
+	r_rx_fifo_next_word_cmd         = 0;
+	r_data_manager_output_next_cmd  = 0;
+	r_data_manager_output_data_word = 0;
+	// SPI
+	r_enable_spi              = 0;
+	r_start_spi_transfer_cmd  = 0;
+
 	case (state_reg)  
-	  
-		  
-	 
+	  	 
 		// LOOPBACK: we simply pump out the last word of the packet received and pulse when we rx a byte
 		// TODO: A limitation of this current implementation is that it will not handle well the situation where
 		// there is more than one word of data in the FIFO. Works well for just one in there though.
@@ -135,6 +157,13 @@ always @(posedge i_clock) begin
 		
 		// CONFIG: TODO: atm all outputs are 0
       CONFIG : begin
+		
+			// SPI is enabled entire time in this state
+			r_enable_spi = 1;
+		
+			// Need to maintain SPI state
+			r_enable_spi = r_enable_spi;
+			r_start_spi_transfer_cmd = r_start_spi_transfer_cmd;
 			
 			// If data in fifo then start another serialisation sequence
 			if( (i_rx_fifo_is_empty_sig==0) ) begin
@@ -142,14 +171,26 @@ always @(posedge i_clock) begin
 				// Get next word from FIFO
 				r_rx_fifo_next_word_cmd = 1;
 				// We just drop data atm - will pipe to SPI shortly
-				r_data_manager_output_next_cmd  = 0;
-				r_data_manager_output_data_word = 0;
+//				r_data_manager_output_next_cmd  = 0;
+//				r_data_manager_output_data_word = 0;
+
+				// Write Data we have just read from FIFO
+				r_Tx_Upper_Byte = i_rx_fifo_output_word[31:24];
+				r_Tx_Lower_Byte = i_rx_fifo_output_word[23:16];
+				
+				// Begin Transaction
+				r_start_spi_transfer_cmd = 1;
 							
-			end else begin
+			end else if(i_transaction_complete==1) begin
+			
+				// Dump data from transaction into serial port
+				// Latch data and start a serialisation process
+				r_data_manager_output_next_cmd  = 1;
+				r_data_manager_output_data_word = { i_Rx_Upper_Byte, i_Rx_Lower_Byte, 16'hFFFF };
 		
-				r_rx_fifo_next_word_cmd = 0;
-				r_data_manager_output_next_cmd  = 0;
-				r_data_manager_output_data_word = 0;
+//				r_rx_fifo_next_word_cmd = 0;
+//				r_data_manager_output_next_cmd  = 0;
+//				r_data_manager_output_data_word = 0;
 						
 			end
 		
@@ -175,11 +216,16 @@ end
 assign o_rx_fifo_next_word_cmd         = r_rx_fifo_next_word_cmd;
 assign o_data_manager_output_next_cmd  = r_data_manager_output_next_cmd;
 assign o_data_manager_output_data_word = r_data_manager_output_data_word;
+// Config Module
+assign o_enable_spi                    = r_enable_spi;
+assign o_start_spi_transfer_cmd        = r_start_spi_transfer_cmd;
+assign o_Tx_Upper_Byte                 = r_Tx_Upper_Byte;
+assign o_Tx_Lower_Byte                 = r_Tx_Lower_Byte;
 	
 // Debugging
-assign debug_out_LA0 = state_reg[0];
-assign debug_out_LA1 = i_packet_start_decode;
-assign debug_out_LA2 = i_reset;
+assign debug_out_LA0 = r_enable_spi;
+assign debug_out_LA1 = r_start_spi_transfer_cmd;
+assign debug_out_LA2 = i_transaction_complete;
 	
 	
 	

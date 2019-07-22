@@ -48,6 +48,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "GPIO[8]",
+					"strict" : false
+				},
+				{
 					"name" : "GPIO[10]",
 					"strict" : false
 				},
@@ -85,22 +89,6 @@
 				},
 				{
 					"name" : "UART_RX",
-					"strict" : false
-				},
-				{
-					"name" : "KEY[0]",
-					"strict" : false
-				},
-				{
-					"name" : "KEY[3]",
-					"strict" : false
-				},
-				{
-					"name" : "KEY[1]",
-					"strict" : false
-				},
-				{
-					"name" : "KEY[2]",
 					"strict" : false
 				}
 			]

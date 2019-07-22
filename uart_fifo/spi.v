@@ -21,12 +21,14 @@
 module spi(
 
 	// Control Signals
+	input      i_clock,
 	input wire enable,
-	input wire reset,
+	input wire i_reset,
 	input wire start_transfer,
 	
 	// Status Flags
 	output reg busy,
+	output o_transaction_complete,  // Goes high for 1 cycle when a SPI transfer is complete
 
 	// SPI Outputs
 	output wire  MOSI,
@@ -38,13 +40,9 @@ module spi(
 	input  wire[WORD_WIDTH-1:0] Tx_Upper_Byte,  // Typically used for register address
 	input  wire[WORD_WIDTH-1:0] Tx_Lower_Byte,  // Typically used to set data to a register
 	output  reg[WORD_WIDTH-1:0] Rx_Upper_Byte,  // Not typically used
-	output  reg[WORD_WIDTH-1:0] Rx_Lower_Byte,  // Typically used to read data from a register
-	
-	// System Signals
-	input wire sys_clk
+	output  reg[WORD_WIDTH-1:0] Rx_Lower_Byte   // Typically used to read data from a register
 	
 );
-
 
 
 
@@ -60,6 +58,7 @@ module spi(
 
 // Registers to latch output off to reduce glitches
 reg CS_w;
+reg r_transaction_complete;
 
 // SPI bus Properties
 parameter WORD_WIDTH = 8;
@@ -69,6 +68,20 @@ parameter SHIFT_REG_WIDTH = 2*WORD_WIDTH; // Number of Words in our Shift Regist
 reg[SHIFT_REG_WIDTH-1:0] tx_shift_reg = 16'h00;
 reg[SHIFT_REG_WIDTH-1:0] rx_shift_reg = 16'h00;
 
+// We use start_transfer to drive our SPI, but as we run it slower than the main clock, potential to miss it
+// Hence we put an edge detector on start_transfer to make it reliable
+reg start_transfer_edge = 0;
+reg start_transfer_prev = 0;
+always @(posedge i_clock) begin
+
+	// Set on an edge
+	if( (start_transfer_prev==0) && (start_transfer==1) )
+		start_transfer_edge = 1;
+	// Clear when we reach LOAD
+	else if( state_reg==LOAD )
+		start_transfer_edge = 0;
+	start_transfer_prev = start_transfer;
+end
 
 
 
@@ -85,7 +98,7 @@ reg[SHIFT_REG_WIDTH-1:0] rx_shift_reg = 16'h00;
 reg spi_clk;
 reg[4:0] spi_clk_counter;
 parameter spi_countdown = 5'd24; // Count down from 50/2
-always @ (posedge sys_clk)
+always @ (posedge i_clock)
 	if(spi_clk_counter==0) begin
 		// Clock has expired, reset and toggle
 		spi_clk_counter <= spi_countdown;
@@ -137,8 +150,8 @@ reg [3:0] t;
 ************* State Machine - Clock + Reset ************************
 *******************************************************************/
 // Update State Change and Reset Logic
-always @(posedge spi_clk, posedge reset) begin
-    if (reset) begin
+always @(posedge spi_clk, posedge i_reset) begin
+    if (i_reset) begin
         state_reg <= IDLE;
     end
     else begin
@@ -147,8 +160,8 @@ always @(posedge spi_clk, posedge reset) begin
 end 
 
 // Timer 
-always @(posedge spi_clk, posedge reset) begin 
-    if (reset)
+always @(posedge spi_clk, posedge i_reset) begin 
+    if (i_reset)
         t <= 0;
     else begin
         if (state_reg != state_next) // State is changing
@@ -171,7 +184,7 @@ always @(state_reg) begin
 				// Will only ever leave IDLE if SPI is enabled, else do nothing
 				if(enable) begin
 					// Start a transfer sequence if we receive appropriate command
-					if (start_transfer)
+					if (start_transfer_edge)
 						state_next <= LOAD; 
 				end
         end
@@ -247,9 +260,9 @@ always @(posedge spi_clk) begin
 		
 end
 // We give ChipSelect a Flip Flop to altch output and stop glitches (you get glitches without this)
-always @(posedge spi_clk, posedge reset) begin 
+always @(posedge spi_clk, posedge i_reset) begin 
 
-    if (reset)
+    if (i_reset)
 		CS <= 1;
     else
 		CS <= CS_w;	 
@@ -313,6 +326,21 @@ always @(posedge spi_clk) begin
 		busy <= 0; 
 		
 end		
+
+
+/*******************************************************************
+************************* Complete *********************************
+*******************************************************************/
+// Transaction Complete - is low in all states other than UNLOAD_DATA
+always @(posedge i_clock) begin
+
+	r_transaction_complete <= 0;
+	if( (state_reg==UNLOAD_DATA) )
+		r_transaction_complete <= 1; 
+		
+end		
+// Latch Output
+assign o_transaction_complete = r_transaction_complete;
 
 
 endmodule
