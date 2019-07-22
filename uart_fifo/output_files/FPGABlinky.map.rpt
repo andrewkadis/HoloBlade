@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Mon Jul 22 10:45:03 2019
+Mon Jul 22 13:32:34 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -68,7 +68,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon Jul 22 10:45:03 2019       ;
+; Analysis & Synthesis Status     ; Successful - Mon Jul 22 13:32:34 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
@@ -231,13 +231,13 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------+
 ; Resource                                    ; Usage              ;
 +---------------------------------------------+--------------------+
-; Estimate of Logic utilization (ALMs needed) ; 287                ;
+; Estimate of Logic utilization (ALMs needed) ; 288                ;
 ;                                             ;                    ;
 ; Combinational ALUT usage for logic          ; 449                ;
 ;     -- 7 input functions                    ; 2                  ;
-;     -- 6 input functions                    ; 97                 ;
+;     -- 6 input functions                    ; 101                ;
 ;     -- 5 input functions                    ; 45                 ;
-;     -- 4 input functions                    ; 54                 ;
+;     -- 4 input functions                    ; 50                 ;
 ;     -- <=3 input functions                  ; 251                ;
 ;                                             ;                    ;
 ; Dedicated logic registers                   ; 384                ;
@@ -249,9 +249,9 @@ refer to the applicable agreement for further details.
 ; Total DSP Blocks                            ; 0                  ;
 ;                                             ;                    ;
 ; Maximum fan-out node                        ; CLOCK_50_B5B~input ;
-; Maximum fan-out                             ; 356                ;
-; Total fan-out                               ; 3339               ;
-; Average fan-out                             ; 3.20               ;
+; Maximum fan-out                             ; 357                ;
+; Total fan-out                               ; 3350               ;
+; Average fan-out                             ; 3.21               ;
 +---------------------------------------------+--------------------+
 
 
@@ -414,7 +414,8 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr|counter_reg_bit[0..5]     ; Lost fanout                                  ;
 ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb|counter_reg_bit[0..4] ; Lost fanout                                  ;
 ; PC_TX:pc_tx|r_fifo_read_word_cmd                                                                                                                    ; Merged with PC_TX:pc_tx|serial_next_word_cmd ;
-; tx_addr_byte[2..6]                                                                                                                                  ; Merged with tx_addr_byte[1]                  ;
+; tx_addr_byte[4..7]                                                                                                                                  ; Merged with tx_addr_byte[3]                  ;
+; tx_addr_byte[2]                                                                                                                                     ; Merged with tx_addr_byte[1]                  ;
 ; tx_data_byte[0,2..7]                                                                                                                                ; Merged with tx_addr_byte[1]                  ;
 ; tx_addr_byte[1]                                                                                                                                     ; Stuck at GND due to stuck port data_in       ;
 ; spi:spi0|tx_shift_reg[0]                                                                                                                            ; Stuck at GND due to stuck port data_in       ;
@@ -712,12 +713,12 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;         7 data inputs ; 2                           ;
 ;     normal            ; 350                         ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 7                           ;
-;         2 data inputs ; 96                          ;
+;         1 data inputs ; 6                           ;
+;         2 data inputs ; 97                          ;
 ;         3 data inputs ; 50                          ;
-;         4 data inputs ; 54                          ;
+;         4 data inputs ; 50                          ;
 ;         5 data inputs ; 45                          ;
-;         6 data inputs ; 97                          ;
+;         6 data inputs ; 101                         ;
 ; boundary_port         ; 72                          ;
 ; stratixv_ram_block    ; 32                          ;
 ;                       ;                             ;
@@ -741,7 +742,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Mon Jul 22 10:44:54 2019
+    Info: Processing started: Mon Jul 22 13:32:24 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -782,11 +783,11 @@ Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(27): Par
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(28): Parameter Declaration in module "uart_tx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 28
 Warning (10222): Verilog HDL Parameter Declaration warning at uart_tx.v(29): Parameter Declaration in module "uart_tx" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/uart_tx.v Line: 29
 Info (12127): Elaborating entity "baseline_c5gx" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at baseline_c5gx.v(358): object "r_read_next_word_cmd" assigned a value but never read File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 358
+Warning (10036): Verilog HDL or VHDL warning at baseline_c5gx.v(365): object "r_read_next_word_cmd" assigned a value but never read File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 365
 Warning (10230): Verilog HDL assignment warning at baseline_c5gx.v(200): truncated value with size 32 to match size of target (24) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 200
 Warning (10034): Output port "LEDG" at baseline_c5gx.v(144) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 144
 Warning (10034): Output port "LEDR" at baseline_c5gx.v(147) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 147
-Info (12128): Elaborating entity "spi" for hierarchy "spi:spi0" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 300
+Info (12128): Elaborating entity "spi" for hierarchy "spi:spi0" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 307
 Warning (10230): Verilog HDL assignment warning at spi.v(157): truncated value with size 32 to match size of target (4) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 157
 Warning (10235): Verilog HDL Always Construct warning at spi.v(172): variable "enable" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 172
 Warning (10235): Verilog HDL Always Construct warning at spi.v(174): variable "start_transfer" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 174
@@ -799,7 +800,7 @@ Warning (10235): Verilog HDL Always Construct warning at spi.v(223): variable "s
 Info (10264): Verilog HDL Case Statement information at spi.v(242): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 242
 Info (10264): Verilog HDL Case Statement information at spi.v(269): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 269
 Info (10264): Verilog HDL Case Statement information at spi.v(293): all case item expressions in this case statement are onehot File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/spi.v Line: 293
-Info (12128): Elaborating entity "PC_RX" for hierarchy "PC_RX:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 345
+Info (12128): Elaborating entity "PC_RX" for hierarchy "PC_RX:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 352
 Warning (10230): Verilog HDL assignment warning at pc_rx.v(188): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 188
 Warning (10230): Verilog HDL assignment warning at pc_rx.v(191): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 191
 Info (12128): Elaborating entity "uart_rx" for hierarchy "PC_RX:pc_rx|uart_rx:pc_rx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_rx.v Line: 67
@@ -892,8 +893,8 @@ Info (12128): Elaborating entity "cntr_t27" for hierarchy "PC_RX:pc_rx|testFIFO:
 Info (12021): Found 1 design units, including 1 entities, in source file db/cntr_h2b.tdf
     Info (12023): Found entity 1: cntr_h2b File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/cntr_h2b.tdf Line: 25
 Info (12128): Elaborating entity "cntr_h2b" for hierarchy "PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/db/a_dpfifo_8691.tdf Line: 57
-Info (12128): Elaborating entity "DATA_ROUTER" for hierarchy "DATA_ROUTER:data_router" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 394
-Info (12128): Elaborating entity "PC_TX" for hierarchy "PC_TX:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 427
+Info (12128): Elaborating entity "DATA_ROUTER" for hierarchy "DATA_ROUTER:data_router" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 401
+Info (12128): Elaborating entity "PC_TX" for hierarchy "PC_TX:pc_tx" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 434
 Warning (10230): Verilog HDL assignment warning at pc_tx.v(67): truncated value with size 32 to match size of target (1) File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 67
 Warning (10030): Net "i_fifo_word_data" at pc_tx.v(109) has no driver or initial value, using a default initial value '0' File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 109
 Warning (10034): Output port "debug_out_LA2" at pc_tx.v(27) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/pc_tx.v Line: 27
@@ -950,6 +951,7 @@ Warning (13034): The following nodes have both tri-state and non-tri-state drive
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[14]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[15]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[16]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
+    Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[35]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
 Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "GPIO[8]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13040): bidirectional pin "GPIO[1]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
@@ -975,7 +977,6 @@ Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "GPIO[32]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13040): bidirectional pin "GPIO[33]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13040): bidirectional pin "GPIO[34]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
-    Warning (13040): bidirectional pin "GPIO[35]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
 Warning (13032): The following tri-state nodes are fed by constants
     Warning (13033): The pin "GPIO[0]" is fed by VCC File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
 Warning (13012): Latch PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|r_num_words_payload_to_recv[31] has unsafe behavior File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/packet_decode_fsm.v Line: 93
@@ -1054,6 +1055,7 @@ Warning (13009): TRI or OPNDRN buffers permanently enabled
     Warning (13010): Node "GPIO[14]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13010): Node "GPIO[15]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
     Warning (13010): Node "GPIO[16]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
+    Warning (13010): Node "GPIO[35]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 92
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "LEDG[0]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 144
     Warning (13410): Pin "LEDG[1]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 144
@@ -1088,10 +1090,10 @@ Info (21057): Implemented 768 device resources after synthesis - the final resou
     Info (21060): Implemented 36 bidirectional pins
     Info (21061): Implemented 664 logic cells
     Info (21064): Implemented 32 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 228 warnings
-    Info: Peak virtual memory: 4887 megabytes
-    Info: Processing ended: Mon Jul 22 10:45:03 2019
-    Info: Elapsed time: 00:00:09
-    Info: Total CPU time (on all processors): 00:00:18
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 229 warnings
+    Info: Peak virtual memory: 4888 megabytes
+    Info: Processing ended: Mon Jul 22 13:32:34 2019
+    Info: Elapsed time: 00:00:10
+    Info: Total CPU time (on all processors): 00:00:19
 
 

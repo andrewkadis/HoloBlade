@@ -1,5 +1,5 @@
 Timing Analyzer report for FPGABlinky
-Wed May 08 17:09:23 2019
+Mon Jul 22 13:30:09 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -99,16 +99,16 @@ refer to the applicable agreement for further details.
 ; Number detected on machine ; 12          ;
 ; Maximum allowed            ; 6           ;
 ;                            ;             ;
-; Average used               ; 1.05        ;
+; Average used               ; 1.06        ;
 ; Maximum used               ; 6           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   1.2%      ;
-;     Processor 3            ;   1.1%      ;
-;     Processor 4            ;   1.1%      ;
-;     Processor 5            ;   1.0%      ;
-;     Processor 6            ;   1.0%      ;
+;     Processor 2            ;   1.3%      ;
+;     Processor 3            ;   1.2%      ;
+;     Processor 4            ;   1.2%      ;
+;     Processor 5            ;   1.1%      ;
+;     Processor 6            ;   1.1%      ;
 +----------------------------+-------------+
 
 
@@ -127,8 +127,8 @@ refer to the applicable agreement for further details.
 +------------+-----------------+------------------+------+
 ; Fmax       ; Restricted Fmax ; Clock Name       ; Note ;
 +------------+-----------------+------------------+------+
-; 189.36 MHz ; 189.36 MHz      ; CLOCK_50_B5B     ;      ;
-; 205.93 MHz ; 205.93 MHz      ; SPI:spi0|spi_clk ;      ;
+; 205.25 MHz ; 205.25 MHz      ; CLOCK_50_B5B     ;      ;
+; 222.42 MHz ; 222.42 MHz      ; SPI:spi0|spi_clk ;      ;
 +------------+-----------------+------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -144,8 +144,8 @@ HTML report is unavailable in plain text report export.
 +------------------+--------+---------------+
 ; Clock            ; Slack  ; End Point TNS ;
 +------------------+--------+---------------+
-; SPI:spi0|spi_clk ; -5.671 ; -115.077      ;
-; CLOCK_50_B5B     ; -4.425 ; -49.627       ;
+; SPI:spi0|spi_clk ; -5.396 ; -107.630      ;
+; CLOCK_50_B5B     ; -3.872 ; -49.128       ;
 +------------------+--------+---------------+
 
 
@@ -154,8 +154,8 @@ HTML report is unavailable in plain text report export.
 +------------------+-------+---------------+
 ; Clock            ; Slack ; End Point TNS ;
 +------------------+-------+---------------+
-; CLOCK_50_B5B     ; 0.408 ; 0.000         ;
-; SPI:spi0|spi_clk ; 0.512 ; 0.000         ;
+; SPI:spi0|spi_clk ; 0.403 ; 0.000         ;
+; CLOCK_50_B5B     ; 0.438 ; 0.000         ;
 +------------------+-------+---------------+
 
 
@@ -176,8 +176,8 @@ No paths to report.
 +------------------+--------+-----------------------+
 ; Clock            ; Slack  ; End Point TNS         ;
 +------------------+--------+-----------------------+
-; CLOCK_50_B5B     ; -0.623 ; -31.580               ;
-; SPI:spi0|spi_clk ; -0.538 ; -37.992               ;
+; CLOCK_50_B5B     ; -0.560 ; -30.595               ;
+; SPI:spi0|spi_clk ; -0.538 ; -35.733               ;
 +------------------+--------+-----------------------+
 
 
@@ -192,8 +192,8 @@ No synchronizer chains to report.
 +------------+-----------------+------------------+------+
 ; Fmax       ; Restricted Fmax ; Clock Name       ; Note ;
 +------------+-----------------+------------------+------+
-; 178.38 MHz ; 178.38 MHz      ; CLOCK_50_B5B     ;      ;
-; 208.42 MHz ; 208.42 MHz      ; SPI:spi0|spi_clk ;      ;
+; 194.63 MHz ; 194.63 MHz      ; CLOCK_50_B5B     ;      ;
+; 222.22 MHz ; 222.22 MHz      ; SPI:spi0|spi_clk ;      ;
 +------------+-----------------+------------------+------+
 This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
 
@@ -203,19 +203,19 @@ This panel reports FMAX for every clock in the design, regardless of the user-sp
 +------------------+--------+---------------+
 ; Clock            ; Slack  ; End Point TNS ;
 +------------------+--------+---------------+
-; SPI:spi0|spi_clk ; -5.915 ; -114.681      ;
-; CLOCK_50_B5B     ; -4.606 ; -53.824       ;
+; SPI:spi0|spi_clk ; -5.674 ; -108.502      ;
+; CLOCK_50_B5B     ; -4.138 ; -53.338       ;
 +------------------+--------+---------------+
 
 
-+-------------------------------------------+
-; Slow 1100mV 0C Model Hold Summary         ;
-+------------------+--------+---------------+
-; Clock            ; Slack  ; End Point TNS ;
-+------------------+--------+---------------+
-; CLOCK_50_B5B     ; -0.043 ; -0.043        ;
-; SPI:spi0|spi_clk ; 0.529  ; 0.000         ;
-+------------------+--------+---------------+
++------------------------------------------+
+; Slow 1100mV 0C Model Hold Summary        ;
++------------------+-------+---------------+
+; Clock            ; Slack ; End Point TNS ;
++------------------+-------+---------------+
+; CLOCK_50_B5B     ; 0.096 ; 0.000         ;
+; SPI:spi0|spi_clk ; 0.419 ; 0.000         ;
++------------------+-------+---------------+
 
 
 -----------------------------------------
@@ -235,8 +235,8 @@ No paths to report.
 +------------------+--------+----------------------+
 ; Clock            ; Slack  ; End Point TNS        ;
 +------------------+--------+----------------------+
-; CLOCK_50_B5B     ; -0.741 ; -31.627              ;
-; SPI:spi0|spi_clk ; -0.538 ; -37.924              ;
+; CLOCK_50_B5B     ; -0.667 ; -30.727              ;
+; SPI:spi0|spi_clk ; -0.538 ; -35.548              ;
 +------------------+--------+----------------------+
 
 
@@ -251,8 +251,8 @@ No synchronizer chains to report.
 +------------------+--------+---------------+
 ; Clock            ; Slack  ; End Point TNS ;
 +------------------+--------+---------------+
-; CLOCK_50_B5B     ; -3.500 ; -11.555       ;
-; SPI:spi0|spi_clk ; -2.255 ; -43.940       ;
+; CLOCK_50_B5B     ; -3.144 ; -11.345       ;
+; SPI:spi0|spi_clk ; -2.043 ; -42.219       ;
 +------------------+--------+---------------+
 
 
@@ -261,8 +261,8 @@ No synchronizer chains to report.
 +------------------+-------+---------------+
 ; Clock            ; Slack ; End Point TNS ;
 +------------------+-------+---------------+
-; CLOCK_50_B5B     ; 0.181 ; 0.000         ;
-; SPI:spi0|spi_clk ; 0.220 ; 0.000         ;
+; CLOCK_50_B5B     ; 0.180 ; 0.000         ;
+; SPI:spi0|spi_clk ; 0.234 ; 0.000         ;
 +------------------+-------+---------------+
 
 
@@ -283,8 +283,8 @@ No paths to report.
 +------------------+--------+-----------------------+
 ; Clock            ; Slack  ; End Point TNS         ;
 +------------------+--------+-----------------------+
-; CLOCK_50_B5B     ; -0.805 ; -16.822               ;
-; SPI:spi0|spi_clk ; 0.078  ; 0.000                 ;
+; CLOCK_50_B5B     ; -0.742 ; -16.329               ;
+; SPI:spi0|spi_clk ; 0.068  ; 0.000                 ;
 +------------------+--------+-----------------------+
 
 
@@ -299,8 +299,8 @@ No synchronizer chains to report.
 +------------------+--------+---------------+
 ; Clock            ; Slack  ; End Point TNS ;
 +------------------+--------+---------------+
-; CLOCK_50_B5B     ; -3.058 ; -10.180       ;
-; SPI:spi0|spi_clk ; -2.161 ; -39.725       ;
+; CLOCK_50_B5B     ; -2.679 ; -9.926        ;
+; SPI:spi0|spi_clk ; -1.975 ; -38.433       ;
 +------------------+--------+---------------+
 
 
@@ -309,8 +309,8 @@ No synchronizer chains to report.
 +------------------+-------+---------------+
 ; Clock            ; Slack ; End Point TNS ;
 +------------------+-------+---------------+
-; CLOCK_50_B5B     ; 0.167 ; 0.000         ;
-; SPI:spi0|spi_clk ; 0.231 ; 0.000         ;
+; CLOCK_50_B5B     ; 0.170 ; 0.000         ;
+; SPI:spi0|spi_clk ; 0.220 ; 0.000         ;
 +------------------+-------+---------------+
 
 
@@ -331,8 +331,8 @@ No paths to report.
 +------------------+--------+----------------------+
 ; Clock            ; Slack  ; End Point TNS        ;
 +------------------+--------+----------------------+
-; CLOCK_50_B5B     ; -0.877 ; -20.701              ;
-; SPI:spi0|spi_clk ; 0.092  ; 0.000                ;
+; CLOCK_50_B5B     ; -0.810 ; -20.100              ;
+; SPI:spi0|spi_clk ; 0.094  ; 0.000                ;
 +------------------+--------+----------------------+
 
 
@@ -342,18 +342,18 @@ No paths to report.
 No synchronizer chains to report.
 
 
-+----------------------------------------------------------------------------------+
-; Multicorner Timing Analysis Summary                                              ;
-+-------------------+----------+--------+----------+---------+---------------------+
-; Clock             ; Setup    ; Hold   ; Recovery ; Removal ; Minimum Pulse Width ;
-+-------------------+----------+--------+----------+---------+---------------------+
-; Worst-case Slack  ; -5.915   ; -0.043 ; N/A      ; N/A     ; -0.877              ;
-;  CLOCK_50_B5B     ; -4.606   ; -0.043 ; N/A      ; N/A     ; -0.877              ;
-;  SPI:spi0|spi_clk ; -5.915   ; 0.220  ; N/A      ; N/A     ; -0.538              ;
-; Design-wide TNS   ; -168.505 ; -0.043 ; 0.0      ; 0.0     ; -69.572             ;
-;  CLOCK_50_B5B     ; -53.824  ; -0.043 ; N/A      ; N/A     ; -31.627             ;
-;  SPI:spi0|spi_clk ; -115.077 ; 0.000  ; N/A      ; N/A     ; -37.992             ;
-+-------------------+----------+--------+----------+---------+---------------------+
++---------------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                             ;
++-------------------+----------+-------+----------+---------+---------------------+
+; Clock             ; Setup    ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
++-------------------+----------+-------+----------+---------+---------------------+
+; Worst-case Slack  ; -5.674   ; 0.096 ; N/A      ; N/A     ; -0.810              ;
+;  CLOCK_50_B5B     ; -4.138   ; 0.096 ; N/A      ; N/A     ; -0.810              ;
+;  SPI:spi0|spi_clk ; -5.674   ; 0.220 ; N/A      ; N/A     ; -0.538              ;
+; Design-wide TNS   ; -161.84  ; 0.0   ; 0.0      ; 0.0     ; -66.328             ;
+;  CLOCK_50_B5B     ; -53.338  ; 0.000 ; N/A      ; N/A     ; -30.727             ;
+;  SPI:spi0|spi_clk ; -108.502 ; 0.000 ; N/A      ; N/A     ; -35.733             ;
++-------------------+----------+-------+----------+---------+---------------------+
 
 
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -1717,10 +1717,10 @@ No synchronizer chains to report.
 +------------------+------------------+----------+----------+----------+----------+
 ; From Clock       ; To Clock         ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +------------------+------------------+----------+----------+----------+----------+
-; CLOCK_50_B5B     ; CLOCK_50_B5B     ; 346      ; 0        ; 0        ; 0        ;
+; CLOCK_50_B5B     ; CLOCK_50_B5B     ; 347      ; 0        ; 0        ; 0        ;
 ; SPI:spi0|spi_clk ; CLOCK_50_B5B     ; 2        ; 1        ; 0        ; 0        ;
 ; CLOCK_50_B5B     ; SPI:spi0|spi_clk ; 30       ; 0        ; 3        ; 0        ;
-; SPI:spi0|spi_clk ; SPI:spi0|spi_clk ; 256      ; 0        ; 45       ; 14       ;
+; SPI:spi0|spi_clk ; SPI:spi0|spi_clk ; 251      ; 0        ; 45       ; 14       ;
 +------------------+------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -1730,10 +1730,10 @@ Entries labeled "false path" only account for clock-to-clock false paths and not
 +------------------+------------------+----------+----------+----------+----------+
 ; From Clock       ; To Clock         ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
 +------------------+------------------+----------+----------+----------+----------+
-; CLOCK_50_B5B     ; CLOCK_50_B5B     ; 346      ; 0        ; 0        ; 0        ;
+; CLOCK_50_B5B     ; CLOCK_50_B5B     ; 347      ; 0        ; 0        ; 0        ;
 ; SPI:spi0|spi_clk ; CLOCK_50_B5B     ; 2        ; 1        ; 0        ; 0        ;
 ; CLOCK_50_B5B     ; SPI:spi0|spi_clk ; 30       ; 0        ; 3        ; 0        ;
-; SPI:spi0|spi_clk ; SPI:spi0|spi_clk ; 256      ; 0        ; 45       ; 14       ;
+; SPI:spi0|spi_clk ; SPI:spi0|spi_clk ; 251      ; 0        ; 45       ; 14       ;
 +------------------+------------------+----------+----------+----------+----------+
 Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
 
@@ -1758,9 +1758,9 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; Illegal Clocks                  ; 0     ; 0    ;
 ; Unconstrained Clocks            ; 0     ; 0    ;
 ; Unconstrained Input Ports       ; 5     ; 5    ;
-; Unconstrained Input Port Paths  ; 29    ; 29   ;
-; Unconstrained Output Ports      ; 14    ; 14   ;
-; Unconstrained Output Port Paths ; 16    ; 16   ;
+; Unconstrained Input Port Paths  ; 28    ; 28   ;
+; Unconstrained Output Ports      ; 13    ; 13   ;
+; Unconstrained Output Port Paths ; 15    ; 15   ;
 +---------------------------------+-------+------+
 
 
@@ -1795,7 +1795,6 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; GPIO[2]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; GPIO[4]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; GPIO[6]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
-; GPIO[35]    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; LEDG[0]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; LEDR[0]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; LEDR[1]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
@@ -1830,7 +1829,6 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 ; GPIO[2]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; GPIO[4]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; GPIO[6]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
-; GPIO[35]    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; LEDG[0]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; LEDR[0]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
 ; LEDR[1]     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
@@ -1850,7 +1848,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus Prime Timing Analyzer
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Wed May 08 17:09:14 2019
+    Info: Processing started: Mon Jul 22 13:30:01 2019
 Info: Command: quartus_sta FPGABlinky -c FPGABlinky
 Info: qsta_default_script.tcl version: #1
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
@@ -1862,102 +1860,105 @@ Info (332142): No user constrained base clocks found in the design. Calling "der
 Info (332105): Deriving Clocks
     Info (332105): create_clock -period 1.000 -name SPI:spi0|spi_clk SPI:spi0|spi_clk
     Info (332105): create_clock -period 1.000 -name CLOCK_50_B5B CLOCK_50_B5B
+Warning (332125): Found combinational loop of 2 nodes File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Warning (332126): Node "GPIO[35]~74|combout"
+    Warning (332126): Node "GPIO[35]~74|dataf"
 Info (332143): No user constrained clock uncertainty found in the design. Calling "derive_clock_uncertainty"
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow 1100mV 85C Model
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -5.671
+Info (332146): Worst-case setup slack is -5.396
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -5.671            -115.077 SPI:spi0|spi_clk 
-    Info (332119):    -4.425             -49.627 CLOCK_50_B5B 
-Info (332146): Worst-case hold slack is 0.408
+    Info (332119):    -5.396            -107.630 SPI:spi0|spi_clk 
+    Info (332119):    -3.872             -49.128 CLOCK_50_B5B 
+Info (332146): Worst-case hold slack is 0.403
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.408               0.000 CLOCK_50_B5B 
-    Info (332119):     0.512               0.000 SPI:spi0|spi_clk 
+    Info (332119):     0.403               0.000 SPI:spi0|spi_clk 
+    Info (332119):     0.438               0.000 CLOCK_50_B5B 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
-Info (332146): Worst-case minimum pulse width slack is -0.623
+Info (332146): Worst-case minimum pulse width slack is -0.560
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.623             -31.580 CLOCK_50_B5B 
-    Info (332119):    -0.538             -37.992 SPI:spi0|spi_clk 
+    Info (332119):    -0.560             -30.595 CLOCK_50_B5B 
+    Info (332119):    -0.538             -35.733 SPI:spi0|spi_clk 
 Info: Analyzing Slow 1100mV 0C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -5.915
+Info (332146): Worst-case setup slack is -5.674
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -5.915            -114.681 SPI:spi0|spi_clk 
-    Info (332119):    -4.606             -53.824 CLOCK_50_B5B 
-Info (332146): Worst-case hold slack is -0.043
+    Info (332119):    -5.674            -108.502 SPI:spi0|spi_clk 
+    Info (332119):    -4.138             -53.338 CLOCK_50_B5B 
+Info (332146): Worst-case hold slack is 0.096
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.043              -0.043 CLOCK_50_B5B 
-    Info (332119):     0.529               0.000 SPI:spi0|spi_clk 
+    Info (332119):     0.096               0.000 CLOCK_50_B5B 
+    Info (332119):     0.419               0.000 SPI:spi0|spi_clk 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
-Info (332146): Worst-case minimum pulse width slack is -0.741
+Info (332146): Worst-case minimum pulse width slack is -0.667
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.741             -31.627 CLOCK_50_B5B 
-    Info (332119):    -0.538             -37.924 SPI:spi0|spi_clk 
+    Info (332119):    -0.667             -30.727 CLOCK_50_B5B 
+    Info (332119):    -0.538             -35.548 SPI:spi0|spi_clk 
 Info: Analyzing Fast 1100mV 85C Model
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -3.500
+Info (332146): Worst-case setup slack is -3.144
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -3.500             -11.555 CLOCK_50_B5B 
-    Info (332119):    -2.255             -43.940 SPI:spi0|spi_clk 
-Info (332146): Worst-case hold slack is 0.181
+    Info (332119):    -3.144             -11.345 CLOCK_50_B5B 
+    Info (332119):    -2.043             -42.219 SPI:spi0|spi_clk 
+Info (332146): Worst-case hold slack is 0.180
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.181               0.000 CLOCK_50_B5B 
-    Info (332119):     0.220               0.000 SPI:spi0|spi_clk 
+    Info (332119):     0.180               0.000 CLOCK_50_B5B 
+    Info (332119):     0.234               0.000 SPI:spi0|spi_clk 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
-Info (332146): Worst-case minimum pulse width slack is -0.805
+Info (332146): Worst-case minimum pulse width slack is -0.742
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.805             -16.822 CLOCK_50_B5B 
-    Info (332119):     0.078               0.000 SPI:spi0|spi_clk 
+    Info (332119):    -0.742             -16.329 CLOCK_50_B5B 
+    Info (332119):     0.068               0.000 SPI:spi0|spi_clk 
 Info: Analyzing Fast 1100mV 0C Model
 Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
 Critical Warning (332148): Timing requirements not met
     Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
-Info (332146): Worst-case setup slack is -3.058
+Info (332146): Worst-case setup slack is -2.679
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -3.058             -10.180 CLOCK_50_B5B 
-    Info (332119):    -2.161             -39.725 SPI:spi0|spi_clk 
-Info (332146): Worst-case hold slack is 0.167
+    Info (332119):    -2.679              -9.926 CLOCK_50_B5B 
+    Info (332119):    -1.975             -38.433 SPI:spi0|spi_clk 
+Info (332146): Worst-case hold slack is 0.170
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):     0.167               0.000 CLOCK_50_B5B 
-    Info (332119):     0.231               0.000 SPI:spi0|spi_clk 
+    Info (332119):     0.170               0.000 CLOCK_50_B5B 
+    Info (332119):     0.220               0.000 SPI:spi0|spi_clk 
 Info (332140): No Recovery paths to report
 Info (332140): No Removal paths to report
-Info (332146): Worst-case minimum pulse width slack is -0.877
+Info (332146): Worst-case minimum pulse width slack is -0.810
     Info (332119):     Slack       End Point TNS Clock 
     Info (332119): ========= =================== =====================
-    Info (332119):    -0.877             -20.701 CLOCK_50_B5B 
-    Info (332119):     0.092               0.000 SPI:spi0|spi_clk 
+    Info (332119):    -0.810             -20.100 CLOCK_50_B5B 
+    Info (332119):     0.094               0.000 SPI:spi0|spi_clk 
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
-Info: Quartus Prime Timing Analyzer was successful. 0 errors, 6 warnings
-    Info: Peak virtual memory: 5201 megabytes
-    Info: Processing ended: Wed May 08 17:09:23 2019
-    Info: Elapsed time: 00:00:09
+Info: Quartus Prime Timing Analyzer was successful. 0 errors, 9 warnings
+    Info: Peak virtual memory: 5199 megabytes
+    Info: Processing ended: Mon Jul 22 13:30:09 2019
+    Info: Elapsed time: 00:00:08
     Info: Total CPU time (on all processors): 00:00:08
 
 

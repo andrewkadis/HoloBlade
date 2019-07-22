@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Wed May 08 17:10:02 2019
+Mon Jul 22 13:29:21 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -14,16 +14,17 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
   8. State Machine - |baseline_c5gx|SPI:spi0|state_reg
-  9. Registers Removed During Synthesis
- 10. Removed Registers Triggering Further Register Optimizations
- 11. General Register Statistics
- 12. Inverted Register Statistics
- 13. Multiplexer Restructuring Statistics (Restructuring Performed)
- 14. Parameter Settings for User Entity Instance: SPI:spi0
- 15. Port Connectivity Checks: "SPI:spi0"
- 16. Post-Synthesis Netlist Statistics for Top Partition
- 17. Elapsed Time Per Partition
- 18. Analysis & Synthesis Messages
+  9. Logic Cells Representing Combinational Loops
+ 10. Registers Removed During Synthesis
+ 11. Removed Registers Triggering Further Register Optimizations
+ 12. General Register Statistics
+ 13. Inverted Register Statistics
+ 14. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 15. Parameter Settings for User Entity Instance: SPI:spi0
+ 16. Port Connectivity Checks: "SPI:spi0"
+ 17. Post-Synthesis Netlist Statistics for Top Partition
+ 18. Elapsed Time Per Partition
+ 19. Analysis & Synthesis Messages
 
 
 
@@ -49,7 +50,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Wed May 08 17:10:02 2019       ;
+; Analysis & Synthesis Status     ; Successful - Mon Jul 22 13:29:21 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
@@ -188,14 +189,14 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+------------------+
 ; Resource                                    ; Usage            ;
 +---------------------------------------------+------------------+
-; Estimate of Logic utilization (ALMs needed) ; 44               ;
+; Estimate of Logic utilization (ALMs needed) ; 45               ;
 ;                                             ;                  ;
-; Combinational ALUT usage for logic          ; 74               ;
+; Combinational ALUT usage for logic          ; 75               ;
 ;     -- 7 input functions                    ; 0                ;
 ;     -- 6 input functions                    ; 10               ;
 ;     -- 5 input functions                    ; 10               ;
 ;     -- 4 input functions                    ; 17               ;
-;     -- <=3 input functions                  ; 37               ;
+;     -- <=3 input functions                  ; 38               ;
 ;                                             ;                  ;
 ; Dedicated logic registers                   ; 80               ;
 ;                                             ;                  ;
@@ -205,7 +206,7 @@ refer to the applicable agreement for further details.
 ;                                             ;                  ;
 ; Maximum fan-out node                        ; SPI:spi0|spi_clk ;
 ; Maximum fan-out                             ; 46               ;
-; Total fan-out                               ; 849              ;
+; Total fan-out                               ; 850              ;
 ; Average fan-out                             ; 1.06             ;
 +---------------------------------------------+------------------+
 
@@ -215,7 +216,7 @@ refer to the applicable agreement for further details.
 +----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------+---------------+--------------+
 ; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name     ; Entity Name   ; Library Name ;
 +----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------+---------------+--------------+
-; |baseline_c5gx             ; 74 (28)             ; 80 (30)                   ; 0                 ; 0          ; 258  ; 0            ; |baseline_c5gx          ; baseline_c5gx ; work         ;
+; |baseline_c5gx             ; 75 (29)             ; 80 (30)                   ; 0                 ; 0          ; 258  ; 0            ; |baseline_c5gx          ; baseline_c5gx ; work         ;
 ;    |SPI:spi0|              ; 46 (46)             ; 50 (50)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|SPI:spi0 ; SPI           ; work         ;
 +----------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------+---------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
@@ -236,12 +237,22 @@ Encoding Type:  One-Hot
 +-------------------------------+-------------------------------+-------------------------------+-----------------------+---------------------------+----------------+----------------+
 
 
++------------------------------------------------------------+
+; Logic Cells Representing Combinational Loops               ;
++--------------------------------------------------------+---+
+; Logic Cell Name                                        ;   ;
++--------------------------------------------------------+---+
+; GPIO[35]~1                                             ;   ;
+; Number of logic cells representing combinational loops ; 1 ;
++--------------------------------------------------------+---+
+Note: All cells listed above may not be present at the end of synthesis due to various synthesis optimizations.
+
+
 +---------------------------------------------------------------------------------+
 ; Registers Removed During Synthesis                                              ;
 +----------------------------------------+----------------------------------------+
 ; Register name                          ; Reason for Removal                     ;
 +----------------------------------------+----------------------------------------+
-; half_clk                               ; Stuck at GND due to stuck port data_in ;
 ; tx_addr_byte[2..6]                     ; Merged with tx_addr_byte[1]            ;
 ; tx_data_byte[0,2..7]                   ; Merged with tx_addr_byte[1]            ;
 ; tx_addr_byte[1]                        ; Stuck at GND due to stuck port data_in ;
@@ -249,8 +260,7 @@ Encoding Type:  One-Hot
 ; SPI:spi0|state_reg~4                   ; Lost fanout                            ;
 ; SPI:spi0|state_reg~5                   ; Lost fanout                            ;
 ; SPI:spi0|state_reg~6                   ; Lost fanout                            ;
-; count1[0]                              ; Merged with half_clk~en                ;
-; Total Number of Removed Registers = 19 ;                                        ;
+; Total Number of Removed Registers = 17 ;                                        ;
 +----------------------------------------+----------------------------------------+
 
 
@@ -333,13 +343,13 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     SCLR              ; 8                           ;
 ;     plain             ; 51                          ;
 ; arriav_io_obuf        ; 133                         ;
-; arriav_lcell_comb     ; 75                          ;
+; arriav_lcell_comb     ; 76                          ;
 ;     arith             ; 23                          ;
 ;         1 data inputs ; 22                          ;
 ;         2 data inputs ; 1                           ;
-;     normal            ; 52                          ;
+;     normal            ; 53                          ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 3                           ;
+;         1 data inputs ; 4                           ;
 ;         2 data inputs ; 4                           ;
 ;         3 data inputs ; 7                           ;
 ;         4 data inputs ; 17                          ;
@@ -367,7 +377,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Wed May 08 17:09:53 2019
+    Info: Processing started: Mon Jul 22 13:29:13 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -377,6 +387,8 @@ Info (12021): Found 1 design units, including 1 entities, in source file spi.v
     Info (12023): Found entity 1: SPI File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 21
 Info (12127): Elaborating entity "baseline_c5gx" for the top level hierarchy
 Warning (10230): Verilog HDL assignment warning at baseline_c5gx.v(193): truncated value with size 32 to match size of target (24) File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 193
+Warning (10235): Verilog HDL Always Construct warning at baseline_c5gx.v(259): variable "half_clk" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 259
+Warning (10755): Verilog HDL warning at baseline_c5gx.v(257): assignments to half_clk create a combinational loop File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 257
 Warning (10034): Output port "HDMI_TX_D" at baseline_c5gx.v(93) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 93
 Warning (10034): Output port "HEX0" at baseline_c5gx.v(100) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 100
 Warning (10034): Output port "HEX1" at baseline_c5gx.v(103) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 103
@@ -403,7 +415,7 @@ Warning (10034): Output port "SRAM_OE_n" at baseline_c5gx.v(159) has no driver F
 Warning (10034): Output port "SRAM_UB_n" at baseline_c5gx.v(160) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 160
 Warning (10034): Output port "SRAM_WE_n" at baseline_c5gx.v(161) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 161
 Warning (10034): Output port "UART_TX" at baseline_c5gx.v(171) has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 171
-Info (12128): Elaborating entity "SPI" for hierarchy "SPI:spi0" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 308
+Info (12128): Elaborating entity "SPI" for hierarchy "SPI:spi0" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 296
 Warning (10230): Verilog HDL assignment warning at spi.v(156): truncated value with size 32 to match size of target (4) File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 156
 Warning (10235): Verilog HDL Always Construct warning at spi.v(171): variable "enable" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 171
 Warning (10235): Verilog HDL Always Construct warning at spi.v(173): variable "start_transfer" is read inside the Always Construct but isn't in the Always Construct's Event Control File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/spi.v Line: 173
@@ -419,6 +431,7 @@ Warning (13034): The following nodes have both tri-state and non-tri-state drive
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[2]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[4]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
     Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[6]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Warning (13035): Inserted always-enabled tri-state buffer between "GPIO[35]" and its non-tri-state driver. File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
 Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "GPIO[8]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
     Warning (13040): bidirectional pin "AUD_ADCLRCK" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 48
@@ -550,13 +563,12 @@ Warning (13039): The following bidirectional pins have no drivers
     Warning (13040): bidirectional pin "SRAM_D[15]" has no driver File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 157
 Warning (13032): The following tri-state nodes are fed by constants
     Warning (13033): The pin "GPIO[0]" is fed by VCC File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
-Warning (13050): Open-drain buffer(s) that do not directly drive top-level pin(s) are removed
-    Warning (13051): Converted the fanout from the open-drain buffer "half_clk" to the node "half_clk" into a wire File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 268
 Warning (13009): TRI or OPNDRN buffers permanently enabled
     Warning (13010): Node "GPIO[0]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
     Warning (13010): Node "GPIO[2]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
     Warning (13010): Node "GPIO[4]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
     Warning (13010): Node "GPIO[6]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
+    Warning (13010): Node "GPIO[35]~synth" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 80
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "ADC_CONVST" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 41
     Warning (13410): Pin "ADC_SCK" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 42
@@ -673,15 +685,15 @@ Warning (21074): Design contains 24 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "SW[8]" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 164
     Warning (15610): No output dependent on input pin "SW[9]" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 164
     Warning (15610): No output dependent on input pin "UART_RX" File: C:/Users/User/Documents/Dev/awesome-board-support/spi_driver/baseline_c5gx.v Line: 167
-Info (21057): Implemented 355 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 356 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 29 input pins
     Info (21059): Implemented 96 output pins
     Info (21060): Implemented 133 bidirectional pins
-    Info (21061): Implemented 97 logic cells
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 290 warnings
-    Info: Peak virtual memory: 4872 megabytes
-    Info: Processing ended: Wed May 08 17:10:02 2019
-    Info: Elapsed time: 00:00:09
+    Info (21061): Implemented 98 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 292 warnings
+    Info: Peak virtual memory: 4870 megabytes
+    Info: Processing ended: Mon Jul 22 13:29:21 2019
+    Info: Elapsed time: 00:00:08
     Info: Total CPU time (on all processors): 00:00:17
 
 

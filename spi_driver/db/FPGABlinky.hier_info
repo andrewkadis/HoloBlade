@@ -11,8 +11,6 @@ AUD_DACLRCK <> <UNC>
 AUD_XCK <= <GND>
 CLOCK_125_p => ~NO_FANOUT~
 CLOCK_50_B5B => SPI:spi0.sys_clk
-CLOCK_50_B5B => half_clk.CLK
-CLOCK_50_B5B => half_clk~en.CLK
 CLOCK_50_B5B => spi_enable.CLK
 CLOCK_50_B5B => tx_data_byte[0].CLK
 CLOCK_50_B5B => tx_data_byte[1].CLK

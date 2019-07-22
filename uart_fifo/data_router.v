@@ -93,90 +93,6 @@ always @(posedge i_clock) begin
 	end
 end 
     
-//// combination output logic
-//// This part contains the output of the design
-//// no if-else statement is used in this part
-//// include all signals and input in sensitive-list except state_next
-//always @(input1, input2, ..., state_reg) begin
-//    // default outputs
-//    output1 = <value>;
-//    output2 = <value>;
-//    ...
-//    case (state_reg)  
-//        s0 : begin
-//            output1 = <value>;
-//            output2 = <value>;
-//            ...
-//        end
-//        s1 : begin
-//            output1 = <value>;
-//            output2 = <value>;
-//            ...
-//        end
-//        s2 : begin
-//            ...
-//        end
-//    endcase
-//end 
-//    
-//// optional D-FF to remove glitches
-//always @(posedge clk, posedge reset)
-//begin 
-//    if (reset) begin
-//        new_output1 <= ... ;
-//        new_output2 <= ... ;
-//    end
-//    else begin
-//        new_output1 <= output1; 
-//        new_output2 <= output2; 
-//    end
-//end 
-//
-//endmodule
-	
-	
-	
-	
-	
-//assign o_debug_out_b = i_packet_fully_decoded;
-	
-// Data Router operates in one of three modes
-//
-//localparam [1:0] // for 4 states : size_state = 1:0
-//    sLOOPBACK       = 0,
-//    sDATA_COMMAND   = 1,
-//	 sDATA_NUM_WORDS = 2,
-//	 sDATA_PAYLOAD   = 3;
-//    
-//	 // State registers
-//    reg[1:0] state_reg, state_next;  
-	
-//////////////////////////
-////// Loopback ////////
-//////////////////////////
-
-//// We haven't built the DataManager yet, so simply loopback the data
-//// The following loopback logic handles this for now
-//
-//// Pulse when we rx a byte
-//always @(posedge CLOCK_50_B5B) begin
-//	// If data in fifo and Serialiser is not active, start another serialisation sequence
-//	if( (rx_fifo_is_empty_sig==0) && (serial_is_busy_sig==0) ) begin
-//	
-//		// Get NExt word from FIFO
-//		read_next_word_cmd = 1;
-//		// Latch data and start a serialisation process
-//		serialise_next_word_cmd = 1;
-//		fifo_output_latched = rx_fifo_output_word;
-//		
-//	end else begin
-//	
-//		// Wait until inactive or need to send another byte
-//		read_next_word_cmd = 0;
-//		serialise_next_word_cmd = 0;
-//		
-//	end
-//end
 
 
 // Latching registers for output
@@ -190,17 +106,7 @@ reg[31:0] r_data_manager_output_data_word = 0;
 always @(posedge i_clock) begin
 
 	case (state_reg)  
-
-//		// DEFAULT: All outputs are 0
-//      DEFAULT : begin
-//		
-//			//  All outputs are 0
-//			r_rx_fifo_next_word_cmd = 0;
-//			r_data_manager_output_next_cmd  = 0;
-//			r_data_manager_output_data_word = 0;
-//						
-//       end
-		  
+	  
 		  
 	 
 		// LOOPBACK: we simply pump out the last word of the packet received and pulse when we rx a byte

@@ -253,12 +253,12 @@ assign GPIO[0] = 1;
 
 
 
+reg half_clk;
+always @(CLOCK_50_B5B) begin
 
-//always @(CLOCK_50_B5B) begin
-//
-//
-//
-//end
+	half_clk <= ~half_clk;
+
+end
 
 
 

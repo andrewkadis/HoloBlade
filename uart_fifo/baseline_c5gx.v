@@ -227,7 +227,7 @@ always @(posedge CLOCK_50_B5B) begin
 	// If we have pressed either button, send appropirate data and start transfer
 	start_transfer <= 1;
 	if(~KEY[1]) begin
-		tx_addr_byte <= 8'h81; // Read from the Mode Register
+		tx_addr_byte <= 8'hF8; // Read from the Mode Register
 		tx_data_byte <= 8'h00; // Data is irrelevant
 	end else if(~KEY[2]) begin
 		tx_addr_byte <= 8'h01; // Write to the Mode Register
@@ -256,6 +256,13 @@ end
 
 // Reset Line for SLM needs to be high
 assign GPIO[0] = 1;
+
+// Clock
+//reg half_clk;
+//always @(CLOCK_50_B5B) begin
+//	half_clk <= ~half_clk;
+//end
+assign GPIO[35] = CLOCK_50_B5B;
 
 // Debugging Lines
 // Assign UART_TX and UART_RX Data to Arduino GPIO10 + 12 for Debug

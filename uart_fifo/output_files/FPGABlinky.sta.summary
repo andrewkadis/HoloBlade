@@ -2,180 +2,180 @@
 Timing Analyzer Summary
 ------------------------------------------------------------
 
-Type  : Slow 1100mV 85C Model Setup 'CLOCK_50_B5B'
-Slack : -6.850
-TNS   : -1067.600
-
 Type  : Slow 1100mV 85C Model Setup 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : -6.117
-TNS   : -266.818
+Slack : -6.813
+TNS   : -280.083
+
+Type  : Slow 1100mV 85C Model Setup 'CLOCK_50_B5B'
+Slack : -6.652
+TNS   : -1021.906
 
 Type  : Slow 1100mV 85C Model Setup 'spi:spi0|spi_clk'
-Slack : -4.217
-TNS   : -72.492
+Slack : -4.567
+TNS   : -84.171
 
 Type  : Slow 1100mV 85C Model Hold 'CLOCK_50_B5B'
-Slack : 0.221
-TNS   : 0.000
+Slack : -1.311
+TNS   : -17.026
 
 Type  : Slow 1100mV 85C Model Hold 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : 0.380
-TNS   : 0.000
+Slack : -0.077
+TNS   : -0.077
 
 Type  : Slow 1100mV 85C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.406
+Slack : 0.398
 TNS   : 0.000
 
 Type  : Slow 1100mV 85C Model Recovery 'CLOCK_50_B5B'
-Slack : -3.705
-TNS   : -20.954
+Slack : -3.826
+TNS   : -21.989
 
 Type  : Slow 1100mV 85C Model Removal 'CLOCK_50_B5B'
-Slack : 0.405
+Slack : 0.207
 TNS   : 0.000
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.636
-TNS   : -478.210
+TNS   : -469.662
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : -0.782
-TNS   : -67.226
+Slack : -1.183
+TNS   : -125.386
 
 Type  : Slow 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
 Slack : -0.538
-TNS   : -23.566
-
-Type  : Slow 1100mV 0C Model Setup 'CLOCK_50_B5B'
-Slack : -7.036
-TNS   : -1032.677
+TNS   : -23.895
 
 Type  : Slow 1100mV 0C Model Setup 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : -6.132
-TNS   : -273.289
+Slack : -6.728
+TNS   : -286.476
+
+Type  : Slow 1100mV 0C Model Setup 'CLOCK_50_B5B'
+Slack : -6.674
+TNS   : -973.141
 
 Type  : Slow 1100mV 0C Model Setup 'spi:spi0|spi_clk'
-Slack : -4.441
-TNS   : -73.694
+Slack : -4.853
+TNS   : -86.073
 
 Type  : Slow 1100mV 0C Model Hold 'CLOCK_50_B5B'
-Slack : -0.095
-TNS   : -0.405
+Slack : -1.542
+TNS   : -20.999
 
 Type  : Slow 1100mV 0C Model Hold 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : 0.216
-TNS   : 0.000
+Slack : -0.120
+TNS   : -0.120
 
 Type  : Slow 1100mV 0C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.422
+Slack : 0.364
 TNS   : 0.000
 
 Type  : Slow 1100mV 0C Model Recovery 'CLOCK_50_B5B'
-Slack : -3.375
-TNS   : -18.986
+Slack : -3.561
+TNS   : -20.478
 
 Type  : Slow 1100mV 0C Model Removal 'CLOCK_50_B5B'
-Slack : 0.185
+Slack : 0.015
 TNS   : 0.000
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.636
-TNS   : -464.184
+TNS   : -455.307
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : -0.601
-TNS   : -54.539
+Slack : -1.048
+TNS   : -105.845
 
 Type  : Slow 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
 Slack : -0.538
-TNS   : -23.353
+TNS   : -23.599
 
 Type  : Fast 1100mV 85C Model Setup 'CLOCK_50_B5B'
-Slack : -3.347
-TNS   : -448.489
+Slack : -4.111
+TNS   : -426.200
 
 Type  : Fast 1100mV 85C Model Setup 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : -2.834
-TNS   : -105.247
+Slack : -3.271
+TNS   : -113.308
 
 Type  : Fast 1100mV 85C Model Setup 'spi:spi0|spi_clk'
-Slack : -1.507
-TNS   : -26.454
-
-Type  : Fast 1100mV 85C Model Hold 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : -0.057
-TNS   : -0.179
+Slack : -1.668
+TNS   : -32.932
 
 Type  : Fast 1100mV 85C Model Hold 'CLOCK_50_B5B'
-Slack : 0.121
-TNS   : 0.000
+Slack : -0.519
+TNS   : -7.235
+
+Type  : Fast 1100mV 85C Model Hold 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
+Slack : -0.276
+TNS   : -1.345
 
 Type  : Fast 1100mV 85C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.145
+Slack : 0.208
 TNS   : 0.000
 
 Type  : Fast 1100mV 85C Model Recovery 'CLOCK_50_B5B'
-Slack : -2.136
-TNS   : -11.872
+Slack : -2.119
+TNS   : -11.731
 
 Type  : Fast 1100mV 85C Model Removal 'CLOCK_50_B5B'
-Slack : 0.150
+Slack : 0.109
 TNS   : 0.000
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.174
-TNS   : -315.225
+TNS   : -310.171
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : -0.430
-TNS   : -21.538
+Slack : -0.646
+TNS   : -35.141
 
 Type  : Fast 1100mV 85C Model Minimum Pulse Width 'spi:spi0|spi_clk'
-Slack : 0.013
+Slack : 0.105
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Setup 'CLOCK_50_B5B'
-Slack : -2.766
-TNS   : -368.913
+Slack : -3.422
+TNS   : -349.387
 
 Type  : Fast 1100mV 0C Model Setup 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : -2.623
-TNS   : -99.696
+Slack : -2.995
+TNS   : -106.782
 
 Type  : Fast 1100mV 0C Model Setup 'spi:spi0|spi_clk'
-Slack : -1.441
-TNS   : -24.281
-
-Type  : Fast 1100mV 0C Model Hold 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : -0.052
-TNS   : -0.090
+Slack : -1.616
+TNS   : -30.698
 
 Type  : Fast 1100mV 0C Model Hold 'CLOCK_50_B5B'
-Slack : 0.004
-TNS   : 0.000
+Slack : -0.630
+TNS   : -8.867
+
+Type  : Fast 1100mV 0C Model Hold 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
+Slack : -0.211
+TNS   : -0.960
 
 Type  : Fast 1100mV 0C Model Hold 'spi:spi0|spi_clk'
-Slack : 0.156
+Slack : 0.187
 TNS   : 0.000
 
 Type  : Fast 1100mV 0C Model Recovery 'CLOCK_50_B5B'
-Slack : -1.706
-TNS   : -9.438
+Slack : -1.702
+TNS   : -9.417
 
 Type  : Fast 1100mV 0C Model Removal 'CLOCK_50_B5B'
-Slack : 0.011
-TNS   : 0.000
+Slack : -0.020
+TNS   : -0.020
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'CLOCK_50_B5B'
 Slack : -2.174
-TNS   : -347.026
+TNS   : -341.058
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'PC_RX:pc_rx|start_packet_decode_cmd_edge'
-Slack : -0.275
-TNS   : -12.356
+Slack : -0.469
+TNS   : -24.477
 
 Type  : Fast 1100mV 0C Model Minimum Pulse Width 'spi:spi0|spi_clk'
-Slack : 0.052
+Slack : 0.114
 TNS   : 0.000
 
 ------------------------------------------------------------
