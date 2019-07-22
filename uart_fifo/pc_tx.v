@@ -44,7 +44,7 @@ module PC_TX(
 
 //assign fifo_data_input = decoded_data_payload_word;
 
-assign debug_out_LA2 = r_fifo_read_word_cmd;
+//assign debug_out_LA2 = r_fifo_read_word_cmd;
 assign debug_out_LA3 = fifo_is_empty;
 assign debug_out_LA4 = serial_is_busy_sig; 
 

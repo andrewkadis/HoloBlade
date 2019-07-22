@@ -21,6 +21,7 @@ module PC_RX(
 	// DataManager-Side
 	input        i_read_next_word_cmd,   // Command to get next word from FIFO, set high for 1 cycle to read word
 	output[1:0]  o_packet_command,       // Which packet we have received
+	output       o_packet_start_decode,  // Goes high for 1-cycle when at start of packet decode
 	output       o_packet_fully_decoded, // Goes high for 1-cycle after a packet has been fully decoded
 	output[31:0] o_fifo_output_word,     // Current output from the FIFO
 	output       o_fifo_is_empty_sig     // Signal to indicates whether or not the FIFO is empty
@@ -133,6 +134,7 @@ end
 // Outputs from PacketDecodeFSM
 wire[31:0] decoded_data_payload_word;
 wire       payload_word_decode_complete;
+wire       w_packet_start_decode;
 wire       w_packet_fully_decoded;
 wire       w_reset_all;
  
@@ -151,6 +153,7 @@ PACKET_DECODE_FSM packet_decode_fsm(
    .o_packet_command(o_packet_command),
 	.o_payload_data_word(decoded_data_payload_word),
 	.o_payload_word_recv(payload_word_decode_complete),
+	.o_packet_start_decode(w_packet_start_decode),
 	.o_packet_fully_decoded(w_packet_fully_decoded),
 	.o_reset(w_reset_all)
 	
@@ -207,6 +210,7 @@ testFIFO uart_rx_FIFO(
 	);
 	
 // Route out outputs from registers
+assign o_packet_start_decode    = w_packet_start_decode;
 assign o_packet_fully_decoded   = w_packet_fully_decoded;
 //assign o_payload_data_word    = r_payload_data_word;
 //assign o_payload_word_recv    = r_payload_word_recv;

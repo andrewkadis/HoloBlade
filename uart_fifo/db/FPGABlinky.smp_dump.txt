@@ -7,12 +7,6 @@ r_SM_Main.s_TX_DATA_BITS 0 1 0 1 0
 r_SM_Main.s_TX_STOP_BIT 1 0 0 1 0 
 r_SM_Main.s_CLEANUP 0 0 0 1 1 
 
-State Machine - |baseline_c5gx|DATA_ROUTER:data_router|state_reg
-Name state_reg.DATA state_reg.LOOPBACK state_reg.CONFIG 
-state_reg.LOOPBACK 0 0 0 
-state_reg.CONFIG 0 1 1 
-state_reg.DATA 1 1 0 
-
 State Machine - |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_reg
 Name state_reg.sDATA_PAYLOAD state_reg.sDATA_NUM_WORDS state_reg.sDATA_COMMAND state_reg.sIDLE 
 state_reg.sIDLE 0 0 0 0 

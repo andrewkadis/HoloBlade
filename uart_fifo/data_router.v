@@ -20,6 +20,7 @@ module DATA_ROUTER(
 	
 	// PC_RX
    input[1:0]  i_packet_command,
+	input       i_packet_start_decode,
 	input       i_packet_fully_decoded,
 	output      o_rx_fifo_next_word_cmd,
 	input[31:0] i_rx_fifo_output_word,
@@ -35,8 +36,9 @@ module DATA_ROUTER(
 	// TBD...
 	
 	// Debug
-	output o_debug_out_b,
-	output o_debug_out_y
+	output debug_out_LA0,
+	output debug_out_LA1,
+	output debug_out_LA2
 	  
 	
    );
@@ -80,14 +82,15 @@ always @(posedge i_clock, posedge i_reset) begin
     end
 end 
 
-// Updating State is driven directly by i_packet_command
-always @(i_packet_command) begin 
-//    state_next = i_packet_command;
+// Updating State is driven directly by i_packet_start_decode and i_packet_command
+always @(posedge i_clock) begin 
+	if(i_packet_start_decode) begin
 	 case (i_packet_command) 
 		LOOPBACK: state_next = LOOPBACK;
 		CONFIG  : state_next = CONFIG;
 		DATA    : state_next = DATA;
 	 endcase
+	end
 end 
     
 //// combination output logic
@@ -226,12 +229,25 @@ always @(posedge i_clock) begin
 		
 		// CONFIG: TODO: atm all outputs are 0
       CONFIG : begin
-		
-			r_rx_fifo_next_word_cmd = 0;
-			r_data_manager_output_next_cmd  = 0;
-			r_data_manager_output_data_word = 0;
+			
+			// If data in fifo then start another serialisation sequence
+			if( (i_rx_fifo_is_empty_sig==0) ) begin
 						
-       end
+				// Get next word from FIFO
+				r_rx_fifo_next_word_cmd = 1;
+				// We just drop data atm - will pipe to SPI shortly
+				r_data_manager_output_next_cmd  = 0;
+				r_data_manager_output_data_word = 0;
+							
+			end else begin
+		
+				r_rx_fifo_next_word_cmd = 0;
+				r_data_manager_output_next_cmd  = 0;
+				r_data_manager_output_data_word = 0;
+						
+			end
+		
+		end
 		 
 		// DATA: TODO: atm all outputs are 0
       DATA : begin
@@ -240,9 +256,7 @@ always @(posedge i_clock) begin
 			r_data_manager_output_next_cmd  = 0;
 			r_data_manager_output_data_word = 0;
 						
-       end
-		
-		
+       end		
 
     endcase
 
@@ -256,8 +270,10 @@ assign o_rx_fifo_next_word_cmd         = r_rx_fifo_next_word_cmd;
 assign o_data_manager_output_next_cmd  = r_data_manager_output_next_cmd;
 assign o_data_manager_output_data_word = r_data_manager_output_data_word;
 	
-//assign o_debug_out_b = i_packet_fully_decoded;
-//assign o_debug_out_y = o_data_manager_output_next_cmd;
+// Debugging
+assign debug_out_LA0 = state_reg[0];
+assign debug_out_LA1 = i_packet_start_decode;
+assign debug_out_LA2 = i_reset;
 	
 	
 	

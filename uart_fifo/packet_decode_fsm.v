@@ -20,6 +20,7 @@ module PACKET_DECODE_FSM(
    output  [1:0] o_packet_command,    // Command to specify what type of message has been sent
 	output [31:0] o_payload_data_word, // Output for our FIFO
 	output o_payload_word_recv,        // Goes high for 1 cycle after every payload word decode is complete, need this to drive our FIFO
+	output o_packet_start_decode,      // Goes high for 1 cycle when a packet decode starts, used to drive downstream logic
 	output o_packet_fully_decoded,     // Goes high for 1 cycle after entire packet has been decoded, used to drive downstream logic
 	output o_reset                     // Use this to reset after receiving a RESET word
 		
@@ -31,6 +32,7 @@ module PACKET_DECODE_FSM(
 reg [1:0]  r_packet_command    = 2'd0;
 reg [31:0] r_payload_data_word = 32'd0;
 reg r_payload_word_recv        = 0;
+reg r_packet_start_decode      = 0;
 reg r_packet_fully_decoded     = 0;
 reg r_reset                    = 0;
 
@@ -72,6 +74,7 @@ always @(state_reg) begin
 	// Defaults
    state_next             = state_reg;
 	r_packet_command       = 0;
+	r_packet_start_decode  = 0;
 	r_payload_data_word    = 32'h00000000;
 	r_payload_word_recv    = 0;
 	r_reset                = 0;	
@@ -96,6 +99,7 @@ always @(state_reg) begin
 					state_next = sDATA_COMMAND; 
 					// Reset any existing decode parameters for our new packet
 					r_packet_command            =  2'd0;
+					r_packet_start_decode       =     0;
 					r_num_words_payload_to_recv = 32'd0;
 					
 				end
@@ -108,6 +112,9 @@ always @(state_reg) begin
 				
 					// Capture which type of command has been sent
 					r_packet_command = i_recv_word_data[25:24];
+					
+					// Start of a new packet
+					r_packet_start_decode = 1;
 					
 					// Auto-transition to next state
 					state_next = sDATA_NUM_WORDS;
@@ -185,6 +192,7 @@ end
 assign o_packet_command       = r_packet_command;
 assign o_payload_data_word    = r_payload_data_word;
 assign o_payload_word_recv    = r_payload_word_recv;
+assign o_packet_start_decode  = r_packet_start_decode;
 assign o_packet_fully_decoded = r_packet_fully_decoded;
 assign o_reset                = r_reset;
 

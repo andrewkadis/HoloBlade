@@ -316,6 +316,7 @@ spi spi0(
 // Interfacing Signals for PC_RX
 wire      reset_all;
 wire[1:0] packet_command;
+wire      w_packet_start_decode;
 wire      w_packet_fully_decoded;
 wire       rx_fifo_next_word_cmd;
 wire[31:0] rx_fifo_output_word;
@@ -330,11 +331,12 @@ PC_RX pc_rx(
    .i_rx_serial(UART_RX),                         // UART RX Line
 	
 	// DataManager-Side
-   .i_read_next_word_cmd(rx_fifo_next_word_cmd),  // Command to get next word from FIFO, set high for 1 cycle to read word
-	.o_packet_command(packet_command),             // Which packet we have received
+   .i_read_next_word_cmd(rx_fifo_next_word_cmd),    // Command to get next word from FIFO, set high for 1 cycle to read word
+	.o_packet_command(packet_command),               // Which packet we have received
+	.o_packet_start_decode(w_packet_start_decode),   // Goes high for 1-cycle when at start of packet decode
 	.o_packet_fully_decoded(w_packet_fully_decoded), // Goes high for 1-cycle after a packet has been fully decoded
-	.o_fifo_output_word(rx_fifo_output_word),      // Current output from the FIFO
-	.o_fifo_is_empty_sig(rx_fifo_is_empty_sig)    // Signal to indicates whether or not the FIFO is empty 
+	.o_fifo_output_word(rx_fifo_output_word),        // Current output from the FIFO
+	.o_fifo_is_empty_sig(rx_fifo_is_empty_sig)       // Signal to indicates whether or not the FIFO is empty 
 	
 	// Debug
 //	.o_debug_out_b(debug_out_b),
@@ -343,8 +345,9 @@ PC_RX pc_rx(
  );
 
 
-assign debug_out_LA0 = packet_command[0];
-assign debug_out_LA1 = packet_command[1];
+//assign debug_out_LA0 = packet_command[0];
+//assign debug_out_LA1 = packet_command[1];
+//assign debug_out_LA2 = w_packet_start_decode;
 
  
  
@@ -363,10 +366,11 @@ DATA_ROUTER data_router(
 
 	// Control Signals
 	.i_clock(CLOCK_50_B5B),
-	.i_reset(),
+	.i_reset(reset_all),
 	
 	// PC_RX
    .i_packet_command(packet_command),
+	.i_packet_start_decode(w_packet_start_decode),
 	.i_packet_fully_decoded(w_packet_fully_decoded),
 	.o_rx_fifo_next_word_cmd(rx_fifo_next_word_cmd),
 	.i_rx_fifo_output_word(rx_fifo_output_word),
@@ -375,16 +379,17 @@ DATA_ROUTER data_router(
 	// PC_TX
 	.i_serial_is_busy_sig(tx_active),                                // Need to know if our output can take another word or not. TODO: Upgrade with a FIFO
 	.o_data_manager_output_data_word(data_manager_output_data_word), // Data Output for the PC
-	.o_data_manager_output_next_cmd(data_manager_output_next_cmd)    // Instruction to start the Tx of the next Word to the PC
+	.o_data_manager_output_next_cmd(data_manager_output_next_cmd),   // Instruction to start the Tx of the next Word to the PC
 
 	// TBD....
 	 
 	// SLM_CONFIG
 	// TBD...
 	
-//	// Debug
-//	.o_debug_out_b(debug_out_b),
-//	.o_debug_out_y(debug_out_y)
+	// Debug
+	.debug_out_LA0(debug_out_LA0),
+	.debug_out_LA1(debug_out_LA1),
+	.debug_out_LA2(debug_out_LA2)
 	  
  );
 
@@ -415,7 +420,7 @@ PC_TX pc_tx(
    .o_UART_TX(UART_TX),                                    // Output line for UART	
 	
 	// Debug
-	.debug_out_LA2(debug_out_LA2),
+//	.debug_out_LA2(debug_out_LA2),
 	.debug_out_LA3(debug_out_LA3),
 	.debug_out_LA4(debug_out_LA4)
 	
