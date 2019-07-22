@@ -1,5 +1,5 @@
 Analysis & Synthesis report for FPGABlinky
-Mon Jul 22 16:51:53 2019
+Mon Jul 22 18:04:57 2019
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -23,28 +23,29 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
  15. State Machine - |baseline_c5gx|spi:spi0|state_reg
  16. User-Specified and Inferred Latches
  17. Registers Removed During Synthesis
- 18. General Register Statistics
- 19. Inverted Register Statistics
- 20. Multiplexer Restructuring Statistics (Restructuring Performed)
- 21. Source assignments for PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram
- 22. Source assignments for PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram
- 23. Parameter Settings for User Entity Instance: spi:spi0
- 24. Parameter Settings for User Entity Instance: PC_RX:pc_rx
- 25. Parameter Settings for User Entity Instance: PC_RX:pc_rx|uart_rx:pc_rx
- 26. Parameter Settings for User Entity Instance: PC_RX:pc_rx|DESERIALISER:deserialiser
- 27. Parameter Settings for User Entity Instance: PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component
- 28. Parameter Settings for User Entity Instance: PC_TX:pc_tx
- 29. Parameter Settings for User Entity Instance: PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component
- 30. Parameter Settings for User Entity Instance: PC_TX:pc_tx|uart_tx:pc_tx
- 31. scfifo Parameter Settings by Entity Instance
- 32. Port Connectivity Checks: "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO"
- 33. Port Connectivity Checks: "PC_TX:pc_tx"
- 34. Port Connectivity Checks: "DATA_ROUTER:data_router"
- 35. Port Connectivity Checks: "PC_RX:pc_rx|testFIFO:uart_rx_FIFO"
- 36. Port Connectivity Checks: "spi:spi0"
- 37. Post-Synthesis Netlist Statistics for Top Partition
- 38. Elapsed Time Per Partition
- 39. Analysis & Synthesis Messages
+ 18. Removed Registers Triggering Further Register Optimizations
+ 19. General Register Statistics
+ 20. Inverted Register Statistics
+ 21. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 22. Source assignments for PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram
+ 23. Source assignments for PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|altsyncram_j0i1:FIFOram
+ 24. Parameter Settings for User Entity Instance: spi:spi0
+ 25. Parameter Settings for User Entity Instance: PC_RX:pc_rx
+ 26. Parameter Settings for User Entity Instance: PC_RX:pc_rx|uart_rx:pc_rx
+ 27. Parameter Settings for User Entity Instance: PC_RX:pc_rx|DESERIALISER:deserialiser
+ 28. Parameter Settings for User Entity Instance: PC_RX:pc_rx|testFIFO:uart_rx_FIFO|scfifo:scfifo_component
+ 29. Parameter Settings for User Entity Instance: PC_TX:pc_tx
+ 30. Parameter Settings for User Entity Instance: PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component
+ 31. Parameter Settings for User Entity Instance: PC_TX:pc_tx|uart_tx:pc_tx
+ 32. scfifo Parameter Settings by Entity Instance
+ 33. Port Connectivity Checks: "PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO"
+ 34. Port Connectivity Checks: "PC_TX:pc_tx"
+ 35. Port Connectivity Checks: "DATA_ROUTER:data_router"
+ 36. Port Connectivity Checks: "PC_RX:pc_rx|testFIFO:uart_rx_FIFO"
+ 37. Port Connectivity Checks: "spi:spi0"
+ 38. Post-Synthesis Netlist Statistics for Top Partition
+ 39. Elapsed Time Per Partition
+ 40. Analysis & Synthesis Messages
 
 
 
@@ -70,13 +71,13 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon Jul 22 16:51:53 2019       ;
+; Analysis & Synthesis Status     ; Successful - Mon Jul 22 18:04:57 2019       ;
 ; Quartus Prime Version           ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                   ; FPGABlinky                                  ;
 ; Top-level Entity Name           ; baseline_c5gx                               ;
 ; Family                          ; Cyclone V                                   ;
 ; Logic utilization (in ALMs)     ; N/A                                         ;
-; Total registers                 ; 418                                         ;
+; Total registers                 ; 417                                         ;
 ; Total pins                      ; 72                                          ;
 ; Total virtual pins              ; 0                                           ;
 ; Total block memory bits         ; 2,048                                       ;
@@ -190,8 +191,7 @@ refer to the applicable agreement for further details.
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processor 2            ;   0.0%      ;
-;     Processors 3-6         ;   0.0%      ;
+;     Processors 2-6         ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -234,16 +234,16 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+--------------------+
 ; Resource                                    ; Usage              ;
 +---------------------------------------------+--------------------+
-; Estimate of Logic utilization (ALMs needed) ; 310                ;
+; Estimate of Logic utilization (ALMs needed) ; 319                ;
 ;                                             ;                    ;
-; Combinational ALUT usage for logic          ; 480                ;
-;     -- 7 input functions                    ; 2                  ;
-;     -- 6 input functions                    ; 118                ;
-;     -- 5 input functions                    ; 42                 ;
-;     -- 4 input functions                    ; 59                 ;
-;     -- <=3 input functions                  ; 259                ;
+; Combinational ALUT usage for logic          ; 481                ;
+;     -- 7 input functions                    ; 10                 ;
+;     -- 6 input functions                    ; 126                ;
+;     -- 5 input functions                    ; 52                 ;
+;     -- 4 input functions                    ; 42                 ;
+;     -- <=3 input functions                  ; 251                ;
 ;                                             ;                    ;
-; Dedicated logic registers                   ; 418                ;
+; Dedicated logic registers                   ; 417                ;
 ;                                             ;                    ;
 ; I/O pins                                    ; 72                 ;
 ; Total MLAB memory bits                      ; 0                  ;
@@ -252,9 +252,9 @@ refer to the applicable agreement for further details.
 ; Total DSP Blocks                            ; 0                  ;
 ;                                             ;                    ;
 ; Maximum fan-out node                        ; CLOCK_50_B5B~input ;
-; Maximum fan-out                             ; 375                ;
-; Total fan-out                               ; 3533               ;
-; Average fan-out                             ; 3.18               ;
+; Maximum fan-out                             ; 374                ;
+; Total fan-out                               ; 3590               ;
+; Average fan-out                             ; 3.23               ;
 +---------------------------------------------+--------------------+
 
 
@@ -263,8 +263,8 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 ; Compilation Hierarchy Node                  ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                              ; Entity Name       ; Library Name ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
-; |baseline_c5gx                              ; 480 (24)            ; 418 (31)                  ; 2048              ; 0          ; 72   ; 0            ; |baseline_c5gx                                                                                                                                   ; baseline_c5gx     ; work         ;
-;    |DATA_ROUTER:data_router|                ; 40 (40)             ; 58 (58)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|DATA_ROUTER:data_router                                                                                                           ; DATA_ROUTER       ; work         ;
+; |baseline_c5gx                              ; 481 (24)            ; 417 (31)                  ; 2048              ; 0          ; 72   ; 0            ; |baseline_c5gx                                                                                                                                   ; baseline_c5gx     ; work         ;
+;    |DATA_ROUTER:data_router|                ; 39 (39)             ; 56 (56)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|DATA_ROUTER:data_router                                                                                                           ; DATA_ROUTER       ; work         ;
 ;    |PC_RX:pc_rx|                            ; 302 (1)             ; 164 (34)                  ; 2048              ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx                                                                                                                       ; PC_RX             ; work         ;
 ;       |DESERIALISER:deserialiser|           ; 3 (3)               ; 35 (35)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|DESERIALISER:deserialiser                                                                                             ; DESERIALISER      ; work         ;
 ;       |PACKET_DECODE_FSM:packet_decode_fsm| ; 222 (222)           ; 37 (37)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm                                                                                   ; PACKET_DECODE_FSM ; work         ;
@@ -285,7 +285,7 @@ refer to the applicable agreement for further details.
 ;                |a_dpfifo_8691:dpfifo|       ; 17 (10)             ; 11 (5)                    ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo                         ; a_dpfifo_8691     ; work         ;
 ;                   |cntr_t27:usedw_counter|  ; 7 (7)               ; 6 (6)                     ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_t27:usedw_counter  ; cntr_t27          ; work         ;
 ;       |uart_tx:pc_tx|                       ; 27 (27)             ; 28 (28)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx                                                                                                         ; uart_tx           ; work         ;
-;    |spi:spi0|                               ; 49 (49)             ; 53 (53)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|spi:spi0                                                                                                                          ; spi               ; work         ;
+;    |spi:spi0|                               ; 51 (51)             ; 54 (54)                   ; 0                 ; 0          ; 0    ; 0            ; |baseline_c5gx|spi:spi0                                                                                                                          ; spi               ; work         ;
 +---------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+--------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -441,6 +441,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_h2b:wr_ptr|counter_reg_bit[0..5]     ; Lost fanout                                  ;
 ; PC_TX:pc_tx|pc_rx_fifo:pc_rx_FIFO|scfifo:scfifo_component|scfifo_le91:auto_generated|a_dpfifo_8691:dpfifo|cntr_g2b:rd_ptr_msb|counter_reg_bit[0..4] ; Lost fanout                                  ;
 ; PC_TX:pc_tx|r_fifo_read_word_cmd                                                                                                                    ; Merged with PC_TX:pc_tx|serial_next_word_cmd ;
+; DATA_ROUTER:data_router|state_reg.DATA                                                                                                              ; Lost fanout                                  ;
 ; PC_TX:pc_tx|uart_tx:pc_tx|r_SM_Main~2                                                                                                               ; Lost fanout                                  ;
 ; PC_TX:pc_tx|uart_tx:pc_tx|r_SM_Main~3                                                                                                               ; Lost fanout                                  ;
 ; PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_reg~4                                                                                         ; Lost fanout                                  ;
@@ -450,8 +451,18 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; spi:spi0|state_reg~4                                                                                                                                ; Lost fanout                                  ;
 ; spi:spi0|state_reg~5                                                                                                                                ; Lost fanout                                  ;
 ; spi:spi0|state_reg~6                                                                                                                                ; Lost fanout                                  ;
-; Total Number of Removed Registers = 28                                                                                                              ;                                              ;
+; DATA_ROUTER:data_router|state_next.DATA                                                                                                             ; Lost fanout                                  ;
+; Total Number of Removed Registers = 30                                                                                                              ;                                              ;
 +-----------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                           ;
++----------------------------------------+--------------------+-----------------------------------------+
+; Register name                          ; Reason for Removal ; Registers Removed due to This Register  ;
++----------------------------------------+--------------------+-----------------------------------------+
+; DATA_ROUTER:data_router|state_reg.DATA ; Lost Fanouts       ; DATA_ROUTER:data_router|state_next.DATA ;
++----------------------------------------+--------------------+-----------------------------------------+
 
 
 +------------------------------------------------------+
@@ -459,12 +470,12 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 418   ;
-; Number of registers using Synchronous Clear  ; 75    ;
+; Total registers                              ; 417   ;
+; Number of registers using Synchronous Clear  ; 67    ;
 ; Number of registers using Synchronous Load   ; 43    ;
-; Number of registers using Asynchronous Clear ; 18    ;
+; Number of registers using Asynchronous Clear ; 17    ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 148   ;
+; Number of registers using Clock Enable       ; 149   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -474,7 +485,7 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------+---------+
 ; Inverted Register                      ; Fan out ;
 +----------------------------------------+---------+
-; spi:spi0|CS                            ; 2       ;
+; spi:spi0|CS                            ; 4       ;
 ; PC_RX:pc_rx|uart_rx:pc_rx|r_Rx_Data    ; 12      ;
 ; PC_RX:pc_rx|uart_rx:pc_rx|r_Rx_Data_R  ; 1       ;
 ; Total number of inverted registers = 3 ;         ;
@@ -486,21 +497,20 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                              ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|num_bytes_to_send[0]                   ;
-; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Clock_Count[9]                               ;
-; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|r_serial_data_byte[6]                  ;
-; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[9]                               ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|num_bytes_to_send[3]                   ;
+; 4:1                ; 10 bits   ; 20 LEs        ; 0 LEs                ; 20 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Clock_Count[0]                               ;
+; 18:1               ; 8 bits    ; 96 LEs        ; 32 LEs               ; 64 LEs                 ; Yes        ; |baseline_c5gx|PC_TX:pc_tx|SERIALISER:serialiser|r_serial_data_byte[2]                  ;
+; 7:1                ; 10 bits   ; 40 LEs        ; 0 LEs                ; 40 LEs                 ; Yes        ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Clock_Count[6]                               ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|o_packet_start_decode    ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|o_payload_word_recv      ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|o_payload_data_word[24]  ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_TX:pc_tx|uart_tx:pc_tx|r_Bit_Index                                    ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|uart_rx:pc_rx|r_Bit_Index                                    ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; No         ; |baseline_c5gx|DATA_ROUTER:data_router|r_data_manager_output_data_word                  ;
 ; 4:1                ; 30 bits   ; 60 LEs        ; 60 LEs               ; 0 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|o_payload_data_word[27]  ;
 ; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; No         ; |baseline_c5gx|DATA_ROUTER:data_router|state_next                                       ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_next.sIDLE         ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_next.sDATA_COMMAND ;
 ; 9:1                ; 2 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |baseline_c5gx|PC_RX:pc_rx|PACKET_DECODE_FSM:packet_decode_fsm|state_next.sDATA_PAYLOAD ;
-; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector1                                                       ;
-; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector2                                                       ;
+; 9:1                ; 4 bits    ; 24 LEs        ; 16 LEs               ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector3                                                       ;
+; 11:1               ; 2 bits    ; 14 LEs        ; 6 LEs                ; 8 LEs                  ; No         ; |baseline_c5gx|spi:spi0|Selector5                                                       ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
 
 
@@ -715,34 +725,34 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
-; arriav_ff             ; 418                         ;
-;     CLR               ; 18                          ;
-;     ENA               ; 114                         ;
+; arriav_ff             ; 417                         ;
+;     CLR               ; 17                          ;
+;     ENA               ; 115                         ;
 ;     ENA SCLR          ; 26                          ;
 ;     ENA SLD           ; 8                           ;
-;     SCLR              ; 49                          ;
+;     SCLR              ; 41                          ;
 ;     SLD               ; 35                          ;
-;     plain             ; 168                         ;
+;     plain             ; 175                         ;
 ; arriav_io_obuf        ; 36                          ;
-; arriav_lcell_comb     ; 481                         ;
+; arriav_lcell_comb     ; 482                         ;
 ;     arith             ; 98                          ;
 ;         1 data inputs ; 55                          ;
 ;         2 data inputs ; 43                          ;
-;     extend            ; 2                           ;
-;         7 data inputs ; 2                           ;
-;     normal            ; 381                         ;
+;     extend            ; 10                          ;
+;         7 data inputs ; 10                          ;
+;     normal            ; 374                         ;
 ;         0 data inputs ; 1                           ;
-;         1 data inputs ; 5                           ;
-;         2 data inputs ; 106                         ;
-;         3 data inputs ; 50                          ;
-;         4 data inputs ; 59                          ;
-;         5 data inputs ; 42                          ;
-;         6 data inputs ; 118                         ;
+;         1 data inputs ; 6                           ;
+;         2 data inputs ; 98                          ;
+;         3 data inputs ; 49                          ;
+;         4 data inputs ; 42                          ;
+;         5 data inputs ; 52                          ;
+;         6 data inputs ; 126                         ;
 ; boundary_port         ; 72                          ;
 ; stratixv_ram_block    ; 32                          ;
 ;                       ;                             ;
 ; Max LUT depth         ; 7.80                        ;
-; Average LUT depth     ; 2.49                        ;
+; Average LUT depth     ; 2.51                        ;
 +-----------------------+-----------------------------+
 
 
@@ -761,7 +771,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Mon Jul 22 16:51:44 2019
+    Info: Processing started: Mon Jul 22 18:04:47 2019
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FPGABlinky -c FPGABlinky
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 6 of the 6 processors detected
@@ -1096,7 +1106,7 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "LEDR[8]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 147
     Warning (13410): Pin "LEDR[9]" is stuck at GND File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 147
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 27 registers lost all their fanouts during netlist optimizations.
+Info (17049): 29 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 8 input pin(s) that do not drive logic
@@ -1108,15 +1118,15 @@ Warning (21074): Design contains 8 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "KEY[1]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 141
     Warning (15610): No output dependent on input pin "KEY[2]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 141
     Warning (15610): No output dependent on input pin "KEY[3]" File: C:/Users/User/Documents/Dev/awesome-board-support/uart_fifo/baseline_c5gx.v Line: 141
-Info (21057): Implemented 802 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 801 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 10 input pins
     Info (21059): Implemented 26 output pins
     Info (21060): Implemented 36 bidirectional pins
-    Info (21061): Implemented 698 logic cells
+    Info (21061): Implemented 697 logic cells
     Info (21064): Implemented 32 RAM segments
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 234 warnings
-    Info: Peak virtual memory: 4916 megabytes
-    Info: Processing ended: Mon Jul 22 16:51:54 2019
+    Info: Peak virtual memory: 4889 megabytes
+    Info: Processing ended: Mon Jul 22 18:04:57 2019
     Info: Elapsed time: 00:00:10
     Info: Total CPU time (on all processors): 00:00:18
 

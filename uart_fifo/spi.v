@@ -331,14 +331,17 @@ end
 /*******************************************************************
 ************************* Complete *********************************
 *******************************************************************/
-// Transaction Complete - is low in all states other than UNLOAD_DATA
+// We run spi_clk slower than the main clock, so potential for flaggint transaction for too long
+// Hence we use an edge detector on chip-select to check when our transaction has finished
+reg CS_prev = 0;
 always @(posedge i_clock) begin
 
-	r_transaction_complete <= 0;
-	if( (state_reg==UNLOAD_DATA) )
-		r_transaction_complete <= 1; 
-		
-end		
+	if( (CS_prev==0) && (CS==1) )
+		r_transaction_complete = 1;
+	else 
+		r_transaction_complete = 0;
+	CS_prev = CS;
+end
 // Latch Output
 assign o_transaction_complete = r_transaction_complete;
 
