@@ -160,7 +160,7 @@ always @(posedge i_clock) begin
       CONFIG : begin
 		
 			// SPI is enabled entire time in this state
-			r_enable_spi = 1;
+
 			r_start_spi_transfer_cmd  = 0;
 		
 			// Need to maintain SPI state
@@ -169,6 +169,8 @@ always @(posedge i_clock) begin
 			
 			// If data in fifo then start another serialisation sequence
 			if( (i_rx_fifo_is_empty_sig==0) ) begin
+			
+				r_enable_spi = 1;
 						
 				// Get next word from FIFO
 				r_rx_fifo_next_word_cmd = 1;
@@ -189,6 +191,8 @@ always @(posedge i_clock) begin
 				// Latch data and start a serialisation process
 				r_data_manager_output_next_cmd  = 1;
 				r_data_manager_output_data_word = { i_Rx_Upper_Byte, i_Rx_Lower_Byte, 16'hFFFF };
+		
+				r_enable_spi = 0;
 		
 //				r_rx_fifo_next_word_cmd = 0;
 //				r_data_manager_output_next_cmd  = 0;

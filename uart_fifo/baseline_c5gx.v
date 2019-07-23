@@ -259,13 +259,14 @@ assign GPIO[16] = debug_out_LA4;
 
 // SLM - Specific Requirements
 // Reset Line for SLM needs to be high
-assign GPIO[0] = 1;
+assign GPIO[1] = KEY[1];
 // Clock
-//reg half_clk;
-//always @(CLOCK_50_B5B) begin
+reg slm_clk;
+always @(CLOCK_50_B5B) begin
 //	half_clk <= ~half_clk;
-//end
-assign GPIO[35] = CLOCK_50_B5B;
+	slm_clk = CLOCK_50_B5B;
+end
+assign GPIO[35] = slm_clk;
 
 
 // SPI Interface signals

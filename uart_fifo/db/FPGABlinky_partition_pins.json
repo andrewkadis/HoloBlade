@@ -36,6 +36,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "GPIO[1]",
+					"strict" : false
+				},
+				{
 					"name" : "GPIO[2]",
 					"strict" : false
 				},
@@ -85,6 +89,10 @@
 				},
 				{
 					"name" : "CLOCK_50_B5B",
+					"strict" : false
+				},
+				{
+					"name" : "KEY[1]",
 					"strict" : false
 				},
 				{
