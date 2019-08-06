@@ -26,3 +26,6 @@ $ICE_ROOT/sbt_backend/bin/win32/opt/synpwrap/synpwrap -prj holoblade_syn.prj -lo
 # As of 6th August, all we care about is pin routing
 tclsh "./scripts/run_backend_tools.tcl"
 
+# Copy binaries to binary directory
+cp HoloBlade_Implmnt/sbt/outputs/bitmap/top_bitmap.hex bin/
+

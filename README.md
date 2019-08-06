@@ -7,6 +7,10 @@ This firmware can either be run using the Lattice iCEcube2 tools or from the cli
   - the above is the main reason why i scripted to call from the cli, I use VSCode and the gitbash/mingw terminal within VSCode to develop the firmware
   - Holoblade_syn.prj and Holoblade_sbt.project will get overwritten by the iCEcube2 tools, so better to modify in there than editing files manually
   - these are the tools to build it, you use a separate tool to program called the Lattice Diamond Programmer
+  - when running these tools, need to edit scripts/build.sh to point to root location of this project
+  - i also put in the following symbolic link to deal with lattice installation issues: 'ln -s /c/lscc/iCEcube2.2017.08 /c/lscc/iCEcube2.2017.08'
+
+From the CLI, I can compile the entire toolchain with the script with 'source scripts/build.sh'
 
 The directories are the following:
     - src: verilog code
