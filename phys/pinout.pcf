@@ -11,7 +11,7 @@
 # ##############################################################################
 
 ###IOSet List 4
-set_io CLK 93
+set_io XTAL 93
 set_io DEBUG_0 83
 set_io DEBUG_1 84
 set_io DEBUG_2 85

@@ -4,6 +4,7 @@
 
 add_file -verilog -lib work "src/top.v" 
 add_file -verilog -lib work "src/clock.v" 
+add_file -verilog -lib work "src/uart_rx.v" 
 #implementation: "HoloBlade_Implmnt"
 impl -add HoloBlade_Implmnt -type fpga
 

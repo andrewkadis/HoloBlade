@@ -3,7 +3,7 @@
 */
 
 module top(
-    input CLK, 
+    input XTAL, 
     input UART_RX,
 
     output SEN,
@@ -37,6 +37,16 @@ module top(
 // assign SOUT = counter[12];
 // assign SDAT = counter[13];
 
+
+
+
+
+
+
+
+
+
+
 ////////////////////////
 /////// Debug //////////
 ////////////////////////
@@ -65,16 +75,102 @@ end
 assign debug_led4 = led_counter[24];
 
 
+
+
+
+
+
+
+
+
 ////////////////////////
 /////// Clock //////////
 ////////////////////////
 wire sys_clk;
 clock clock_inst(
 
-   .i_xtal(CLK),
+   .i_xtal(XTAL),
    .o_sys_clk(sys_clk)
 	
  );
+
+
+
+
+
+
+
+
+
+
+//////////////////////////
+//////// Uart RX /////////
+//////////////////////////
+
+//// Define UART I/O for Rx
+// Our chip gives us reversed polarity (it is rs232 rather than ttl), hence we switch
+wire UART_RX_TTL = ~UART_RX;
+// Data from Rx
+wire[7:0] pc_data_rx;
+// Check if byte has been RX'd - will be high for 1 cycle after a successfuly Rx
+wire rx_complete;
+// Assign UART_RX Data to LED3 for Debug
+// assign debug_led3  = UART_RX;
+assign debug_ch2  = UART_RX_TTL;
+// Want to interface to 115200 baud UART
+// 50000000 / 115200 = 87 Clocks Per Bit.
+parameter c_CLKS_PER_BIT    = 87;
+uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
+
+   .i_Clock(CLOCK_50_B5B),
+   .i_Rx_Serial(UART_RX_TTL),
+   .o_Rx_DV(rx_complete),
+   .o_Rx_Byte(pc_data_rx)
+	
+ );
+	
+	
+	
+	
+	
+// //////////////////////////
+// //////// Uart TX /////////
+// //////////////////////////
+
+// // Tx buffer
+// wire[7:0] pc_data_tx;
+// // Pipe data back for loopback
+// assign pc_data_tx = pc_data_rx;
+// // Assign UART_TX Data to Arduino GPIO7 for Debug
+// assign GPIO[10]  = UART_TX;
+
+// // Command to send data back over Tx for loop
+// reg  start_tx  = 0;
+// wire tx_done;
+// // Pulse when we rx a byte
+// always @(posedge CLOCK_50_B5B) begin
+// 	if(rx_complete==1)
+// 		start_tx = 1;
+// 	else
+// 		start_tx = 0;
+// end
+// //assign GPIO[10] = tx_done;
+// assign GPIO[12] = start_tx;
+
+// uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
+
+// 	.i_Clock(CLOCK_50_B5B),   // Clock
+//    .i_Tx_DV(start_tx),       // Command to start TX of individual Byte
+//    .i_Tx_Byte(pc_data_tx),   // Byte of data to send
+//    .o_Tx_Active(tx_done),    // Flag for whether or not UART is active
+//    .o_Tx_Serial(UART_TX),    // Output line for UART
+//    .o_Tx_Done()              // Flag which is high for 1 cycle after Tx Complete
+	  
+//  );
+
+
+
+
 
 // // Define UART I/O for Rx
 // // Recv Data Byte
