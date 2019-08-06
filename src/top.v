@@ -5,6 +5,12 @@
 module top(
     input CLK, 
     input UART_RX,
+
+    output SEN,
+    output SCK,
+    output SOUT,
+    output SDAT,
+
 	output DEBUG_0,
 	output DEBUG_1,
 	output DEBUG_2,
@@ -17,33 +23,85 @@ assign DEBUG_0 = 1;
 assign DEBUG_1 = 0;//CLK;
 assign DEBUG_2 = 1;
 // assign DEBUG_3 = sysclk_unbuf;
-assign DEBUG_4 = sysclk;
+assign DEBUG_4 = sys_clk;
 
-wire sysclk_unbuf;
-wire sysclk;
 
-// Drive our system off a 50 MHz Clock
-// Note that due to PLL limitations, its actually 50.25HMz
-SB_PLL40_CORE #(.FEEDBACK_PATH("SIMPLE"),
-	   .PLLOUT_SELECT("GENCLK"),
-                .DIVR(4'b0001),
-                .DIVF(7'b1000010),
-                .DIVQ(3'b100),
-                .FILTER_RANGE(3'b001)
-) pll_config (
-                .REFERENCECLK(CLK),
-                .PLLOUTGLOBAL(sysclk_unbuf),
-                .LOCK(),
-                .RESETB(1'b1),
-                .BYPASS(1'b0)
-);
-
-// Buffer the output so it doesn't sag
-SB_GB clk_gb ( .USER_SIGNAL_TO_GLOBAL_BUFFER(sysclk_unbuf), .GLOBAL_BUFFER_OUTPUT(sysclk) );
 
 
 // Route the Uart Rx out of the chip
 assign DEBUG_3 = UART_RX;
+
+// Route the SPI
+assign SEN = counter[10];
+assign SCK = counter[11];
+assign SOUT = counter[12];
+assign SDAT = counter[13];
+
+// Counter 
+reg [31:0] counter = 32'b0;
+always @ (posedge sys_clk) begin
+    counter <= counter + 1;
+end
+
+
+////////////////////////
+/////// Clock //////////
+////////////////////////
+wire sys_clk;
+clock clock_inst(
+
+   .i_xtal(CLK),
+   .o_sys_clk(sys_clk)
+	
+ );
+
+// // Define UART I/O for Rx
+// // Recv Data Byte
+// wire[7:0] pc_data_rx_byte;
+// // Check if byte has been RX'd - will be high for 1 cycle after a successfuly Rx
+// wire rx_byte_recv_complete;
+// // Want to interface to 115200 baud UART with our 50 MHz clock
+// // 50000000 / 115200 = 435 Clocks Per Bit.
+// parameter c_CLKS_PER_BIT    = 435;
+// // Declare UART
+// uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
+
+//    .i_Clock(i_clock),
+//    .i_Rx_Serial(i_rx_serial),
+//    .o_Rx_DV(rx_byte_recv_complete),
+//    .o_Rx_Byte(pc_data_rx_byte)
+	
+//  );
+ 
+
+
+
+
+
+
+
+// ////////////////////////
+// ////// Uart RX /////////
+// ////////////////////////
+
+// // Define UART I/O for Rx
+// // Recv Data Byte
+// wire[7:0] pc_data_rx_byte;
+// // Check if byte has been RX'd - will be high for 1 cycle after a successfuly Rx
+// wire rx_byte_recv_complete;
+// // Want to interface to 115200 baud UART with our 50 MHz clock
+// // 50000000 / 115200 = 435 Clocks Per Bit.
+// parameter c_CLKS_PER_BIT    = 435;
+// // Declare UART
+// uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
+
+//    .i_Clock(i_clock),
+//    .i_Rx_Serial(i_rx_serial),
+//    .o_Rx_DV(rx_byte_recv_complete),
+//    .o_Rx_Byte(pc_data_rx_byte)
+	
+//  );
+ 
 
 //reg temp_debug2;
 //always @ (posedge sysclk) begin

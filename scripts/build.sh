@@ -15,6 +15,9 @@ export LD_LIBRARY_PATH=$ICE_ROOT/sbt_backend/bin/win32/opt/synpwrap:$LD_LIBRARY_
 export SYNPLIFY_PATH=$ICE_ROOT/synpbase
 export SBT_DIR=$ICE_ROOT/sbt_backend/
 
+# Clean existing files first - don't want to accidentally use them if our build fails
+./scripts/clean.sh
+
 # Run Synthesis Tool - in this case we use Synplify Pro as it is the default
 # See 'Holoblade_syn.prj' for synthesis options
 # Note that this file should not be changed manually as it will autooverwrite, should be edited from within iCEcube2 GUI

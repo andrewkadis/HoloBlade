@@ -21,3 +21,9 @@ set_io DEBUG_4 88
 # UART
 set_io UART_TX 79
 set_io UART_RX 80
+
+# SPI
+set_io SEN 91
+set_io SCK 95
+set_io SOUT 96
+set_io SDAT 94
