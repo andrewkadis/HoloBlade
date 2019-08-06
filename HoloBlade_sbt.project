@@ -32,7 +32,7 @@ Version=Lattice Semiconductor Corporation iCEcube - Release: 2017.08.27940 - Bui
 ProjectName=HoloBlade
 Vendor=SiliconBlue
 Synthesis=synplify
-ProjectVFiles=src/top.v=work,src/clock.v,src/uart_rx.v
+ProjectVFiles=src/top.v=work,src/clock.v,src/uart_rx.v,src/uart_tx.v
 ProjectCFiles=
 CurImplementation=HoloBlade_Implmnt
 Implementations=HoloBlade_Implmnt

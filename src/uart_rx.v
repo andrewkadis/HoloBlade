@@ -10,14 +10,15 @@
 // CLKS_PER_BIT = (Frequency of i_Clock)/(Frequency of UART)
 // Example: 10 MHz Clock, 115200 baud UART
 // (10000000)/(115200) = 87
-
   
-module uart_rx #(parameter CLKS_PER_BIT=87)(
+module uart_rx 
+  #(parameter CLKS_PER_BIT=87)
+  (
    input        i_Clock,
    input        i_Rx_Serial,
    output       o_Rx_DV,
    output [7:0] o_Rx_Byte
-);
+   );
     
   parameter s_IDLE         = 3'b000;
   parameter s_RX_START_BIT = 3'b001;
