@@ -1,0 +1,19 @@
+# ##############################################################################
+
+# iCEcube PCF
+
+# Version:            2017.08.27940
+
+# Family & Device:    iCE40HX4K
+
+# Package:            TQ144
+
+# ##############################################################################
+
+###IOSet List 4
+set_io CLK 93
+set_io DEBUG_0 83
+set_io DEBUG_1 84
+set_io DEBUG_2 85
+set_io DEBUG_3 87
+set_io DEBUG_4 88
