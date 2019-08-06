@@ -19,29 +19,50 @@ module top(
 );
 
 
-assign DEBUG_0 = 1;
-assign DEBUG_1 = 0;//CLK;
-assign DEBUG_2 = 1;
+// assign DEBUG_0 = 1;
+// assign DEBUG_1 = 0;//CLK;
+// assign DEBUG_2 = 1;
 // assign DEBUG_3 = sysclk_unbuf;
-assign DEBUG_4 = sys_clk;
+
 
 
 
 
 // Route the Uart Rx out of the chip
-assign DEBUG_3 = UART_RX;
+// assign DEBUG_3 = UART_RX;
 
 // Route the SPI
-assign SEN = counter[10];
-assign SCK = counter[11];
-assign SOUT = counter[12];
-assign SDAT = counter[13];
+// assign SEN = counter[10];
+// assign SCK = counter[11];
+// assign SOUT = counter[12];
+// assign SDAT = counter[13];
 
+////////////////////////
+/////// Debug //////////
+////////////////////////
+// GPIOs for Debug
+wire debug_ch1;
+wire debug_ch2;
+assign DEBUG_3 = debug_ch1; // Goes to S2
+assign DEBUG_4 = debug_ch2; // Goes to S1
+// GPIOs attached to LEDs
+wire debug_led2;
+wire debug_led3;
+wire debug_led4;
+assign DEBUG_0 = debug_led4;
+assign DEBUG_1 = debug_led3;
+assign DEBUG_2 = debug_led2;
+
+// Route out clock
+assign debug_ch1 = sys_clk;
+
+// LEDs - drive them with a counter
 // Counter 
-reg [31:0] counter = 32'b0;
+reg [31:0] led_counter = 32'b0;
 always @ (posedge sys_clk) begin
-    counter <= counter + 1;
+    led_counter <= led_counter + 1;
 end
+assign debug_led4 = led_counter[24];
 
 
 ////////////////////////

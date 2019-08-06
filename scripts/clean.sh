@@ -5,9 +5,9 @@
 rm -r ./HoloBlade_Implmnt/*
 
 # Get rid of logs at the top-level
-rm ./stdout.log
-rm ./stdout.log.bak
-rm ./synlog.tcl
+rm -f ./stdout.log
+rm -f ./stdout.log.bak
+rm -f ./synlog.tcl
 
 # Get rid of the generated binaries
 rm ./bin/*
