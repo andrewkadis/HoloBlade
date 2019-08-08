@@ -4,23 +4,65 @@
 
 module top(
 
-    // Crystal
-    input XTAL, 
+    // FPGA
+    input ICE_SYSCLK, 
 
     // FT2232H UART
-    input UART_RX,
+    output DCD,
+    output DSR,
+    output DTR,
+    output CTS,
+    output RST,
+    input  UART_RX,
     output UART_TX,
 
     // Bluejay SPI
     output SEN,
     output SCK,
-    output SOUT,
-    output SDAT,
+    input SOUT, // ie: MISO
+    output SDAT, // ie: MOSI
 
     // Bluejay Control
+    // Control Signals
+    output UPDATE,
     output RESET,
     output SLM_CLK,
-    output UPDATE,
+    output INVERT,
+    output SYNC,
+    output VALID,
+    // Data
+    output DATA31,
+    output DATA0,
+    output DATA30,
+    output DATA29,
+    output DATA1,
+    output DATA28,
+    output DATA27,
+    output DATA2,
+    output DATA26,
+    output DATA25,
+    output DATA3,
+    output DATA24,
+    output DATA23,
+    output DATA4,
+    output DATA22,
+    output DATA21,
+    output DATA5,
+    output DATA20,
+    output DATA19,
+    output DATA6,
+    output DATA18,
+    output DATA17,
+    output DATA7,
+    output DATA16,
+    output DATA15,
+    output DATA8 ,
+    output DATA14,
+    output DATA13,
+    output DATA12,
+    output DATA11,
+    output DATA9,
+    output DATA10,
 
     // FT601
     // Bank 1 Pins
@@ -75,15 +117,17 @@ module top(
     output DEBUG_2,
     output DEBUG_3,
     output DEBUG_4,
+    output DEBUG_5,
+    output DEBUG_6,
 
     // Programming Pins
     output ICE_CLK,
     output ICE_CDONE,
     output ICE_CREST,
-    output ICE_MISO,
-    output ICE_MOSI,
-    output ICE_SCK ,
-    output ICE_SS_B,
+    //output ICE_MISO,
+    //output ICE_MOSI,
+    //output ICE_SCK ,
+    //output ICE_SS_B,
 
     // Unused Pins
     output UNUSED_63,
@@ -131,6 +175,9 @@ wire debug_led4;
 assign DEBUG_0 = debug_led4;
 assign DEBUG_1 = debug_led3;
 assign DEBUG_2 = debug_led2;
+// Drive unused pins to High-Impedance Output
+assign DEBUG_5 = 1'bz;
+assign DEBUG_6 = 1'bz;
 
 // Route out clock
 assign debug_ch1 = sys_clk;
@@ -150,6 +197,8 @@ assign debug_led4 = led_counter[24];
 
 
 
+
+
 ////////////////////////
 ////// Bluejay /////////
 ////////////////////////
@@ -158,9 +207,44 @@ assign RESET = 1;
 // SLM Clock is simply the global buffered clock
 assign SLM_CLK = sys_clk;
 // Following lines are not used
-// These lines have pull up/downs on them, so simply tri-state
+// All of these input lines have pull up/downs on them, so simply tri-state
 assign UPDATE = 1'bZ;
-
+assign INVERT = 1'bz;
+assign SYNC   = 1'bz;
+assign VALID  = 1'bz;
+// Data Lines
+assign DATA31 = 1'bz;
+assign DATA0  = 1'bz;
+assign DATA30 = 1'bz;
+assign DATA29 = 1'bz;
+assign DATA1  = 1'bz;
+assign DATA28 = 1'bz;
+assign DATA27 = 1'bz;
+assign DATA2  = 1'bz;
+assign DATA26 = 1'bz;
+assign DATA25 = 1'bz;
+assign DATA3  = 1'bz;
+assign DATA24 = 1'bz;
+assign DATA23 = 1'bz;
+assign DATA4  = 1'bz;
+assign DATA22 = 1'bz;
+assign DATA21 = 1'bz;
+assign DATA5  = 1'bz;
+assign DATA20 = 1'bz;
+assign DATA19 = 1'bz;
+assign DATA6  = 1'bz;
+assign DATA18 = 1'bz;
+assign DATA17 = 1'bz;
+assign DATA7  = 1'bz;
+assign DATA16 = 1'bz;
+assign DATA15 = 1'bz;
+assign DATA8  = 1'bz;
+assign DATA14 = 1'bz;
+assign DATA13 = 1'bz;
+assign DATA12 = 1'bz;
+assign DATA11 = 1'bz;
+assign DATA9  = 1'bz;
+assign DATA10 = 1'bz;
 
 
 
@@ -174,7 +258,7 @@ assign UPDATE = 1'bZ;
 wire sys_clk;
 clock clock_inst(
 
-   .i_xtal(XTAL),
+   .i_xtal(ICE_SYSCLK),
    .o_sys_clk(sys_clk)
 	
  );
@@ -208,8 +292,19 @@ uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
    .o_Rx_DV(rx_complete),
    .o_Rx_Byte(pc_data_rx)
  );
+// Drive unused pins to High-Impedance Output
+assign DCD = 1'bz;
+assign DSR = 1'bz;
+assign DTR = 1'bz;
+assign CTS = 1'bz;
+assign RST = 1'bz;
 	
-	
+
+
+
+
+
+
 	
 	
 	
@@ -267,7 +362,7 @@ assign start_transfer = led_counter[24];
 //reg read_start   = 0;
 wire spi_busy;
 wire transaction_complete;
-wire[7:0] tx_addr_byte = 8'hF8; // Test the WHOAMI register
+wire[7:0] tx_addr_byte = 8'h89; // Test the WHOAMI register
 //reg[7:0] tx_addr_byte = 8'h00; // Test the Mode Register
 wire[7:0] tx_data_byte = 8'h00; // Data
 // RX Bytes
@@ -276,6 +371,9 @@ wire[7:0] rx_buf_byte;
 //assign LEDR[8]   = spi_busy;
 reg reset;
 
+// Temporary
+wire miso;
+assign miso = SOUT;
 
 spi spi0(
 	
@@ -290,8 +388,8 @@ spi spi0(
 	.o_transaction_complete(transaction_complete),
 
 	// SPI Outputs
-	.MOSI(SOUT),//LEDG[3]),//GPIO[6]),
-	.MISO(SDAT),//LEDG[7]),//GPIO[8]),
+	.MOSI(SDAT),//LEDG[3]),//GPIO[6]),
+	.MISO(),//LEDG[7]),//GPIO[8]),
 	.CS(SEN),//LEDG[1]),//GPIO[2]),
 	.SCLK(SCK),//LEDG[2]),//GPIO[4]),
 	
@@ -393,6 +491,7 @@ assign ICE_SS_B  = 1'bz;
 /////// Ununsed //////////
 //////////////////////////
 // Tristate the ununsed pins - probably not needed but just to be sure (belt and braces)
+// See support advice: http://www.latticesemi.com/en/Support/AnswerDatabase/4/6/2/4622
 assign UNUSED_63 = 1'bz;
 assign UNUSED_64 = 1'bz;
 

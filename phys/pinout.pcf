@@ -11,14 +11,25 @@
 # ##############################################################################
 
 ###IOSet List 4
-set_io XTAL 93
+
+# FPGA
+set_io ICE_SYSCLK 93
+
+# Debug
+set_io DEBUG_5 81
+set_io DEBUG_6 82
 set_io DEBUG_0 83
 set_io DEBUG_1 84
 set_io DEBUG_2 85
 set_io DEBUG_3 87
 set_io DEBUG_4 88
 
-# UART
+# FT2232H UART
+set_io DCD 73
+set_io DSR 74
+set_io DTR 75
+set_io CTS 76
+set_io RST 78
 set_io UART_TX 79
 set_io UART_RX 80
 
@@ -29,9 +40,46 @@ set_io SOUT 96
 set_io SDAT 94
 
 # Bluejay Control
+# Control Signals
 set_io UPDATE 1
-set_io SLM_CLK 141
 set_io RESET 90
+set_io SLM_CLK 141
+set_io INVERT 142
+set_io SYNC 143
+set_io VALID 144
+# Data
+set_io DATA31 97 
+set_io DATA0  98 
+set_io DATA30 99 
+set_io DATA29 101
+set_io DATA1  102
+set_io DATA28 104
+set_io DATA27 105
+set_io DATA2  106
+set_io DATA26 107
+set_io DATA25 110
+set_io DATA3  112
+set_io DATA24 113
+set_io DATA23 114
+set_io DATA4  115
+set_io DATA22 116
+set_io DATA21 117
+set_io DATA5  118
+set_io DATA20 119
+set_io DATA19 120
+set_io DATA6  121
+set_io DATA18 122
+set_io DATA17 124
+set_io DATA7  125
+set_io DATA16 128
+set_io DATA15 129
+set_io DATA8  130
+set_io DATA14 134
+set_io DATA13 135
+set_io DATA12 136
+set_io DATA11 137
+set_io DATA9  138
+set_io DATA10 139
 
 # FT601
 # Bank 3 Pins
@@ -84,13 +132,15 @@ set_io FIFO_D0  62
 set_io ICE_CLK 52
 set_io ICE_CDONE 65
 set_io ICE_CREST 66
-set_io ICE_MISO 67
-set_io ICE_MOSI 68
-set_io ICE_SCK  70
-set_io ICE_SS_B 71
+#set_io ICE_MISO 67
+#set_io ICE_MOSI 68
+#set_io ICE_SCK  70
+#set_io ICE_SS_B 71
 
 # Unused
-set_io UNUSED_63 63
-set_io UNUSED_64 64
+#set_io UNUSED_63 63
+#set_io UNUSED_64 64
+
+
 
 
