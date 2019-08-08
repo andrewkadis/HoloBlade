@@ -50,13 +50,44 @@ module top(
     output FIFO_D19,
     output FIFO_D18,
     output FIFO_D17,
+    output FIFO_D16,
+    // Bank 2 Pins
+    output FIFO_D15,
+    output FIFO_D14,
+    output FIFO_D13,
+    output FIFO_D12,
+    output FIFO_D11,
+    output FIFO_D10,
+    output FIFO_D9,
+    output FIFO_D8,
+    output FIFO_D7,
+    output FIFO_D6,
+    output FIFO_D5,
+    output FIFO_D4,
+    output FIFO_D3,
+    output FIFO_D2,
+    output FIFO_D1,
+    output FIFO_D0,
 
     // Debug
     output DEBUG_0,
     output DEBUG_1,
     output DEBUG_2,
     output DEBUG_3,
-    output DEBUG_4
+    output DEBUG_4,
+
+    // Programming Pins
+    output ICE_CLK,
+    output ICE_CDONE,
+    output ICE_CREST,
+    output ICE_MISO,
+    output ICE_MOSI,
+    output ICE_SCK ,
+    output ICE_SS_B,
+
+    // Unused Pins
+    output UNUSED_63,
+    output UNUSED_64
 
 );
 
@@ -311,6 +342,60 @@ assign FIFO_D20 = 1'bz;
 assign FIFO_D19 = 1'bz;
 assign FIFO_D18 = 1'bz;
 assign FIFO_D17 = 1'bz;
+assign FIFO_D16 = 1'bz;
+assign FIFO_D15 = 1'bz;
+assign FIFO_D14 = 1'bz;
+assign FIFO_D13 = 1'bz;
+assign FIFO_D12 = 1'bz;
+assign FIFO_D11 = 1'bz;
+assign FIFO_D10 = 1'bz;
+assign FIFO_D9  = 1'bz;
+assign FIFO_D8  = 1'bz;
+assign FIFO_D7  = 1'bz;
+assign FIFO_D6  = 1'bz;
+assign FIFO_D5  = 1'bz;
+assign FIFO_D4  = 1'bz;
+assign FIFO_D3  = 1'bz;
+assign FIFO_D2  = 1'bz;
+assign FIFO_D1  = 1'bz;
+assign FIFO_D0  = 1'bz;
+
+
+
+
+
+
+
+
+
+//////////////////////////
+//// Programmer Pins /////
+//////////////////////////
+// Tristate the programming pins - probably not needed but just to be sure (belt and braces)
+assign ICE_CLK   = 1'bz;
+assign ICE_CDONE = 1'bz;
+assign ICE_CREST = 1'bz;
+assign ICE_MISO  = 1'bz;
+assign ICE_MOSI  = 1'bz;
+assign ICE_SCK   = 1'bz;
+assign ICE_SS_B  = 1'bz;
+
+
+
+
+
+
+
+
+
+
+//////////////////////////
+/////// Ununsed //////////
+//////////////////////////
+// Tristate the ununsed pins - probably not needed but just to be sure (belt and braces)
+assign UNUSED_63 = 1'bz;
+assign UNUSED_64 = 1'bz;
+
 
 
 
