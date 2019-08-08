@@ -38,11 +38,7 @@ module top(
 // Route the Uart Rx out of the chip
 // assign DEBUG_3 = UART_RX;
 
-// Route the SPI
-// assign SEN = counter[10];
-// assign SCK = counter[11];
-// assign SOUT = counter[12];
-// assign SDAT = counter[13];
+
 
 
 
@@ -167,6 +163,64 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
    .o_Tx_Done()                 // Flag which is high for 1 cycle after Tx Complete
 	  
  );
+
+
+
+
+
+
+
+
+//////////////////////////
+////////// SPI ///////////
+//////////////////////////
+
+// SPI Interface signals
+wire spi_enable;
+wire start_transfer;
+// Temp for testing
+assign spi_enable = 1;
+assign start_transfer = led_counter[24];
+//reg spi_reset    = 0;
+//reg read_start   = 0;
+wire spi_busy;
+wire transaction_complete;
+wire[7:0] tx_addr_byte = 8'hF8; // Test the WHOAMI register
+//reg[7:0] tx_addr_byte = 8'h00; // Test the Mode Register
+wire[7:0] tx_data_byte = 8'h00; // Data
+// RX Bytes
+wire[7:0] rx_buf_byte;
+//assign LEDR[7:0] = rx_buf_byte;
+//assign LEDR[8]   = spi_busy;
+reg reset;
+
+
+spi spi0(
+	
+	// Control Signals
+	.i_clock(sys_clk),
+	.i_reset(reset_all),                       // The PC is able to reset the entire FPGA
+	.enable(spi_enable),
+	.start_transfer(start_transfer),
+	
+	// Status Flags
+	.busy(spi_busy),
+	.o_transaction_complete(transaction_complete),
+
+	// SPI Outputs
+	.MOSI(SOUT),//LEDG[3]),//GPIO[6]),
+	.MISO(SDAT),//LEDG[7]),//GPIO[8]),
+	.CS(SEN),//LEDG[1]),//GPIO[2]),
+	.SCLK(SCK),//LEDG[2]),//GPIO[4]),
+	
+	// Data Lines
+	.Tx_Upper_Byte(tx_addr_byte),
+	.Tx_Lower_Byte(tx_data_byte),
+	.Rx_Lower_Byte(rx_buf_byte)
+	
+);
+
+
 
 
 
