@@ -20,13 +20,44 @@ module top(
     // Bluejay Control
     output RESET,
     output SLM_CLK,
-    
+    output UPDATE,
+
+    // FT601
+    // Bank 1 Pins
+    output FT_OE,
+    output FT_RD,
+    output FT_WR,
+    output FT_SIWU,
+    output FR_RXF,
+    output FT_TXE,
+    output FIFO_BE3,
+    output FIFO_BE2,
+    output FIFO_BE1,
+    output FIFO_BE0,
+    output FIFO_D31,
+    output FIFO_D30,
+    output FIFO_D29,
+    output FIFO_D28,
+    output FIFO_D27,
+    output FIFO_CLK,
+    output FIFO_D26,
+    output FIFO_D25,
+    output FIFO_D24,
+    output FIFO_D23,
+    output FIFO_D22,
+    output FIFO_D21,
+    output FIFO_D20,
+    output FIFO_D19,
+    output FIFO_D18,
+    output FIFO_D17,
+
     // Debug
     output DEBUG_0,
     output DEBUG_1,
     output DEBUG_2,
     output DEBUG_3,
     output DEBUG_4
+
 );
 
 
@@ -95,6 +126,9 @@ assign debug_led4 = led_counter[24];
 assign RESET = 1;
 // SLM Clock is simply the global buffered clock
 assign SLM_CLK = sys_clk;
+// Following lines are not used
+// These lines have pull up/downs on them, so simply tri-state
+assign UPDATE = 1'bZ;
 
 
 
@@ -236,6 +270,47 @@ spi spi0(
 	.Rx_Lower_Byte(rx_buf_byte)
 	
 );
+
+
+
+
+
+
+
+
+
+
+//////////////////////////
+///////// USB3 ///////////
+//////////////////////////
+
+// Currently unused, tri-state all the lines
+assign FT_OE = 1'bz;
+assign FT_RD = 1'bz;
+assign FT_WR = 1'bz;
+assign FT_SIWU = 1'bz;
+assign FR_RXF = 1'bz;
+assign FT_TXE = 1'bz;
+assign FIFO_BE3 = 1'bz;
+assign FIFO_BE2 = 1'bz;
+assign FIFO_BE1 = 1'bz;
+assign FIFO_BE0 = 1'bz;
+assign FIFO_D31 = 1'bz;
+assign FIFO_D30 = 1'bz;
+assign FIFO_D29 = 1'bz;
+assign FIFO_D28 = 1'bz;
+assign FIFO_D27 = 1'bz;
+assign FIFO_CLK = 1'bz;
+assign FIFO_D26 = 1'bz;
+assign FIFO_D25 = 1'bz;
+assign FIFO_D24 = 1'bz;
+assign FIFO_D23 = 1'bz;
+assign FIFO_D22 = 1'bz;
+assign FIFO_D21 = 1'bz;
+assign FIFO_D20 = 1'bz;
+assign FIFO_D19 = 1'bz;
+assign FIFO_D18 = 1'bz;
+assign FIFO_D17 = 1'bz;
 
 
 

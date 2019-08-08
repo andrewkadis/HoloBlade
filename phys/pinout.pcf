@@ -29,5 +29,37 @@ set_io SOUT 96
 set_io SDAT 94
 
 # Bluejay Control
+set_io UPDATE 1
 set_io SLM_CLK 141
 set_io RESET 90
+
+# FT601
+
+# Bank 1 Pins
+set_io FT_OE 2
+set_io FT_RD 3
+set_io FT_WR 4
+set_io FT_SIWU 7
+set_io FR_RXF 8
+set_io FT_TXE 9
+set_io FIFO_BE3 10
+set_io FIFO_BE2 11
+set_io FIFO_BE1 12
+set_io FIFO_BE0 15
+set_io FIFO_D31 16
+set_io FIFO_D30 17
+set_io FIFO_D29 18
+set_io FIFO_D28 19
+set_io FIFO_D27 20
+set_io FIFO_CLK 21
+set_io FIFO_D26 22
+set_io FIFO_D25 23
+set_io FIFO_D24 24
+set_io FIFO_D23 25
+set_io FIFO_D22 26
+set_io FIFO_D21 28
+set_io FIFO_D20 29
+set_io FIFO_D19 31
+set_io FIFO_D18 32
+set_io FIFO_D17 33
+
