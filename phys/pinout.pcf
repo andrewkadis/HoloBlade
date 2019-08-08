@@ -27,3 +27,7 @@ set_io SEN 91
 set_io SCK 95
 set_io SOUT 96
 set_io SDAT 94
+
+# Bluejay Control
+set_io SLM_CLK 141
+set_io RESET 90

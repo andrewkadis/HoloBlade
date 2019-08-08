@@ -17,12 +17,16 @@ module top(
     output SOUT,
     output SDAT,
 
+    // Bluejay Control
+    output RESET,
+    output SLM_CLK,
+    
     // Debug
-	output DEBUG_0,
-	output DEBUG_1,
-	output DEBUG_2,
-	output DEBUG_3,
-	output DEBUG_4
+    output DEBUG_0,
+    output DEBUG_1,
+    output DEBUG_2,
+    output DEBUG_3,
+    output DEBUG_4
 );
 
 
@@ -78,6 +82,19 @@ end
 assign debug_led4 = led_counter[24];
 
 
+
+
+
+
+
+
+////////////////////////
+////// Bluejay /////////
+////////////////////////
+// Pull reset line high
+assign RESET = 1;
+// SLM Clock is simply the global buffered clock
+assign SLM_CLK = sys_clk;
 
 
 
