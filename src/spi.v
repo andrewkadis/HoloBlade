@@ -19,8 +19,7 @@
 // Check that a transfer is complete by polling the busy flag, after which the results can be read by reading Rx_Data_Byte
 
 module spi
-    #(   parameter WORD_WIDTH = 8)
-    (
+  #(parameter WORD_WIDTH=8)(
 
 	// Control Signals
 	input      i_clock,
@@ -96,7 +95,7 @@ end
 // Module to step 50MHz System Clock down to 1Hz Clock for SPI
 reg spi_clk;
 reg[4:0] spi_clk_counter;
-parameter spi_countdown = 5'd24; // Count down from 50/2
+parameter spi_countdown = 5'd50; // Count down from 50/2
 always @ (posedge i_clock)
 	if(spi_clk_counter==0) begin
 		// Clock has expired, reset and toggle

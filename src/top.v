@@ -19,7 +19,7 @@ module top(
     // Bluejay SPI
     output SEN,
     output SCK,
-    input SOUT, // ie: MISO
+    input  SOUT, // ie: MISO
     output SDAT, // ie: MOSI
 
     // Bluejay Control
@@ -272,6 +272,8 @@ clock clock_inst(
 
 
 
+
+
 //////////////////////////
 //////// Uart RX /////////
 //////////////////////////
@@ -353,16 +355,19 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 //////////////////////////
 
 // SPI Interface signals
-wire spi_enable;
-wire start_transfer;
-// Temp for testing
-assign spi_enable = 1;
-assign start_transfer = led_counter[24];
+wire spi_enable = 1;
+wire spi_start_transfer;
+// Commands
+// reg spi_enable_cmd;
+// reg spi_start_transfer_cmd;
+// assign spi_enable = spi_enable_cmd;
+// assign spi_start_transfer = spi_start_transfer_cmd;
+// spi_enable_cmd = 1;
 //reg spi_reset    = 0;
 //reg read_start   = 0;
 wire spi_busy;
 wire transaction_complete;
-wire[7:0] tx_addr_byte = 8'h89; // Test the WHOAMI register
+wire[7:0] tx_addr_byte = 8'hF8; // Test the WHOAMI register
 //reg[7:0] tx_addr_byte = 8'h00; // Test the Mode Register
 wire[7:0] tx_data_byte = 8'h00; // Data
 // RX Bytes
@@ -374,6 +379,7 @@ reg reset;
 // Temporary
 wire miso;
 assign miso = SOUT;
+// assign SDAT = led_counter[24];
 
 spi spi0(
 	
@@ -381,7 +387,7 @@ spi spi0(
 	.i_clock(sys_clk),
 	.i_reset(reset_all),                       // The PC is able to reset the entire FPGA
 	.enable(spi_enable),
-	.start_transfer(start_transfer),
+	.start_transfer(spi_start_transfer),
 	
 	// Status Flags
 	.busy(spi_busy),
@@ -496,6 +502,35 @@ assign UNUSED_63 = 1'bz;
 assign UNUSED_64 = 1'bz;
 
 
+
+
+
+
+
+
+
+
+
+////////////////////////
+/// Application Level //
+////////////////////////
+
+// Trigger SPI transactions from UART commands
+// reg send_spi_cmd_debug = 0;
+// always @ (posedge sys_clk) begin
+  // spi_start_transfer_cmd = led_counter[28];
+  // // If we get any data from the UART pump out a SPI command
+  // if(rx_complete) begin
+  //   // send_spi_cmd_debug = 1;
+  //   spi_start_transfer_cmd = 1;
+  // end else begin
+  //   // send_spi_cmd_debug = 0;
+  //   spi_start_transfer_cmd = 0;
+  // end
+// end
+// assign spi_start_transfer = led_counter[24];
+assign spi_start_transfer = rx_complete;
+// assign debug_led4 = send_spi_cmd_debug;
 
 
 
