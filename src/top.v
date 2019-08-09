@@ -200,10 +200,40 @@ assign debug_led4 = led_counter[24];
 
 
 ////////////////////////
+//////// FPGA //////////
+////////////////////////
+
+// Clock
+wire sys_clk;
+clock clock_inst(
+
+   .i_xtal(ICE_SYSCLK),
+   .o_sys_clk(sys_clk)
+	
+ );
+
+// Reset lines - all driven off a single signal
+wire reset_all_w;
+reg reset_all_r = 0;
+assign reset_all_w = reset_all_r;
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////
 ////// Bluejay /////////
 ////////////////////////
-// Pull reset line high
-assign RESET = 1;
+
+// Reset line is attached to reset_all, note active-low
+assign RESET = ~reset_all_w;
 // SLM Clock is simply the global buffered clock
 assign SLM_CLK = sys_clk;
 // Following lines are not used
@@ -246,22 +276,6 @@ assign DATA11 = 1'bz;
 assign DATA9  = 1'bz;
 assign DATA10 = 1'bz;
 
-
-
-
-
-
-
-////////////////////////
-/////// Clock //////////
-////////////////////////
-wire sys_clk;
-clock clock_inst(
-
-   .i_xtal(ICE_SYSCLK),
-   .o_sys_clk(sys_clk)
-	
- );
 
 
 
@@ -320,7 +334,7 @@ wire[7:0] pc_data_tx;
 // Pipe data back for loopback
 assign pc_data_tx = pc_data_rx;
 // Assign UART_RT Data to LED2 for Debug
-assign debug_led2  = UART_TX;
+// assign debug_led2  = UART_TX;
 // Command to send data back over Tx for loop
 reg  start_tx  = 0;
 wire tx_done;
@@ -356,7 +370,10 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 
 // SPI Interface signals
 wire spi_enable = 1;
-wire spi_start_transfer;
+// To start transfers, write to register
+reg spi_start_transfer_r = 0;
+wire spi_start_transfer_w;
+assign spi_start_transfer_w = spi_start_transfer_r;
 // Commands
 // reg spi_enable_cmd;
 // reg spi_start_transfer_cmd;
@@ -385,9 +402,9 @@ spi spi0(
 	
 	// Control Signals
 	.i_clock(sys_clk),
-	.i_reset(reset_all),                       // The PC is able to reset the entire FPGA
+	.i_reset(reset_all_w),                     // The PC is able to reset the entire FPGA
 	.enable(spi_enable),
-	.start_transfer(spi_start_transfer),
+	.start_transfer(spi_start_transfer_w),
 	
 	// Status Flags
 	.busy(spi_busy),
@@ -515,22 +532,36 @@ assign UNUSED_64 = 1'bz;
 /// Application Level //
 ////////////////////////
 
-// Trigger SPI transactions from UART commands
-// reg send_spi_cmd_debug = 0;
-// always @ (posedge sys_clk) begin
-  // spi_start_transfer_cmd = led_counter[28];
-  // // If we get any data from the UART pump out a SPI command
-  // if(rx_complete) begin
-  //   // send_spi_cmd_debug = 1;
-  //   spi_start_transfer_cmd = 1;
-  // end else begin
-  //   // send_spi_cmd_debug = 0;
-  //   spi_start_transfer_cmd = 0;
-  // end
-// end
+reg debug_check = 0;
+assign debug_led2 = debug_check;
+
+// Trigger actions from UART commands
+always @ (posedge sys_clk) begin
+
+    // Set all potential commands to 0 as default
+    spi_start_transfer_r = 0;
+    reset_all_r = 0;
+    debug_check = 0;
+
+  // If we get any data from the UART then do things
+   if(rx_complete) begin
+
+
+    if(pc_data_rx==8'h44) begin
+      // A 'D' means pump out Data over SPI
+      spi_start_transfer_r = 1;
+      debug_check = 1;
+    end else if (pc_data_rx==8'h52) begin
+      // A 'R' means reset the system
+      reset_all_r = 1;
+      debug_check = 1;
+    end
+
+  end
+end
 // assign spi_start_transfer = led_counter[24];
-assign spi_start_transfer = rx_complete;
-// assign debug_led4 = send_spi_cmd_debug;
+// assign spi_start_transfer = rx_complete;
+
 
 
 
