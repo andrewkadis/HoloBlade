@@ -20,11 +20,12 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>C:/Users/User/Documents/Dev/awesome-board-firmware/bin/top_bitmap.hex</File>
-			<FileTime>08/06/19 17:48:40</FileTime>
+			<FileTime>10/07/19 13:44:58</FileTime>
 			<Operation>Fast Program</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
 				<IOState>HighZ</IOState>
+				<SVFProcessor>SVF Processor</SVFProcessor>
 				<AccessMode>CRAM</AccessMode>
 			</Option>
 		</Device>
@@ -41,7 +42,7 @@
 	</ProjectOptions>
 	<CableOptions>
 		<CableName>USB2</CableName>
-		<PortAdd>FTUSB-0</PortAdd>
-		<USBID>CMMPE HDP Driver Board A Location 0000 Serial FT41QRCDA</USBID>
+		<PortAdd>FTUSB-1</PortAdd>
+		<USBID>USB --- Serial Converter A Location 0001 Serial FT4DSHWTA</USBID>
 	</CableOptions>
 </ispXCF>
