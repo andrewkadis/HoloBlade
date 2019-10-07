@@ -340,7 +340,7 @@ assign RST = 1'b0;
 // Tx buffer
 wire[7:0] pc_data_tx;
 // Pipe data back for loopback
-assign pc_data_tx = pc_data_rx;
+assign pc_data_tx = rx_buf_byte;//pc_data_rx;
 // Assign UART_RT Data to LED2 for Debug
 // assign debug_led2  = UART_TX;
 // Command to send data back over Tx for loop
@@ -348,7 +348,8 @@ reg  start_tx  = 0;
 wire tx_done;
 // Pulse when we rx a byte
 always @(posedge sys_clk) begin
-	if(rx_complete==1)
+	// if(rx_complete==1)
+  if(transaction_complete==1)
 		start_tx = 1;
 	else
 		start_tx = 0;
@@ -368,7 +369,7 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 // Debug
 assign debug_ch1 = UART_RX;
 assign debug_ch2 = UART_TX;
-assign debug_ch4 = spi_start_transfer_r;
+assign debug_ch4 = transaction_complete;
 
 
 
