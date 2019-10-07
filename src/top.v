@@ -172,8 +172,8 @@ wire debug_ch4;
 // Map to scope probes
 assign DEBUG_9 = debug_ch1; // Goes to TP9
 assign DEBUG_8 = debug_ch2; // Goes to TP8
-assign DEBUG_5 = debug_ch3; // Goes to S2
-assign DEBUG_6 = debug_ch4; // Goes to S1
+assign DEBUG_6 = debug_ch3; // Goes to S2
+assign DEBUG_3 = debug_ch4; // Goes to S1
 // GPIOs attached to LEDs
 wire debug_led2;
 wire debug_led3;
@@ -246,10 +246,10 @@ assign RESET = ~reset_all_w;
 assign SLM_CLK = sys_clk;
 // Following lines are not used
 // All of these input lines have pull up/downs on them, so simply tri-state
-assign UPDATE = 1'b0;
-assign INVERT = 1'b0;
-assign SYNC   = 1'b0;
-assign VALID  = 1'b0;
+assign UPDATE = 1'bx;
+assign INVERT = 1'bx;
+assign SYNC   = 1'bx;
+assign VALID  = 1'bx;
 // Data Lines
 assign DATA31 = 1'b1;
 assign DATA0  = 1'b1;
@@ -368,7 +368,7 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 // Debug
 assign debug_ch1 = UART_RX;
 assign debug_ch2 = UART_TX;
-
+assign debug_ch4 = spi_start_transfer_r;
 
 
 
@@ -404,15 +404,15 @@ assign tx_addr_byte = tx_addr_byte_r;
 assign tx_data_byte = tx_data_byte_r;
 // RX Bytes
 wire[7:0] rx_buf_byte;
-//assign LEDR[7:0] = rx_buf_byte;
+//assign LEDR[7:0] = rx_buf_byte;c
 //assign LEDR[8]   = spi_busy;
 reg reset;
 
 // Temporary to assign to DEBUG
 // assign debug_ch1 = SEN;
 // assign debug_ch2 = SCK;
-assign debug_ch3 = SDAT;
-assign debug_ch4 = SOUT;
+// assign debug_ch3 = SDAT;
+// assign debug_ch4 = debug_check;
 // wire miso;
 // assign miso = SOUT;
 // assign SDAT =  led_counter[10];
