@@ -116,22 +116,23 @@ module top(
     output DEBUG_1,
     output DEBUG_2,
     output DEBUG_3,
-    output DEBUG_4,
     output DEBUG_5,
     output DEBUG_6,
+    output DEBUG_8,
+    output DEBUG_9,
 
     // Programming Pins
     output ICE_CLK,
     output ICE_CDONE,
-    output ICE_CREST,
+    output ICE_CREST
     //output ICE_MISO,
     //output ICE_MOSI,
     //output ICE_SCK ,
     //output ICE_SS_B,
 
     // Unused Pins
-    output UNUSED_63,
-    output UNUSED_64
+    // output UNUSED_63,
+    // output UNUSED_64
 
 );
 
@@ -166,8 +167,13 @@ module top(
 // GPIOs for Debug
 wire debug_ch1;
 wire debug_ch2;
-assign DEBUG_3 = debug_ch1; // Goes to S2
-assign DEBUG_4 = debug_ch2; // Goes to S1
+wire debug_ch3;
+wire debug_ch4;
+// Map to scope probes
+assign DEBUG_9 = debug_ch1; // Goes to TP9
+assign DEBUG_8 = debug_ch2; // Goes to TP8
+assign DEBUG_5 = debug_ch3; // Goes to S2
+assign DEBUG_6 = debug_ch4; // Goes to S1
 // GPIOs attached to LEDs
 wire debug_led2;
 wire debug_led3;
@@ -176,11 +182,11 @@ assign DEBUG_0 = debug_led4;
 assign DEBUG_1 = debug_led3;
 assign DEBUG_2 = debug_led2;
 // Drive unused pins to High-Impedance Output
-assign DEBUG_5 = 1'bz;
-assign DEBUG_6 = 1'bz;
+// assign DEBUG_5 = 1'bz;
+// assign DEBUG_6 = 1'bz;
 
 // Route out clock
-assign debug_ch1 = sys_clk;
+// assign debug_ch1 = sys_clk;
 
 // LEDs - drive them with a counter
 // Counter 
@@ -216,6 +222,8 @@ clock clock_inst(
 wire reset_all_w;
 reg reset_all_r = 0;
 assign reset_all_w = reset_all_r;
+// TODO: Reset pulses low for 100ms
+
 
 
 
@@ -238,43 +246,43 @@ assign RESET = ~reset_all_w;
 assign SLM_CLK = sys_clk;
 // Following lines are not used
 // All of these input lines have pull up/downs on them, so simply tri-state
-assign UPDATE = 1'bZ;
-assign INVERT = 1'bz;
-assign SYNC   = 1'bz;
-assign VALID  = 1'bz;
+assign UPDATE = 1'b0;
+assign INVERT = 1'b0;
+assign SYNC   = 1'b0;
+assign VALID  = 1'b0;
 // Data Lines
-assign DATA31 = 1'bz;
-assign DATA0  = 1'bz;
-assign DATA30 = 1'bz;
-assign DATA29 = 1'bz;
-assign DATA1  = 1'bz;
-assign DATA28 = 1'bz;
-assign DATA27 = 1'bz;
-assign DATA2  = 1'bz;
-assign DATA26 = 1'bz;
-assign DATA25 = 1'bz;
-assign DATA3  = 1'bz;
-assign DATA24 = 1'bz;
-assign DATA23 = 1'bz;
-assign DATA4  = 1'bz;
-assign DATA22 = 1'bz;
-assign DATA21 = 1'bz;
-assign DATA5  = 1'bz;
-assign DATA20 = 1'bz;
-assign DATA19 = 1'bz;
-assign DATA6  = 1'bz;
-assign DATA18 = 1'bz;
-assign DATA17 = 1'bz;
-assign DATA7  = 1'bz;
-assign DATA16 = 1'bz;
-assign DATA15 = 1'bz;
-assign DATA8  = 1'bz;
-assign DATA14 = 1'bz;
-assign DATA13 = 1'bz;
-assign DATA12 = 1'bz;
-assign DATA11 = 1'bz;
-assign DATA9  = 1'bz;
-assign DATA10 = 1'bz;
+assign DATA31 = 1'b1;
+assign DATA0  = 1'b1;
+assign DATA30 = 1'b1;
+assign DATA29 = 1'b1;
+assign DATA1  = 1'b1;
+assign DATA28 = 1'b1;
+assign DATA27 = 1'b1;
+assign DATA2  = 1'b1;
+assign DATA26 = 1'b1;
+assign DATA25 = 1'b1;
+assign DATA3  = 1'b1;
+assign DATA24 = 1'b1;
+assign DATA23 = 1'b1;
+assign DATA4  = 1'b1;
+assign DATA22 = 1'b1;
+assign DATA21 = 1'b1;
+assign DATA5  = 1'b1;
+assign DATA20 = 1'b1;
+assign DATA19 = 1'b1;
+assign DATA6  = 1'b1;
+assign DATA18 = 1'b1;
+assign DATA17 = 1'b1;
+assign DATA7  = 1'b1;
+assign DATA16 = 1'b1;
+assign DATA15 = 1'b1;
+assign DATA8  = 1'b1;
+assign DATA14 = 1'b1;
+assign DATA13 = 1'b1;
+assign DATA12 = 1'b1;
+assign DATA11 = 1'b1;
+assign DATA9  = 1'b1;
+assign DATA10 = 1'b1;
 
 
 
@@ -298,7 +306,7 @@ wire[7:0] pc_data_rx;
 // Check if byte has been RX'd - will be high for 1 cycle after a successfuly Rx
 wire rx_complete;
 // Assign UART_RX Data to LED3 for Debug
-assign debug_led3  = UART_RX;
+assign debug_led3  = rx_complete;
 // Want to interface to 115200 baud UART
 // 50000000 / 115200 = 434 Clocks Per Bit.
 parameter c_CLKS_PER_BIT    = 434;
@@ -309,11 +317,11 @@ uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
    .o_Rx_Byte(pc_data_rx)
  );
 // Drive unused pins to High-Impedance Output
-assign DCD = 1'bz;
-assign DSR = 1'bz;
-assign DTR = 1'bz;
-assign CTS = 1'bz;
-assign RST = 1'bz;
+assign DCD = 1'b0;
+assign DSR = 1'b0;
+assign DTR = 1'b0;
+assign CTS = 1'b0;
+assign RST = 1'b0;
 	
 
 
@@ -357,7 +365,9 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 	  
  );
 
-
+// Debug
+assign debug_ch1 = UART_RX;
+assign debug_ch2 = UART_TX;
 
 
 
@@ -384,19 +394,30 @@ assign spi_start_transfer_w = spi_start_transfer_r;
 //reg read_start   = 0;
 wire spi_busy;
 wire transaction_complete;
-wire[7:0] tx_addr_byte = 8'hF8; // Test the WHOAMI register
-//reg[7:0] tx_addr_byte = 8'h00; // Test the Mode Register
-wire[7:0] tx_data_byte = 8'h00; // Data
+wire[7:0] tx_addr_byte; // Test the WHOAMI register
+//reg[7:0] tx_addr_byte = 8'hF8; // Test the Mode Register
+wire[7:0] tx_data_byte; // Data
+// For testing
+reg[7:0] tx_addr_byte_r = 8'h00;//8'h55;
+reg[7:0] tx_data_byte_r = 8'h00;//hAA;
+assign tx_addr_byte = tx_addr_byte_r;
+assign tx_data_byte = tx_data_byte_r;
 // RX Bytes
 wire[7:0] rx_buf_byte;
 //assign LEDR[7:0] = rx_buf_byte;
 //assign LEDR[8]   = spi_busy;
 reg reset;
 
-// Temporary
-wire miso;
-assign miso = SOUT;
-// assign SDAT = led_counter[24];
+// Temporary to assign to DEBUG
+// assign debug_ch1 = SEN;
+// assign debug_ch2 = SCK;
+assign debug_ch3 = SDAT;
+assign debug_ch4 = SOUT;
+// wire miso;
+// assign miso = SOUT;
+// assign SDAT =  led_counter[10];
+// assign SOUT = ~led_counter[10];
+
 
 spi spi0(
 	
@@ -412,7 +433,7 @@ spi spi0(
 
 	// SPI Outputs
 	.MOSI(SDAT),//LEDG[3]),//GPIO[6]),
-	.MISO(),//LEDG[7]),//GPIO[8]),
+	.MISO(SOUT),//LEDG[7]),//GPIO[8]),
 	.CS(SEN),//LEDG[1]),//GPIO[2]),
 	.SCLK(SCK),//LEDG[2]),//GPIO[4]),
 	
@@ -437,12 +458,12 @@ spi spi0(
 //////////////////////////
 
 // Currently unused, tri-state all the lines
-assign FT_OE = 1'bz;
-assign FT_RD = 1'bz;
-assign FT_WR = 1'bz;
-assign FT_SIWU = 1'bz;
-assign FR_RXF = 1'bz;
-assign FT_TXE = 1'bz;
+assign FT_OE    = 1'bz;
+assign FT_RD    = 1'bz;
+assign FT_WR    = 1'bz;
+assign FT_SIWU  = 1'bz;
+assign FR_RXF   = 1'bz;
+assign FT_TXE   = 1'bz;
 assign FIFO_BE3 = 1'bz;
 assign FIFO_BE2 = 1'bz;
 assign FIFO_BE1 = 1'bz;
@@ -542,24 +563,42 @@ always @ (posedge sys_clk) begin
     spi_start_transfer_r = 0;
     reset_all_r = 0;
     debug_check = 0;
+    // tx_addr_byte_r = tx_addr_byte_r;
+    // tx_data_byte_r = tx_data_byte_r;
+
+    // if(led_counter[24])
+    //   spi_start_transfer_r = 1;
 
   // If we get any data from the UART then do things
    if(rx_complete) begin
 
-
-    if(pc_data_rx==8'h44) begin
-      // A 'D' means pump out Data over SPI
+    if(pc_data_rx==8'h72) begin
+      // A 'r' means reset the system
+      reset_all_r = 1;
+      debug_check = 1;
+    end else if (pc_data_rx==8'h64) begin
+      // A 'd' means send a WHOAMI command over P
+      tx_addr_byte_r = 8'hF8;
+      tx_data_byte_r = 8'h00;
       spi_start_transfer_r = 1;
       debug_check = 1;
-    end else if (pc_data_rx==8'h52) begin
-      // A 'R' means reset the system
-      reset_all_r = 1;
+    end else if (pc_data_rx==8'h73) begin
+      // A 's' means set the clock frequency to 50MHz
+      tx_addr_byte_r = 8'h09;
+      tx_data_byte_r = 8'h32;
+      spi_start_transfer_r = 1;
+      debug_check = 1;
+    end else if (pc_data_rx==8'h61) begin
+      // A 'a' means read the clock frequency
+      tx_addr_byte_r = 8'h89;
+      tx_data_byte_r = 8'h00;
+      spi_start_transfer_r = 1;
       debug_check = 1;
     end
 
   end
 end
-// assign spi_start_transfer = led_counter[24];
+// assign spi_start_transfer_w = led_counter[24];
 // assign spi_start_transfer = rx_complete;
 
 
