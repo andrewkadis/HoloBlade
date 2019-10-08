@@ -219,17 +219,46 @@ clock clock_inst(
  );
 
 // Reset lines - all driven off a single signal
+wire reset_all_cmd_w;
+reg reset_all_cmd_r = 0;
+assign reset_all_cmd_w = reset_all_cmd_r;
+// TODO: Reset pulses low for 100ms
+/*******************************************************************
+************* Clock Divider from 50MHz to 1MHz *********************
+*******************************************************************/
+// Module to step 50MHz System Clock down to 1Hz Clock for SPI
+// reg spi_clk;
 wire reset_all_w;
 reg reset_all_r = 0;
+reg[3:0] reset_clk_counter = 4'd0;
+// We need to hold reset dow for at least tReset (100ns)
+// Hence if we pulse for 10 cycles at 50MHz, this is 200ns, plenty of headroom
+parameter reset_countdown = 4'd10;
+always @ (posedge sys_clk) begin
+  
+  // Default state is no reset
+  reset_all_r <= 0;
+
+	if(reset_all_cmd_w==1) begin
+		// Start reset countdown if command has been given
+		reset_clk_counter <= reset_countdown;
+    reset_all_r <= 1;
+	end else begin
+    // Counting down, pull reset high and decrement
+    if(reset_clk_counter>0) begin
+      // Decrement and hold reset high
+  	  reset_clk_counter <= reset_clk_counter - 1'b1;
+      reset_all_r <= 1;
+    end
+  end
+
+end
+// Route out the register pulse value from above to the reset wire
 assign reset_all_w = reset_all_r;
-// TODO: Reset pulses low for 100ms
 
-
-
-
-
-
-
+// Debug
+assign debug_ch4 = debug_check;
+// assign debug_ch4 = reset_all_w;
 
 
 
@@ -340,7 +369,7 @@ assign RST = 1'b0;
 // Tx buffer
 wire[7:0] pc_data_tx;
 // Pipe data back for loopback
-assign pc_data_tx = rx_buf_byte;//pc_data_rx;
+assign pc_data_tx = rx_buf_byte;//8'h55;//rx_buf_byte;//pc_data_rx;
 // Assign UART_RT Data to LED2 for Debug
 // assign debug_led2  = UART_TX;
 // Command to send data back over Tx for loop
@@ -369,7 +398,7 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 // Debug
 assign debug_ch1 = UART_RX;
 assign debug_ch2 = UART_TX;
-assign debug_ch4 = transaction_complete;
+
 
 
 
@@ -531,7 +560,6 @@ assign ICE_SS_B  = 1'bz;
 
 
 
-
 //////////////////////////
 /////// Ununsed //////////
 //////////////////////////
@@ -562,7 +590,7 @@ always @ (posedge sys_clk) begin
 
     // Set all potential commands to 0 as default
     spi_start_transfer_r = 0;
-    reset_all_r = 0;
+    reset_all_cmd_r = 0;
     debug_check = 0;
     // tx_addr_byte_r = tx_addr_byte_r;
     // tx_data_byte_r = tx_data_byte_r;
@@ -575,7 +603,7 @@ always @ (posedge sys_clk) begin
 
     if(pc_data_rx==8'h72) begin
       // A 'r' means reset the system
-      reset_all_r = 1;
+      reset_all_cmd_r = 1;
       debug_check = 1;
     end else if (pc_data_rx==8'h64) begin
       // A 'd' means send a WHOAMI command over P
