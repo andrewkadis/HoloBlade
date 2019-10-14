@@ -220,7 +220,7 @@ clock clock_inst(
 
 // Reset lines - all driven off a single signal
 wire reset_all_cmd_w;
-reg reset_all_cmd_r = 0;
+reg reset_all_cmd_r = 1;                     // Start with High on as we want to reset at startup
 assign reset_all_cmd_w = reset_all_cmd_r;
 // TODO: Reset pulses low for 100ms
 /*******************************************************************
@@ -230,7 +230,7 @@ assign reset_all_cmd_w = reset_all_cmd_r;
 // reg spi_clk;
 wire reset_all_w;
 reg reset_all_r = 0;
-reg[3:0] reset_clk_counter = 4'd0;
+reg[3:0] reset_clk_counter = reset_countdown; // Start at reset_countdown as we want to reset at startup
 // We need to hold reset dow for at least tReset (100ns)
 // Hence if we pulse for 10 cycles at 50MHz, this is 200ns, plenty of headroom
 parameter reset_countdown = 4'd10;
@@ -368,7 +368,7 @@ assign RST = 1'b0;
 // Define UART I/O for Tx
 // Tx buffer
 wire[7:0] pc_data_tx;
-reg[7:0]  pc_data_tx_r;  
+// reg[7:0]  pc_data_tx_r;  
 // Pipe data back for loopback
 // assign pc_data_tx = rx_buf_byte;//rx_buf_byte;//8'h55;//rx_buf_byte;//pc_data_rx;
 // Assign UART_RT Data to LED2 for Debug
@@ -380,40 +380,40 @@ reg delay_single_cycle = 0;
 reg delay_double_cycle = 0;
 // Command to send data back over Tx for loop
 reg  start_tx  = 0;
-wire tx_done;
+wire tx_uart_active_flag;
 // Pulse when we rx a byte
-always @(posedge sys_clk) begin
+// always @(posedge sys_clk) begin
 
   // Defaults
   // start_tx           = 0;
   // delay_single_cycle = 0;
   // pc_data_tx_r       = 0;
 
-  if(transaction_complete==1) begin
+  // if(start_tx==1) begin
     // SPI has finished, send to UART
-		delay_single_cycle = 1;
-    temporary_buf_r    = rx_buf_byte;
-  end else if(delay_single_cycle==1) begin
-    // We delayed by a single cycle before starting UART Tx
-    // start_tx = 1;
-    delay_single_cycle = 0;
-    delay_double_cycle = 1;
-    pc_data_tx_r = temporary_buf_r;
-  end else if(delay_double_cycle==1) begin
-    // We delayed by a double cycle before starting UART Tx
-    // pc_data_tx_r = temporary_buf_r;
-    // start_tx = 1;
-    delay_double_cycle = 0;
-	end
+		// delay_single_cycle = 1;
+    // temporary_buf_r    = rx_buf_byte;
+  // end else if(delay_single_cycle==1) begin
+  //   // We delayed by a single cycle before starting UART Tx
+  //   // start_tx = 1;
+  //   delay_single_cycle = 0;
+  //   delay_double_cycle = 1;
+  //   pc_data_tx_r = temporary_buf_r;
+  // end else if(delay_double_cycle==1) begin
+  //   // We delayed by a double cycle before starting UART Tx
+  //   // pc_data_tx_r = temporary_buf_r;
+  //   // start_tx = 1;
+  //   delay_double_cycle = 0;
+	// end
 
-end
+// end
 // Define Tx Instance
 uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 
    .i_Clock(sys_clk),           // Clock
    .i_Tx_DV(start_tx),          // Command to start TX of individual Byte
-   .i_Tx_Byte(pc_data_tx_r),    // Byte of data to send
-   .o_Tx_Active(tx_done),       // Flag for whether or not UART is active
+   .i_Tx_Byte(pc_data_tx),    // Byte of data to send
+   .o_Tx_Active(tx_uart_active_flag),       // Flag for whether or not UART is active
    .o_Tx_Serial(UART_TX),       // Output line for UART
    .o_Tx_Done()                 // Flag which is high for 1 cycle after Tx Complete
 	  
@@ -503,31 +503,47 @@ spi spi0(
 
 
 
-//////////////////////////
-/////// Tx FIFO //////////
-//////////////////////////
+/////////////////////////////////////////
+/////// SPI-Rx to Uart-Tx FIFO //////////
+/////////////////////////////////////////
 
 // FIFO to bridge SPI and UART
 
-// FIFO is 32-bit wide, but ony route only least-significant 8 bits
-wire[31:0] fifo_temp_output;
-assign pc_data_tx[7:0] = fifo_temp_output[7:0];
-// Read-side signals
-reg r_fifo_read_word_cmd = 0;
-wire is_fifo_empty_flag;
+// Write-side signals
+wire is_tx_fifo_full_flag;
+reg fifo_write_cmd = 0;
+// Logic to hanbdle writing data
 always @ (posedge sys_clk) begin
 
-  r_fifo_read_word_cmd = 0;
+  fifo_write_cmd = 0;
+
+  // Write a new word into the FIFO if a SPI transaction has just completed
+  // Only write if FIFO is not full
+  if( (transaction_complete==1) && (is_tx_fifo_full_flag==0) ) begin
+    fifo_write_cmd = 1;
+  end
+
+end
+// Read-side signals
+reg fifo_read_cmd = 0;
+wire is_fifo_empty_flag;
+// FIFO is 32-bit wide, but only route only least-significant 8 bits
+wire[31:0] fifo_temp_output;
+assign pc_data_tx[7:0] = fifo_temp_output[7:0];
+// Logic to handle reading data
+always @ (posedge sys_clk) begin
+
+  fifo_read_cmd = 0;
   start_tx            = 0;
   
   // Read a word out of the FIFO if data is present and the UART is inactive
-  if( (is_fifo_empty_flag==0) && (tx_done==0) ) begin
-    r_fifo_read_word_cmd = 1;
+  // Note FIFO is empty flag is high when no items in FIFO (confusing)
+  if( (is_fifo_empty_flag==0) && (tx_uart_active_flag==0) ) begin
+    fifo_read_cmd = 1;
     start_tx             = 1;
   end
 
 end
-
 // Instance
 FIFO_Quad_Word tx_fifo(
 
@@ -537,19 +553,19 @@ FIFO_Quad_Word tx_fifo(
 	
 	// Write Side
 	.wr_data_i(rx_buf_byte),           // Input Data
-	.wr_en_i(transaction_complete),    // Write Data Valid, set High for 1 cycle to write current data
-	.full_o(),                         // Full Flag
+	.wr_en_i(fifo_write_cmd),          // Write Data Valid, set High for 1 cycle to write current data
+	.full_o(is_tx_fifo_full_flag),     // Full Flag
 //	
 //	// Read Side
-	.rd_en_i(r_fifo_read_word_cmd),    // Read Data Valid, set High for 1 cycle to read into current data
+	.rd_en_i(fifo_read_cmd),         // Read Data Valid, set High for 1 cycle to read into current data
 	.rd_data_o(fifo_temp_output),      // Output Data
 	.empty_o(is_fifo_empty_flag)       // Empty Flag
 	
 );
+// assign debug_ch2 = fifo_write_cmd;
+assign debug_ch4 = reset_all_w;
 
-
-
-
+// assign debug_ch2 = UART_TX;
 
 
 //////////////////////////
