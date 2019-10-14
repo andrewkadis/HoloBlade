@@ -172,7 +172,7 @@ wire debug_ch4;
 // Map to scope probes
 assign DEBUG_9 = debug_ch1; // Goes to TP9
 assign DEBUG_8 = debug_ch2; // Goes to TP8
-assign DEBUG_6 = debug_ch3; // Goes to S2
+assign DEBUG_5 = debug_ch3; // Goes to p5
 assign DEBUG_3 = debug_ch4; // Goes to S1
 // GPIOs attached to LEDs
 wire debug_led2;
@@ -367,7 +367,7 @@ assign RST = 1'b0;
 
 // Define UART I/O for Tx
 // Tx buffer
-wire[7:0] pc_data_tx;
+// wire[7:0] pc_data_tx;
 // reg[7:0]  pc_data_tx_r;  
 // Pipe data back for loopback
 // assign pc_data_tx = rx_buf_byte;//rx_buf_byte;//8'h55;//rx_buf_byte;//pc_data_rx;
@@ -423,7 +423,11 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 assign debug_ch1 = UART_RX;
 // assign debug_ch2 = UART_TX;
 // assign debug_ch4 = start_tx;
-
+assign debug_ch2 = UART_TX;
+// assign debug_ch2 = spi_busy_falling_edge;
+// assign debug_ch4 = spi_busy;
+assign debug_ch3 = pc_data_tx[6];
+assign debug_ch4 = fifo_temp_output[6];
 
 
 
@@ -542,17 +546,25 @@ reg fifo_read_cmd = 0;
 wire is_fifo_empty_flag;
 // FIFO is 32-bit wide, but only route only least-significant 8 bits
 wire[31:0] fifo_temp_output;
+wire[7:0] pc_data_tx;
 assign pc_data_tx[7:0] = fifo_temp_output[7:0];
 // Logic to handle reading data
 always @ (posedge sys_clk) begin
 
-  fifo_read_cmd = 0;
-  start_tx      = 0;
   // Read a word out of the FIFO if data is present and the UART is inactive
   // Note FIFO is empty flag is high when no items in FIFO (confusing)
   if( (is_fifo_empty_flag==0) && (tx_uart_active_flag==0) ) begin
+    // pc_data_tx[7:0] = fifo_temp_output[7:0];
+    // First cycle, we read from the FIFO
     fifo_read_cmd = 1;
+  end else if(fifo_read_cmd==1) begin
+    // Start the Uart Tx next cycle, important to delay by 1 cycle
     start_tx      = 1;
+    fifo_read_cmd = 0;
+  end else begin
+    // Default
+    start_tx      = 0;
+    fifo_read_cmd = 0;
   end
 
 end
@@ -578,10 +590,8 @@ FIFO_Quad_Word tx_fifo(
 	
 );
 
-assign debug_ch2 = UART_TX;
-// assign debug_ch2 = spi_busy_falling_edge;
-// assign debug_ch4 = spi_busy;
-assign debug_ch4 = fifo_temp_output[6];
+
+
 
 
 
