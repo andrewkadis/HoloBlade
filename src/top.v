@@ -260,7 +260,21 @@ assign reset_all_w = reset_all_r;
 // assign debug_ch4 = debug_check;
 // assign debug_ch4 = reset_all_w;
 
+// Debug
+// assign debug_ch1 = UART_RX;
+// assign debug_ch2 = UART_TX;
+// assign debug_ch4 = start_tx;
+// assign debug_ch2 = spi_busy_falling_edge;
+// assign debug_ch4 = spi_busy;
 
+// assign debug_ch2 = UART_TX;
+// assign debug_ch3 = pc_data_tx[6];
+// assign debug_ch4 = fifo_temp_output[6];
+
+assign debug_ch1 = SEN;
+assign debug_ch2 = SDAT;
+// assign debug_ch3 = pc_data_tx[6];
+assign debug_ch4 = SCK;
 
 
 
@@ -419,21 +433,7 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 	  
  );
 
-// Debug
-assign debug_ch1 = UART_RX;
-// assign debug_ch2 = UART_TX;
-// assign debug_ch4 = start_tx;
-// assign debug_ch2 = spi_busy_falling_edge;
-// assign debug_ch4 = spi_busy;
 
-assign debug_ch2 = UART_TX;
-// assign debug_ch3 = pc_data_tx[6];
-// assign debug_ch4 = fifo_temp_output[6];
-
-// assign debug_ch1 = SEN;
-// assign debug_ch2 = SDAT;
-// // assign debug_ch3 = pc_data_tx[6];
-// assign debug_ch4 = SCK;
 
 
 
@@ -704,6 +704,21 @@ assign UNUSED_64 = 1'bz;
 reg debug_check = 0;
 assign debug_led2 = debug_check;
 
+// Check if odd or even byte
+reg even_byte_flag = 1;
+
+// We want to send data from UART to the SPI
+// This is implemented via a rising edge detector on rx_complete 
+reg uart_rx_complete_rising_edge;
+reg uart_rx_complete_prev = 0;
+always @(posedge sys_clk) begin
+	if( (uart_rx_complete_prev==0) && (rx_complete==1) )
+		uart_rx_complete_rising_edge = 1;
+	else
+		uart_rx_complete_rising_edge = 0;
+	uart_rx_complete_prev = rx_complete;
+end
+
 // Trigger actions from UART commands
 always @ (posedge sys_clk) begin
 
@@ -718,28 +733,42 @@ always @ (posedge sys_clk) begin
     //   spi_start_transfer_r = 1;
 
   // If we get any data from the UART then do things
-   if(rx_complete) begin
+   if(uart_rx_complete_rising_edge==1) begin
 
-    if(pc_data_rx==8'h72) begin
-      // A 'r' means reset the system
-      reset_all_cmd_r = 1;
-      debug_check = 1;
-    end else if (pc_data_rx==8'h64) begin
-      // A 'd' means send a WHOAMI command over P
-      tx_addr_byte_r = 8'hF8;
-      tx_data_byte_r = 8'h00;
-      spi_start_transfer_r = 1;
-      debug_check = 1;
-    end else if (pc_data_rx==8'h73) begin
-      // A 's' means set the clock frequency to 50MHz
-      tx_addr_byte_r = 8'h09;
-      tx_data_byte_r = 8'h32;
-      spi_start_transfer_r = 1;
-      debug_check = 1;
-    end else if (pc_data_rx==8'h61) begin
-      // A 'a' means read the clock frequency
-      tx_addr_byte_r = 8'h89;
-      tx_data_byte_r = 8'h00;
+    // // Explicit Commands
+    // if(pc_data_rx==8'h72) begin
+    //   // A 'r' means reset the system
+    //   reset_all_cmd_r = 1;
+    //   debug_check = 1;
+    // end else if (pc_data_rx==8'h64) begin
+    //   // A 'd' means send a WHOAMI command over P
+    //   tx_addr_byte_r = 8'hF8;
+    //   tx_data_byte_r = 8'h00;
+    //   spi_start_transfer_r = 1;
+    //   debug_check = 1;
+    // end else if (pc_data_rx==8'h73) begin
+    //   // A 's' means set the clock frequency to 50MHz
+    //   tx_addr_byte_r = 8'h09;
+    //   tx_data_byte_r = 8'h32;
+    //   spi_start_transfer_r = 1;
+    //   debug_check = 1;
+    // end else if (pc_data_rx==8'h61) begin
+    //   // A 'a' means read the clock frequency
+    //   tx_addr_byte_r = 8'h89;
+    //   tx_data_byte_r = 8'h00;
+    //   spi_start_transfer_r = 1;
+    //   debug_check = 1;
+    // end
+
+    // Pipe to SPI
+    // We send 2 at a time, addr then data, addr comes out first
+    // Hence we propogate new byte alongst chain
+    tx_addr_byte_r = tx_data_byte_r;  // Shift data to addr
+    tx_data_byte_r = pc_data_rx;      // New byte goes to data
+    even_byte_flag = even_byte_flag - 1; // Toggle for odd/even byte check
+    // Have to check if odd or even byte as only send on even
+    if(even_byte_flag==0) begin
+      // even_byte_flag = 1;
       spi_start_transfer_r = 1;
       debug_check = 1;
     end

@@ -20,7 +20,7 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>C:/Users/User/Documents/Dev/awesome-board-firmware/bin/top_bitmap.hex</File>
-			<FileTime>10/14/19 17:35:06</FileTime>
+			<FileTime>10/14/19 20:35:51</FileTime>
 			<Operation>Fast Program</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -42,7 +42,7 @@
 	</ProjectOptions>
 	<CableOptions>
 		<CableName>USB2</CableName>
-		<PortAdd>FTUSB-0</PortAdd>
+		<PortAdd>FTUSB-1</PortAdd>
 		<USBID>USB --- Serial Converter A Location 0001 Serial FT4DSHWTA</USBID>
 	</CableOptions>
 </ispXCF>
