@@ -94,8 +94,8 @@ end
 *******************************************************************/
 // Module to step 50MHz System Clock down to 1Hz Clock for SPI
 reg spi_clk;
-reg[4:0] spi_clk_counter;
-parameter spi_countdown = 5'd50; // Count down from 50/2
+reg[5:0] spi_clk_counter;
+parameter spi_countdown = 6'd100; // Count down from 50*2, ie: with a 50MHz clock we count down from 100MHz
 always @ (posedge i_clock)
 	if(spi_clk_counter==0) begin
 		// Clock has expired, reset and toggle
@@ -119,14 +119,14 @@ always @ (posedge i_clock)
 // State Machine to manage sending/receiving data
 localparam [2:0] // for 4 states : size_state = 1:0
 	// Idle/Reset State
-   IDLE = 0,
+	IDLE = 0,
 	// States to Load/Unload Shift Registers
 	LOAD            = 1,
 	UNLOAD_LAST_BIT = 2,
 	UNLOAD_DATA     = 3,
 	// States for Transferring Bytes, Have a Shift Register of 2 Bytes to 16 bit transfer
-   UPPER_BYTE_TRANSFER = 4,
-   LOWER_BYTE_TRANSFER = 5;
+	UPPER_BYTE_TRANSFER = 4,
+	LOWER_BYTE_TRANSFER = 5;
    
 // Register Variable
 reg[2:0] state_reg  = IDLE;
@@ -279,10 +279,10 @@ always @(negedge spi_clk) begin
 	// Base shift register behaviour on what state we are in
     case (state_reg)
 		// Loading Bytes prior to Transfer
-      LOAD                 : begin tx_shift_reg <= {Tx_Upper_Byte, Tx_Lower_Byte};		       end
+    	LOAD                 : begin tx_shift_reg <= {Tx_Upper_Byte, Tx_Lower_Byte};		       end
 		// Whilst transferring Bytes
-      UPPER_BYTE_TRANSFER  : begin tx_shift_reg <= {tx_shift_reg[SHIFT_REG_WIDTH-2:0], 1'b0}; end
-      LOWER_BYTE_TRANSFER  : begin tx_shift_reg <= {tx_shift_reg[SHIFT_REG_WIDTH-2:0], 1'b0}; end
+    	UPPER_BYTE_TRANSFER  : begin tx_shift_reg <= {tx_shift_reg[SHIFT_REG_WIDTH-2:0], 1'b0}; end
+    	LOWER_BYTE_TRANSFER  : begin tx_shift_reg <= {tx_shift_reg[SHIFT_REG_WIDTH-2:0], 1'b0}; end
 		// Need to clock out the last bit at the end
 		UNLOAD_LAST_BIT      : begin tx_shift_reg <= {tx_shift_reg[SHIFT_REG_WIDTH-2:0], 1'b0}; end
     endcase
@@ -303,11 +303,11 @@ always @(posedge spi_clk) begin
 	// Base shift register behaviour on what state we are in
     case (state_reg)
 		// Whilst transferring Bytes
-      UPPER_BYTE_TRANSFER  : begin rx_shift_reg <= {rx_shift_reg[SHIFT_REG_WIDTH-2:0], MISO};               end
-      LOWER_BYTE_TRANSFER  : begin rx_shift_reg <= {rx_shift_reg[SHIFT_REG_WIDTH-2:0], MISO};               end
+    	UPPER_BYTE_TRANSFER  : begin rx_shift_reg <= {rx_shift_reg[SHIFT_REG_WIDTH-2:0], MISO};               end
+    	LOWER_BYTE_TRANSFER  : begin rx_shift_reg <= {rx_shift_reg[SHIFT_REG_WIDTH-2:0], MISO};               end
 		// Unloading at the end of a transfer
 		UNLOAD_LAST_BIT      : begin rx_shift_reg <= {rx_shift_reg[SHIFT_REG_WIDTH-2:0], MISO};               end	
-		UNLOAD_DATA          : begin Rx_Upper_Byte <= rx_shift_reg[15:8]; Rx_Lower_Byte <= rx_shift_reg[7:0]; end
+		UNLOAD_DATA          : begin Rx_Upper_Byte <= rx_shift_reg[15:8]; Rx_Lower_Byte <= rx_shift_reg[8:1]; end // TODO: There is a bug here, should be shifting [7:0] rather than [8:1] - modded this as a quick hack but need to get to bottom of
     endcase
 	
 end

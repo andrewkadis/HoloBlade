@@ -423,13 +423,17 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 assign debug_ch1 = UART_RX;
 // assign debug_ch2 = UART_TX;
 // assign debug_ch4 = start_tx;
-assign debug_ch2 = UART_TX;
 // assign debug_ch2 = spi_busy_falling_edge;
 // assign debug_ch4 = spi_busy;
-assign debug_ch3 = pc_data_tx[6];
-assign debug_ch4 = fifo_temp_output[6];
 
+assign debug_ch2 = UART_TX;
+// assign debug_ch3 = pc_data_tx[6];
+// assign debug_ch4 = fifo_temp_output[6];
 
+// assign debug_ch1 = SEN;
+// assign debug_ch2 = SDAT;
+// // assign debug_ch3 = pc_data_tx[6];
+// assign debug_ch4 = SCK;
 
 
 
