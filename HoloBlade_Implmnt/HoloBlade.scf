@@ -1,0 +1,1 @@
+ create_clock -period 1000.000 -waveform {0.000 500.000} -name {top|\spi0/spi_clk} [ get_nets \spi0/spi_clk ]
