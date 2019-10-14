@@ -20,7 +20,7 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>C:/Users/User/Documents/Dev/awesome-board-firmware/bin/top_bitmap.hex</File>
-			<FileTime>10/07/19 17:17:54</FileTime>
+			<FileTime>10/08/19 14:47:07</FileTime>
 			<Operation>Fast Program</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>

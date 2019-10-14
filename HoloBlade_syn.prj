@@ -7,6 +7,7 @@ add_file -verilog -lib work "src/clock.v"
 add_file -verilog -lib work "src/uart_rx.v" 
 add_file -verilog -lib work "src/uart_tx.v" 
 add_file -verilog -lib work "src/spi.v" 
+add_file -verilog -lib work "src/FIFO_Quad_Word_mod.v" 
 #implementation: "HoloBlade_Implmnt"
 impl -add HoloBlade_Implmnt -type fpga
 

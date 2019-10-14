@@ -257,7 +257,7 @@ end
 assign reset_all_w = reset_all_r;
 
 // Debug
-assign debug_ch4 = debug_check;
+// assign debug_ch4 = debug_check;
 // assign debug_ch4 = reset_all_w;
 
 
@@ -368,27 +368,51 @@ assign RST = 1'b0;
 // Define UART I/O for Tx
 // Tx buffer
 wire[7:0] pc_data_tx;
+reg[7:0]  pc_data_tx_r;  
 // Pipe data back for loopback
-assign pc_data_tx = rx_buf_byte;//8'h55;//rx_buf_byte;//pc_data_rx;
+// assign pc_data_tx = rx_buf_byte;//rx_buf_byte;//8'h55;//rx_buf_byte;//pc_data_rx;
 // Assign UART_RT Data to LED2 for Debug
 // assign debug_led2  = UART_TX;
+reg[7:0]  temporary_buf_r;
+// temporary_buf_r = 8'h0;
+// Delay command to delay one cycle
+reg delay_single_cycle = 0;
+reg delay_double_cycle = 0;
 // Command to send data back over Tx for loop
 reg  start_tx  = 0;
 wire tx_done;
 // Pulse when we rx a byte
 always @(posedge sys_clk) begin
-	// if(rx_complete==1)
-  if(transaction_complete==1)
-		start_tx = 1;
-	else
-		start_tx = 0;
+
+  // Defaults
+  // start_tx           = 0;
+  // delay_single_cycle = 0;
+  // pc_data_tx_r       = 0;
+
+  if(transaction_complete==1) begin
+    // SPI has finished, send to UART
+		delay_single_cycle = 1;
+    temporary_buf_r    = rx_buf_byte;
+  end else if(delay_single_cycle==1) begin
+    // We delayed by a single cycle before starting UART Tx
+    // start_tx = 1;
+    delay_single_cycle = 0;
+    delay_double_cycle = 1;
+    pc_data_tx_r = temporary_buf_r;
+  end else if(delay_double_cycle==1) begin
+    // We delayed by a double cycle before starting UART Tx
+    // pc_data_tx_r = temporary_buf_r;
+    // start_tx = 1;
+    delay_double_cycle = 0;
+	end
+
 end
 // Define Tx Instance
 uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 
    .i_Clock(sys_clk),           // Clock
    .i_Tx_DV(start_tx),          // Command to start TX of individual Byte
-   .i_Tx_Byte(pc_data_tx),      // Byte of data to send
+   .i_Tx_Byte(pc_data_tx_r),    // Byte of data to send
    .o_Tx_Active(tx_done),       // Flag for whether or not UART is active
    .o_Tx_Serial(UART_TX),       // Output line for UART
    .o_Tx_Done()                 // Flag which is high for 1 cycle after Tx Complete
@@ -398,6 +422,7 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 // Debug
 assign debug_ch1 = UART_RX;
 assign debug_ch2 = UART_TX;
+// assign debug_ch4 = start_tx;
 
 
 
@@ -438,6 +463,7 @@ wire[7:0] rx_buf_byte;
 //assign LEDR[8]   = spi_busy;
 reg reset;
 
+
 // Temporary to assign to DEBUG
 // assign debug_ch1 = SEN;
 // assign debug_ch2 = SCK;
@@ -477,6 +503,49 @@ spi spi0(
 
 
 
+//////////////////////////
+/////// Tx FIFO //////////
+//////////////////////////
+
+// FIFO to bridge SPI and UART
+
+// FIFO is 32-bit wide, but ony route only least-significant 8 bits
+wire[31:0] fifo_temp_output;
+assign pc_data_tx[7:0] = fifo_temp_output[7:0];
+// Read-side signals
+reg r_fifo_read_word_cmd = 0;
+wire is_fifo_empty_flag;
+always @ (posedge sys_clk) begin
+
+  r_fifo_read_word_cmd = 0;
+  start_tx            = 0;
+  
+  // Read a word out of the FIFO if data is present and the UART is inactive
+  if( (is_fifo_empty_flag==0) && (tx_done==0) ) begin
+    r_fifo_read_word_cmd = 1;
+    start_tx             = 1;
+  end
+
+end
+
+// Instance
+FIFO_Quad_Word tx_fifo(
+
+	// Control Signals
+	.clk_i(sys_clk),
+	.rst_i(reset_all_w),               // Reset FIFO
+	
+	// Write Side
+	.wr_data_i(rx_buf_byte),           // Input Data
+	.wr_en_i(transaction_complete),    // Write Data Valid, set High for 1 cycle to write current data
+	.full_o(),                         // Full Flag
+//	
+//	// Read Side
+	.rd_en_i(r_fifo_read_word_cmd),    // Read Data Valid, set High for 1 cycle to read into current data
+	.rd_data_o(fifo_temp_output),      // Output Data
+	.empty_o(is_fifo_empty_flag)       // Empty Flag
+	
+);
 
 
 
