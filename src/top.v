@@ -273,7 +273,7 @@ assign reset_all_w = reset_all_r;
 
 assign debug_ch1 = SEN;
 assign debug_ch2 = SDAT;
-// assign debug_ch3 = pc_data_tx[6];
+// assign debug_ch3 = SOUT;
 assign debug_ch4 = SCK;
 
 
