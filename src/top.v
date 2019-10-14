@@ -421,7 +421,7 @@ uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 
 // Debug
 assign debug_ch1 = UART_RX;
-assign debug_ch2 = UART_TX;
+// assign debug_ch2 = UART_TX;
 // assign debug_ch4 = start_tx;
 
 
@@ -485,7 +485,7 @@ spi spi0(
 	
 	// Status Flags
 	.busy(spi_busy),
-	.o_transaction_complete(transaction_complete),
+	.o_transaction_complete(), // DODGY, DO NOT USE, NEEDS A RETHINK IN SPI
 
 	// SPI Outputs
 	.MOSI(SDAT),//LEDG[3]),//GPIO[6]),
@@ -512,18 +512,31 @@ spi spi0(
 // Write-side signals
 wire is_tx_fifo_full_flag;
 reg fifo_write_cmd = 0;
-// Logic to hanbdle writing data
+// We want to put data in the FIFO when we go from an active-to-inactive edge
+// This is implemented via a falling edge detector
+reg spi_busy_falling_edge;
+reg spi_busy_prev = 0;
+always @(posedge sys_clk) begin
+	if( (spi_busy_prev==1) && (spi_busy==0) )
+		spi_busy_falling_edge = 1;
+	else
+		spi_busy_falling_edge = 0;
+	spi_busy_prev = spi_busy;
+end
+// Logic to handle writing data
 always @ (posedge sys_clk) begin
 
   fifo_write_cmd = 0;
-
   // Write a new word into the FIFO if a SPI transaction has just completed
   // Only write if FIFO is not full
-  if( (transaction_complete==1) && (is_tx_fifo_full_flag==0) ) begin
+  if( (spi_busy_falling_edge==1) && (is_tx_fifo_full_flag==0) ) begin
     fifo_write_cmd = 1;
   end
 
 end
+
+
+
 // Read-side signals
 reg fifo_read_cmd = 0;
 wire is_fifo_empty_flag;
@@ -534,16 +547,18 @@ assign pc_data_tx[7:0] = fifo_temp_output[7:0];
 always @ (posedge sys_clk) begin
 
   fifo_read_cmd = 0;
-  start_tx            = 0;
-  
+  start_tx      = 0;
   // Read a word out of the FIFO if data is present and the UART is inactive
   // Note FIFO is empty flag is high when no items in FIFO (confusing)
   if( (is_fifo_empty_flag==0) && (tx_uart_active_flag==0) ) begin
     fifo_read_cmd = 1;
-    start_tx             = 1;
+    start_tx      = 1;
   end
 
 end
+
+
+
 // Instance
 FIFO_Quad_Word tx_fifo(
 
@@ -557,15 +572,20 @@ FIFO_Quad_Word tx_fifo(
 	.full_o(is_tx_fifo_full_flag),     // Full Flag
 //	
 //	// Read Side
-	.rd_en_i(fifo_read_cmd),         // Read Data Valid, set High for 1 cycle to read into current data
+	.rd_en_i(fifo_read_cmd),           // Read Data Valid, set High for 1 cycle to read into current data
 	.rd_data_o(fifo_temp_output),      // Output Data
 	.empty_o(is_fifo_empty_flag)       // Empty Flag
 	
 );
-// assign debug_ch2 = fifo_write_cmd;
-assign debug_ch4 = reset_all_w;
 
-// assign debug_ch2 = UART_TX;
+assign debug_ch2 = UART_TX;
+// assign debug_ch2 = spi_busy_falling_edge;
+// assign debug_ch4 = spi_busy;
+assign debug_ch4 = fifo_temp_output[6];
+
+
+
+
 
 
 //////////////////////////
