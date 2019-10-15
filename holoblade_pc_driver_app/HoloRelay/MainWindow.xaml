@@ -32,6 +32,17 @@
                         <Button x:Name="send_raw_data1" Content="Raw Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_raw_data_Click" Margin="10,5"/>
                     </StackPanel>
                 </Border>
+                <Border x:Name="SPIBridgeBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
+                    <StackPanel x:Name="UARTDebugStackPanel1" HorizontalAlignment="Left" Margin="5">
+                        <Label x:Name="UARTDebugLabel1" Content="SPI Bridge" FontWeight="Bold"/>
+                        <Button x:Name="Startup" Content="Startup" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Click="SPI_startup" Margin="10,5"/>
+                        <Button x:Name="LoadImageData" Content="Load Image Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_load_image_data" Margin="10,5"/>
+                        <Button x:Name="UpdateDisplayLoop" Content="Update Display Loop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_update_display_loop" Margin="10,5"/>
+                        <Button x:Name="SPIBridgeTBD4" Content="SPIBridgeTBD4" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_1_Click" Margin="10,5"/>
+                        <Button x:Name="SPIBridgeTBD5" Content="SPIBridgeTBD5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_2_Click" Margin="10,5"/>
+                        <Button x:Name="DisplaySequence" Content="Display Sequence" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_display_sequence" Margin="10,5"/>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </TabItem>
         <TabItem x:Name="___TabItem___TBD_" Header="TBD" Content=""/>
