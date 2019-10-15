@@ -85,6 +85,14 @@ namespace HoloRelay
 
         }
 
+        // Helper function to handle turbo tx data, doesn't return what was sent and no wait. Good for image data.
+        public void Send_serial_data_turbo(byte[] tx_buf, SerialPort serial_port)
+        {
+            // Send over Serial Port
+            Int32 offset = 0;
+            serial_port.Write(tx_buf, offset, tx_buf.Length);
+        }
+
         // Helper function to send an entire test sequence, printing what was tx + rx
         public void Send_test_sequence(byte[] tx_buf)
         {
@@ -104,22 +112,22 @@ namespace HoloRelay
         }
 
         // Helper function to send an entire test sequence fast (no RX, no open/close of serial)
-        public void Send_test_sequence_fast(byte[] tx_buf, SerialPort fpga_com_port)
-        {
+        //public void Send_test_sequence_fast(byte[] tx_buf, SerialPort fpga_com_port)
+        //{
             // Open Serial Port
             //SerialPort fpga_com_port = setup_serial_port();
             // Send Data
-            string tx_string = Send_serial_data(tx_buf, fpga_com_port);
+            //Send_serial_data_turbo(tx_buf, fpga_com_port);
             // Rx Reply
             //string rx_string = Read_serial_data(fpga_com_port);
             // Print
-            Debug.WriteLine("Write: 0x" + tx_string);
+            //Debug.WriteLine("Write: 0x" + tx_string);
             //Debug.WriteLine("Read:  0x" + rx_string);
             //Debug.WriteLine("Data Equal: " + tx_string.Equals(rx_string));
             // Close Serial Port
             //close_serial_port(fpga_com_port);
 
-        }
+        //}
 
     }
 }
