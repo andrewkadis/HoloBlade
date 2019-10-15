@@ -683,12 +683,20 @@ namespace HoloRelay
 
         }
 
-        private void SPI_update_display_loop(object sender, RoutedEventArgs e)
+        private void SPI_continuous_update(object sender, RoutedEventArgs e)
         {
 
             // Run Display Loop - just runs forever at the moment
             SLMImageLoader slm_image_loader = new SLMImageLoader();
-            slm_image_loader.UpdateDisplay();
+            slm_image_loader.UpdateDisplayContinuous();
+
+        }
+        
+        private void SPI_single_update(object sender, RoutedEventArgs e)
+        {
+            // Just Run Display Loop once so it displays Image which was sent
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.UpdateDisplaySingle();
 
         }
 
@@ -698,8 +706,9 @@ namespace HoloRelay
             SLMImageLoader slm_image_loader = new SLMImageLoader();
             slm_image_loader.InitSLM();
             slm_image_loader.LoadImage();
-            slm_image_loader.UpdateDisplay();
+            slm_image_loader.UpdateDisplayContinuous();
 
         }
+
     }
 }

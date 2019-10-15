@@ -60,15 +60,17 @@ namespace HoloRelay
         }
 
         // Function to force the SLM to update forever
-        public void UpdateDisplay()
+        public void UpdateDisplayContinuous()
         {
 
             // Time between Updates
             // 0.5 Hz Update
-            int time_between_frames_msec = 2000;
+            int time_between_frames_msec = 10;
+            // Use turbo mode for fast updates, so need to create beforehand (can only update every 150msec or so if we don't do this)
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
 
             // Inifite Loop atm for testing
-            while(true)
+            while (true)
             {
 
                 // Display Buffer A
@@ -77,7 +79,7 @@ namespace HoloRelay
                 // For above:
                 //   - DestBuf = B, SrcBuf = A
                 //   - SerialCom = PanelUpdate
-                m_serial_comms.Send_test_sequence(m_send_me);
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
                 System.Threading.Thread.Sleep(time_between_frames_msec);
 
                 // Status
@@ -92,7 +94,7 @@ namespace HoloRelay
                 // For above:
                 //   - DestBuf = A, SrcBuf = B
                 //   - SerialCom = PanelUpdate
-                m_serial_comms.Send_test_sequence(m_send_me);
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
                 System.Threading.Thread.Sleep(time_between_frames_msec);
 
                 // Status
@@ -105,7 +107,21 @@ namespace HoloRelay
 
         }
 
+        // Only update the SLM once so we can see the image we just loaded
+        // Works, but we get artifacts when switching, better to run fast
+        public void UpdateDisplaySingle()
+        {
 
+            // Display Buffer A
+            m_send_me[0] = 0x08;
+            m_send_me[1] = 0x20;
+            // For above:
+            //   - DestBuf = B, SrcBuf = A
+            //   - SerialCom = PanelUpdate
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
 
         public void LoadImage()
         {
@@ -200,10 +216,17 @@ namespace HoloRelay
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
 
             // Load Specific Test Image Patterns
+            this.loadBlankImage();
             //this.loadFullImage();
             //this.loadHorizontalLinesTestImage();
+            //this.loadVerticalLinesTestImage();
             //this.loadHalvesTestImage();
-            this.loadCheckboardTestImage();
+            //this.loadCheckboardTestImage();
+            //this.loadHorizontalGratingTestImage();
+            //this.loadVerticalGratingTestImage();
+            //this.loadSingleHorizontalLineTestImage();
+            //this.loadSmileyFacesTestImage(); // DOESNT WORK YET!!!
+
 
 
 
@@ -387,6 +410,63 @@ namespace HoloRelay
 
         }
 
+        // Helper Function to send 'Horizontal Grating' Test Image
+        // Rationale:
+        //    - Simply write alterating bits for each row
+        //    - Go 32 pixels wide, in practice I found it challenging to resolve finer than this with the eye (could see 16 but difficult, could not go finer)
+        private void loadHorizontalGratingTestImage()
+        {
+
+            // Iterate through X lines to load data
+            int num_lines_to_write = 1280;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
+
+                // Load Data using into Test Registers using SPI Commands
+                m_send_me[0] = 0x2C; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x2D; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x2E; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x2F; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x30; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x31; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x32; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x33; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x34; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x35; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x36; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x37; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x38; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x39; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x3A; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+                m_send_me[0] = 0x3B; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);// System.Threading.Thread.Sleep(10);
+
+                // Load Line of Test Register Data into Buffer A
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x07;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print our final row address
+            m_send_me[0] = 0x8D;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
+
         // Helper Function to send 'Halves' Test Image
         // Rationale:
         //    - A horizontal scan line is formed of 1280 pixels
@@ -404,7 +484,8 @@ namespace HoloRelay
             {
 
                 // Two Options - Top and Bottom Half of what we are clocking out
-                if ( i < (num_lines_to_write/2) ) {
+                if (i < (num_lines_to_write / 2))
+                {
 
                     // Load Data using into Test Registers using SPI Commands
                     m_send_me[0] = 0x2C; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
@@ -495,7 +576,7 @@ namespace HoloRelay
                 int alternation_period = 128;
                 // Use modulo here to keep the logic simpler for our alternating row outputs
                 int curr_row_modulo = i % alternation_period;
-                if ( curr_row_modulo < (alternation_period/2) )
+                if (curr_row_modulo < (alternation_period / 2))
                 {
 
                     // Load Data using into Test Registers using SPI Commands
@@ -565,17 +646,507 @@ namespace HoloRelay
 
         }
 
+        // Helper Function to send 'Vertical Lines' Test Image
+        // Rationale:
+        //    - We simply alternate what is displayed every 128 rows
+        private void loadVerticalLinesTestImage()
+        {
 
+            // Iterate through X lines to load data
+            int num_lines_to_write = 1280;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
 
+                // Two Options - Top and Bottom Half of what we are clocking out
+                // We want 64 rows, then alternate, so full period is 128
+                int alternation_period = 128;
+                // Use modulo here to keep the logic simpler for our alternating row outputs
+                int curr_row_modulo = i % alternation_period;
+                if (curr_row_modulo < (alternation_period / 2))
+                {
 
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
 
+                }
+                else
+                {
 
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
 
+                }
 
+                // Load Line of Test Register Data into Buffer A
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x07;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
 
-        //////////////////////////////////////
-        ////////// Cardinal Images ///////////
-        //////////////////////////////////////
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print our final row address
+            m_send_me[0] = 0x8D;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
+
+        // Helper Function to send 'Vertical Grating' Test Image
+        // Rationale:
+        //    - Simply write entire line of '1' and '0' alterating every 32 rows
+        //    - Go 32 pixels wide, in practice I found it harder to resolve finer than this with the eyes (could see 16 but challenging, couldnt go finer than this)
+        private void loadVerticalGratingTestImage()
+        {
+
+            // Iterate through X lines to load data
+            int num_lines_to_write = 1280;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
+
+                // Two Options - Top and Bottom Half of what we are clocking out
+                // We want 32 rows, then alternate, so full period is 64
+                int alternation_period = 64;
+                // Use modulo here to keep the logic simpler for our alternating row outputs
+                int curr_row_modulo = i % alternation_period;
+                if (curr_row_modulo < (alternation_period / 2))
+                {
+
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                }
+                else
+                {
+
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                }
+
+                // Load Line of Test Register Data into Buffer A
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x07;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print our final row address
+            m_send_me[0] = 0x8D;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
+
+        // Helper Function to send 'Single Horizontal Line' Test Image
+        // Rationale:
+        //    - Single line 32 pixels wide
+        //    - Simply set the central 32 rows' values to be '1', rest are '0'
+        //    - Need some more complex logic to do this but nothing too bad
+        private void loadSingleHorizontalLineTestImage()
+        {
+
+            // Iterate through X lines to load data
+            int num_lines_to_write = 1280;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
+
+                // Two Options - Top and Bottom Half of what we are clocking out
+                // Work out where the lower and upper limits of our lines are
+                int line_width = 32;
+                int upper_line_row = (num_lines_to_write+line_width)/2;
+                int lower_line_row = (num_lines_to_write-line_width)/2;
+                // Use these numbers to build logic for our line in the centre
+                if ( (i>lower_line_row) && (i<upper_line_row))
+                {
+
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                }
+                else
+                {
+
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                }
+
+                // Load Line of Test Register Data into Buffer A
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x07;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print our final row address
+            m_send_me[0] = 0x8D;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
+
+        // Helper Function to send 'Smiley Faces' Test Image
+        // DOESNT WORK YET
+        // Rationale:
+        //    - Can't do a single Smiley Face due to the fact that the first 128 pixels are copied 10 times
+        //    - Hence do 10x10 smiley faces
+        //    - Nothing clever here, these have been manually coded using the Img 
+        private void loadSmileyFacesTestImage()
+        {
+
+            // Have definition of Byte array from autogenerate to C file
+          byte[] smiley_face_hex_map = new byte[]{
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc5,//0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x03, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xe0, 0x00, 0x00, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x01, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xfc, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7f, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xc0, 0x00, 0x01, 0xff, 0xff, 0x00, 0x00, 0x07, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x1f, 0xff, 0xff, 0xf0, 0x00, 0x01, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xfe, 0x00, 0x00, 0xff, 0xff, 0xff, 0xfe, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xfc, 0x00, 0x03, 0xff, 0xff, 0xff, 0xff, 0x80, 0x00, 0x7f, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xf8, 0x00, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xe0, 0x00, 0x3f, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xf0, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xf8, 0x00, 0x1f, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xe0, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe, 0x00, 0x0f, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xc0, 0x01, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x07, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0x80, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x03, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0x00, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xe0, 0x01, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xfe, 0x00, 0x1f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0x00, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xfc, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf8, 0x00, 0x7f, 0xff, 0xff,
+          0xff, 0xff, 0xfc, 0x00, 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfc, 0x00, 0x7f, 0xff, 0xff,
+          0xff, 0xff, 0xf8, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe, 0x00, 0x3f, 0xff, 0xff,
+          0xff, 0xff, 0xf0, 0x01, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x1f, 0xff, 0xff,
+          0xff, 0xff, 0xf0, 0x03, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x1f, 0xff, 0xff,
+          0xff, 0xff, 0xe0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x0f, 0xff, 0xff,
+          0xff, 0xff, 0xc0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x07, 0xff, 0xff,
+          0xff, 0xff, 0xc0, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xe0, 0x07, 0xff, 0xff,
+          0xff, 0xff, 0x80, 0x1f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0x03, 0xff, 0xff,
+          0xff, 0xff, 0x80, 0x1f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0x03, 0xff, 0xff,
+          0xff, 0xff, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf8, 0x01, 0xff, 0xff,
+          0xff, 0xff, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf8, 0x01, 0xff, 0xff,
+          0xff, 0xff, 0x00, 0x7f, 0xff, 0xe3, 0xff, 0xff, 0xff, 0xff, 0x8f, 0xff, 0xfc, 0x01, 0xff, 0xff,
+          0xff, 0xfe, 0x00, 0x7f, 0xff, 0xc0, 0xff, 0xff, 0xff, 0xfe, 0x07, 0xff, 0xfc, 0x00, 0xff, 0xff,
+          0xff, 0xfe, 0x00, 0xff, 0xff, 0x80, 0x7f, 0xff, 0xff, 0xfc, 0x03, 0xff, 0xfe, 0x00, 0xff, 0xff,
+          0xff, 0xfe, 0x00, 0xff, 0xff, 0x80, 0x7f, 0xff, 0xff, 0xfc, 0x03, 0xff, 0xfe, 0x00, 0x7f, 0xff,
+          0xff, 0xfc, 0x01, 0xff, 0xff, 0x80, 0x7f, 0xff, 0xff, 0xfc, 0x03, 0xff, 0xff, 0x00, 0x7f, 0xff,
+          0xff, 0xfc, 0x01, 0xff, 0xff, 0x80, 0x7f, 0xff, 0xff, 0xfc, 0x03, 0xff, 0xff, 0x00, 0x7f, 0xff,
+          0xff, 0xfc, 0x01, 0xff, 0xff, 0x80, 0x7f, 0xff, 0xff, 0xfc, 0x03, 0xff, 0xff, 0x00, 0x7f, 0xff,
+          0xff, 0xf8, 0x03, 0xff, 0xff, 0xc0, 0xff, 0xff, 0xff, 0xfe, 0x07, 0xff, 0xff, 0x80, 0x3f, 0xff,
+          0xff, 0xf8, 0x03, 0xff, 0xff, 0xe3, 0xff, 0xff, 0xff, 0xff, 0x8f, 0xff, 0xff, 0x80, 0x3f, 0xff,
+          0xff, 0xf8, 0x03, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x3f, 0xff,
+          0xff, 0xf8, 0x03, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x3f, 0xff,
+          0xff, 0xf8, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x3f, 0xff,
+          0xff, 0xf8, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x3f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x1f, 0xff,
+          0xff, 0xf8, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x3f, 0xff,
+          0xff, 0xf8, 0x07, 0xff, 0xff, 0xc3, 0xff, 0xff, 0xff, 0xff, 0x87, 0xff, 0xff, 0xc0, 0x3f, 0xff,
+          0xff, 0xf8, 0x03, 0xff, 0xff, 0x81, 0xff, 0xff, 0xff, 0xff, 0x03, 0xff, 0xff, 0x80, 0x3f, 0xff,
+          0xff, 0xf8, 0x03, 0xff, 0xff, 0x00, 0xff, 0xff, 0xff, 0xfe, 0x01, 0xff, 0xff, 0x80, 0x3f, 0xff,
+          0xff, 0xf8, 0x03, 0xff, 0xff, 0x00, 0x7f, 0xff, 0xff, 0xfc, 0x01, 0xff, 0xff, 0x80, 0x3f, 0xff,
+          0xff, 0xf8, 0x03, 0xff, 0xff, 0x00, 0x1f, 0xff, 0xff, 0xf0, 0x01, 0xff, 0xff, 0x80, 0x3f, 0xff,
+          0xff, 0xfc, 0x01, 0xff, 0xff, 0x00, 0x07, 0xff, 0xff, 0xc0, 0x01, 0xff, 0xff, 0x00, 0x7f, 0xff,
+          0xff, 0xfc, 0x01, 0xff, 0xff, 0x00, 0x01, 0xff, 0xff, 0x00, 0x01, 0xff, 0xff, 0x00, 0x7f, 0xff,
+          0xff, 0xfc, 0x01, 0xff, 0xff, 0x80, 0x00, 0x3f, 0xf8, 0x00, 0x03, 0xff, 0xff, 0x00, 0x7f, 0xff,
+          0xff, 0xfc, 0x00, 0xff, 0xff, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x07, 0xff, 0xfe, 0x00, 0x7f, 0xff,
+          0xff, 0xfe, 0x00, 0xff, 0xff, 0xe0, 0x00, 0x00, 0x00, 0x00, 0x0f, 0xff, 0xfe, 0x00, 0xff, 0xff,
+          0xff, 0xfe, 0x00, 0x7f, 0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x1f, 0xff, 0xfc, 0x00, 0xff, 0xff,
+          0xff, 0xff, 0x00, 0x7f, 0xff, 0xfc, 0x00, 0x00, 0x00, 0x00, 0x7f, 0xff, 0xfc, 0x01, 0xff, 0xff,
+          0xff, 0xff, 0x00, 0x3f, 0xff, 0xfe, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xf8, 0x01, 0xff, 0xff,
+          0xff, 0xff, 0x00, 0x3f, 0xff, 0xff, 0x80, 0x00, 0x00, 0x03, 0xff, 0xff, 0xf8, 0x01, 0xff, 0xff,
+          0xff, 0xff, 0x80, 0x1f, 0xff, 0xff, 0xe0, 0x00, 0x00, 0x0f, 0xff, 0xff, 0xf0, 0x03, 0xff, 0xff,
+          0xff, 0xff, 0x80, 0x1f, 0xff, 0xff, 0xfc, 0x00, 0x00, 0x7f, 0xff, 0xff, 0xf0, 0x03, 0xff, 0xff,
+          0xff, 0xff, 0xc0, 0x0f, 0xff, 0xff, 0xff, 0x80, 0x03, 0xff, 0xff, 0xff, 0xe0, 0x07, 0xff, 0xff,
+          0xff, 0xff, 0xc0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x07, 0xff, 0xff,
+          0xff, 0xff, 0xe0, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x0f, 0xff, 0xff,
+          0xff, 0xff, 0xf0, 0x03, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x1f, 0xff, 0xff,
+          0xff, 0xff, 0xf0, 0x01, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x1f, 0xff, 0xff,
+          0xff, 0xff, 0xf8, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe, 0x00, 0x3f, 0xff, 0xff,
+          0xff, 0xff, 0xfc, 0x00, 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfc, 0x00, 0x7f, 0xff, 0xff,
+          0xff, 0xff, 0xfc, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf8, 0x00, 0x7f, 0xff, 0xff,
+          0xff, 0xff, 0xfe, 0x00, 0x1f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0x00, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0x00, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xe0, 0x01, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0x80, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x03, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xc0, 0x01, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x07, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xe0, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe, 0x00, 0x0f, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xf0, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xf8, 0x00, 0x1f, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xf8, 0x00, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xe0, 0x00, 0x3f, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xfc, 0x00, 0x03, 0xff, 0xff, 0xff, 0xff, 0x80, 0x00, 0x7f, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xfe, 0x00, 0x00, 0xff, 0xff, 0xff, 0xfe, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x1f, 0xff, 0xff, 0xf0, 0x00, 0x01, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xc0, 0x00, 0x01, 0xff, 0xff, 0x00, 0x00, 0x07, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xe0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xfc, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7f, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x01, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xe0, 0x00, 0x00, 0x0f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x03, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+          0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+        };
+
+            // Iterate through X lines to load data
+            //int num_lines_to_write = 1280;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+
+            // We want to loop below 10 times
+            for (int i = 0; i < 10; i++)
+            {
+
+                int current_byte_in_map = 0;
+                while (current_byte_in_map < smiley_face_hex_map.Length)
+                {
+                    //for (int i = 0; i < smiley_face_hex_map.Length; i++)
+                    //{
+
+                    // Two Options - Top and Bottom Half of what we are clocking out
+                    // Work out where the lower and upper limits of our lines are
+                    //int line_width = 32;
+                    //int upper_line_row = (num_lines_to_write + line_width) / 2;
+                    //int lower_line_row = (num_lines_to_write - line_width) / 2;
+                    // Use these numbers to build logic for our line in the centre
+                    //if ((i > lower_line_row) && (i < upper_line_row))
+                    //{
+
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = smiley_face_hex_map[current_byte_in_map++]; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                    //}
+                    //else
+                    //{
+
+                    //    // Load Data using into Test Registers using SPI Commands
+                    //    m_send_me[0] = 0x2C; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x2D; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x2E; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x2F; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x30; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x31; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x32; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x33; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x34; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x35; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x36; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x37; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x38; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x39; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x3A; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    //    m_send_me[0] = 0x3B; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                    //}
+
+                    // Load Line of Test Register Data into Buffer A
+                    m_send_me[0] = 0x08;
+                    m_send_me[1] = 0x07;
+                    m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    System.Threading.Thread.Sleep(1);
+
+                    // Increment Row
+                    m_send_me[0] = 0x08;
+                    m_send_me[1] = 0x05;
+                    m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    System.Threading.Thread.Sleep(1);
+
+                }
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print our final row address
+            m_send_me[0] = 0x8D;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
 
         // Helper Function to load Full Image
         private void loadFullImage()
