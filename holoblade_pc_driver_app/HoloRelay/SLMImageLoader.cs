@@ -199,9 +199,11 @@ namespace HoloRelay
             m_serial_comms.Send_test_sequence(m_send_me);
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
 
-            // Load Specific Test Image Pattern
-            this.loadFullImage();
-            //this.loadTestImageA();
+            // Load Specific Test Image Patterns
+            //this.loadFullImage();
+            //this.loadHorizontalLinesTestImage();
+            //this.loadHalvesTestImage();
+            this.loadCheckboardTestImage();
 
 
 
@@ -314,8 +316,25 @@ namespace HoloRelay
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
         }
 
-        // Helper Function to send Test Image A
-        private void loadTestImageA()
+
+
+
+
+
+
+
+
+        //////////////////////////////////////
+        //////////// Test Images /////////////
+        //////////////////////////////////////
+
+        // Helper Function to send 'Horizontal Lines' Test Image
+        // Rationale:
+        //    - A horizontal scan line is formed of 1280 pixels
+        //    - When we used the Test Mode, we set the first 128 pixels. This pattern is then duplicated 10 times for the remaining pixels
+        //    - Here, we are setting the first 64 pixels to be '0' and the following 64 pixels to be '1'.
+        //    - These are then multiplied by 10 times and we see a grating of 10 lines on the screen
+        private void loadHorizontalLines()
         {
 
             // Iterate through X lines to load data
@@ -367,6 +386,196 @@ namespace HoloRelay
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
 
         }
+
+        // Helper Function to send 'Halves' Test Image
+        // Rationale:
+        //    - A horizontal scan line is formed of 1280 pixels
+        //    - We iterate through every line of data whilst clocking data in
+        //    - We set the first 640 lines to be '0' and the subsequent 640 lines to be '1'.
+        //    - Hence we see a Left and Right Half of the screen
+        private void loadHalvesTestImage()
+        {
+
+            // Iterate through X lines to load data
+            int num_lines_to_write = 1280;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
+
+                // Two Options - Top and Bottom Half of what we are clocking out
+                if ( i < (num_lines_to_write/2) ) {
+
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                }
+                else
+                {
+
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                }
+
+                // Load Line of Test Register Data into Buffer A
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x07;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print our final row address
+            m_send_me[0] = 0x8D;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
+
+        // Helper Function to send 'Checkboard' Test Image
+        // Rationale:
+        //    - The first 128 lines is repeated 10 times
+        //    - We load up this repeating section with 128x128 squares of alternating '1' and '0'
+        //    - Note that for each line, we have to write 1/4 line '1', 1/2 a line '0' and then 1/4 line '1'
+        //    - This is to handle the repeating case, if we don't do this we will just get lines
+        //    - We also have to switch bit state every 128 rows
+        private void loadCheckboardTestImage()
+        {
+
+            // Iterate through X lines to load data
+            int num_lines_to_write = 1280;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
+
+                // Two Options - Top and Bottom Half of what we are clocking out
+                // We want 64 rows, then alternate, so full period is 128
+                int alternation_period = 128;
+                // Use modulo here to keep the logic simpler for our alternating row outputs
+                int curr_row_modulo = i % alternation_period;
+                if ( curr_row_modulo < (alternation_period/2) )
+                {
+
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                }
+                else
+                {
+
+                    // Load Data using into Test Registers using SPI Commands
+                    m_send_me[0] = 0x2C; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2D; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2E; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x2F; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x30; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x31; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x32; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x33; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x34; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x35; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x36; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x37; m_send_me[1] = 0xFF; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x38; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x39; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3A; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                    m_send_me[0] = 0x3B; m_send_me[1] = 0x00; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                }
+
+                // Load Line of Test Register Data into Buffer A
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x07;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print our final row address
+            m_send_me[0] = 0x8D;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
+
+
+
+
+
+
+
+
+
+        //////////////////////////////////////
+        ////////// Cardinal Images ///////////
+        //////////////////////////////////////
 
         // Helper Function to load Full Image
         private void loadFullImage()
