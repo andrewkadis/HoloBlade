@@ -25,8 +25,8 @@
                     <StackPanel x:Name="PacketDebugStackPanel" HorizontalAlignment="Left" Margin="5">
                         <Label x:Name="PacketDebugLabel" Content="Packet Debug" FontWeight="Bold"/>
                         <Button x:Name="send_test_packet1" Content="Send Test Packet" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Margin="10,5"/>
-                        <Button x:Name="send_who_am_i" Content="Send &quot;Who Am I&quot;" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_who_am_i_Click" Margin="10,5"/>
-                        <Button x:Name="send_start_of_packet1" Content="Start of Packet" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_start_of_packet_Click" Margin="10,5"/>
+                        <Button x:Name="read_hwconfig_reg" Content="Read HWConfig Reg" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_hwconfig_reg_Click" Margin="10,5"/>
+                        <Button x:Name="read_clkfreq_reg" Content="Read ClkFreq Reg" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_clkfreq_reg_Click" Margin="10,5"/>
                         <Button x:Name="send_complex_test_3" Content="Complex Test 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_1_Click" Margin="10,5"/>
                         <Button x:Name="send_complex_test_4" Content="Complex Test 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_2_Click" Margin="10,5"/>
                         <Button x:Name="send_raw_data1" Content="Raw Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_raw_data_Click" Margin="10,5"/>
