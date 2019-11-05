@@ -19,6 +19,20 @@ namespace HoloRelay
         // Default wait between success UART transfers - note that this is just a semi-arbritrary number atm
         private int m_wait_between_data_transfers = 200;
 
+        // Enum so we can tell the test image renderer which image to render
+        enum Image {
+            blank_image,
+            full_image,
+            halves_image,
+            horizontal_lines_image,
+            vertical_grating_image,
+            vertical_lines_image,
+            single_horizontal_line_image,
+            horizontal_grating_image,
+            checkerboard_image
+        };
+        Image m_curr_image = Image.checkerboard_image; // Checkboard by default
+
         // Function to run-through sequence to initialise a SLM
         public void InitSLM()
         {
@@ -123,6 +137,18 @@ namespace HoloRelay
 
         }
 
+        // Commands to render individual test images
+        // Pretty straightforward so keep nice and compact
+        public void RenderBlankImage() {                m_curr_image = Image.blank_image;                  LoadImage(); }
+        public void RenderFullImage() {                 m_curr_image = Image.full_image;                   LoadImage(); }
+        public void RenderHalvesImage() {               m_curr_image = Image.halves_image;                 LoadImage(); }
+        public void RenderHorizontalLinesImage() {      m_curr_image = Image.horizontal_lines_image;       LoadImage(); }
+        public void RenderVerticalGratingImage() {      m_curr_image = Image.vertical_grating_image;       LoadImage(); }
+        public void RenderVerticalLinesImage() {        m_curr_image = Image.vertical_lines_image;         LoadImage(); }
+        public void RenderSingleHorizontalLineImage() { m_curr_image = Image.single_horizontal_line_image; LoadImage(); }
+        public void RenderHorizontalGratingImage() {    m_curr_image = Image.horizontal_grating_image;     LoadImage(); }
+        public void RenderCheckerboardImage() {         m_curr_image = Image.checkerboard_image;           LoadImage(); }
+
         public void LoadImage()
         {
 
@@ -215,8 +241,22 @@ namespace HoloRelay
             m_serial_comms.Send_test_sequence(m_send_me);
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
 
-            // Load Specific Test Image Patterns
-            this.loadBlankImage();
+            // Load Specific Test Image Patterns - load specific one based on switch
+
+            //enum Image
+            //{
+            //    blank_image,
+            //    full_image,
+            //    halves_image,
+            //    horizontal_lines_image,
+            //    vertical_grating_image,
+            //    vertical_lines_image,
+            //    single_vertical_line_image,
+            //    horizontal_grating_image,
+            //    checkerboard_image
+            //};
+            //Image m_curr_image = Image.full_image; // Full by default
+            //this.loadBlankImage();
             //this.loadFullImage();
             //this.loadHorizontalLinesTestImage();
             //this.loadVerticalLinesTestImage();
@@ -226,6 +266,19 @@ namespace HoloRelay
             //this.loadVerticalGratingTestImage();
             //this.loadSingleHorizontalLineTestImage();
             //this.loadSmileyFacesTestImage(); // DOESNT WORK YET!!!
+
+            switch (m_curr_image)
+            {
+                case Image.blank_image:                  this.loadBlankImage(); break;
+                case Image.full_image:                   this.loadFullImage();  break;
+                case Image.halves_image:                 this.loadHalvesTestImage(); break;
+                case Image.horizontal_lines_image:       this.loadHorizontalLinesImage(); break;
+                case Image.vertical_grating_image:       this.loadVerticalGratingTestImage(); break;
+                case Image.vertical_lines_image:         this.loadVerticalLinesTestImage(); break;
+                case Image.single_horizontal_line_image: this.loadSingleHorizontalLineTestImage(); break;
+                case Image.horizontal_grating_image:     this.loadHorizontalGratingTestImage(); break;
+                case Image.checkerboard_image:           this.loadCheckboardTestImage(); break;
+            }
 
 
 
@@ -357,7 +410,7 @@ namespace HoloRelay
         //    - When we used the Test Mode, we set the first 128 pixels. This pattern is then duplicated 10 times for the remaining pixels
         //    - Here, we are setting the first 64 pixels to be '0' and the following 64 pixels to be '1'.
         //    - These are then multiplied by 10 times and we see a grating of 10 lines on the screen
-        private void loadHorizontalLines()
+        private void loadHorizontalLinesImage()
         {
 
             // Iterate through X lines to load data

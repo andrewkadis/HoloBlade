@@ -45,6 +45,32 @@
                 </Border>
             </StackPanel>
         </TabItem>
-        <TabItem x:Name="___TabItem___TBD_" Header="TBD" Content=""/>
+        <TabItem x:Name="___TabItem___TestImages_" Header="Test Images">
+            <StackPanel x:Name="FPGADebugStackPanel_Copy" Margin="0" Orientation="Horizontal" HorizontalAlignment="Left" Height="300">
+                <Border x:Name="UARTDebugBorder1" BorderBrush="Black" BorderThickness="1" Margin="5,5,5,85" HorizontalAlignment="Center">
+                    <Grid Margin="0,0,0,-1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="VerticalLinesImage" Content="Vertical Lines" Margin="10,5,10,0" Grid.Column="1" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="vertical_lines_image"/>
+                        <Button x:Name="FullImage" Content="All On" Margin="10,5,10,0" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="full_image"/>
+                        <Button x:Name="BlankImage" Content="All Blank" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="blank_image"/>
+                        <Button x:Name="HorizontalLinesImage" Content="Horizontal Lines" Grid.Column="1" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="horizontal_lines_image"/>
+                        <Button x:Name="HalvesImage" Content="Halves" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="halves_image"/>
+                        <Button x:Name="SingleHorizontalLineImage" Content="Single Line" Grid.Column="1" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="single_horizontal_line_image"/>
+                        <Button x:Name="CheckerboardImage" Content="Checkboard" Grid.Column="2" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="checkerboard_image"/>
+                        <Button x:Name="VerticalGratingImage" Content="Vertical Grating" Grid.Column="2" Margin="10,5,10,0" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="vertical_grating_image"/>
+                        <Button x:Name="HorizontalGratingImage" Content="Horizontal Grating" Grid.Column="2" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="horizontal_grating_image"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </TabItem>
     </TabControl>
 </Window>

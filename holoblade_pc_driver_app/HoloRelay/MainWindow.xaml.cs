@@ -710,5 +710,85 @@ namespace HoloRelay
 
         }
 
+        private void blank_image(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.InitSLM();
+            slm_image_loader.RenderBlankImage();
+            slm_image_loader.UpdateDisplayContinuous();
+        }
+
+        private void full_image(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.InitSLM();
+            slm_image_loader.RenderFullImage();
+            slm_image_loader.UpdateDisplayContinuous();
+        }
+
+        private void halves_image(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.InitSLM();
+            slm_image_loader.RenderHalvesImage();
+            slm_image_loader.UpdateDisplayContinuous();
+        }
+
+        private void horizontal_lines_image(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.InitSLM();
+            slm_image_loader.RenderHorizontalLinesImage();
+            slm_image_loader.UpdateDisplayContinuous();
+        }
+
+        private void vertical_grating_image(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.InitSLM();
+            slm_image_loader.RenderVerticalGratingImage();
+            slm_image_loader.UpdateDisplayContinuous();
+        }
+
+        private void vertical_lines_image(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.InitSLM();
+            slm_image_loader.RenderVerticalLinesImage();
+            slm_image_loader.UpdateDisplayContinuous();
+        }
+
+        private void horizontal_grating_image(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.InitSLM();
+            slm_image_loader.RenderHorizontalGratingImage();
+            slm_image_loader.UpdateDisplayContinuous();
+        }
+
+        private void checkerboard_image(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.InitSLM();
+            slm_image_loader.RenderCheckerboardImage();
+            slm_image_loader.UpdateDisplayContinuous();
+        }
+
+        private void single_horizontal_line_image(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.InitSLM();
+            slm_image_loader.RenderSingleHorizontalLineImage();
+            slm_image_loader.UpdateDisplayContinuous();
+        }
     }
 }
