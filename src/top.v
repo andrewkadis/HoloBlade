@@ -173,7 +173,7 @@ wire debug_ch4;
 assign DEBUG_9 = debug_ch1; // Goes to TP9
 assign DEBUG_8 = debug_ch2; // Goes to TP8
 assign DEBUG_5 = debug_ch3; // Goes to p5
-assign DEBUG_3 = debug_ch4; // Goes to S1
+assign DEBUG_6 = debug_ch4; // Goes to p6
 // GPIOs attached to LEDs
 wire debug_led2;
 wire debug_led3;
@@ -273,7 +273,7 @@ assign reset_all_w = reset_all_r;
 
 assign debug_ch1 = SEN;
 assign debug_ch2 = SDAT;
-// assign debug_ch3 = SOUT;
+assign debug_ch3 = SOUT;
 assign debug_ch4 = SCK;
 
 

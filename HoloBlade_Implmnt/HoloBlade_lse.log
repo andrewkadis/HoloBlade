@@ -3,7 +3,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2015 Lattice Semiconductor Corporation,  All rights reserved.
-Mon Oct 14 21:21:26 2019
+Fri Jan 31 15:12:42 2020
 
 
 Command Line:  C:\lscc\iCEcube2\LSE\bin\nt\synthesis.exe -f HoloBlade_lse.prj 
@@ -161,8 +161,7 @@ WARNING - synthesis: Initial value found on net rd_addr_nxt_r[2] will be ignored
 WARNING - synthesis: Initial value found on net rd_addr_nxt_r[1] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net rd_addr_nxt_r[0] will be ignored due to unrecognized driver type
 WARNING - synthesis: src/clock.v(27): input port EXTFEEDBACK is not connected on this instance. VDB-1013
-######## Missing driver on net DEBUG_5. Patching with GND.
-######## Missing driver on net DEBUG_6. Patching with GND.
+######## Missing driver on net DEBUG_3. Patching with GND.
 INFO - synthesis: Extracted state machine for register '\spi0/t' with one-hot encoding
 State machine has 16 reachable states with original encodings of:
 
@@ -316,8 +315,8 @@ clk0 [get_nets SLM_CLK_c]               |    1.000 MHz|   24.611 MHz|    26
 All constraints were met.
 
 
-Peak Memory Usage: 38.301  MB
+Peak Memory Usage: 38.469  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 0.766  secs
+Elapsed CPU time for LSE flow : 0.797  secs
 --------------------------------------------------------------

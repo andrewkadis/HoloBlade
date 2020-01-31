@@ -4,7 +4,7 @@
   (keywordMap (keywordLevel 0))
   (status
     (written
-      (timeStamp 2019 10 14 21 21 27 124)
+      (timeStamp 2020 1 31 15 12 43 124)
       (author "Lattice Semiconductor Corp.")
       (program "EDIF Writer"(version "lse"))
     )
@@ -309,7 +309,7 @@
           (port n1994 (direction INPUT))
           (port n3297 (direction INPUT))
           (port (rename rx_shift_reg_0_ "rx_shift_reg[0]") (direction OUTPUT))
-          (port DEBUG_3_c (direction OUTPUT))
+          (port DEBUG_6_c (direction OUTPUT))
           (port rx_shift_reg_15__N_315 (direction OUTPUT))
           (port n3418 (direction OUTPUT))
           (port n888 (direction INPUT))
@@ -1781,9 +1781,9 @@
               (portRef Q (instanceRef rx__5_i1))
             )
           )
-          (net DEBUG_3_c
+          (net DEBUG_6_c
             (joined
-              (portRef DEBUG_3_c)
+              (portRef DEBUG_6_c)
               (portRef O (instanceRef i2_3_lut))
             )
           )
@@ -2244,6 +2244,7 @@
               (portRef I2 (instanceRef i1_2_lut_adj_10))
               (portRef I3 (instanceRef i2_2_lut))
               (portRef I0 (instanceRef r_Clock_Count_586_add_4_4_lut))
+              (portRef I3 (instanceRef equal_260_i4_2_lut))
               (portRef I0 (instanceRef r_Clock_Count_586_add_4_5_lut))
               (portRef I0 (instanceRef r_Clock_Count_586_add_4_2))
               (portRef I1 (instanceRef r_Clock_Count_586_add_4_2_lut))
@@ -2295,7 +2296,6 @@
               (portRef I3 (instanceRef i3026_2_lut_3_lut))
               (portRef I3 (instanceRef i1_2_lut_adj_16))
               (portRef I2 (instanceRef i1_2_lut_adj_16))
-              (portRef I3 (instanceRef equal_260_i4_2_lut))
               (portRef I0 (instanceRef r_Clock_Count_586_add_4_2_lut))
             )
           )
@@ -7115,7 +7115,7 @@
             (property IO_STANDARD (string "SB_LVCMOS"))
             (property IO_FF_IN (string "TRUE"))
           )
-          (instance SOUT_pad
+          (instance DEBUG_5_c_pad
             (viewRef INTERFACE_c (cellRef SB_IO (libraryref PrimitivesExt)))
             (property PIN_TYPE (string "000001"))
             (property PULLUP (string "0"))
@@ -7619,7 +7619,6 @@
               (portRef I0 (instanceRef led_counter_583_790_add_4_4_lut))
               (portRef D_OUT_0 (instanceRef ICE_CDONE_pad))
               (portRef D_OUT_0 (instanceRef ICE_CLK_pad))
-              (portRef D_OUT_0 (instanceRef DEBUG_6_pad))
               (portRef I0 (instanceRef led_counter_583_790_add_4_8_lut))
               (portRef I0 (instanceRef led_counter_583_790_add_4_26_lut))
               (portRef I0 (instanceRef led_counter_583_790_add_4_6))
@@ -7737,7 +7736,7 @@
               (portRef D_OUT_0 (instanceRef FIFO_D2_pad))
               (portRef D_OUT_0 (instanceRef FIFO_D1_pad))
               (portRef I0 (instanceRef led_counter_583_790_add_4_3))
-              (portRef D_OUT_0 (instanceRef DEBUG_5_pad))
+              (portRef D_OUT_0 (instanceRef DEBUG_3_pad))
               (portRef I1 (instanceRef led_counter_583_790_add_4_2_lut))
               (portRef I0 (instanceRef led_counter_583_790_add_4_14))
               (portRef I0 (instanceRef led_counter_583_790_add_4_21_lut))
@@ -7818,7 +7817,6 @@
               (portRef GND_net (instanceRef clock_inst))
               (portRef D_OUT_0 (instanceRef FIFO_D19_pad))
               (portRef I0 (instanceRef led_counter_583_790_add_4_25))
-              (portRef OUTPUT_ENABLE (instanceRef ICE_CREST_pad))
               (portRef D_OUT_0 (instanceRef FIFO_D29_pad))
               (portRef I1 (instanceRef led_counter_583_790_add_4_20_lut))
               (portRef D_OUT_0 (instanceRef VALID_pad))
@@ -7839,6 +7837,7 @@
               (portRef I3 (instanceRef i1_2_lut_3_lut))
               (portRef D_OUT_0 (instanceRef FIFO_D31_pad))
               (portRef I1 (instanceRef led_counter_583_790_add_4_22_lut))
+              (portRef D_OUT_0 (instanceRef ICE_CREST_pad))
               (portRef GND_net (instanceRef pc_rx))
               (portRef D_OUT_0 (instanceRef FIFO_D28_pad))
               (portRef I3 (instanceRef i1031_2_lut))
@@ -7849,7 +7848,7 @@
               (portRef D_OUT_0 (instanceRef FIFO_D15_pad))
               (portRef D_OUT_0 (instanceRef FIFO_D14_pad))
               (portRef D_OUT_0 (instanceRef FIFO_D30_pad))
-              (portRef D_OUT_0 (instanceRef ICE_CREST_pad))
+              (portRef OUTPUT_ENABLE (instanceRef ICE_CREST_pad))
               (portRef I2 (instanceRef i1665_2_lut))
             )
           )
@@ -7869,7 +7868,7 @@
               (portRef OUTPUT_ENABLE (instanceRef DATA12_pad))
               (portRef OUTPUT_ENABLE (instanceRef ICE_SYSCLK_pad))
               (portRef VCC_net (instanceRef pc_tx))
-              (portRef OUTPUT_ENABLE (instanceRef SOUT_pad))
+              (portRef OUTPUT_ENABLE (instanceRef DEBUG_5_c_pad))
               (portRef OUTPUT_ENABLE (instanceRef SDAT_pad))
               (portRef OUTPUT_ENABLE (instanceRef SCK_pad))
               (portRef D_OUT_0 (instanceRef DATA12_pad))
@@ -7980,16 +7979,17 @@
               (portRef DEBUG_9_c (instanceRef spi0))
             )
           )
-          (net DEBUG_3_c
+          (net DEBUG_6_c
             (joined
-              (portRef DEBUG_3_c (instanceRef spi0))
+              (portRef DEBUG_6_c (instanceRef spi0))
               (portRef D_OUT_0 (instanceRef SCK_pad))
-              (portRef D_OUT_0 (instanceRef DEBUG_3_pad))
+              (portRef D_OUT_0 (instanceRef DEBUG_6_pad))
             )
           )
-          (net SOUT_c
+          (net DEBUG_5_c_c
             (joined
-              (portRef D_IN_0 (instanceRef SOUT_pad))
+              (portRef D_OUT_0 (instanceRef DEBUG_5_pad))
+              (portRef D_IN_0 (instanceRef DEBUG_5_c_pad))
               (portRef I0 (instanceRef i1_2_lut))
             )
           )
@@ -9020,12 +9020,6 @@
               (portRef n2104 (instanceRef pc_tx))
             )
           )
-          (net n2103
-            (joined
-              (portRef O (instanceRef i1748_3_lut))
-              (portRef n2103 (instanceRef pc_tx))
-            )
-          )
           (net n3097
             (joined
               (portRef CO (instanceRef led_counter_583_790_add_4_21))
@@ -9037,6 +9031,12 @@
             (joined
               (portRef n3110 (instanceRef tx_fifo))
               (portRef I3 (instanceRef i1_4_lut_adj_25))
+            )
+          )
+          (net n2103
+            (joined
+              (portRef O (instanceRef i1748_3_lut))
+              (portRef n2103 (instanceRef pc_tx))
             )
           )
           (net n2102
@@ -9251,17 +9251,17 @@
               (portRef D (instanceRef tx_addr_byte_r_i0_i1))
             )
           )
-          (net n2056
-            (joined
-              (portRef O (instanceRef i1701_3_lut))
-              (portRef D (instanceRef tx_addr_byte_r_i0_i2))
-            )
-          )
           (net n3095
             (joined
               (portRef CO (instanceRef led_counter_583_790_add_4_19))
               (portRef CI (instanceRef led_counter_583_790_add_4_20))
               (portRef I3 (instanceRef led_counter_583_790_add_4_20_lut))
+            )
+          )
+          (net n2056
+            (joined
+              (portRef O (instanceRef i1701_3_lut))
+              (portRef D (instanceRef tx_addr_byte_r_i0_i2))
             )
           )
           (net n2055
@@ -10724,7 +10724,7 @@
           (net SOUT
             (joined
               (portRef SOUT)
-              (portRef PACKAGE_PIN (instanceRef SOUT_pad))
+              (portRef PACKAGE_PIN (instanceRef DEBUG_5_c_pad))
             )
           )
           (net n3257

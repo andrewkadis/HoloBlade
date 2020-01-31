@@ -1,0 +1,95 @@
+----------------------------------------------------------------------
+Report for cell top.TECH
+Register bits:  229 of 3520 (6.506%)
+I/O cells:      0
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                           SB_CARRY        47          100.0
+                             SB_DFF       145          100.0
+                            SB_DFFE        11          100.0
+                          SB_DFFESR        24          100.0
+                            SB_DFFN        15          100.0
+                          SB_DFFNSR         1          100.0
+                            SB_DFFR        18          100.0
+                            SB_DFFS         2          100.0
+                           SB_DFFSR        10          100.0
+                           SB_DFFSS         3          100.0
+                              SB_GB         1          100.0
+                              SB_IO       104          100.0
+                            SB_LUT4       309          100.0
+                      SB_PLL40_CORE         1          100.0
+SUB MODULES
+                     FIFO_Quad_Word         1
+FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_1         1
+                              clock         1
+                                spi         1
+          uart_rx(CLKS_PER_BIT=434)         1
+          uart_tx(CLKS_PER_BIT=434)         1
+                              TOTAL       697
+----------------------------------------------------------------------
+Report for cell spi.v1
+Instance Path : spi0
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                           SB_CARRY         5           10.6
+                             SB_DFF        21           14.5
+                            SB_DFFN        15          100.0
+                          SB_DFFNSR         1          100.0
+                            SB_DFFR        18          100.0
+                            SB_DFFS         2          100.0
+                           SB_DFFSR         4           40.0
+                           SB_DFFSS         3          100.0
+                            SB_LUT4        44           14.2
+                              TOTAL       113
+----------------------------------------------------------------------
+Report for cell uart_rx(CLKS_PER_BIT=434).v1
+Instance Path : pc_rx
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                           SB_CARRY         9           19.1
+                             SB_DFF        13            9.0
+                          SB_DFFESR        12           50.0
+                           SB_DFFSR         2           20.0
+                            SB_LUT4        43           13.9
+                              TOTAL        79
+----------------------------------------------------------------------
+Report for cell FIFO_Quad_Word.v1
+Instance Path : tx_fifo
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                             SB_DFF        45           31.0
+                            SB_DFFE        10           90.9
+                           SB_DFFSR         2           20.0
+                            SB_LUT4        64           20.7
+SUB MODULES
+FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_1         1
+                              TOTAL       122
+----------------------------------------------------------------------
+Report for cell FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_1.v1
+Instance Path : tx_fifo.lscc_fifo_inst
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                             SB_DFF        45           31.0
+                            SB_DFFE        10           90.9
+                           SB_DFFSR         2           20.0
+                            SB_LUT4        64           20.7
+                              TOTAL       121
+----------------------------------------------------------------------
+Report for cell clock.v1
+Instance Path : clock_inst
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                      SB_PLL40_CORE         1          100.0
+                              TOTAL         1
+----------------------------------------------------------------------
+Report for cell uart_tx(CLKS_PER_BIT=434).v1
+Instance Path : pc_tx
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                           SB_CARRY         9           19.1
+                             SB_DFF        11            7.6
+                            SB_DFFE         1            9.1
+                          SB_DFFESR        12           50.0
+                           SB_DFFSR         2           20.0
+                            SB_LUT4        32           10.4
+                              TOTAL        67

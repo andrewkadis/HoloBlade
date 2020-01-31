@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 17:12:22
 
-* File Generated:     Oct 14 2019 21:21:28
+* File Generated:     Jan 31 2020 15:12:44
 
 * Purpose:            
 
@@ -106,10 +106,10 @@ W2714: Invalid pin location 66 for IO ICE_CREST. Assignment will be ignored
 I2088: Phase 4, elapsed time : 0.2 (sec)
 
 Phase 5
-I2088: Phase 5, elapsed time : 0.1 (sec)
+I2088: Phase 5, elapsed time : 0.2 (sec)
 
 Phase 6
-I2088: Phase 6, elapsed time : 14.5 (sec)
+I2088: Phase 6, elapsed time : 21.8 (sec)
 
 Final Design Statistics
     Number of LUTs      	:	322
@@ -126,7 +126,7 @@ Final Design Statistics
 
 Device Utilization Summary
     LogicCells                  :	322/3520
-    PLBs                        :	87/440
+    PLBs                        :	79/440
     BRAMs                       :	0/20
     IOs and GBIOs               :	104/107
     PLLs                        :	1/2
@@ -145,7 +145,7 @@ analysis after routing.
                      Clock Summary 
 =====================================================================
 Number of clocks: 1
-Clock: top|\spi0/spi_clk | Frequency: 165.32 MHz | Target: 1.00 MHz
+Clock: top|\spi0/spi_clk | Frequency: 171.03 MHz | Target: 1.00 MHz
 
 =====================================================================
                      End of Clock Summary
@@ -153,5 +153,5 @@ Clock: top|\spi0/spi_clk | Frequency: 165.32 MHz | Target: 1.00 MHz
 
 I2054: Placement of design completed successfully
 
-I2076: Placer run-time: 15.4 sec.
+I2076: Placer run-time: 22.8 sec.
 
