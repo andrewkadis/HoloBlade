@@ -790,5 +790,19 @@ namespace HoloRelay
             slm_image_loader.RenderSingleHorizontalLineImage();
             slm_image_loader.UpdateDisplayContinuous();
         }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ReadBufA_Click(object sender, RoutedEventArgs e)
+        {
+            // Code to read status of BufferA
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.InitSLM();
+            slm_image_loader.ReadTestData();
+
+        }
     }
 }

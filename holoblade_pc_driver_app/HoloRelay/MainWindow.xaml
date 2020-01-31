@@ -7,7 +7,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="HoloRelay.MainWindow"
         mc:Ignorable="d"
         Title="HoloBlade" SizeToContent="WidthAndHeight" Topmost="True" d:DesignHeight="470" WindowStartupLocation="CenterScreen">
-    <TabControl HorizontalAlignment="Left" Margin="0">
+    <TabControl HorizontalAlignment="Left" Margin="0" SelectionChanged="TabControl_SelectionChanged">
         <TabItem x:Name="___TabItem___FPGA_Debug_" Margin="0" Header="FPGA Debug">
             <StackPanel x:Name="FPGADebugStackPanel" Margin="0" Orientation="Horizontal" HorizontalAlignment="Left" Width="594">
                 <Border x:Name="UARTDebugBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
@@ -68,6 +68,33 @@
                         <Button x:Name="CheckerboardImage" Content="Checkboard" Grid.Column="2" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="checkerboard_image"/>
                         <Button x:Name="VerticalGratingImage" Content="Vertical Grating" Grid.Column="2" Margin="10,5,10,0" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="vertical_grating_image"/>
                         <Button x:Name="HorizontalGratingImage" Content="Horizontal Grating" Grid.Column="2" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="horizontal_grating_image"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </TabItem>
+        <TabItem x:Name="___TabItem___Status_" Header="TabItem" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="54">
+            <StackPanel x:Name="StatusStackPanel" Margin="0,55.5" Orientation="Horizontal" HorizontalAlignment="Left" Height="300">
+                <Border x:Name="StatusBorder" BorderBrush="Black" BorderThickness="1" Margin="5,5,5,85" HorizontalAlignment="Center">
+                    <Grid Margin="0,0,0,-1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="ReadBufA" Content="Read BufA" Margin="10,5,10,0" Grid.Column="1" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ReadBufA_Click"/>
+                        <Button x:Name="FullImage1" Content="All On" Margin="10,5,10,0" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="full_image"/>
+                        <Button x:Name="BlankImage1" Content="All Blank" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="blank_image"/>
+                        <Button x:Name="TBD" Content="TBD" Grid.Column="1" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="horizontal_lines_image"/>
+                        <Button x:Name="TBD1" Content="TBD" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="halves_image"/>
+                        <Button x:Name="TBD2" Content="TBD" Grid.Column="1" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="single_horizontal_line_image"/>
+                        <Button x:Name="TBD3" Content="TBD" Grid.Column="2" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="checkerboard_image"/>
+                        <Button x:Name="TBD4" Content="TBD" Grid.Column="2" Margin="10,5,10,0" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="vertical_grating_image"/>
+                        <Button x:Name="TBD5" Content="TBD" Grid.Column="2" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Click="horizontal_grating_image"/>
                     </Grid>
                 </Border>
             </StackPanel>

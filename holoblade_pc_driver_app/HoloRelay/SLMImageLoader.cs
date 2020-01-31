@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -79,7 +80,7 @@ namespace HoloRelay
 
             // Time between Updates
             // 0.5 Hz Update
-            int time_between_frames_msec = 10;
+            int time_between_frames_msec = 2000;//10;
             // Use turbo mode for fast updates, so need to create beforehand (can only update every 150msec or so if we don't do this)
             SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
 
@@ -398,19 +399,148 @@ namespace HoloRelay
 
 
 
+        public void ReadTestData()
+        {
+
+            // Put Back into Standby
+            m_send_me[0] = 0x01;
+            m_send_me[1] = 0x05; // Standby + Enable Serial Updates Commands
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            // Readback status
+            m_send_me[0] = 0x81;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+            // Put into Test Mode
+            m_send_me[0] = 0x01;
+            m_send_me[1] = 0x07; // Test Mode + Enable Serial Updates Commands
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            // Readback status
+            m_send_me[0] = 0x81;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
 
 
-        //////////////////////////////////////
-        //////////// Test Images /////////////
-        //////////////////////////////////////
 
-        // Helper Function to send 'Horizontal Lines' Test Image
-        // Rationale:
-        //    - A horizontal scan line is formed of 1280 pixels
-        //    - When we used the Test Mode, we set the first 128 pixels. This pattern is then duplicated 10 times for the remaining pixels
-        //    - Here, we are setting the first 64 pixels to be '0' and the following 64 pixels to be '1'.
-        //    - These are then multiplied by 10 times and we see a grating of 10 lines on the screen
-        private void loadHorizontalLinesImage()
+
+            ///////////////////////////////////////
+            /////////////// Buffer A //////////////
+            ///////////////////////////////////////
+
+            //// Set Buffer A as the Destination Buffer
+            //m_send_me[0] = 0x08;
+            //m_send_me[1] = 0x01;
+            //m_serial_comms.Send_test_sequence(m_send_me);
+            //System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+            //// Setup which line we are writing Data to
+            //// Set Row Address to 200 so not at the edges
+            //m_send_me[0] = 0x07;
+            ////m_send_me[1] = 0xC8; // 200 in hex
+            //m_send_me[1] = 0x00;   // 0, start from start
+            //m_serial_comms.Send_test_sequence(m_send_me);
+            //System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            //// Readback
+            //m_send_me[0] = 0x87;
+            //m_send_me[1] = 0x00;
+            //m_serial_comms.Send_test_sequence(m_send_me);
+            //System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            //// Load Value just set
+            //m_send_me[0] = 0x08;
+            //m_send_me[1] = 0x04;
+            //m_serial_comms.Send_test_sequence(m_send_me);
+            //System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            //// Readback Value from Current Row Address Register (should be loaded now)
+            //m_send_me[0] = 0x8D;
+            //m_send_me[1] = 0x00;
+            //m_serial_comms.Send_test_sequence(m_send_me);
+            //System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+            // First Clear all Data so we have repeatability
+            //this.loadBlankImage();
+
+            // Iterate through X lines to load data
+            int num_lines_to_write = 1280;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
+
+                // Read Line of Buffer A into Test Register Data
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x08;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Keep track of data Read
+                string recv_bytes = "";
+
+                // Load Data using into Test Registers using SPI Commands
+                m_send_me[0] = 0xAC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xAD; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xAE; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xAF; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xB0; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xB1; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xB2; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xB3; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xB4; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xB5; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xB6; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xB7; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xB8; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xB9; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xBA; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_send_me[0] = 0xBB; m_send_me[1] = 0x00; recv_bytes +=m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+
+                // Print
+                //string data_loaded_from_test_register_string = Encoding.UTF8.GetString(data_loaded_from_test_register, 0, data_loaded_from_test_register.Length);
+                Debug.WriteLine("Line Data: 0x" + recv_bytes);
+
+
+
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print our final row address
+            m_send_me[0] = 0x8D;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
+
+
+
+
+
+
+
+
+
+            //////////////////////////////////////
+            //////////// Test Images /////////////
+            //////////////////////////////////////
+
+            // Helper Function to send 'Horizontal Lines' Test Image
+            // Rationale:
+            //    - A horizontal scan line is formed of 1280 pixels
+            //    - When we used the Test Mode, we set the first 128 pixels. This pattern is then duplicated 10 times for the remaining pixels
+            //    - Here, we are setting the first 64 pixels to be '0' and the following 64 pixels to be '1'.
+            //    - These are then multiplied by 10 times and we see a grating of 10 lines on the screen
+            private void loadHorizontalLinesImage()
         {
 
             // Iterate through X lines to load data

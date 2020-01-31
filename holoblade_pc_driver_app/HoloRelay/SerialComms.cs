@@ -16,7 +16,7 @@ namespace HoloRelay
         {
             // Open a 8N1 Serial Port which is at COM3
             SerialPort test_com_port = new SerialPort();
-            test_com_port.PortName = "COM18";
+            test_com_port.PortName = "COM20";
             test_com_port.DataBits = 8;
             test_com_port.StopBits = StopBits.One;
             test_com_port.BaudRate = 115200;
@@ -91,6 +91,17 @@ namespace HoloRelay
             // Send over Serial Port
             Int32 offset = 0;
             serial_port.Write(tx_buf, offset, tx_buf.Length);
+        }
+
+        // Helper function to tx data but return rx byte, good for reading
+        public string Send_serial_data_with_return(byte[] tx_buf, SerialPort serial_port)
+        {
+            // Send Data
+            string tx_string = Send_serial_data(tx_buf, serial_port);
+            // Rx Reply
+            string rx_string = Read_serial_data(serial_port);
+            return rx_string;
+
         }
 
         // Helper function to send an entire test sequence, printing what was tx + rx
