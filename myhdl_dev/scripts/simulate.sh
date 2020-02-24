@@ -16,7 +16,7 @@ export GTKWAVE_ROOT=/c/gtkwave
 ./scripts/clean.sh
 
 # Generate verilog using myHDL
-python.exe ./mod_m_counter.py
+python.exe ./bluejay_data.py
 
 # Visualise simulation results
 $GTKWAVE_ROOT/bin/gtkwave.exe ./bluejay_data_tb.vcd
