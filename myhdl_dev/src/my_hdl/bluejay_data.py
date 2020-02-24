@@ -5,7 +5,7 @@ from myhdl import *
 period = 20 # clk frequency = 50 MHz
 
 @block
-def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sync_o):
+def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o):
 
     """ Peripheral to clock data out to a Bluejay SLM's Data Interface
 
@@ -20,21 +20,58 @@ def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sy
     get_next_word_o  : line to pull next data word out of fifo 
     Write-Side:
     data_o           : 32-bit output line to data interface on Bluejay SLM
-    sync_o           : Synchronisation line on Bluejay SLM
+    sync_o           : Synchronisation line on Bluejay SLM, used to control which address we are writing to
+    valid_o          : Hold high while writing out a line
+    update_o         : Used to assert when a Buffer Switch shall take place
+    invert_o         : Used to enable DC_Balancing
 
     """
+
+
+    # Timing constants
+    num_words_per_line = 10
+    num_lines = 1280
+
+    # Signals
+    # h_counter = Signal(intbv(0, max=num_words_per_line))
+    h_counter = Signal(intbv(0, max=num_words_per_line+1))
+    v_count   = Signal(intbv(0, max=num_lines))
+    # shiftReg = Signal(modbv(0)[50:])
+
+
 
     @always(clk_i.posedge)
     def update():
 
+        # Default Outputs
+        sync_o.next = False
+        valid_o.next = valid_o
+
         # Latch output
         if( data_rdy_i==True ):
+            
+            # Latch our data output
             data_o.next = data_i
+
+            # Are we at end of line?
+            if h_counter == num_words_per_line:
+                # Yes, reset line_count and assert sync_o
+                h_counter.next = 0
+                sync_o.next = True
+                valid_o.next = False
+            else:
+                # No, increment line count
+                h_counter.next = h_counter + 1
+                valid_o.next = True
+
 
         # Reset Check
         if( reset_i==True ):
+            # Explicitly clear all outputs
             data_o.next = intbv(0)[32:]
-            sync_o = False
+            sync_o.next = False
+            valid_o.next = False
+            h_counter.next = 0
 
     return update
 
@@ -44,18 +81,21 @@ def bluejay_data_tb():
 
     # Signals
     # Control
-    clk_i = Signal(bool(0))
-    reset_i = Signal(bool(0))
+    clk_i = Signal(False)
+    reset_i = Signal(False)
     # Read-Side
     data_i = Signal((intbv(0)[8:]))
     data_rdy_i = Signal(False)
     get_next_word_o = Signal(False)
     # Write-Side
     data_o = Signal((intbv(0)[8:]))
-    sync_o = Signal(0)
+    sync_o = Signal(False)
+    valid_o = Signal(False)
+    update_o = Signal(False)
+    invert_o = Signal(False)
 
     # Inst for testing
-    bluejay_data_inst = bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sync_o)
+    bluejay_data_inst = bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o)
 
     # Clock
     PERIOD = 10 # 50 MHz

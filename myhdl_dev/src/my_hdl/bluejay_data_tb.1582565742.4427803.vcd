@@ -1,5 +1,5 @@
 $date
-    Mon Feb 24 17:40:09 2020
+    Mon Feb 24 17:35:42 2020
 $end
 $version
     MyHDL 0.11
@@ -22,6 +22,7 @@ $var reg 1 * reset_i $end
 $scope module bluejay_data0 $end
 $var reg 1 ' clk_i $end
 $var reg 1 ! get_next_word_o $end
+$var reg 1 $ valid_o $end
 $var reg 1 % update_o $end
 $var reg 1 & invert_o $end
 $var real 1 + v_count $end
@@ -31,7 +32,6 @@ $var reg 1 ) data_rdy_i $end
 $var real 1 , h_counter $end
 $var reg 1 * reset_i $end
 $var reg 1 # sync_o $end
-$var reg 1 $ valid_o $end
 $upscope $end
 $upscope $end
 
@@ -77,7 +77,6 @@ b00010000 (
 #110
 1'
 0)
-1$
 b00010000 "
 s0x1 ,
 #120
@@ -302,80 +301,3 @@ b10100000 (
 1)
 #1010
 1'
-b10100000 "
-s0xa ,
-0)
-#1020
-0'
-#1030
-1'
-#1040
-0'
-#1050
-1'
-#1060
-0'
-#1070
-1'
-#1080
-0'
-#1090
-1'
-#1100
-0'
-b00010000 (
-1)
-#1110
-1'
-0)
-1#
-0$
-b00010000 "
-s0x0 ,
-#1120
-0'
-#1130
-1'
-0#
-#1140
-0'
-#1150
-1'
-#1160
-0'
-#1170
-1'
-#1180
-0'
-#1190
-1'
-#1200
-0'
-b00100000 (
-1)
-#1210
-1'
-1$
-b00100000 "
-s0x1 ,
-0)
-#1220
-0'
-#1230
-1'
-#1240
-0'
-#1250
-1'
-#1260
-0'
-#1270
-1'
-#1280
-0'
-#1290
-1'
-#1300
-0'
-b00110000 (
-1)

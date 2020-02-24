@@ -1,5 +1,5 @@
 $date
-    Mon Feb 24 17:20:25 2020
+    Mon Feb 24 17:21:00 2020
 $end
 $version
     MyHDL 0.11
@@ -19,13 +19,13 @@ $var reg 1 ' reset_i $end
 $scope module bluejay_data0 $end
 $var reg 1 $ clk_i $end
 $var reg 1 ! get_next_word_o $end
+$var real 1 ( v_count $end
 $var reg 8 % data_i $end
 $var reg 8 " data_o $end
 $var reg 1 & data_rdy_i $end
+$var reg 16 ) h_counter $end
 $var reg 1 ' reset_i $end
 $var reg 1 # sync_o $end
-$var real 1 ( v_count $end
-$var reg 16 ) h_counter $end
 $upscope $end
 $upscope $end
 
