@@ -1,0 +1,55 @@
+$date
+    Mon Feb 24 17:53:53 2020
+$end
+$version
+    MyHDL 0.11
+$end
+$timescale
+    1ns
+$end
+
+$scope module bluejay_data_tb $end
+$var reg 1 ! get_next_word_o $end
+$var reg 8 " data_o $end
+$var reg 1 # sync_o $end
+$var reg 1 $ valid_o $end
+$var reg 1 % update_o $end
+$var reg 1 & invert_o $end
+$var reg 1 ' clk_i $end
+$var reg 8 ( data_i $end
+$var reg 1 ) data_rdy_i $end
+$var reg 1 * reset_i $end
+$scope module bluejay_data0 $end
+$var reg 1 ' clk_i $end
+$var reg 1 ! get_next_word_o $end
+$var reg 1 % update_o $end
+$var reg 1 & invert_o $end
+$var reg 8 ( data_i $end
+$var reg 8 " data_o $end
+$var reg 1 ) data_rdy_i $end
+$var real 1 + h_counter $end
+$var reg 1 * reset_i $end
+$var reg 1 # sync_o $end
+$var real 1 , v_counter $end
+$var reg 1 $ valid_o $end
+$upscope $end
+$upscope $end
+
+$enddefinitions $end
+$dumpvars
+0!
+b00000000 "
+0#
+0$
+0%
+0&
+0'
+b00000000 (
+0)
+0*
+s0x0 +
+s0x0 ,
+$end
+1*
+#10
+1'

@@ -29,13 +29,13 @@ def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sy
 
 
     # Timing constants
-    num_words_per_line = 10
-    num_lines = 1280
+    num_words_per_line = 2 #40
+    num_lines = 2 #1280
 
     # Signals
     # h_counter = Signal(intbv(0, max=num_words_per_line))
-    h_counter = Signal(intbv(0, max=num_words_per_line+1))
-    v_count   = Signal(intbv(0, max=num_lines))
+    h_counter = Signal(intbv(0, max=num_words_per_line))
+    v_counter = Signal(intbv(0, max=num_lines))
     # shiftReg = Signal(modbv(0)[50:])
 
 
@@ -46,23 +46,38 @@ def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sy
         # Default Outputs
         sync_o.next = False
         valid_o.next = valid_o
+        update_o.next = update_o
 
         # Latch output
         if( data_rdy_i==True ):
             
             # Latch our data output
             data_o.next = data_i
+            update_o.next = False
 
             # Are we at end of line?
-            if h_counter == num_words_per_line:
-                # Yes, reset line_count and assert sync_o
-                h_counter.next = 0
-                sync_o.next = True
-                valid_o.next = False
-            else:
-                # No, increment line count
+            if h_counter < num_words_per_line-1:
+                # No, increment h_counter
                 h_counter.next = h_counter + 1
                 valid_o.next = True
+            else:
+
+                # Yes, reset h_counter, and deassert sync_o
+                h_counter.next = 0
+                valid_o.next = False
+
+                # Are we at end of an image?
+                if v_counter < num_lines-1:
+                    # No, increment v_counter
+                    v_counter.next = v_counter + 1
+                else:
+                    # Yes, reset v_counter and assert update_o
+                    v_counter.next = 0
+                    update_o.next = True
+
+        print(h_counter, v_counter)
+
+
 
 
         # Reset Check
@@ -71,7 +86,9 @@ def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sy
             data_o.next = intbv(0)[32:]
             sync_o.next = False
             valid_o.next = False
+            update_o.next = False
             h_counter.next = 0
+            v_counter.next = 0
 
     return update
 
