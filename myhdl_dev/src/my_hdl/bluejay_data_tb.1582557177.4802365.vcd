@@ -1,0 +1,48 @@
+$date
+    Mon Feb 24 15:12:57 2020
+$end
+$version
+    MyHDL 0.11
+$end
+$timescale
+    1ns
+$end
+
+$scope module bluejay_data_tb $end
+$var real 1 ! data_rdy_i $end
+$var reg 8 " data_o $end
+$var real 1 # sync_o $end
+$var real 1 $ clk_i $end
+$var reg 8 % data_i $end
+$scope module bluejay_data0 $end
+$var real 1 ! data_rdy_i $end
+$var real 1 $ clk_i $end
+$var real 1 # sync_o $end
+$var reg 8 % data_i $end
+$var reg 8 " data_o $end
+$upscope $end
+$upscope $end
+
+$enddefinitions $end
+$dumpvars
+s0 !
+b00000000 "
+s0 #
+s0 $
+b00000000 %
+$end
+#20
+sTrue $
+b00000001 %
+b00000001 "
+#40
+sFalse $
+b00000010 %
+#60
+sTrue $
+b00000011 %
+b00000011 "
+#80
+sFalse $
+b00000100 %
+#100
