@@ -21,8 +21,9 @@ def bluejay_data(data_i, data_rdy_i, clk_i, data_o, sync_o):
 
     @always(clk_i.posedge)
     def update():
-        # data_o.next[31:0] = data_i[31:0]
-        data_o.next = data_i
+        # Latch output
+        if( data_rdy_i==True ):
+            data_o.next = data_i
 
     return update
 
@@ -67,7 +68,7 @@ def bluejay_data_tb():
 
     # Signals
     data_i = Signal((intbv(0)[8:]))
-    data_rdy_i = Signal(0)
+    data_rdy_i = Signal(False)
     clk_i = Signal(intbv(0))
     data_o = Signal((intbv(0)[8:]))
     sync_o = Signal(0)
