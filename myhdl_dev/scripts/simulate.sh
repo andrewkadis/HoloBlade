@@ -19,7 +19,7 @@ export GTKWAVE_ROOT=/c/gtkwave
 python.exe ./bluejay_data.py
 
 # Visualise simulation results
-$GTKWAVE_ROOT/bin/gtkwave.exe ./bluejay_data_tb.vcd
+$GTKWAVE_ROOT/bin/gtkwave.exe ./bluejay_data_tb.vcd &
 
 # Copy binaries to binary directory
 # cp HoloBlade_Implmnt/sbt/outputs/bitmap/top_bitmap.hex bin/

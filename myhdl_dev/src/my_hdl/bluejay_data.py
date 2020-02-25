@@ -2,10 +2,14 @@
 
 from myhdl import *
 
+import mock_fifo
+
 period = 20 # clk frequency = 50 MHz
 
+t_state = enum('IDLE', 'CLOCKING_OUT', 'END_OF_LINE', 'END_OF_FRAME')
+
 @block
-def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o):
+def bluejay_data(clk_i, reset_i, data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o):
 
     """ Peripheral to clock data out to a Bluejay SLM's Data Interface
 
@@ -16,7 +20,8 @@ def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sy
     reset_i          : Reset line
     Read-Side:
     data_i           : 32-bit input data to be shown on SLM
-    data_rdy_i       : line to indicate that new data is available, active-high for 1 cycle
+    next_line_rdy_i  : line to indicate that a new line of data is available, active-high for 1 cycle
+    fifo_empty_i     : flag to indicate whether or not the FIFO is empty
     get_next_word_o  : line to pull next data word out of fifo 
     Write-Side:
     data_o           : 32-bit output line to data interface on Bluejay SLM
@@ -29,13 +34,14 @@ def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sy
 
 
     # Timing constants
-    num_words_per_line = 2 #40
+    num_words_per_line = 3 #40
     num_lines = 2 #1280
 
     # Signals
-    # h_counter = Signal(intbv(0, max=num_words_per_line))
+    end_of_image_reached = Signal(False, delay=10)
     h_counter = Signal(intbv(0, max=num_words_per_line))
     v_counter = Signal(intbv(0, max=num_lines))
+    state = Signal(t_state.IDLE)
     # shiftReg = Signal(modbv(0)[50:])
 
 
@@ -46,12 +52,14 @@ def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sy
         # Default Outputs
         sync_o.next = False
         valid_o.next = valid_o
-        update_o.next = update_o
+        # update_o.next = update_o
+        # end_of_image_reached.next = False
 
-        # Latch output
-        if( data_rdy_i==True ):
+        # Latch output if Data is available from FIFO
+        if( next_line_rdy_i==True ):
             
-            # Latch our data output
+            # Read from FIFO and Latch our data output
+            get_next_word_o.next = True
             data_o.next = data_i
             update_o.next = False
 
@@ -73,12 +81,23 @@ def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sy
                 else:
                     # Yes, reset v_counter and assert update_o
                     v_counter.next = 0
-                    update_o.next = True
+                    # update_o.next = True
+                    end_of_image_reached.next = True
+                    # # Need to wait 16 cycles to pull update signal high, we wait 20
+                    # wait_time_ns = 16*period
+                    # yield delay(wait_time_ns)
+                    # # Need to hold for 2.5 ns minimum, we wait 5ns
+                    # yield delay(5)
 
         print(h_counter, v_counter)
 
 
-
+        # Update Line Check - Used to control the timing of update_o signal
+        if( end_of_image_reached==True ):
+            update_o.next = True
+            end_of_image_reached.next = False
+        else:
+            update_o.next = False
 
         # Reset Check
         if( reset_i==True ):
@@ -89,30 +108,73 @@ def bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sy
             update_o.next = False
             h_counter.next = 0
             v_counter.next = 0
+            state.next     = t_state.IDLE
+
+
+    
+
+
+    # # Timing Constraints for UPDATE Line
+    # @always(end_of_image_reached.posedge)
+    # def update_signal_timing():
+    #     update_o.next = True
+
+    # @instance
+    # def update_signal_timing():
+
+    #     while True:
+    #         if end_of_image_reached==True:
+    #             # Need to wait 16 cycles to pull update signal high, we wait 20
+    #             wait_time_ns = 16*period
+    #             yield delay(wait_time_ns)
+    #             update_o.next = True
+    #             # Need to hold for 2.5 ns minimum, we wait 5ns
+    #             yield delay(5)
+    #             update_o.next = False
 
     return update
+
+
+
+
+
+
+
+
+
+
+
 
 # testbench
 @block
 def bluejay_data_tb():
 
-    # Signals
+    # Signals for Bluejay Data Module
     # Control
     clk_i = Signal(False)
     reset_i = Signal(False)
     # Read-Side
-    data_i = Signal((intbv(0)[8:]))
-    data_rdy_i = Signal(False)
+    data_i = Signal((intbv(0)[32:]))
+    next_line_rdy_i = Signal(False)
+    fifo_empty_i    = Signal(False)
     get_next_word_o = Signal(False)
     # Write-Side
-    data_o = Signal((intbv(0)[8:]))
+    data_o = Signal((intbv(0)[32:]))
     sync_o = Signal(False)
     valid_o = Signal(False)
     update_o = Signal(False)
     invert_o = Signal(False)
 
-    # Inst for testing
-    bluejay_data_inst = bluejay_data(clk_i, reset_i, data_i, data_rdy_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o)
+    # We also use a mocked FIFO for testing
+    # Signals
+    din = Signal((intbv(0)[32:]))
+    we = Signal(False)
+    full = Signal(False)
+    # Inst
+    mock_fifo_inst = mock_fifo.fifo2(data_i, din, get_next_word_o, we, fifo_empty_i, full, clk_i, maxFilling=64)
+
+    # Device under test for testing
+    bluejay_data_inst = bluejay_data(clk_i, reset_i, data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o)
 
     # Clock
     PERIOD = 10 # 50 MHz
@@ -126,8 +188,8 @@ def bluejay_data_tb():
         # data_i.next = data_i.next + 1
         # Clear Assert signals
         # if data_rdy_i==True:
-        if(data_rdy_i==True):
-            data_rdy_i.next = False
+        if(next_line_rdy_i==True):
+            next_line_rdy_i.next = False
         if(reset_i==True):
             reset_i.next    = False
 
@@ -144,18 +206,48 @@ def bluejay_data_tb():
     @instance
     def load_test_data():
 
-        # Test Vector
+        # Test Vector corresponds to a single line of data
         test_vector = [
-            intbv(0x10)[32:],
-            intbv(0x20)[32:],
-            intbv(0x30)[32:],
-            intbv(0x40)[32:],
-            intbv(0x50)[32:],
-            intbv(0x60)[32:],
-            intbv(0x70)[32:],
-            intbv(0x80)[32:],
-            intbv(0x90)[32:],
-            intbv(0xA0)[32:]
+            intbv(0x11000000)[32:],
+            intbv(0x21000000)[32:],
+            intbv(0x31000000)[32:],
+            intbv(0x41000000)[32:],
+            intbv(0x51000000)[32:],
+            intbv(0x61000000)[32:],
+            intbv(0x71000000)[32:],
+            intbv(0x81000000)[32:],
+            intbv(0x91000000)[32:],
+            intbv(0xA1000000)[32:],
+            intbv(0x12000000)[32:],
+            intbv(0x22000000)[32:],
+            intbv(0x32000000)[32:],
+            intbv(0x42000000)[32:],
+            intbv(0x52000000)[32:],
+            intbv(0x62000000)[32:],
+            intbv(0x72000000)[32:],
+            intbv(0x82000000)[32:],
+            intbv(0x92000000)[32:],
+            intbv(0xA2000000)[32:],
+            intbv(0x12000000)[32:],
+            intbv(0x23000000)[32:],
+            intbv(0x33000000)[32:],
+            intbv(0x43000000)[32:],
+            intbv(0x53000000)[32:],
+            intbv(0x63000000)[32:],
+            intbv(0x73000000)[32:],
+            intbv(0x83000000)[32:],
+            intbv(0x93000000)[32:],
+            intbv(0xA3000000)[32:],
+            intbv(0x14000000)[32:],
+            intbv(0x24000000)[32:],
+            intbv(0x34000000)[32:],
+            intbv(0x44000000)[32:],
+            intbv(0x54000000)[32:],
+            intbv(0x64000000)[32:],
+            intbv(0x74000000)[32:],
+            intbv(0x84000000)[32:],
+            intbv(0x94000000)[32:],
+            intbv(0xA4000000)[32:]
         ]
         # Wait initial 1ms to represent a real-world offset we would see with an actual system due to settling times
         # SETTLING_TIME = 1
@@ -165,12 +257,27 @@ def bluejay_data_tb():
         reset_i.next = 1
         # Iterate through test vector
         while True:
-            for item in test_vector:
-                yield delay(100)
-                data_i.next = intbv(item)[32:]
-                data_rdy_i.next = True
 
-    return bluejay_data_inst, clkgen, timing, load_test_data
+            # Wait 500ms and then load another line
+            yield delay(500)
+
+            # Load line
+            for item in test_vector:
+                yield clk_i.negedge
+                din.next = intbv(item)[32:]
+                we.next = True
+                yield clk_i.posedge
+                yield delay(1)
+                we.next = False
+
+            # Assert that we have reached end-of-line
+            yield clk_i.negedge
+            next_line_rdy_i.next = True
+            yield clk_i.posedge
+            yield delay(1)
+            we.next = False
+
+    return bluejay_data_inst, mock_fifo_inst, clkgen, timing, load_test_data
 
 
 # Simulation
@@ -178,7 +285,7 @@ def simulate():
 
     tb = bluejay_data_tb()
     tb.config_sim(trace=True)
-    tb.run_sim(1300)
+    tb.run_sim(2000)
 
 
 # Execution
