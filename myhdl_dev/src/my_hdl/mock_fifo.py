@@ -62,11 +62,15 @@ def fifo2(dout, din, re, we, empty, full, clk, maxFilling=4096):
 
     @always(clk.posedge)
     def access():
+        # print(clk)
         if we:
             memory.insert(0, din.val)
+            print(din)
         if re:
             try:
-                dout.next = memory.pop()
+                popMe = memory.pop()
+                dout.next = popMe
+                print(popMe)
             except IndexError:
                 raise Exception("Underflow -- Read from empty fifo")
         filling = len(memory)
@@ -78,7 +82,9 @@ def fifo2(dout, din, re, we, empty, full, clk, maxFilling=4096):
     return access
 
 
-dout, din, re, we, empty, full, clk = args = [Signal(0) for i in range(7)]
+dout =  Signal((intbv(0)[32:]))
+din  =  Signal((intbv(0)[32:]))
+re, we, empty, full, clk = args = [Signal(0) for i in range(5)]
 
 dut = fifo2(dout, din, re, we, empty, full, clk, maxFilling=3)
 
