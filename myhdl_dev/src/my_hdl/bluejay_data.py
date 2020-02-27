@@ -49,7 +49,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
 
 
     # Timing constants
-    num_words_per_line = 4 #40
+    num_words_per_line = 40
     num_lines = 2 #1280
     end_of_line_blank_cycles  = 4  # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
     end_of_frame_blank_cycles = 12 # Need to blank for 16 cycles before asseting UPDATE (tDUV from pg. 18 datasheet), already waited 4 hence wait 12
@@ -103,7 +103,8 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
         if state == t_state.IDLE:
 
             # When the next line is ready, transition to clocking out data
-            if( next_line_rdy_i==True ):
+            # Only do  this is row_count is +ive else ignore until next new_frame_i assertion
+            if (next_line_rdy_i==True) and (v_counter>=0):
                 state.next = t_state.LINE_OUT_ENTER
                 # Start getting the next word out of the FIFO now as there shall be a 1-cycle clock delay
                 get_next_word_cmd.next = True
@@ -170,7 +171,9 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
 
                     # Have we clocked out the entire image?
                     if v_counter == 0:
-                        
+
+                        # Row counter is now 0 and we shall not clock out futher data until new_frame_i is subsequently asserted
+                        # v_counter.next = 0
                         # Yes, advance to FRAME_END_BLANK state and start the counter again
                         state.next = t_state.FRAME_END_BLANK
                         state_timeout_counter.next = end_of_frame_blank_cycles-1
@@ -199,7 +202,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
 
 
 
-        elif state == t_state.FRAME_END_UPDATE_HIGH    
+        elif state == t_state.FRAME_END_UPDATE_HIGH:
 
                 # Here we are asserting the UPDATE signal to perform a buffer swap
                 update_o.next = True
@@ -371,47 +374,43 @@ def bluejay_data_tb():
             0x11000000,
             0x21000000,
             0x31000000,
-            0x41000000
-            # intbv(0x11000000)[32:],
-            # intbv(0x21000000)[32:],
-            # intbv(0x31000000)[32:]
-            # intbv(0x41000000)[32:],
-            # intbv(0x51000000)[32:],
-            # intbv(0x61000000)[32:],
-            # intbv(0x71000000)[32:],
-            # intbv(0x81000000)[32:],
-            # intbv(0x91000000)[32:],
-            # intbv(0xA1000000)[32:],
-            # intbv(0x12000000)[32:],
-            # intbv(0x22000000)[32:],
-            # intbv(0x32000000)[32:],
-            # intbv(0x42000000)[32:],
-            # intbv(0x52000000)[32:],
-            # intbv(0x62000000)[32:],
-            # intbv(0x72000000)[32:],
-            # intbv(0x82000000)[32:],
-            # intbv(0x92000000)[32:],
-            # intbv(0xA2000000)[32:],
-            # intbv(0x12000000)[32:],
-            # intbv(0x23000000)[32:],
-            # intbv(0x33000000)[32:],
-            # intbv(0x43000000)[32:],
-            # intbv(0x53000000)[32:],
-            # intbv(0x63000000)[32:],
-            # intbv(0x73000000)[32:],
-            # intbv(0x83000000)[32:],
-            # intbv(0x93000000)[32:],
-            # intbv(0xA3000000)[32:],
-            # intbv(0x14000000)[32:],
-            # intbv(0x24000000)[32:],
-            # intbv(0x34000000)[32:],
-            # intbv(0x44000000)[32:],
-            # intbv(0x54000000)[32:],
-            # intbv(0x64000000)[32:],
-            # intbv(0x74000000)[32:],
-            # intbv(0x84000000)[32:],
-            # intbv(0x94000000)[32:],
-            # intbv(0xA4000000)[32:]
+            0x41000000,
+            0x51000000,
+            0x61000000,
+            0x71000000,
+            0x81000000,
+            0x91000000,
+            0xA1000000,
+            0x12000000,
+            0x22000000,
+            0x32000000,
+            0x42000000,
+            0x52000000,
+            0x62000000,
+            0x72000000,
+            0x82000000,
+            0x92000000,
+            0xA2000000,
+            0x12000000,
+            0x23000000,
+            0x33000000,
+            0x43000000,
+            0x53000000,
+            0x63000000,
+            0x73000000,
+            0x83000000,
+            0x93000000,
+            0xA3000000,
+            0x14000000,
+            0x24000000,
+            0x34000000,
+            0x44000000,
+            0x54000000,
+            0x64000000,
+            0x74000000,
+            0x84000000,
+            0x94000000,
+            0xA4000000
         ]
         # Wait an initial period
         FULL_CLOCK_PERIOD = 2*PERIOD
@@ -431,7 +430,7 @@ def bluejay_data_tb():
         while True:
 
             # Wait 500ms and then load another line
-            yield delay(500)
+            yield delay(5000)
 
             # Load line
             for item in test_vector:
@@ -461,7 +460,7 @@ def main():
 
     tb = bluejay_data_tb()
     tb.config_sim(trace=True)
-    tb.run_sim(2500)
+    tb.run_sim(20000)
 
 
 if __name__ == '__main__':
