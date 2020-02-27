@@ -16,7 +16,7 @@ t_state = enum(
     'IDLE',
     'LINE_OUT_ENTER',
     'LINE_OUT_DATA',
-    'LINE_OUT_IDLE'
+    'LINE_OUT_END'
     )
 
 @block
@@ -46,7 +46,7 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
 
 
     # Timing constants
-    num_words_per_line = 3 #40
+    num_words_per_line = 4 #40
     num_lines = 2 #1280
 
     # Signals
@@ -92,37 +92,44 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
 
             # When the next line is ready, transition to clocking out data
             if( next_line_rdy_i==True ):
-                state.next = t_state.LINE_OUT_DATA
-                # Also clock out the first word from FIFO so ready to start outputting at next clock edge
+                state.next = t_state.LINE_OUT_ENTER
+                # Start getting the next word out of the FIFO now as there shall be a 1-cycle clock delay
                 get_next_word_cmd.next = True
-                # data_o.next = data_i
-                valid_o.next = True
-
 
         elif state == t_state.LINE_OUT_ENTER:     
                    
-            # Read from FIFO and Latch our data output
-            # get_next_word_o.next = True
-            # data_o.next = data_i
+            # Need this wait state when entering a line as it will take 1 cycle to start getting data from FIFO
+            # Reset HCounter and Valid line so they will start in-sync with FIFO Data     
+            h_counter.next = num_words_per_line-1             
+            valid_o.next = True
+            # Autop transition to main Data Out State
             state.next = t_state.LINE_OUT_DATA
-            # get_next_word_cmd.next = True
 
         elif state == t_state.LINE_OUT_DATA: 
 
-            if fifo_empty_i == True:
-                state.next = t_state.LINE_OUT_IDLE
+            # Keep reading from FIFO and maintain state
+            get_next_word_cmd.next = True
+            state.next = t_state.LINE_OUT_DATA
+            # Increment our count of what pixel we are at and keep Valid high
+            h_counter.next = h_counter-1
+            valid_o.next = True
+
+            # Are we at end of line?
+            if h_counter == 0:
+
+                # Yes, advance state machine to end of line
+                state.next = t_state.LINE_OUT_END
+                # Not getting any more data from FIFO
                 get_next_word_cmd.next = False
+                # End of line so pull Valid Low
                 valid_o.next = False
+                # Clear h_count (as set above) and set data output to 0
+                h_counter.next = 0
+                data_o.next = 0x00000000
 
-            else:
-                # Read from FIFO and Latch our data output
-                get_next_word_cmd.next = True
-                # data_o.next = data_i
-                state.next = t_state.LINE_OUT_DATA
-
-        elif state == t_state.LINE_OUT_IDLE:
+        elif state == t_state.LINE_OUT_END:
+                # h_counter.next = num_words_per_line
                 state.next = t_state.IDLE
-                valid_o.next = False
 
 
 
@@ -173,7 +180,7 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
         # Reset Check
         if( reset_i==True ):
             # Explicitly clear all outputs
-            data_o.next = intbv(0)[32:]
+            data_o.next = Signal(0)
             sync_o.next = False
             valid_o.next = False
             update_o.next = False
