@@ -92,10 +92,11 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
 
             # When the next line is ready, transition to clocking out data
             if( next_line_rdy_i==True ):
-                state.next = t_state.LINE_OUT_ENTER
+                state.next = t_state.LINE_OUT_DATA
                 # Also clock out the first word from FIFO so ready to start outputting at next clock edge
-                get_next_word_cmd.next = False
+                get_next_word_cmd.next = True
                 # data_o.next = data_i
+                valid_o.next = True
 
 
         elif state == t_state.LINE_OUT_ENTER:     
@@ -104,20 +105,26 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
             # get_next_word_o.next = True
             # data_o.next = data_i
             state.next = t_state.LINE_OUT_DATA
-            get_next_word_cmd.next = True
+            # get_next_word_cmd.next = True
 
         elif state == t_state.LINE_OUT_DATA: 
 
-            # if fifo_empty_i == True:
-            #     state.next = t_state.IDLE
-            #     get_next_word_cmd.next = False
+            if fifo_empty_i == True:
+                state.next = t_state.LINE_OUT_IDLE
+                get_next_word_cmd.next = False
+                valid_o.next = False
 
-            # else:
+            else:
+                # Read from FIFO and Latch our data output
+                get_next_word_cmd.next = True
+                # data_o.next = data_i
+                state.next = t_state.LINE_OUT_DATA
 
-            # Read from FIFO and Latch our data output
-            get_next_word_cmd.next = True
-            # data_o.next = data_i
-            state.next = t_state.LINE_OUT_DATA
+        elif state == t_state.LINE_OUT_IDLE:
+                state.next = t_state.IDLE
+                valid_o.next = False
+
+
 
         # elif state == t_state.LINE_OUT_IDLE:
 
@@ -219,24 +226,25 @@ def bluejay_data_tb():
     reset_i = Signal(False)
     state = Signal(t_state.IDLE)
     # Read-Side
-    data_i = Signal(0)
+    bluejay_data_i = Signal(0)
     next_line_rdy_i = Signal(False)
     fifo_empty_i    = Signal(False)
     get_next_word_o = Signal(False)
     # Write-Side
-    data_o = Signal((intbv(0)[32:]))
+    bluejay_data_o = Signal(0)
     sync_o = Signal(False)
     valid_o = Signal(False)
     update_o = Signal(False)
     invert_o = Signal(False)
 
     # Inst our simulated FIFO
+    fifo_data_i = Signal(0)
     we = Signal(False)
     full = Signal(False)
-    dut = test_fifo.fifo2(data_i, data_i, get_next_word_o, we, fifo_empty_i, full, clk_i, maxFilling=64)
+    dut = test_fifo.fifo2(bluejay_data_i, fifo_data_i, get_next_word_o, we, fifo_empty_i, full, clk_i, maxFilling=64)
 
     # Device under test for testing
-    bluejay_data_inst = bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o)
+    bluejay_data_inst = bluejay_data(clk_i, reset_i, state, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
 
     # Clock
     PERIOD = 10 # 50 MHz
@@ -244,18 +252,16 @@ def bluejay_data_tb():
     def clkgen():
         clk_i.next = not clk_i
 
-
-
-    # # # Timing Code, useful for clearing our Assert signals
-    # # @always(clk_i.posedge)
-    # # def timing():
-    # #     # data_i.next = data_i.next + 1
-    # #     # Clear Assert signals
-    # #     # if data_rdy_i==True:
-    # #     if(next_line_rdy_i==True):
-    # #         next_line_rdy_i.next = False
-    # #     if(reset_i==True):
-    # #         reset_i.next    = False
+    # Timing Code, useful for clearing our Assert signals
+    @always(clk_i.posedge)
+    def timing():
+        # data_i.next = data_i.next + 1
+        # Clear Assert signals
+        # if data_rdy_i==True:
+        if(next_line_rdy_i==True):
+            next_line_rdy_i.next = False
+        if(reset_i==True):
+            reset_i.next    = False
 
 
 
@@ -276,7 +282,8 @@ def bluejay_data_tb():
         test_vector = [
             0x11000000,
             0x21000000,
-            0x31000000
+            0x31000000,
+            0x41000000
             # intbv(0x11000000)[32:],
             # intbv(0x21000000)[32:],
             # intbv(0x31000000)[32:]
@@ -332,15 +339,15 @@ def bluejay_data_tb():
 
             # Load line
             for item in test_vector:
-                # yield clk_i.negedge
-                yield delay(10)
-                data_i.next = item
+                yield clk_i.negedge
+                # yield delay(10)
+                fifo_data_i.next = item
                 we.next = True
-                yield delay(10)
-                # yield clk_i.posedge
+                # yield delay(10)
+                yield clk_i.posedge
                 # yield delay(1)
                 we.next = False
-                yield delay(10)
+                # yield delay(10)
 
             # Assert that we have reached end-of-line
             # yield clk_i.negedge
@@ -351,198 +358,7 @@ def bluejay_data_tb():
             # yield delay()
             we.next = False
 
-
-
-
-
-
-
-    # def report():
-    #     print("dout: %s empty: %s full: %s" % (hex(data_i), fifo_empty_i, full))
-
-    # def read():
-    #     yield clk_i.negedge
-    #     get_next_word_o.next = 1
-    #     yield clk_i.posedge
-    #     yield delay(1)
-    #     get_next_word_o.next = 0
-
-    # def write(data):
-    #     yield clk_i.negedge
-    #     din.next = data
-    #     we.next = 1
-    #     yield clk_i.posedge
-    #     yield delay(1)
-    #     we.next = 0
-
-    # @instance
-    # def clkGen():
-    #     while 1:
-    #         yield delay(10)
-    #         clk_i.next = not clk_i
-
-    # @instance
-    # def test_protocol():
-    #     yield write(0x55)
-    #     report()
-    #     yield delay(100)
-    #     yield write(0x77)
-    #     report()
-    #     yield delay(100)
-    #     yield write(0x11)
-    #     report()
-    #     yield delay(100)
-    #     yield join(write(0x22), read())
-    #     report()
-    #     yield delay(100)
-    #     yield join(write(0x33), read())
-    #     report()
-    #     yield delay(100)
-    #     yield read()
-    #     report()
-    #     yield delay(100)
-    #     yield read()
-    #     yield delay(100)
-    #     report()
-    #     # yield read()
-    #     # report()
-    #     # yield read()
-    #     # report()
-    #     # yield read()
-    #     raise StopSimulation
-
-
-
-
-
-    # dout, din, re, we, empty, full, clk = args = [Signal(0) for i in range(7)]
-
-    # dut = test_fifo.fifo2(dout, din, re, we, empty, full, clk, maxFilling=3)
-
-
-
-
-
-
-
-    # # Control
-    # clk = Signal(False)
-    # # reset_i = Signal(False)
-    # # state = Signal(t_state.IDLE)
-    # # Read-Side
-    # # data_i = Signal((intbv(0)[32:]))
-    # dout = Signal(0)
-    # next_line_rdy_i = Signal(False)
-    # fifo_empty_i    = Signal(False)
-    # get_next_word_o = Signal(False)
-    # # Write-Side
-    # # data_o = Signal((intbv(0)[32:]))
-    # # sync_o = Signal(False)
-    # # valid_o = Signal(False)
-    # # update_o = Signal(False)
-    # # invert_o = Signal(False)
-
-    # # We also use a mocked FIFO for testing
-    # # Signals
-    # din = Signal(0)
-    # we = Signal(False)
-    # full = Signal(False)
-    # # Simulated FIFO
-    # prev_mem = []
-    # memory = []
-    # @always(clk_i.posedge)
-    # def simulated_fifo():
-    #     if we:
-    #         prev_mem = memory.copy()
-    #         print(prev_mem)
-    #         memory.insert(0, din.val)
-    #         print(memory)
-    #     if get_next_word_o:
-    #         data_i.next = memory.pop()
-    #         print(memory)
-    #     filling = len(memory)
-    #     fifo_empty_i.next = (filling == 0)
-    #     full.next = (filling == 64)
-
-    # # Inst
-    # dut = test_fifo.fifo2(dout, din, get_next_word_o, we, fifo_empty_i, full, clk, maxFilling=64)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # def report():
-    #     print("dout: %s empty: %s full: %s" % (hex(dout), fifo_empty_i, full))
-
-    # def read():
-    #     yield clk.negedge
-    #     get_next_word_o.next = 1
-    #     yield clk.posedge
-    #     yield delay(1)
-    #     get_next_word_o.next = 0
-
-    # def write(data):
-    #     yield clk.negedge
-    #     din.next = data
-    #     we.next = 1
-    #     yield clk.posedge
-    #     yield delay(1)
-    #     we.next = 0
-
-    # @instance
-    # def clkGen():
-    #     while 1:
-    #         yield delay(10)
-    #         clk.next = not clk
-
-
-    # @instance
-    # def test_protocol():
-    #     yield write(0x55555555)
-    #     report()
-    #     yield delay(100)
-    #     yield write(0x66666666)
-    #     report()
-    #     yield delay(100)
-    #     yield write(0x88888888)
-    #     report()
-    #     yield delay(100)
-    #     yield join(write(0x99999999), read())
-    #     report()
-    #     yield delay(100)
-    #     yield join(write(0xAAAAAAAA), read())
-    #     report()
-    #     yield delay(100)
-    #     yield read()
-    #     report()
-    #     yield delay(100)
-    #     yield read()
-    #     yield delay(100)
-    #     report()
-    #     yield read()
-    #     report()
-    #     # yield read()
-    #     # report()
-    #     # yield read()
-    #     raise StopSimulation
-
-    return dut, bluejay_data_inst, clkgen, load_test_data
-
-
-    # return mock_fifo_inst, bluejay_data_inst, clkgen, timing, load_test_data
-    # return test_protocol, dut, clkGen
-
-
+    return dut, bluejay_data_inst, clkgen, load_test_data, timing
 
 def main():
 
