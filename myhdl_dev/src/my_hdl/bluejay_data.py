@@ -51,15 +51,15 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
     # Timing constants
     num_words_per_line = 4 #40
     num_lines = 2 #1280
-    end_of_line_blank_cycles  = 4 # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
+    end_of_line_blank_cycles  = 4  # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
     end_of_frame_blank_cycles = 12 # Need to blank for 16 cycles before asseting UPDATE (tDUV from pg. 18 datasheet), already waited 4 hence wait 12
+    update_high_cycles        = 48 # Need to hold high for 48 cycles (tUPLS from datasheet, use Typ rather than Min)
 
     # Signals
     end_of_image_reached    = Signal(False, delay=10)
     h_counter               = Signal(intbv(0, max=num_words_per_line))
     v_counter               = Signal(intbv(0, max=num_lines))
-    line_end_blank_counter  = Signal(intbv(0, max=end_of_line_blank_cycles))
-    frame_end_blank_counter = Signal(intbv(0, max=end_of_frame_blank_cycles))
+    state_timeout_counter   = Signal(intbv(0, max=update_high_cycles))
     get_next_word_cmd = Signal(False)
     # state = Signal(t_state.IDLE)
     # shiftReg = Signal(modbv(0)[50:])
@@ -95,7 +95,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
         # Default Outputs
         sync_o.next = False
         valid_o.next = valid_o
-        # update_o.next = update_o
+        update_o.next = False
         # end_of_image_reached.next = False
 
         # Which state are we in?
@@ -108,6 +108,11 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                 # Start getting the next word out of the FIFO now as there shall be a 1-cycle clock delay
                 get_next_word_cmd.next = True
 
+
+
+
+
+
         elif state == t_state.LINE_OUT_ENTER:     
                    
             # Need this wait state when entering a line as it will take 1 cycle to start getting data from FIFO
@@ -116,6 +121,11 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
             valid_o.next = True
             # Autop transition to main Data Out State
             state.next = t_state.LINE_OUT_DATA
+
+
+
+
+
 
         elif state == t_state.LINE_OUT_DATA: 
 
@@ -138,31 +148,68 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                 # Clear h_count (as set above) and set data output to 0
                 h_counter.next = 0
                 data_o.next = 0x00000000
-                # Start line blank counter
-                line_end_blank_counter.next = end_of_line_blank_cycles-1
+                # Use the state_timeout_counter to count how many line_end blanking cycles we need
+                state_timeout_counter.next = end_of_line_blank_cycles-1
+
+
+
+
+
 
         elif state == t_state.LINE_OUT_BLANK:
 
                 # Need to blank appropriate number of cycles between lines
-                line_end_blank_counter.next = line_end_blank_counter - 1
+                state_timeout_counter.next = state_timeout_counter - 1
 
                 # End of Blank period for end of line?
-                if line_end_blank_counter == 0:
+                if state_timeout_counter == 0:
                     # Reset our line_end counter
-                    line_end_blank_counter.next = 0
+                    state_timeout_counter.next = 0
                     # Decrement our row count as we have just finished clocking out a line
                     v_counter.next = v_counter - 1
 
                     # Have we clocked out the entire image?
                     if v_counter == 0:
                         
-                        # Yes, advance to FRAME_END_BLANK state
+                        # Yes, advance to FRAME_END_BLANK state and start the counter again
                         state.next = t_state.FRAME_END_BLANK
+                        state_timeout_counter.next = end_of_frame_blank_cycles-1
 
                     else:
 
                         # No, go back to IDLE while we await more lines
                         state.next = t_state.IDLE
+
+
+
+
+
+
+        elif state == t_state.FRAME_END_BLANK:
+
+                # Need to blank extra cycles if we're at an end of frame
+                state_timeout_counter.next = state_timeout_counter - 1
+                # Have we reached the End of Blank period for end of frame?
+                if state_timeout_counter == 0:
+                    # Move to FRAME_END_UPDATE_HIGH state and start counter appropriately
+                    state_timeout_counter.next = update_high_cycles-1
+                    state.next = t_state.FRAME_END_UPDATE_HIGH
+
+
+
+
+
+        elif state == t_state.FRAME_END_UPDATE_HIGH    
+
+                # Here we are asserting the UPDATE signal to perform a buffer swap
+                update_o.next = True
+                # Decrement cycle count
+                state_timeout_counter.next = state_timeout_counter - 1
+                # Have we reached the End of Blank period for end of frame?
+                if state_timeout_counter == 0:
+                    # Reset and move back to IDLE
+                    state_timeout_counter.next = 0
+                    state.next = t_state.IDLE
 
 
 
