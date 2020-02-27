@@ -84,7 +84,10 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
     def output_connect():
         data_o.next = data_i
 
-    # 
+    # When new_frame_i is Asserted, reset the row_count
+    @always(new_frame_i.posedge)
+    def new_frame_assert():
+        v_counter.next = num_lines-1
 
     @always(clk_i.posedge)
     def update():
@@ -135,8 +138,6 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                 # Clear h_count (as set above) and set data output to 0
                 h_counter.next = 0
                 data_o.next = 0x00000000
-                # Decrement our row count as we have just finished clocking out a line
-                v_counter.next = v_counter - 1
                 # Start line blank counter
                 line_end_blank_counter.next = end_of_line_blank_cycles-1
 
@@ -147,7 +148,10 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
 
                 # End of Blank period for end of line?
                 if line_end_blank_counter == 0:
+                    # Reset our line_end counter
                     line_end_blank_counter.next = 0
+                    # Decrement our row count as we have just finished clocking out a line
+                    v_counter.next = v_counter - 1
 
                     # Have we clocked out the entire image?
                     if v_counter == 0:
@@ -239,7 +243,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
     #             yield delay(5)
     #             update_o.next = False
 
-    return update, check_fifo_not_empty, output_connect
+    return update, check_fifo_not_empty, output_connect, new_frame_assert
 
 
 
@@ -410,7 +414,7 @@ def main():
 
     tb = bluejay_data_tb()
     tb.config_sim(trace=True)
-    tb.run_sim(1300)
+    tb.run_sim(2500)
 
 
 if __name__ == '__main__':
