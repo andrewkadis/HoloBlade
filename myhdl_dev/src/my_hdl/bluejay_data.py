@@ -16,7 +16,7 @@ t_state = enum(
     'IDLE',
     'LINE_OUT_ENTER',
     'LINE_OUT_DATA',
-    'LINE_OUT_END'
+    'LINE_OUT_BLANK'
     )
 
 @block
@@ -48,11 +48,13 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
     # Timing constants
     num_words_per_line = 4 #40
     num_lines = 2 #1280
+    num_line_blank_cycles = 4 # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
 
     # Signals
     end_of_image_reached = Signal(False, delay=10)
-    h_counter = Signal(intbv(0, max=num_words_per_line))
-    v_counter = Signal(intbv(0, max=num_lines))
+    h_counter            = Signal(intbv(0, max=num_words_per_line))
+    line_blank_counter   = Signal(intbv(0, max=num_line_blank_cycles))
+    v_counter            = Signal(intbv(0, max=num_lines))
     get_next_word_cmd = Signal(False)
     # state = Signal(t_state.IDLE)
     # shiftReg = Signal(modbv(0)[50:])
@@ -118,7 +120,7 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
             if h_counter == 0:
 
                 # Yes, advance state machine to end of line
-                state.next = t_state.LINE_OUT_END
+                state.next = t_state.LINE_OUT_BLANK
                 # Not getting any more data from FIFO
                 get_next_word_cmd.next = False
                 # End of line so pull Valid Low
@@ -126,10 +128,18 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
                 # Clear h_count (as set above) and set data output to 0
                 h_counter.next = 0
                 data_o.next = 0x00000000
+                # Start line blank counter
+                line_blank_counter.next = num_line_blank_cycles-1
 
-        elif state == t_state.LINE_OUT_END:
-                # h_counter.next = num_words_per_line
-                state.next = t_state.IDLE
+        elif state == t_state.LINE_OUT_BLANK:
+
+                # Need to blank appropriate number of cycles between lines
+                line_blank_counter.next = line_blank_counter - 1
+
+                # End of Blank period?
+                if line_blank_counter == 0:
+                    line_blank_counter.next = 0
+                    state.next = t_state.IDLE
 
 
 
