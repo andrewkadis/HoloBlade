@@ -16,11 +16,13 @@ t_state = enum(
     'IDLE',
     'LINE_OUT_ENTER',
     'LINE_OUT_DATA',
-    'LINE_OUT_BLANK'
+    'LINE_OUT_BLANK',
+    'FRAME_END_BLANK',
+    'FRAME_END_UPDATE_HIGH'
     )
 
 @block
-def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o):
+def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o):
 
     """ Peripheral to clock data out to a Bluejay SLM's Data Interface
 
@@ -30,6 +32,7 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
     clk_i            : 50MHz input clock
     reset_i          : Reset line
     state            : Current state, output for debug in simulator
+    new_frame_i      : Signal line to indicate that we want to start outputting a new frame
     Read-Side:
     data_i           : 32-bit input data to be shown on SLM
     next_line_rdy_i  : line to indicate that a new line of data is available, active-high for 1 cycle
@@ -48,13 +51,15 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
     # Timing constants
     num_words_per_line = 4 #40
     num_lines = 2 #1280
-    num_line_blank_cycles = 4 # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
+    end_of_line_blank_cycles  = 4 # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
+    end_of_frame_blank_cycles = 12 # Need to blank for 16 cycles before asseting UPDATE (tDUV from pg. 18 datasheet), already waited 4 hence wait 12
 
     # Signals
-    end_of_image_reached = Signal(False, delay=10)
-    h_counter            = Signal(intbv(0, max=num_words_per_line))
-    line_blank_counter   = Signal(intbv(0, max=num_line_blank_cycles))
-    v_counter            = Signal(intbv(0, max=num_lines))
+    end_of_image_reached    = Signal(False, delay=10)
+    h_counter               = Signal(intbv(0, max=num_words_per_line))
+    v_counter               = Signal(intbv(0, max=num_lines))
+    line_end_blank_counter  = Signal(intbv(0, max=end_of_line_blank_cycles))
+    frame_end_blank_counter = Signal(intbv(0, max=end_of_frame_blank_cycles))
     get_next_word_cmd = Signal(False)
     # state = Signal(t_state.IDLE)
     # shiftReg = Signal(modbv(0)[50:])
@@ -78,6 +83,8 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
     @always_comb
     def output_connect():
         data_o.next = data_i
+
+    # 
 
     @always(clk_i.posedge)
     def update():
@@ -128,18 +135,30 @@ def bluejay_data(clk_i, reset_i, state, data_i, next_line_rdy_i, fifo_empty_i, g
                 # Clear h_count (as set above) and set data output to 0
                 h_counter.next = 0
                 data_o.next = 0x00000000
+                # Decrement our row count as we have just finished clocking out a line
+                v_counter.next = v_counter - 1
                 # Start line blank counter
-                line_blank_counter.next = num_line_blank_cycles-1
+                line_end_blank_counter.next = end_of_line_blank_cycles-1
 
         elif state == t_state.LINE_OUT_BLANK:
 
                 # Need to blank appropriate number of cycles between lines
-                line_blank_counter.next = line_blank_counter - 1
+                line_end_blank_counter.next = line_end_blank_counter - 1
 
-                # End of Blank period?
-                if line_blank_counter == 0:
-                    line_blank_counter.next = 0
-                    state.next = t_state.IDLE
+                # End of Blank period for end of line?
+                if line_end_blank_counter == 0:
+                    line_end_blank_counter.next = 0
+
+                    # Have we clocked out the entire image?
+                    if v_counter == 0:
+                        
+                        # Yes, advance to FRAME_END_BLANK state
+                        state.next = t_state.FRAME_END_BLANK
+
+                    else:
+
+                        # No, go back to IDLE while we await more lines
+                        state.next = t_state.IDLE
 
 
 
@@ -242,6 +261,7 @@ def bluejay_data_tb():
     clk_i = Signal(False)
     reset_i = Signal(False)
     state = Signal(t_state.IDLE)
+    new_frame_i = Signal(False)
     # Read-Side
     bluejay_data_i = Signal(0)
     next_line_rdy_i = Signal(False)
@@ -261,7 +281,7 @@ def bluejay_data_tb():
     dut = test_fifo.fifo2(bluejay_data_i, fifo_data_i, get_next_word_o, we, fifo_empty_i, full, clk_i, maxFilling=64)
 
     # Device under test for testing
-    bluejay_data_inst = bluejay_data(clk_i, reset_i, state, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    bluejay_data_inst = bluejay_data(clk_i, reset_i, state, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
 
     # Clock
     PERIOD = 10 # 50 MHz
@@ -269,16 +289,16 @@ def bluejay_data_tb():
     def clkgen():
         clk_i.next = not clk_i
 
-    # Timing Code, useful for clearing our Assert signals
-    @always(clk_i.posedge)
-    def timing():
-        # data_i.next = data_i.next + 1
-        # Clear Assert signals
-        # if data_rdy_i==True:
-        if(next_line_rdy_i==True):
-            next_line_rdy_i.next = False
-        if(reset_i==True):
-            reset_i.next    = False
+    # # Timing Code, useful for clearing our Assert signals
+    # @always(clk_i.posedge)
+    # def timing():
+    #     # data_i.next = data_i.next + 1
+    #     # Clear Assert signals
+    #     # if data_rdy_i==True:
+    #     if(next_line_rdy_i==True):
+    #         next_line_rdy_i.next = False
+    #     # if(reset_i==True):
+    #     #     reset_i.next    = False
 
 
 
@@ -342,12 +362,20 @@ def bluejay_data_tb():
             # intbv(0x94000000)[32:],
             # intbv(0xA4000000)[32:]
         ]
-        # Wait initial 1ms to represent a real-world offset we would see with an actual system due to settling times
-        # SETTLING_TIME = 1
-        # yield delay(20)
-        # yield delay(1)
+        # Wait an initial period
+        FULL_CLOCK_PERIOD = 2*PERIOD
+        yield delay(FULL_CLOCK_PERIOD)
         # Reset
-        reset_i.next = 1
+        yield clk_i.negedge
+        reset_i.next = True
+        yield clk_i.posedge
+        reset_i.next = False
+        # Signal to indicate we are doing a new frame
+        yield delay(FULL_CLOCK_PERIOD)
+        new_frame_i.next = True
+        yield clk_i.negedge
+        new_frame_i.next = False
+        yield clk_i.posedge
         # Iterate through test vector
         while True:
 
@@ -367,15 +395,16 @@ def bluejay_data_tb():
                 # yield delay(10)
 
             # Assert that we have reached end-of-line
-            # yield clk_i.negedge
-            yield delay(10)
+            yield clk_i.negedge
+            # yield delay(FULL_CLOCK_PERIOD)
             next_line_rdy_i.next = True
-            # yield clk_i.posedge
-            yield delay(10)
+            yield clk_i.posedge
+            next_line_rdy_i.next = False
+            yield clk_i.negedge
             # yield delay()
             we.next = False
 
-    return dut, bluejay_data_inst, clkgen, load_test_data, timing
+    return dut, bluejay_data_inst, clkgen, load_test_data
 
 def main():
 
