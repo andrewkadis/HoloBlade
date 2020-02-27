@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 16:52:36
 
-* File Generated:     Feb 27 2020 20:56:13
+* File Generated:     Feb 27 2020 21:49:35
 
 * Purpose:            General info of design implementation
 
@@ -17,7 +17,7 @@
 Synthesis/Placement Summary:
 ----------------------------
     Status:  Successful
-    Runtime: 1 seconds
+    Runtime: 0 seconds
 
 Device Info:
 ------------
@@ -27,35 +27,35 @@ Device Info:
 
 Design statistics:
 ------------------
-    FFs:                  228
+    FFs:                  229
     LUTs:                 325
     RAMs:                 0
-    IOBs:                 102
-    GBs:                  1
+    IOBs:                 103
+    GBs:                  2
     PLLs:                 1
     Warm Boots:           0
 
 Logic Resource Utilization:
 ---------------------------
     Total Logic Cells: 325/3520
-        Combinational Logic Cells: 97       out of   3520      2.75568%
-        Sequential Logic Cells:    228      out of   3520      6.47727%
-        Logic Tiles:               86       out of   440       19.5455%
+        Combinational Logic Cells: 96       out of   3520      2.72727%
+        Sequential Logic Cells:    229      out of   3520      6.50568%
+        Logic Tiles:               89       out of   440       20.2273%
     Registers: 
-        Logic Registers:           228      out of   3520      6.47727%
-        IO Registers:              1        out of   880       0.113636
+        Logic Registers:           229      out of   3520      6.50568%
+        IO Registers:              2        out of   880       0.227273
     Block RAMs:                    0        out of   20        0%
     Warm Boots:                    0        out of   1         0%
     Pins:
-        Input Pins:                4        out of   107       3.73832%
-        Output Pins:               98       out of   107       91.5888%
+        Input Pins:                6        out of   107       5.60748%
+        Output Pins:               97       out of   107       90.6542%
         InOut Pins:                0        out of   107       0%
-    Global Buffers:                1        out of   8         12.5%
+    Global Buffers:                2        out of   8         25%
     PLLs:                          1        out of   2         50%
 
 IO Bank Utilization:
 --------------------
-    Bank 3: 27       out of   28        96.4286%
+    Bank 3: 28       out of   28        100%
     Bank 1: 29       out of   29        100%
     Bank 0: 27       out of   27        100%
     Bank 2: 19       out of   23        82.6087%
@@ -66,6 +66,8 @@ Detailed I/O Info:
     Pin Number  Direction  IO Standard  Pull Up  IO Bank  IO Function                   Signal Name 
     ----------  ---------  -----------  -------  -------  -----------                   ----------- 
     8           Input      SB_LVCMOS    No       3        Simple Input                  FR_RXF      
+    21          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_CLK    
+    62          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D0     
     80          Input      SB_LVCMOS    No       1        Simple Input                  UART_RX     
     93          Input      SB_LVCMOS    No       1        Simple Input                  ICE_SYSCLK  
     139         Input      SB_LVCMOS    No       0        Simple Input                  SOUT        
@@ -73,11 +75,12 @@ Detailed I/O Info:
     Output Pins: 
     Pin Number  Direction  IO Standard  Pull Up  IO Bank  IO Function                   Signal Name 
     ----------  ---------  -----------  -------  -------  -----------                   ----------- 
-    2           Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FT_OE       
-    3           Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FT_RD       
+    1           Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CREST   
+    2           Output     SB_LVCMOS    No       3        Simple Output                 FT_OE       
+    3           Output     SB_LVCMOS    No       3        Output Registered             FT_RD       
     4           Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FT_WR       
     7           Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FT_SIWU     
-    9           Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CREST   
+    9           Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CDONE   
     10          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FIFO_BE3    
     11          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FIFO_BE2    
     12          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FIFO_BE1    
@@ -87,7 +90,6 @@ Detailed I/O Info:
     18          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FIFO_D29    
     19          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FIFO_D28    
     20          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FIFO_D27    
-    21          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CDONE   
     22          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FIFO_D26    
     23          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FIFO_D25    
     24          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  FIFO_D24    
@@ -115,7 +117,6 @@ Detailed I/O Info:
     56          Output     SB_LVCMOS    No       2        Output Tristatable by Enable  FIFO_D3     
     60          Output     SB_LVCMOS    No       2        Output Tristatable by Enable  FIFO_D2     
     61          Output     SB_LVCMOS    No       2        Output Tristatable by Enable  FIFO_D1     
-    62          Output     SB_LVCMOS    No       2        Output Tristatable by Enable  FIFO_D0     
     63          Output     SB_LVCMOS    No       2        Simple Output                 DEBUG_8     
     64          Output     SB_LVCMOS    No       2        Simple Output                 DEBUG_9     
     73          Output     SB_LVCMOS    No       1        Simple Output                 DCD         
@@ -174,9 +175,10 @@ Detailed I/O Info:
 
 Detailed Global Buffer Info:
 ----------------------------
-    Buffer Number  IO Bank  Driven By  Fanout  Signal Name
-    -------------  -------  ---------  ------  -----------
-    3              3                   175     SLM_CLK_c  
+    Buffer Number  IO Bank  Driven By  Fanout  Signal Name 
+    -------------  -------  ---------  ------  ----------- 
+    1              3        IO         2       FIFO_CLK_c  
+    3              3                   175     SLM_CLK_c   
 
 
 Router Summary:
@@ -186,10 +188,10 @@ Router Summary:
 
 Routing Resource Utilization:
 -----------------------------
-              Local line of tile     2428 out of 146184      1.66092%
-                          Span 4      350 out of  29696      1.17861%
-                         Span 12       95 out of   5632      1.68679%
-                  Global network        2 out of      8      25%
-      Vertical Inter-LUT Connect       43 out of   6720      0.639881%
+              Local line of tile     2435 out of 146184      1.66571%
+                          Span 4      363 out of  29696      1.22239%
+                         Span 12       82 out of   5632      1.45597%
+                  Global network        3 out of      8      37.5%
+      Vertical Inter-LUT Connect       48 out of   6720      0.714286%
 
 

@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 17:12:22
 
-* File Generated:     Feb 27 2020 20:55:54
+* File Generated:     Feb 27 2020 21:49:19
 
 * Purpose:            
 
@@ -34,17 +34,16 @@ I2051: Reading of inputs for placer completed successfully
 I2053: Starting placement of the design
 =============================================================
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FT_TXE, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_CLK, as it is not connected to any PAD
 
 Input Design Statistics
-    Number of LUTs      	:	312
-    Number of DFFs      	:	229
+    Number of LUTs      	:	311
+    Number of DFFs      	:	231
     Number of DFFs packed to IO	:	0
     Number of Carrys    	:	47
     Number of RAMs      	:	0
     Number of ROMs      	:	0
     Number of IOs       	:	102
-    Number of GBIOs     	:	0
+    Number of GBIOs     	:	1
     Number of GBs       	:	1
     Number of WarmBoot  	:	0
     Number of PLLs      	:	1
@@ -56,7 +55,7 @@ W2751: Ignoring set_io_ff constraint on UART_RX, since it is conflicting with se
 W2729: set_io_ff -in constraint specified on 'UART_RX' pin is infeasible. Ignoring the constraint
 
 Design Legalization Statistics
-    Number of feedthru LUTs inserted to legalize input of DFFs     	:	6
+    Number of feedthru LUTs inserted to legalize input of DFFs     	:	7
     Number of feedthru LUTs inserted for LUTs driving multiple DFFs	:	0
     Number of LUTs replicated for LUTs driving multiple DFFs       	:	4
     Number of feedthru LUTs inserted to legalize output of CARRYs  	:	0
@@ -65,7 +64,7 @@ Design Legalization Statistics
     Number of inserted LUTs to Legalize IOs with PIN_TYPE= 01xxxx  	:	0
     Number of inserted LUTs to Legalize IOs with PIN_TYPE= 10xxxx  	:	0
     Number of inserted LUTs to Legalize IOs with PIN_TYPE= 11xxxx  	:	0
-    Total LUTs inserted                                            	:	12
+    Total LUTs inserted                                            	:	13
     Total CARRYs inserted                                          	:	0
 
 
@@ -81,22 +80,22 @@ Warning-1403: No clock is reaching the reference clock pin 'REFERENCECLK' of PLL
 
 Design Statistics after Packing
     Number of LUTs      	:	325
-    Number of DFFs      	:	228
-    Number of DFFs packed to IO	:	1
+    Number of DFFs      	:	229
+    Number of DFFs packed to IO	:	2
     Number of Carrys    	:	47
 
 Device Utilization Summary after Packing
     Sequential LogicCells
-        LUT and DFF      	:	181
+        LUT and DFF      	:	182
         LUT, DFF and CARRY	:	47
     Combinational LogicCells
-        Only LUT         	:	97
+        Only LUT         	:	96
         CARRY Only       	:	0
         LUT with CARRY   	:	0
     LogicCells                  :	325/3520
-    PLBs                        :	48/440
+    PLBs                        :	50/440
     BRAMs                       :	0/20
-    IOs and GBIOs               :	102/107
+    IOs and GBIOs               :	103/107
     PLLs                        :	1/2
 
 
@@ -111,26 +110,26 @@ Phase 5
 I2088: Phase 5, elapsed time : 0.2 (sec)
 
 Phase 6
-I2088: Phase 6, elapsed time : 17.4 (sec)
+I2088: Phase 6, elapsed time : 14.5 (sec)
 
 Final Design Statistics
     Number of LUTs      	:	325
-    Number of DFFs      	:	228
-    Number of DFFs packed to IO	:	1
+    Number of DFFs      	:	229
+    Number of DFFs packed to IO	:	2
     Number of Carrys    	:	47
     Number of RAMs      	:	0
     Number of ROMs      	:	0
     Number of IOs       	:	102
-    Number of GBIOs     	:	0
+    Number of GBIOs     	:	1
     Number of GBs       	:	1
     Number of WarmBoot  	:	0
     Number of PLLs      	:	1
 
 Device Utilization Summary
     LogicCells                  :	325/3520
-    PLBs                        :	86/440
+    PLBs                        :	89/440
     BRAMs                       :	0/20
-    IOs and GBIOs               :	102/107
+    IOs and GBIOs               :	103/107
     PLLs                        :	1/2
 
 
@@ -146,8 +145,9 @@ analysis after routing.
 #####################################################################
                      Clock Summary 
 =====================================================================
-Number of clocks: 1
-Clock: top|\spi0/spi_clk | Frequency: 150.79 MHz | Target: 1.00 MHz
+Number of clocks: 2
+Clock: top|FIFO_CLK | Frequency: 691.14 MHz | Target: 1.00 MHz
+Clock: top|\spi0/spi_clk | Frequency: 135.68 MHz | Target: 1.00 MHz
 
 =====================================================================
                      End of Clock Summary
@@ -155,5 +155,5 @@ Clock: top|\spi0/spi_clk | Frequency: 150.79 MHz | Target: 1.00 MHz
 
 I2054: Placement of design completed successfully
 
-I2076: Placer run-time: 18.3 sec.
+I2076: Placer run-time: 15.5 sec.
 

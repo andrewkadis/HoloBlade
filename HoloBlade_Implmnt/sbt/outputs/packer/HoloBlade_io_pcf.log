@@ -4,6 +4,7 @@ OUTPUT FIFO_D31 	 location (0, 13, 0) 	 16 	 SB_LVCMOS
 OUTPUT FIFO_D20 	 location (0, 3, 0) 	 29 	 SB_LVCMOS
 OUTPUT FIFO_D13 	 location (3, 0, 1) 	 39 	 SB_LVCMOS
 OUTPUT FIFO_D1 	 location (19, 0, 0) 	 61 	 SB_LVCMOS
+INPUT  FIFO_CLK 	 location (0, 10, 1) 	 21 	 SB_LVCMOS
 OUTPUT FIFO_BE2 	 location (0, 15, 1) 	 11 	 SB_LVCMOS
 OUTPUT DATA15 	 location (25, 19, 0) 	 105 	 SB_LVCMOS
 OUTPUT DATA4 	 location (19, 21, 1) 	 119 	 SB_LVCMOS
@@ -21,7 +22,7 @@ OUTPUT DATA0 	 location (5, 21, 1) 	 138 	 SB_LVCMOS
 OUTPUT FT_WR 	 location (0, 19, 0) 	 4 	 SB_LVCMOS
 OUTPUT FIFO_D27 	 location (0, 11, 0) 	 20 	 SB_LVCMOS
 OUTPUT FIFO_D10 	 location (7, 0, 1) 	 43 	 SB_LVCMOS
-OUTPUT FIFO_D0 	 location (21, 0, 0) 	 62 	 SB_LVCMOS
+INPUT  FIFO_D0 	 location (21, 0, 0) 	 62 	 SB_LVCMOS
 OUTPUT FIFO_BE3 	 location (0, 17, 0) 	 10 	 SB_LVCMOS
 OUTPUT DEBUG_0 	 location (25, 6, 0) 	 83 	 SB_LVCMOS
 OUTPUT FIFO_D9 	 location (8, 0, 0) 	 44 	 SB_LVCMOS
@@ -37,7 +38,7 @@ OUTPUT DATA24 	 location (18, 21, 0) 	 121 	 SB_LVCMOS
 OUTPUT SEN 	 location (4, 21, 0) 	 141 	 SB_LVCMOS
 OUTPUT FIFO_D7 	 location (11, 0, 1) 	 47 	 SB_LVCMOS
 OUTPUT FIFO_D15 	 location (2, 0, 0) 	 37 	 SB_LVCMOS
-OUTPUT ICE_CREST 	 location (0, 17, 1) 	 9 	 SB_LVCMOS
+OUTPUT ICE_CREST 	 location (0, 20, 1) 	 1 	 SB_LVCMOS
 OUTPUT FIFO_D23 	 location (0, 6, 1) 	 25 	 SB_LVCMOS
 OUTPUT DATA3 	 location (15, 21, 1) 	 122 	 SB_LVCMOS
 OUTPUT DATA22 	 location (20, 21, 0) 	 118 	 SB_LVCMOS
@@ -74,7 +75,7 @@ OUTPUT DATA17 	 location (24, 21, 1) 	 110 	 SB_LVCMOS
 OUTPUT SLM_CLK 	 location (25, 12, 1) 	 95 	 SB_LVCMOS
 OUTPUT DATA6 	 location (23, 21, 1) 	 113 	 SB_LVCMOS
 OUTPUT DATA25 	 location (15, 21, 0) 	 124 	 SB_LVCMOS
-OUTPUT ICE_CDONE 	 location (0, 10, 1) 	 21 	 SB_LVCMOS
+OUTPUT ICE_CDONE 	 location (0, 17, 1) 	 9 	 SB_LVCMOS
 OUTPUT FIFO_D6 	 location (12, 0, 0) 	 48 	 SB_LVCMOS
 OUTPUT FIFO_D29 	 location (0, 12, 0) 	 18 	 SB_LVCMOS
 INPUT  UART_RX 	 location (25, 4, 1) 	 80 	 SB_LVCMOS

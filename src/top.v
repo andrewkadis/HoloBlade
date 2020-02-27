@@ -109,7 +109,7 @@ module top(
     output FIFO_D3,
     output FIFO_D2,
     output FIFO_D1,
-    output FIFO_D0,
+    input  FIFO_D0,
 
     // Debug
     output DEBUG_0,
@@ -280,7 +280,27 @@ assign debug_ch4 = SCK;
 ///////// USB3 /////////
 ////////////////////////
 assign debug_ch1 = FR_RXF;
-assign debug_ch2 = debug_led4;
+assign debug_ch2 = FIFO_D0;
+reg FT_OE_r;
+reg FT_RD_r;
+assign FT_OE = FT_OE_r;
+assign FT_RD = FT_RD_r;
+
+always @(posedge FIFO_CLK) begin
+
+  // Default
+  FT_OE_r = 1;
+  FT_RD_r = 1;
+
+  // Trigger OE_N one cycle after RXF_N
+  if (FR_RXF==0)
+    FT_OE_r <= 0;
+
+  // Trigger RD_N one cycle after OE_N
+  if (FT_OE==0)
+    FT_RD_r <= 0;
+    
+  end
 
 
 
@@ -612,12 +632,12 @@ FIFO_Quad_Word tx_fifo(
 //////////////////////////
 
 // Currently unused, tri-state all the lines
-assign FT_OE    = 1'bz;
-assign FT_RD    = 1'bz;
+// assign FT_OE    = 1'bz;
+// assign FT_RD    = 1'bz;
 assign FT_WR    = 1'bz;
 assign FT_SIWU  = 1'bz;
-assign FR_RXF   = 1'bz;
-assign FT_TXE   = 1'bz;
+// assign FR_RXF   = 1'bz;
+// assign FT_TXE   = 1'bz;
 assign FIFO_BE3 = 1'bz;
 assign FIFO_BE2 = 1'bz;
 assign FIFO_BE1 = 1'bz;
@@ -654,7 +674,7 @@ assign FIFO_D4  = 1'bz;
 assign FIFO_D3  = 1'bz;
 assign FIFO_D2  = 1'bz;
 assign FIFO_D1  = 1'bz;
-assign FIFO_D0  = 1'bz;
+// assign FIFO_D0  = 1'bz;
 
 
 
