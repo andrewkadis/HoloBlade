@@ -3,7 +3,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2015 Lattice Semiconductor Corporation,  All rights reserved.
-Fri Jan 31 15:12:42 2020
+Thu Feb 27 20:55:52 2020
 
 
 Command Line:  C:\lscc\iCEcube2\LSE\bin\nt\synthesis.exe -f HoloBlade_lse.prj 
@@ -81,9 +81,12 @@ Analyzing Verilog file C:/lscc/iCEcube2/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice
 Compile design.
 Compile Design Begin
 Analyzing Verilog file src/top.v. VERI-1482
-WARNING - synthesis: src/top.v(553): pc_data_tx is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(558): pc_data_tx is already implicitly declared earlier. VERI-1362
 WARNING - synthesis: src/top.v(194): identifier sys_clk is used before its declaration. VERI-1875
 WARNING - synthesis: src/top.v(233): identifier reset_countdown is used before its declaration. VERI-1875
+WARNING - synthesis: src/top.v(619): assignment to input FR_RXFVERI-1214
+WARNING - synthesis: src/top.v(620): assignment to input FT_TXEVERI-1214
+WARNING - synthesis: src/top.v(630): assignment to input FIFO_CLKVERI-1214
 Analyzing Verilog file src/clock.v. VERI-1482
 Analyzing Verilog file src/uart_rx.v. VERI-1482
 WARNING - synthesis: src/uart_rx.v(23): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
@@ -144,9 +147,9 @@ WARNING - synthesis: src/spi.v(233): CS should be on the sensitivity list. VERI-
 WARNING - synthesis: src/spi.v(234): state_reg should be on the sensitivity list. VERI-1221
 INFO - synthesis: src/fifo_quad_word_mod.v(10): compiling module FIFO_Quad_Word. VERI-1018
 INFO - synthesis: src/fifo_quad_word_mod.v(25): compiling module FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_1. VERI-1018
-WARNING - synthesis: src/top.v(586): actual bit length 8 differs from formal bit length 32 for port wr_data_i. VERI-1330
-WARNING - synthesis: src/top.v(768): expression size 32 truncated to fit in target size 1. VERI-1209
-WARNING - synthesis: src/top.v(777): Register reset_all_cmd_r_217 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/top.v(591): actual bit length 8 differs from formal bit length 32 for port wr_data_i. VERI-1330
+WARNING - synthesis: src/top.v(773): expression size 32 truncated to fit in target size 1. VERI-1209
+WARNING - synthesis: src/top.v(782): Register reset_all_cmd_r_217 is stuck at Zero. VDB-5013
 Loading NGL library 'C:/lscc/iCEcube2/LSE/xo2c00/data/xo2clib.ngl'...
 Loading NGL library 'C:/lscc/iCEcube2/LSE/or5g00/data/orc5glib.ngl'...
 Top-level module name = top.
@@ -260,18 +263,19 @@ Results of NGD DRC are available in top_drc.log.
 ################### Begin Area Report (top)######################
 Number of register bits => 229 of 3520 (6 % )
 SB_CARRY => 47
-SB_DFF => 145
-SB_DFFE => 11
+SB_DFF => 144
+SB_DFFE => 12
 SB_DFFESR => 24
-SB_DFFN => 15
+SB_DFFN => 14
+SB_DFFNESS => 1
 SB_DFFNSR => 1
 SB_DFFR => 18
 SB_DFFS => 2
 SB_DFFSR => 10
 SB_DFFSS => 3
 SB_GB => 1
-SB_IO => 104
-SB_LUT4 => 309
+SB_IO => 102
+SB_LUT4 => 312
 SB_PLL40_CORE => 1
 ################### End Area Report ##################
 
@@ -285,16 +289,16 @@ Number of Clock Enables: 0
 Top 0 highest fanout Clock Enables:
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : reset_all_w, loads : 41
-  Net : tx_fifo/lscc_fifo_inst/wr_addr_r_1, loads : 36
+  Net : reset_all_w, loads : 42
   Net : spi0/state_reg_1, loads : 29
-  Net : spi0/n3418, loads : 23
+  Net : spi0/n3574, loads : 23
+  Net : tx_fifo/lscc_fifo_inst/wr_addr_r_1, loads : 22
   Net : tx_fifo/lscc_fifo_inst/rd_addr_r_1, loads : 20
   Net : uart_rx_complete_rising_edge, loads : 18
   Net : spi0/state_next_1, loads : 17
   Net : spi0/n4, loads : 16
   Net : tx_fifo/lscc_fifo_inst/n4, loads : 16
-  Net : tx_fifo/lscc_fifo_inst/n3, loads : 16
+  Net : spi0/state_reg_2, loads : 15
 ################### End Clock Report ##################
 
 Timing Report Summary
@@ -304,7 +308,7 @@ Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
-clk1 [get_nets \spi0/spi_clk]           |    1.000 MHz|   86.341 MHz|     3  
+clk1 [get_nets \spi0/spi_clk]           |    1.000 MHz|   84.488 MHz|     7  
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
 clk0 [get_nets SLM_CLK_c]               |    1.000 MHz|   24.611 MHz|    26  
@@ -315,8 +319,8 @@ clk0 [get_nets SLM_CLK_c]               |    1.000 MHz|   24.611 MHz|    26
 All constraints were met.
 
 
-Peak Memory Usage: 38.469  MB
+Peak Memory Usage: 38.496  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 0.797  secs
+Elapsed CPU time for LSE flow : 0.891  secs
 --------------------------------------------------------------

@@ -78,8 +78,8 @@
         <pitem  name = "FT_RD"  direction = "out"  />
         <pitem  name = "FT_WR"  direction = "out"  />
         <pitem  name = "FT_SIWU"  direction = "out"  />
-        <pitem  name = "FR_RXF"  direction = "out"  />
-        <pitem  name = "FT_TXE"  direction = "out"  />
+        <pitem  name = "FR_RXF"  direction = "in"  />
+        <pitem  name = "FT_TXE"  direction = "in"  />
         <pitem  name = "FIFO_BE3"  direction = "out"  />
         <pitem  name = "FIFO_BE2"  direction = "out"  />
         <pitem  name = "FIFO_BE1"  direction = "out"  />
@@ -89,7 +89,7 @@
         <pitem  name = "FIFO_D29"  direction = "out"  />
         <pitem  name = "FIFO_D28"  direction = "out"  />
         <pitem  name = "FIFO_D27"  direction = "out"  />
-        <pitem  name = "FIFO_CLK"  direction = "out"  />
+        <pitem  name = "FIFO_CLK"  direction = "in"  />
         <pitem  name = "FIFO_D26"  direction = "out"  />
         <pitem  name = "FIFO_D25"  direction = "out"  />
         <pitem  name = "FIFO_D24"  direction = "out"  />

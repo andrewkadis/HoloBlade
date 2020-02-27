@@ -70,8 +70,8 @@ module top(
     output FT_RD,
     output FT_WR,
     output FT_SIWU,
-    output FR_RXF,
-    output FT_TXE,
+    input  FR_RXF,
+    input  FT_TXE,
     output FIFO_BE3,
     output FIFO_BE2,
     output FIFO_BE1,
@@ -81,7 +81,7 @@ module top(
     output FIFO_D29,
     output FIFO_D28,
     output FIFO_D27,
-    output FIFO_CLK,
+    input  FIFO_CLK,
     output FIFO_D26,
     output FIFO_D25,
     output FIFO_D24,
@@ -271,11 +271,16 @@ assign reset_all_w = reset_all_r;
 // assign debug_ch3 = pc_data_tx[6];
 // assign debug_ch4 = fifo_temp_output[6];
 
-assign debug_ch1 = SEN;
-assign debug_ch2 = SDAT;
+// assign debug_ch1 = SEN;
+// assign debug_ch2 = SDAT;
 assign debug_ch3 = SOUT;
 assign debug_ch4 = SCK;
 
+////////////////////////
+///////// USB3 /////////
+////////////////////////
+assign debug_ch1 = FR_RXF;
+assign debug_ch2 = debug_led4;
 
 
 

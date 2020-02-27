@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 17:12:22
 
-* File Generated:     Jan 31 2020 15:12:44
+* File Generated:     Feb 27 2020 20:55:54
 
 * Purpose:            
 
@@ -33,15 +33,17 @@ I2051: Reading of inputs for placer completed successfully
 
 I2053: Starting placement of the design
 =============================================================
+W2715: Warning for set_io Constraint: Ignoring pin assignment for FT_TXE, as it is not connected to any PAD
+W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_CLK, as it is not connected to any PAD
 
 Input Design Statistics
-    Number of LUTs      	:	309
+    Number of LUTs      	:	312
     Number of DFFs      	:	229
     Number of DFFs packed to IO	:	0
     Number of Carrys    	:	47
     Number of RAMs      	:	0
     Number of ROMs      	:	0
-    Number of IOs       	:	104
+    Number of IOs       	:	102
     Number of GBIOs     	:	0
     Number of GBs       	:	1
     Number of WarmBoot  	:	0
@@ -78,7 +80,7 @@ Phase 3
 Warning-1403: No clock is reaching the reference clock pin 'REFERENCECLK' of PLL instance 'clock_inst.pll_config'. So, no clocks will be inferred at output of this PLL
 
 Design Statistics after Packing
-    Number of LUTs      	:	322
+    Number of LUTs      	:	325
     Number of DFFs      	:	228
     Number of DFFs packed to IO	:	1
     Number of Carrys    	:	47
@@ -88,13 +90,13 @@ Device Utilization Summary after Packing
         LUT and DFF      	:	181
         LUT, DFF and CARRY	:	47
     Combinational LogicCells
-        Only LUT         	:	94
+        Only LUT         	:	97
         CARRY Only       	:	0
         LUT with CARRY   	:	0
-    LogicCells                  :	322/3520
-    PLBs                        :	49/440
+    LogicCells                  :	325/3520
+    PLBs                        :	48/440
     BRAMs                       :	0/20
-    IOs and GBIOs               :	104/107
+    IOs and GBIOs               :	102/107
     PLLs                        :	1/2
 
 
@@ -109,26 +111,26 @@ Phase 5
 I2088: Phase 5, elapsed time : 0.2 (sec)
 
 Phase 6
-I2088: Phase 6, elapsed time : 21.8 (sec)
+I2088: Phase 6, elapsed time : 17.4 (sec)
 
 Final Design Statistics
-    Number of LUTs      	:	322
+    Number of LUTs      	:	325
     Number of DFFs      	:	228
     Number of DFFs packed to IO	:	1
     Number of Carrys    	:	47
     Number of RAMs      	:	0
     Number of ROMs      	:	0
-    Number of IOs       	:	104
+    Number of IOs       	:	102
     Number of GBIOs     	:	0
     Number of GBs       	:	1
     Number of WarmBoot  	:	0
     Number of PLLs      	:	1
 
 Device Utilization Summary
-    LogicCells                  :	322/3520
-    PLBs                        :	79/440
+    LogicCells                  :	325/3520
+    PLBs                        :	86/440
     BRAMs                       :	0/20
-    IOs and GBIOs               :	104/107
+    IOs and GBIOs               :	102/107
     PLLs                        :	1/2
 
 
@@ -145,7 +147,7 @@ analysis after routing.
                      Clock Summary 
 =====================================================================
 Number of clocks: 1
-Clock: top|\spi0/spi_clk | Frequency: 171.03 MHz | Target: 1.00 MHz
+Clock: top|\spi0/spi_clk | Frequency: 150.79 MHz | Target: 1.00 MHz
 
 =====================================================================
                      End of Clock Summary
@@ -153,5 +155,5 @@ Clock: top|\spi0/spi_clk | Frequency: 171.03 MHz | Target: 1.00 MHz
 
 I2054: Placement of design completed successfully
 
-I2076: Placer run-time: 22.8 sec.
+I2076: Placer run-time: 18.3 sec.
 
