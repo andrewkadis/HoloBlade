@@ -57,9 +57,9 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
 
     # Signals
     end_of_image_reached    = Signal(False, delay=10)
-    h_counter               = Signal(intbv(0, max=num_words_per_line))
-    v_counter               = Signal(intbv(0, max=num_lines))
-    state_timeout_counter   = Signal(intbv(0, max=update_high_cycles))
+    h_counter               = Signal(intbv(0)[8:])
+    v_counter               = Signal(intbv(0)[11:])
+    state_timeout_counter   = Signal(intbv(0)[8:])
     get_next_word_cmd       = Signal(False)
     data_output_active_cmd  = Signal(False)
     # state = Signal(t_state.IDLE)
@@ -120,7 +120,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                    
             # Need this wait state when entering a line as it will take 1 cycle to start getting data from FIFO
             # Reset HCounter and Valid line so they will start in-sync with FIFO Data     
-            h_counter.next = num_words_per_line-1             
+            h_counter.next = num_words_per_line             
             valid_o.next = True
             # Autop transition to main Data Out State
             state.next = t_state.LINE_OUT_DATA
@@ -135,7 +135,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
             valid_o.next = True
 
             # Are we at end of line?
-            if h_counter == 0:
+            if h_counter == 0+1:
 
                 # Yes, advance state machine to end of line
                 state.next = t_state.LINE_OUT_BLANK
@@ -147,7 +147,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                 h_counter.next = 0
                 data_output_active_cmd.next = False
                 # Use the state_timeout_counter to count how many line_end blanking cycles we need
-                state_timeout_counter.next = end_of_line_blank_cycles-1
+                state_timeout_counter.next = end_of_line_blank_cycles
 
         elif state == t_state.LINE_OUT_BLANK:
 
@@ -155,20 +155,20 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                 state_timeout_counter.next = state_timeout_counter - 1
 
                 # End of Blank period for end of line?
-                if state_timeout_counter == 0:
+                if state_timeout_counter == 1:
                     # Reset our line_end counter
                     state_timeout_counter.next = 0
                     # Decrement our row count as we have just finished clocking out a line
                     v_counter.next = v_counter - 1
 
                     # Have we clocked out the entire image?
-                    if v_counter == 0:
+                    if v_counter == 1:
 
                         # Row counter is now 0 and we shall not clock out futher data until new_frame_i is subsequently asserted
                         # v_counter.next = 0
                         # Yes, advance to FRAME_END_BLANK state and start the counter again
                         state.next = t_state.FRAME_END_BLANK
-                        state_timeout_counter.next = end_of_frame_blank_cycles-1
+                        state_timeout_counter.next = end_of_frame_blank_cycles
 
                     else:
 
@@ -180,9 +180,9 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                 # Need to blank extra cycles if we're at an end of frame
                 state_timeout_counter.next = state_timeout_counter - 1
                 # Have we reached the End of Blank period for end of frame?
-                if state_timeout_counter == 0:
+                if state_timeout_counter == 0+1:
                     # Move to FRAME_END_UPDATE_HIGH state and start counter appropriately
-                    state_timeout_counter.next = update_high_cycles-1
+                    state_timeout_counter.next = update_high_cycles
                     state.next = t_state.FRAME_END_UPDATE_HIGH
 
         elif state == t_state.FRAME_END_UPDATE_HIGH:
@@ -192,7 +192,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                 # Decrement cycle count
                 state_timeout_counter.next = state_timeout_counter - 1
                 # Have we reached the End of Blank period for end of frame?
-                if state_timeout_counter == 0:
+                if state_timeout_counter == 0+1:
                     # Reset and move back to IDLE
                     state_timeout_counter.next = 0
                     state.next = t_state.IDLE
@@ -205,7 +205,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
 
         # New Frame Check
         if(new_frame_i==True):
-            v_counter.next = num_lines-1
+            v_counter.next = num_lines
 
         # Reset Check
         if( reset_i==True ):
@@ -392,12 +392,12 @@ def bluejay_gen_verilog():
     state = Signal(t_state.IDLE)
     new_frame_i = Signal(False)
     # Read-Side
-    bluejay_data_i = Signal(0)
+    bluejay_data_i  = Signal(intbv(0)[32:])
     next_line_rdy_i = Signal(False)
     fifo_empty_i    = Signal(False)
     get_next_word_o = Signal(False)
     # Write-Side
-    bluejay_data_o = Signal(0)
+    bluejay_data_o  = Signal(intbv(0)[32:])
     sync_o = Signal(False)
     valid_o = Signal(False)
     update_o = Signal(False)
@@ -413,7 +413,7 @@ def main():
 
     tb = bluejay_data_tb()
     tb.config_sim(trace=True)
-    tb.run_sim(20000)
+    tb.run_sim(16000)
 
     # bluejay_gen_verilog()
 
