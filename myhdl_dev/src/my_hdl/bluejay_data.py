@@ -60,7 +60,8 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
     h_counter               = Signal(intbv(0, max=num_words_per_line))
     v_counter               = Signal(intbv(0, max=num_lines))
     state_timeout_counter   = Signal(intbv(0, max=update_high_cycles))
-    get_next_word_cmd = Signal(False)
+    get_next_word_cmd       = Signal(False)
+    data_output_active_cmd  = Signal(False)
     # state = Signal(t_state.IDLE)
     # shiftReg = Signal(modbv(0)[50:])
 
@@ -82,12 +83,12 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
     # Combinational Logic to ensure that we simply output data straight from FIFO input
     @always_comb
     def output_connect():
-        data_o.next = data_i
+        if(data_output_active_cmd):
+            data_o.next = data_i
+        else:
+            data_o.next = 0x00000000
 
-    # When new_frame_i is Asserted, reset the row_count
-    @always(new_frame_i.posedge)
-    def new_frame_assert():
-        v_counter.next = num_lines-1
+
 
     @always(clk_i.posedge)
     def update():
@@ -97,6 +98,12 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
         valid_o.next = valid_o
         update_o.next = False
         # end_of_image_reached.next = False
+
+
+
+        ################################################
+        ################ STATE MACHINE #################
+        ################################################
 
         # Which state are we in?
 
@@ -109,11 +116,6 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                 # Start getting the next word out of the FIFO now as there shall be a 1-cycle clock delay
                 get_next_word_cmd.next = True
 
-
-
-
-
-
         elif state == t_state.LINE_OUT_ENTER:     
                    
             # Need this wait state when entering a line as it will take 1 cycle to start getting data from FIFO
@@ -122,11 +124,6 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
             valid_o.next = True
             # Autop transition to main Data Out State
             state.next = t_state.LINE_OUT_DATA
-
-
-
-
-
 
         elif state == t_state.LINE_OUT_DATA: 
 
@@ -148,14 +145,9 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                 valid_o.next = False
                 # Clear h_count (as set above) and set data output to 0
                 h_counter.next = 0
-                data_o.next = 0x00000000
+                data_output_active_cmd.next = False
                 # Use the state_timeout_counter to count how many line_end blanking cycles we need
                 state_timeout_counter.next = end_of_line_blank_cycles-1
-
-
-
-
-
 
         elif state == t_state.LINE_OUT_BLANK:
 
@@ -183,11 +175,6 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                         # No, go back to IDLE while we await more lines
                         state.next = t_state.IDLE
 
-
-
-
-
-
         elif state == t_state.FRAME_END_BLANK:
 
                 # Need to blank extra cycles if we're at an end of frame
@@ -197,10 +184,6 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
                     # Move to FRAME_END_UPDATE_HIGH state and start counter appropriately
                     state_timeout_counter.next = update_high_cycles-1
                     state.next = t_state.FRAME_END_UPDATE_HIGH
-
-
-
-
 
         elif state == t_state.FRAME_END_UPDATE_HIGH:
 
@@ -216,54 +199,18 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
 
 
 
-        # elif state == t_state.LINE_OUT_IDLE:
+        ################################################
+        ############### CONTROL LINES  #################
+        ################################################
 
-        #     # Read from FIFO and Latch our data output
-        #     get_next_word_o.next = True
-        #     data_o.next = data_i
-        #     state.next = t_state.LINE_OUT_DATA
-
-            # # Are we at end of line?
-            # if h_counter < num_words_per_line-1:
-            #     # No, increment h_counter
-            #     h_counter.next = h_counter + 1
-            #     valid_o.next = True
-            # else:
-
-            #     # Yes, reset h_counter, and deassert sync_o
-            #     h_counter.next = 0
-            #     valid_o.next = False
-            #     state.next = t_state.IDLE
-
-                # # Are we at end of an image?
-                # if v_counter < num_lines-1:
-                #     # No, increment v_counter
-                #     v_counter.next = v_counter + 1
-                # else:
-                #     # Yes, reset v_counter and assert update_o
-                #     v_counter.next = 0
-                #     # update_o.next = True
-                #     end_of_image_reached.next = True
-                #     # # Need to wait 16 cycles to pull update signal high, we wait 20
-                #     # wait_time_ns = 16*period
-                #     # yield delay(wait_time_ns)
-                #     # # Need to hold for 2.5 ns minimum, we wait 5ns
-                #     # yield delay(5)
-
-        # print(h_counter, v_counter)
-
-
-        # # Update Line Check - Used to control the timing of update_o signal
-        # if( end_of_image_reached==True ):
-        #     update_o.next = True
-        #     end_of_image_reached.next = False
-        # else:
-        #     update_o.next = False
+        # New Frame Check
+        if(new_frame_i==True):
+            v_counter.next = num_lines-1
 
         # Reset Check
         if( reset_i==True ):
             # Explicitly clear all outputs
-            data_o.next = Signal(0)
+            data_output_active_cmd.next = False
             sync_o.next = False
             valid_o.next = False
             update_o.next = False
@@ -272,28 +219,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
             state.next     = t_state.IDLE
 
 
-    
-
-
-    # # Timing Constraints for UPDATE Line
-    # @always(end_of_image_reached.posedge)
-    # def update_signal_timing():
-    #     update_o.next = True
-
-    # @instance
-    # def update_signal_timing():
-
-    #     while True:
-    #         if end_of_image_reached==True:
-    #             # Need to wait 16 cycles to pull update signal high, we wait 20
-    #             wait_time_ns = 16*period
-    #             yield delay(wait_time_ns)
-    #             update_o.next = True
-    #             # Need to hold for 2.5 ns minimum, we wait 5ns
-    #             yield delay(5)
-    #             update_o.next = False
-
-    return update, check_fifo_not_empty, output_connect, new_frame_assert
+    return update, check_fifo_not_empty, output_connect
 
 
 
@@ -456,11 +382,40 @@ def bluejay_data_tb():
 
     return dut, bluejay_data_inst, clkgen, load_test_data
 
+# Generated Verilog
+def bluejay_gen_verilog():
+
+    # Signals for Bluejay Data Module
+    # Control
+    clk_i = Signal(False)
+    reset_i = Signal(False)
+    state = Signal(t_state.IDLE)
+    new_frame_i = Signal(False)
+    # Read-Side
+    bluejay_data_i = Signal(0)
+    next_line_rdy_i = Signal(False)
+    fifo_empty_i    = Signal(False)
+    get_next_word_o = Signal(False)
+    # Write-Side
+    bluejay_data_o = Signal(0)
+    sync_o = Signal(False)
+    valid_o = Signal(False)
+    update_o = Signal(False)
+    invert_o = Signal(False)
+
+    # Device under test for testing
+    bluejay_data_inst = bluejay_data(clk_i, reset_i, state, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    bluejay_data_inst.convert(hdl='Verilog')
+    # return bluejay_data_inst
+
+
 def main():
 
     tb = bluejay_data_tb()
     tb.config_sim(trace=True)
     tb.run_sim(20000)
+
+    # bluejay_gen_verilog()
 
 
 if __name__ == '__main__':
