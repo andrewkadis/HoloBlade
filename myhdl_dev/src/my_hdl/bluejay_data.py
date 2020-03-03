@@ -262,7 +262,7 @@ def bluejay_data_tb():
     fifo_data_i = Signal(0)
     we = Signal(False)
     full = Signal(False)
-    dut = test_fifo.fifo2(bluejay_data_i, fifo_data_i, get_next_word_o, we, fifo_empty_i, full, clk_i, maxFilling=20000)
+    dut = test_fifo.fifo2(bluejay_data_i, fifo_data_i, get_next_word_o, we, fifo_empty_i, full, clk_i, maxFilling=2000000)
 
     # Clock
     PERIOD = 10 # 50 MHz
@@ -277,46 +277,12 @@ def bluejay_data_tb():
 
         # Test Vector corresponds to a single line of data
         test_vector = [
-            0x11000000,
-            0x21000000,
-            0x31000000,
-            0x41000000,
-            0x51000000,
-            0x61000000,
-            0x71000000,
-            0x81000000,
-            0x91000000,
-            0xA1000000,
-            0x12000000,
-            0x22000000,
-            0x32000000,
-            0x42000000,
-            0x52000000,
-            0x62000000,
-            0x72000000,
-            0x82000000,
-            0x92000000,
-            0xA2000000,
-            0x12000000,
-            0x23000000,
-            0x33000000,
-            0x43000000,
-            0x53000000,
-            0x63000000,
-            0x73000000,
-            0x83000000,
-            0x93000000,
-            0xA3000000,
-            0x14000000,
-            0x24000000,
-            0x34000000,
-            0x44000000,
-            0x54000000,
-            0x64000000,
-            0x74000000,
-            0x84000000,
-            0x94000000,
-            0xA4000000
+
+            # 40 Words of Data
+            0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF,
+            0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF,
+            0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF,
+            0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF
         ]
         # Wait an initial period
         FULL_CLOCK_PERIOD = 2*PERIOD
@@ -333,10 +299,10 @@ def bluejay_data_tb():
         new_frame_i.next = False
         yield clk_i.posedge
         # Iterate through test vector
-        while True:
+        for i in range(1280):
 
-            # Wait 500ms and then load another line
-            yield delay(5000)
+            # Wait 1us and then load another line
+            yield delay(1000)
 
             # Load line
             for item in test_vector:
@@ -359,6 +325,11 @@ def bluejay_data_tb():
             yield clk_i.negedge
             # yield delay()
             we.next = False
+
+        # Wait another 10us then end simulation
+        yield delay(10000)
+        # End Simulation
+        raise StopSimulation()
 
     return dut, bluejay_data_inst, clkgen, load_test_data
 
@@ -393,7 +364,7 @@ def main():
 
     tb = bluejay_data_tb()
     tb.config_sim(trace=True)
-    tb.run_sim(16000)
+    tb.run_sim(5000000)
 
     # bluejay_gen_verilog()
 

@@ -60,11 +60,11 @@ def fifo2(dout, din, re, we, empty, full, clk, maxFilling=sys.maxsize):
     def access():
         if we:
             memory.insert(0, din.val)
-            print(memory)
+            # print(memory)
         if re:
             try:
                 dout.next = memory.pop()
-                print(memory)
+                # print(memory)
             except IndexError:
                 raise Exception("Underflow -- Read from empty fifo")
         filling = len(memory)
