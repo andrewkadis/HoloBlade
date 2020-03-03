@@ -7,7 +7,7 @@ from myhdl import *
 class Error(Exception):
     pass
 
-def mock_fifo(dout, din, re, we, empty, full, clk, maxFilling=4096):
+def fifo(dout, din, re, we, empty, full, clk, maxFilling=sys.maxsize):
     
     """ Synchronous fifo model based on a list.
     
@@ -19,10 +19,8 @@ def mock_fifo(dout, din, re, we, empty, full, clk, maxFilling=4096):
     empty -- empty indication flag
     full -- full indication flag
     clk -- clock input
-
     Optional parameter:
     maxFilling -- maximum fifo filling, "infinite" by default
-
     """
     
     memory = []
@@ -40,10 +38,9 @@ def mock_fifo(dout, din, re, we, empty, full, clk, maxFilling=4096):
     return access
 
 @block
-def fifo2(dout, din, re, we, empty, full, clk, maxFilling=4096):
+def fifo2(dout, din, re, we, empty, full, clk, maxFilling=sys.maxsize):
     
     """ Synchronous fifo model based on a list.
-
     Ports:
     dout -- data out
     din -- data in
@@ -55,22 +52,17 @@ def fifo2(dout, din, re, we, empty, full, clk, maxFilling=4096):
     
     Optional parameter:
     maxFilling -- maximum fifo filling, "infinite" by default
-
     """
     
     memory = []
 
     @always(clk.posedge)
     def access():
-        # print(clk)
         if we:
             memory.insert(0, din.val)
-            print(din)
         if re:
             try:
-                popMe = memory.pop()
-                dout.next = popMe
-                print(popMe)
+                dout.next = memory.pop()
             except IndexError:
                 raise Exception("Underflow -- Read from empty fifo")
         filling = len(memory)
@@ -82,17 +74,14 @@ def fifo2(dout, din, re, we, empty, full, clk, maxFilling=4096):
     return access
 
 
-dout =  Signal((intbv(0)[32:]))
-din  =  Signal((intbv(0)[32:]))
-re, we, empty, full, clk = args = [Signal(0) for i in range(5)]
 
-dut = fifo2(dout, din, re, we, empty, full, clk, maxFilling=3)
-
+@block
 def clkGen():
     while 1:
         yield delay(10)
         clk.next = not clk
 
+@block
 def read():
     yield clk.negedge
     re.next = 1
@@ -100,6 +89,7 @@ def read():
     yield delay(1)
     re.next = 0
 
+@block
 def write(data):
     yield clk.negedge
     din.next = data
@@ -108,9 +98,11 @@ def write(data):
     yield delay(1)
     we.next = 0
 
+@block
 def report():
     print("dout: %s empty: %s full: %s" % (hex(dout), empty, full))
     
+@block
 def test():
     yield write(0x55)
     report()
@@ -122,27 +114,42 @@ def test():
     report()
     yield join(write(0x33), read())
     report()
-    # yield read()
-    # report()
-    # yield read()
-    # report()
-    # yield read()
-    # report()
+    yield read()
+    report()
+    yield read()
+    report()
+    yield read()
+    report()
     # yield read()
     # report()
     # yield read()
     raise StopSimulation
 
-    
-sim = Simulation(clkGen(), test(), dut)
+# testbench
+@block
+def bluejay_data_tb():
+
+    dout, din, re, we, empty, full, clk = args = [Signal(0) for i in range(7)]
+
+    dut = fifo2(dout, din, re, we, empty, full, clk, maxFilling=3)
+        
+    return dut
+
+# Simulation
+def simulate():
+
+    tb = bluejay_data_tb()
+    tb.config_sim(trace=True)
+    tb.run_sim(1300)
+
     
 def main():
     try:
-        sim.run()
+        # sim.run()
+        simulate()
     except:
         traceback.print_exc()
     
 if __name__ == '__main__':
     main()
            
- 

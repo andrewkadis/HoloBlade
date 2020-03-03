@@ -56,7 +56,7 @@ def usb_fifo(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SI
         # This simulates writing data to the USB3 from the FTDI Drivers
         if SIM_DATA_IN_WR:
             memory.insert(0, SIM_DATA_IN.val)
-            print(memory)
+            # print(memory)
 
         # Only read Data if OE_N is Asserted
         if OE_N==ACTIVE_LOW_TRUE:
@@ -64,7 +64,7 @@ def usb_fifo(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SI
             if RD_N==ACTIVE_LOW_TRUE:
                 try:
                     DATA.next = memory.pop()
-                    print(memory)
+                    # print(memory)
                 except IndexError:
                     raise Exception("Underflow -- Read from empty fifo")
 
@@ -124,8 +124,14 @@ def sim_usb_fifo_tb():
     sim_usb_fifo = usb_fifo(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SIM_DATA_IN, SIM_DATA_IN_WR)
 
 
+    def simulate_gpio_assert(gpio_idx, value):
+        if gpio_idx==0:
+            GPIO0.next = value
+        if gpio_idx==1:
+            GPIO1.next = value
 
-    def simulated_load_fifo_data(data_to_load):
+
+    def simulate_load_fifo_data(data_to_load):
         # Load all our data into internal fifo
         for data_word in data_to_load:
             yield CLK.posedge
@@ -134,32 +140,11 @@ def sim_usb_fifo_tb():
             yield CLK.negedge
         # De-assert once all data clocked in
         SIM_DATA_IN_WR.next = False
-
-        # DATA.next = data_to_load
-        # WR_N.next = True
-        # RESET_N.next = True
-        # yield CLK.negedge
-
-    
-
-    # def report():
-    #     print("dout: %s empty: %s full: %s" % (hex(dout), empty, full))
-
-    # def read():
-    #     yield clk.negedge
-    #     re.next = 1
-    #     yield clk.posedge
-    #     yield delay(1)
-    #     re.next = 0
-
-    # def write(data):
-    #     yield clk.negedge
-    #     din.next = data
-    #     we.next = 1
-    #     yield clk.posedge
-    #     yield delay(1)
-    #     we.next = 0
-
+        # Pulse GPIO to indicate end of a line
+        simulate_gpio_assert(0, True)
+        yield(CLK.posedge)
+        yield(CLK.negedge)
+        simulate_gpio_assert(0, False)
 
 
     @instance
@@ -175,7 +160,7 @@ def sim_usb_fifo_tb():
 
         yield delay(100)
         GPIO0.next = False
-        yield simulated_load_fifo_data(test_data)
+        yield simulate_load_fifo_data(test_data)
         # report()
 
         yield delay(100)
@@ -201,6 +186,7 @@ def sim_usb_fifo_tb():
             yield(CLK.negedge)
 
         OE_N.next = ACTIVE_LOW_TRUE
+        
         yield(CLK.posedge)
         yield(CLK.negedge)
 

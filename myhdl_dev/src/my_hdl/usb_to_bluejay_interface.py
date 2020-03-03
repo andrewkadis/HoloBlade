@@ -14,7 +14,10 @@ ACTIVE_LOW_FALSE  = True
 # Block to act as glue logic between USB_FIFO chip signals and Bluejay Data Interface
 @block
 def usb_fifo_if(
-        
+    
+    # Control
+    reset_i,
+    
     # USB-Fifo
     clk_i,
     data_i,
@@ -23,6 +26,7 @@ def usb_fifo_if(
     fifo_empty_i,
     fifo_output_enable_o,
     get_next_word_o,
+    reset_o,
     
     # Bluejay Data Interface
     clk_o,
@@ -39,6 +43,8 @@ def usb_fifo_if(
     Ports
     I/O pins:
     --------
+    Control:
+    reset_i              : Reset line
     USB-Fifo Side:
     clk_i                : 100MHz input clock from USB Chip
     data_i               : 32-bit input data FIFO from USB
@@ -47,6 +53,7 @@ def usb_fifo_if(
     fifo_empty_i         : flag to indicate whether or not the FIFO is empty, active-low
     fifo_output_enable_o : line to turn on the outputting of the FIFO, active-low
     get_next_word_o      : line to pull next data word out of FIFO, active-low
+    reset_o              : line to reset USB3 chip, active-low
     Bluejay Data Interface:
     clk_o                : Pipe USB FIFO clock out to rest of FPGA
     data_o               : Route 32-bit input data FIFO to Bluejay Data Interface
@@ -65,9 +72,16 @@ def usb_fifo_if(
         next_line_rdy_o.next  = next_line_rdy_i
         next_frame_rdy_o.next = next_frame_rdy_i
         fifo_empty_o.next     = not fifo_empty_i
-        get_next_word_o.next  = not get_next_word_i
+        # get_next_word_o.next  = not get_next_word_i
+        reset_o.next          = not reset_i
         # Currently we are using the usb-fifo in read-only mode (Data from USB to FPGA), hence the USB chip is always driving data buses and OE_N is always asserted
-        fifo_output_enable_o = ACTIVE_LOW_TRUE
+        fifo_output_enable_o.next = ACTIVE_LOW_TRUE
+
+    @always_comb
+    def test_me():
+        get_next_word_o.next  = not get_next_word_i
+
+    return route_signals, test_me
 
     # # Timing control logic for enabling output when reading new data from USB-FIFO
     # @always(clk_i.posedge)

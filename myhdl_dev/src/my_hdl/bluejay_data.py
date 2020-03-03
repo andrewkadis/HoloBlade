@@ -75,7 +75,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
     # Combinational Logic to ensure that we only ever get data from FIFO when not empty
     @always_comb
     def check_fifo_not_empty():
-        if (get_next_word_cmd==True) and (fifo_empty_i==False):
+        if (get_next_word_cmd==True) and (fifo_empty_i==True):
             get_next_word_o.next = True
         else:
             get_next_word_o.next = False
@@ -122,6 +122,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
             # Reset HCounter and Valid line so they will start in-sync with FIFO Data     
             h_counter.next = num_words_per_line             
             valid_o.next = True
+            data_output_active_cmd.next = True
             # Autop transition to main Data Out State
             state.next = t_state.LINE_OUT_DATA
 
