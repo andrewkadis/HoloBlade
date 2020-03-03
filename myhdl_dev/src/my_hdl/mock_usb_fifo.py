@@ -7,6 +7,11 @@ from myhdl import *
 class Error(Exception):
     pass
 
+# Constants
+ACTIVE_LOW_TRUE   = False
+ACTIVE_LOW_FALSE  = True
+
+# Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
 @block
 def usb_fifo(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SIM_DATA_IN, SIM_DATA_IN_WR, maxFilling=sys.maxsize):
     
@@ -35,27 +40,47 @@ def usb_fifo(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SI
             CLK.next = not CLK
 
 
-    # This is a simualtion, so have a simulated memory block
+    # This is a simulation, so have a simulated memory block
     memory = []
 
+
+    # @always(CLK.posedge)
+    # def sim_write_data_from_pc():
+
+
+    # Read Data from the USB_FIFO with the FPGA
     @always(CLK.posedge)
     def access():
+
+        # Load data into the FIFO by writing from PC
+        # This simulates writing data to the USB3 from the FTDI Drivers
         if SIM_DATA_IN_WR:
             memory.insert(0, SIM_DATA_IN.val)
             print(memory)
-        if RD_N==False:
-            try:
-                DATA.next = memory.pop()
-                print(memory)
-            except IndexError:
-                raise Exception("Underflow -- Read from empty fifo")
-        filling = len(memory)
-        TXE_N.next = (filling == 0)
-        # full.next = (filling == maxFilling)
-        if filling > maxFilling:
-            raise Exception("Overflow -- Max filling %s exceeded" % maxFilling)
 
-    return access, gen_clk
+        # Only read Data if OE_N is Asserted
+        if OE_N==ACTIVE_LOW_TRUE:
+            # Command to read next word of Data
+            if RD_N==ACTIVE_LOW_TRUE:
+                try:
+                    DATA.next = memory.pop()
+                    print(memory)
+                except IndexError:
+                    raise Exception("Underflow -- Read from empty fifo")
+
+        # Update FIFO empty flag if we have data in our FIFO
+        filling = len(memory)
+        if filling > 0:
+            RX_F.next = ACTIVE_LOW_TRUE
+        else:
+            RX_F.next = ACTIVE_LOW_FALSE
+
+
+    # @always_comb
+    # def comb_fifo_empty_flag():
+
+
+    return gen_clk, access
 
 
 
@@ -103,10 +128,10 @@ def sim_usb_fifo_tb():
     def simulated_load_fifo_data(data_to_load):
         # Load all our data into internal fifo
         for data_word in data_to_load:
-            yield CLK.negedge
+            yield CLK.posedge
             SIM_DATA_IN.next = data_word
             SIM_DATA_IN_WR.next = True
-            yield CLK.posedge
+            yield CLK.negedge
         # De-assert once all data clocked in
         SIM_DATA_IN_WR.next = False
 
@@ -152,10 +177,37 @@ def sim_usb_fifo_tb():
         GPIO0.next = False
         yield simulated_load_fifo_data(test_data)
         # report()
+
         yield delay(100)
-        WR_N.next = True
-        RD_N.next = False
+
+        yield(CLK.negedge)
+        OE_N.next = ACTIVE_LOW_TRUE
+        yield(CLK.posedge)
+        yield(CLK.negedge)
+        RD_N.next = ACTIVE_LOW_TRUE
+
+        # yield delay(100)
+
+        yield(CLK.posedge)
+        # Read out data until our USB FIFO is empty
+        data_available = True
+        while( data_available ):
+            # Still Data available?
+            if RX_F:
+                # Got all our Data, de-asert signals
+                RD_N.next = ACTIVE_LOW_FALSE
+                data_available = False
+            yield(CLK.posedge)
+            yield(CLK.negedge)
+
+        OE_N.next = ACTIVE_LOW_TRUE
+        yield(CLK.posedge)
+        yield(CLK.negedge)
+
         yield delay(100)
+
+
+
 
     return sim_usb_fifo, test_protocol
     # return test_protocol, sim_usb_fifo, gen_clk, simulated_load_fifo_data
