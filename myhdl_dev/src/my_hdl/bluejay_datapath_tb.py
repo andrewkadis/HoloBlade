@@ -34,7 +34,7 @@ PERIOD = 10 # clk frequency = 50 MHz
 def bluejay_datapath_tb():
     
     # Global Control signals
-    # We drive the entire design off of the usb'sd 100MHz clock signal
+    # We drive the entire design off of the usb's 100MHz clock signal
     clk_100   = Signal(False)
     # Active-High Reset for entire design
     reset_all = Signal(False)
@@ -83,9 +83,8 @@ def bluejay_datapath_tb():
 
     # Signals for Bluejay Data Module
     # Control
-    clk_i   = Signal(False)
-    reset_i = Signal(False)
-    state = Signal(t_state.IDLE)
+    clk_i       = Signal(False)
+    reset_all   = Signal(False)
     new_frame_i = Signal(False)
     # Read-Side
     bluejay_data_i   = Signal(0)
@@ -101,7 +100,8 @@ def bluejay_datapath_tb():
     update_o = Signal(False)
     invert_o = Signal(False)
     # Inst our Bluejay Data Interface
-    bluejay_data_inst = bluejay_data.bluejay_data(clk_i, reset_all, state, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    bluejay_data_inst = bluejay_data.bluejay_data(clk_i, reset_all, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+
 
 
     # Control Logic between SLM and simulated USB-FIFO
@@ -155,9 +155,9 @@ def bluejay_datapath_tb():
         yield delay(FULL_CLOCK_PERIOD)
         # Reset
         yield clk_i.negedge
-        reset_i.next = True
+        reset_all.next = True
         yield clk_i.posedge
-        reset_i.next = False
+        reset_all.next = False
         # Signal to indicate we are doing a new frame
         yield delay(FULL_CLOCK_PERIOD)
         new_frame_i.next = True

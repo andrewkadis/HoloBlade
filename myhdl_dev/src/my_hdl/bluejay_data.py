@@ -22,7 +22,8 @@ t_state = enum(
     )
 
 @block
-def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o):
+def bluejay_data(clk_i, reset_i, new_frame_i, data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o):
+
 
     """ Peripheral to clock data out to a Bluejay SLM's Data Interface
 
@@ -50,7 +51,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
 
     # Timing constants
     num_words_per_line = 40
-    num_lines = 2 #1280
+    num_lines          = 1280
     end_of_line_blank_cycles  = 4  # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
     end_of_frame_blank_cycles = 12 # Need to blank for 16 cycles before asseting UPDATE (tDUV from pg. 18 datasheet), already waited 4 hence wait 12
     update_high_cycles        = 48 # Need to hold high for 48 cycles (tUPLS from datasheet, use Typ rather than Min)
@@ -62,7 +63,7 @@ def bluejay_data(clk_i, reset_i, state, new_frame_i, data_i, next_line_rdy_i, fi
     state_timeout_counter   = Signal(intbv(0)[8:])
     get_next_word_cmd       = Signal(False)
     data_output_active_cmd  = Signal(False)
-    # state = Signal(t_state.IDLE)
+    state = Signal(t_state.IDLE)
     # shiftReg = Signal(modbv(0)[50:])
 
 
@@ -239,30 +240,29 @@ def bluejay_data_tb():
 
     # Signals for Bluejay Data Module
     # Control
-    clk_i = Signal(False)
-    reset_i = Signal(False)
-    state = Signal(t_state.IDLE)
+    clk_i       = Signal(False)
+    reset_all   = Signal(False)
     new_frame_i = Signal(False)
     # Read-Side
-    bluejay_data_i = Signal(0)
-    next_line_rdy_i = Signal(False)
-    fifo_empty_i    = Signal(False)
-    get_next_word_o = Signal(False)
+    bluejay_data_i   = Signal(0)
+    next_line_rdy_i  = Signal(False)
+    fifo_empty_i     = Signal(False)
+    get_next_word_o  = Signal(False)
     # Write-Side
     bluejay_data_o = Signal(0)
     sync_o = Signal(False)
     valid_o = Signal(False)
     update_o = Signal(False)
     invert_o = Signal(False)
+    # Inst our Bluejay Data Interface
+    bluejay_data_inst = bluejay_data(clk_i, reset_all, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+
 
     # Inst our simulated FIFO
     fifo_data_i = Signal(0)
     we = Signal(False)
     full = Signal(False)
-    dut = test_fifo.fifo2(bluejay_data_i, fifo_data_i, get_next_word_o, we, fifo_empty_i, full, clk_i, maxFilling=64)
-
-    # Device under test for testing
-    bluejay_data_inst = bluejay_data(clk_i, reset_i, state, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    dut = test_fifo.fifo2(bluejay_data_i, fifo_data_i, get_next_word_o, we, fifo_empty_i, full, clk_i, maxFilling=20000)
 
     # Clock
     PERIOD = 10 # 50 MHz
@@ -270,27 +270,6 @@ def bluejay_data_tb():
     def clkgen():
         clk_i.next = not clk_i
 
-    # # Timing Code, useful for clearing our Assert signals
-    # @always(clk_i.posedge)
-    # def timing():
-    #     # data_i.next = data_i.next + 1
-    #     # Clear Assert signals
-    #     # if data_rdy_i==True:
-    #     if(next_line_rdy_i==True):
-    #         next_line_rdy_i.next = False
-    #     # if(reset_i==True):
-    #     #     reset_i.next    = False
-
-
-
-    # # # Data Ready goes high for 1 cycle for latching output
-    # # @always(delay(100))
-    # # def data_rdy_assert():
-    # #     data_rdy_i.next = 1
-    # # Clear next cycle
-    # # @instance
-    # # def data_rdy_clear():
-    # #     while True:
 
     # Load test data
     @instance
@@ -344,9 +323,9 @@ def bluejay_data_tb():
         yield delay(FULL_CLOCK_PERIOD)
         # Reset
         yield clk_i.negedge
-        reset_i.next = True
+        reset_all.next = True
         yield clk_i.posedge
-        reset_i.next = False
+        reset_all.next = False
         # Signal to indicate we are doing a new frame
         yield delay(FULL_CLOCK_PERIOD)
         new_frame_i.next = True
@@ -388,24 +367,24 @@ def bluejay_gen_verilog():
 
     # Signals for Bluejay Data Module
     # Control
-    clk_i = Signal(False)
-    reset_i = Signal(False)
-    state = Signal(t_state.IDLE)
+    clk_i       = Signal(False)
+    reset_all   = Signal(False)
     new_frame_i = Signal(False)
     # Read-Side
-    bluejay_data_i  = Signal(intbv(0)[32:])
-    next_line_rdy_i = Signal(False)
-    fifo_empty_i    = Signal(False)
-    get_next_word_o = Signal(False)
+    bluejay_data_i   = Signal(0)
+    next_line_rdy_i  = Signal(False)
+    fifo_empty_i     = Signal(False)
+    get_next_word_o  = Signal(False)
     # Write-Side
-    bluejay_data_o  = Signal(intbv(0)[32:])
+    bluejay_data_o = Signal(0)
     sync_o = Signal(False)
     valid_o = Signal(False)
     update_o = Signal(False)
     invert_o = Signal(False)
+    # Inst our Bluejay Data Interface
+    bluejay_data_inst = bluejay_data(clk_i, reset_all, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
 
-    # Device under test for testing
-    bluejay_data_inst = bluejay_data(clk_i, reset_i, state, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    # Convert
     bluejay_data_inst.convert(hdl='Verilog')
     # return bluejay_data_inst
 
