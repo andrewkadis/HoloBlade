@@ -93,7 +93,7 @@ def usb_to_bluejay_if_gen_verilog():
     reset_all   = Signal(False)
     # Read-Side
     clk_100     = Signal(False)
-    usb_data_o  = Signal(False)
+    usb_data_o  = Signal(intbv(0)[32:])
     GPIO0       = Signal(False)
     GPIO1       = Signal(False)
     RX_F        = Signal(False)
@@ -101,11 +101,12 @@ def usb_to_bluejay_if_gen_verilog():
     RD_N        = Signal(False)
     RESET_N     = Signal(False)
     # Write-Side
-    clk_i           = Signal(0)
-    bluejay_data_i  = Signal(False)
-    next_line_rdy_i = Signal(False)
-    fifo_empty_i    = Signal(False)
-    get_next_word_o = Signal(False)
+    clk_i            = Signal(False)
+    bluejay_data_i   = Signal(intbv(0)[32:])
+    next_line_rdy_i  = Signal(False)
+    next_frame_rdy_i = Signal(False)
+    fifo_empty_i     = Signal(False)
+    get_next_word_o  = Signal(False)
 
     # Control Logic between SLM and simulated USB-FIFO
     usb_to_bluejay_if_inst = usb_to_bluejay_if(
