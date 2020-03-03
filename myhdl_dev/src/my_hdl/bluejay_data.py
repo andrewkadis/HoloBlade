@@ -10,7 +10,7 @@ from myhdl import *
 import test_fifo
 
 
-period = 20 # clk frequency = 50 MHz
+period = 10 # clk frequency = 50 MHz
 
 t_state = enum(
     'IDLE',

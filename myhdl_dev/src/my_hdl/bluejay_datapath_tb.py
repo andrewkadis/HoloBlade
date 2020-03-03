@@ -131,22 +131,13 @@ def bluejay_datapath_tb():
     def test_protocol():
 
         # Test Data
-        line_1 = [
+        test_line = [
 
             # Line 1
-            10000000, 11000000, 12000000, 13000000, 14000000, 15000000, 16000000, 17000000, 18000000, 19000000,
-            20000000, 21000000, 22000000, 23000000, 24000000, 25000000, 26000000, 27000000, 28000000, 29000000,
-            30000000, 31000000, 32000000, 33000000, 34000000, 35000000, 36000000, 37000000, 38000000, 39000000,
-            40000000, 41000000, 42000000, 43000000, 44000000, 45000000, 46000000, 47000000, 48000000, 49000000,
-
-        ]
-        line_2 = [
-
-            # Line 2
-            50000000, 51000000, 52000000, 53000000, 54000000, 55000000, 56000000, 57000000, 58000000, 59000000,
-            60000000, 61000000, 62000000, 63000000, 64000000, 65000000, 66000000, 67000000, 68000000, 69000000,
-            70000000, 71000000, 72000000, 73000000, 74000000, 75000000, 76000000, 77000000, 78000000, 79000000,
-            80000000, 81000000, 82000000, 83000000, 84000000, 85000000, 86000000, 87000000, 88000000, 89000000
+            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000
 
         ]
 
@@ -165,15 +156,19 @@ def bluejay_datapath_tb():
         new_frame_i.next = False
         yield clk_i.posedge
 
-        yield delay(100)
-        # GPIO0.next = False
-        yield simulate_load_fifo_data(line_1)
+ # Iterate through test vector
+        for i in range(1280):
 
-        yield delay(200)
+            # Wait 1us and then load another line
+            yield delay(1000)
 
-        yield simulate_load_fifo_data(line_2)
+            # Load line
+            yield simulate_load_fifo_data(test_line)
 
-        yield delay(1000)
+        # Wait another 10us then end simulation
+        yield delay(10000)
+        # End Simulation
+        raise StopSimulation()
 
         # yield(clk_i.posedge)
         # # Read out data until our USB FIFO is empty
@@ -341,7 +336,7 @@ def main():
 
     tb = bluejay_datapath_tb()
     tb.config_sim(trace=True)
-    tb.run_sim(3000)
+    tb.run_sim(5000000)
 
     # bluejay_gen_verilog()
 
