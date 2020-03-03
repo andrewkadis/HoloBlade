@@ -262,13 +262,20 @@ def bluejay_data_tb():
     fifo_data_i = Signal(0)
     we = Signal(False)
     full = Signal(False)
-    dut = test_fifo.fifo2(bluejay_data_i, fifo_data_i, get_next_word_o, we, fifo_empty_i, full, clk_i, maxFilling=2000000)
+    empty = Signal(False)
+    # fifo_empty_i.next = not empty
+    dut = test_fifo.fifo2(bluejay_data_i, fifo_data_i, get_next_word_o, we, empty, full, clk_i, maxFilling=2000000)
 
     # Clock
     PERIOD = 10 # 50 MHz
     @always(delay(PERIOD))
     def clkgen():
         clk_i.next = not clk_i
+
+    # Invert the empty signal
+    @always_comb
+    def inv():
+        fifo_empty_i.next = not empty
 
 
     # Load test data
@@ -279,10 +286,10 @@ def bluejay_data_tb():
         test_vector = [
 
             # 40 Words of Data
-            0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF,
-            0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF,
-            0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF,
-            0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF, 0x00000000, 0x00000000, 0xFFFFFFFF, 0xFFFFFFFF
+            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000
         ]
         # Wait an initial period
         FULL_CLOCK_PERIOD = 2*PERIOD
@@ -331,7 +338,7 @@ def bluejay_data_tb():
         # End Simulation
         raise StopSimulation()
 
-    return dut, bluejay_data_inst, clkgen, load_test_data
+    return instances()
 
 # Generated Verilog
 def bluejay_gen_verilog():
@@ -357,7 +364,6 @@ def bluejay_gen_verilog():
 
     # Convert
     bluejay_data_inst.convert(hdl='Verilog')
-    # return bluejay_data_inst
 
 
 def main():
