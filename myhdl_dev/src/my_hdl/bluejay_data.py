@@ -349,12 +349,12 @@ def bluejay_gen_verilog():
     reset_all   = Signal(False)
     new_frame_i = Signal(False)
     # Read-Side
-    bluejay_data_i   = Signal(0)
+    bluejay_data_i   = Signal(intbv(0)[32:])
     next_line_rdy_i  = Signal(False)
     fifo_empty_i     = Signal(False)
     get_next_word_o  = Signal(False)
     # Write-Side
-    bluejay_data_o = Signal(0)
+    bluejay_data_o = Signal(intbv(0)[32:])
     sync_o = Signal(False)
     valid_o = Signal(False)
     update_o = Signal(False)
