@@ -119,7 +119,7 @@ def usb_to_bluejay_if_gen_verilog():
         GPIO1,
         RX_F,
         OE_N,
-        RD_N,
+        RD_N,   ``
         RESET_N,
         # Bluejay Data Interface
         clk_i,

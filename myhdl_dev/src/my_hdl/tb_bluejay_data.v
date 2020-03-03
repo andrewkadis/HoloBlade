@@ -2,7 +2,6 @@ module tb_bluejay_data;
 
 reg clk_i;
 reg reset_i;
-wire [2:0] state;
 reg new_frame_i;
 reg [31:0] data_i;
 reg next_line_rdy_i;
@@ -25,7 +24,6 @@ initial begin
         invert_o
     );
     $to_myhdl(
-        state,
         get_next_word_o,
         data_o,
         sync_o,
@@ -37,7 +35,6 @@ end
 bluejay_data dut(
     clk_i,
     reset_i,
-    state,
     new_frame_i,
     data_i,
     next_line_rdy_i,

@@ -32,7 +32,6 @@ def bluejay_data(clk_i, reset_i, new_frame_i, data_i, next_line_rdy_i, fifo_empt
     Control:
     clk_i            : 50MHz input clock
     reset_i          : Reset line
-    state            : Current state, output for debug in simulator
     new_frame_i      : Signal line to indicate that we want to start outputting a new frame
     Read-Side:
     data_i           : 32-bit input data to be shown on SLM
@@ -63,7 +62,7 @@ def bluejay_data(clk_i, reset_i, new_frame_i, data_i, next_line_rdy_i, fifo_empt
     state_timeout_counter   = Signal(intbv(0)[8:])
     get_next_word_cmd       = Signal(False)
     data_output_active_cmd  = Signal(False)
-    state = Signal(t_state.IDLE)
+    state                   = Signal(t_state.IDLE)
     # shiftReg = Signal(modbv(0)[50:])
 
 
@@ -372,7 +371,7 @@ def main():
     tb.config_sim(trace=True)
     tb.run_sim(5000000)
 
-    # bluejay_gen_verilog()
+    bluejay_gen_verilog()
 
 
 if __name__ == '__main__':
