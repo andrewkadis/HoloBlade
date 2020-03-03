@@ -1,9 +1,9 @@
 <top name = "top"  library = "work"  arch = ""  entry = "Verilog">
 
 <clocks>
-    <clockitem name = "FIFO_CLK"  type = "net" />
     <clockitem name = "SLM_CLK"  type = "net" />
     <clockitem name = "spi0/spi_clk"  type = "net" />
+    <clockitem name = "bluejay_data_inst/clk_i"  type = "net" />
 </clocks>
 
 <!--
@@ -81,42 +81,42 @@
         <pitem  name = "FT_SIWU"  direction = "out"  />
         <pitem  name = "FR_RXF"  direction = "in"  />
         <pitem  name = "FT_TXE"  direction = "in"  />
-        <pitem  name = "FIFO_BE3"  direction = "out"  />
-        <pitem  name = "FIFO_BE2"  direction = "out"  />
-        <pitem  name = "FIFO_BE1"  direction = "out"  />
-        <pitem  name = "FIFO_BE0"  direction = "out"  />
-        <pitem  name = "FIFO_D31"  direction = "out"  />
-        <pitem  name = "FIFO_D30"  direction = "out"  />
-        <pitem  name = "FIFO_D29"  direction = "out"  />
-        <pitem  name = "FIFO_D28"  direction = "out"  />
-        <pitem  name = "FIFO_D27"  direction = "out"  />
+        <pitem  name = "FIFO_BE3"  direction = "in"  />
+        <pitem  name = "FIFO_BE2"  direction = "in"  />
+        <pitem  name = "FIFO_BE1"  direction = "in"  />
+        <pitem  name = "FIFO_BE0"  direction = "in"  />
+        <pitem  name = "FIFO_D31"  direction = "in"  />
+        <pitem  name = "FIFO_D30"  direction = "in"  />
+        <pitem  name = "FIFO_D29"  direction = "in"  />
+        <pitem  name = "FIFO_D28"  direction = "in"  />
+        <pitem  name = "FIFO_D27"  direction = "in"  />
         <pitem  name = "FIFO_CLK"  direction = "in"  />
-        <pitem  name = "FIFO_D26"  direction = "out"  />
-        <pitem  name = "FIFO_D25"  direction = "out"  />
-        <pitem  name = "FIFO_D24"  direction = "out"  />
-        <pitem  name = "FIFO_D23"  direction = "out"  />
-        <pitem  name = "FIFO_D22"  direction = "out"  />
-        <pitem  name = "FIFO_D21"  direction = "out"  />
-        <pitem  name = "FIFO_D20"  direction = "out"  />
-        <pitem  name = "FIFO_D19"  direction = "out"  />
-        <pitem  name = "FIFO_D18"  direction = "out"  />
-        <pitem  name = "FIFO_D17"  direction = "out"  />
-        <pitem  name = "FIFO_D16"  direction = "out"  />
-        <pitem  name = "FIFO_D15"  direction = "out"  />
-        <pitem  name = "FIFO_D14"  direction = "out"  />
-        <pitem  name = "FIFO_D13"  direction = "out"  />
-        <pitem  name = "FIFO_D12"  direction = "out"  />
-        <pitem  name = "FIFO_D11"  direction = "out"  />
-        <pitem  name = "FIFO_D10"  direction = "out"  />
-        <pitem  name = "FIFO_D9"  direction = "out"  />
-        <pitem  name = "FIFO_D8"  direction = "out"  />
-        <pitem  name = "FIFO_D7"  direction = "out"  />
-        <pitem  name = "FIFO_D6"  direction = "out"  />
-        <pitem  name = "FIFO_D5"  direction = "out"  />
-        <pitem  name = "FIFO_D4"  direction = "out"  />
-        <pitem  name = "FIFO_D3"  direction = "out"  />
-        <pitem  name = "FIFO_D2"  direction = "out"  />
-        <pitem  name = "FIFO_D1"  direction = "out"  />
+        <pitem  name = "FIFO_D26"  direction = "in"  />
+        <pitem  name = "FIFO_D25"  direction = "in"  />
+        <pitem  name = "FIFO_D24"  direction = "in"  />
+        <pitem  name = "FIFO_D23"  direction = "in"  />
+        <pitem  name = "FIFO_D22"  direction = "in"  />
+        <pitem  name = "FIFO_D21"  direction = "in"  />
+        <pitem  name = "FIFO_D20"  direction = "in"  />
+        <pitem  name = "FIFO_D19"  direction = "in"  />
+        <pitem  name = "FIFO_D18"  direction = "in"  />
+        <pitem  name = "FIFO_D17"  direction = "in"  />
+        <pitem  name = "FIFO_D16"  direction = "in"  />
+        <pitem  name = "FIFO_D15"  direction = "in"  />
+        <pitem  name = "FIFO_D14"  direction = "in"  />
+        <pitem  name = "FIFO_D13"  direction = "in"  />
+        <pitem  name = "FIFO_D12"  direction = "in"  />
+        <pitem  name = "FIFO_D11"  direction = "in"  />
+        <pitem  name = "FIFO_D10"  direction = "in"  />
+        <pitem  name = "FIFO_D9"  direction = "in"  />
+        <pitem  name = "FIFO_D8"  direction = "in"  />
+        <pitem  name = "FIFO_D7"  direction = "in"  />
+        <pitem  name = "FIFO_D6"  direction = "in"  />
+        <pitem  name = "FIFO_D5"  direction = "in"  />
+        <pitem  name = "FIFO_D4"  direction = "in"  />
+        <pitem  name = "FIFO_D3"  direction = "in"  />
+        <pitem  name = "FIFO_D2"  direction = "in"  />
+        <pitem  name = "FIFO_D1"  direction = "in"  />
         <pitem  name = "FIFO_D0"  direction = "in"  />
         <pitem  name = "DEBUG_0"  direction = "out"  />
         <pitem  name = "DEBUG_1"  direction = "out"  />
@@ -124,41 +124,80 @@
         <pitem  name = "DEBUG_3"  direction = "out"  />
         <pitem  name = "DEBUG_5"  direction = "out"  />
         <pitem  name = "DEBUG_6"  direction = "out"  />
-        <pitem  name = "DEBUG_8"  direction = "out"  />
-        <pitem  name = "DEBUG_9"  direction = "out"  />
+        <pitem  name = "DEBUG_8"  direction = "in"  />
+        <pitem  name = "DEBUG_9"  direction = "in"  />
         <pitem  name = "ICE_CLK"  direction = "out"  />
         <pitem  name = "ICE_CDONE"  direction = "out"  />
         <pitem  name = "ICE_CREST"  direction = "out"  />
     </pins>
 
     <!--
-        Instances in netlist: 268
+        Instances in netlist: 291
     -->
 
-    <instance  name = "spi0/state_reg_2__I_0_100"  library = "work"  arch = ""  type = "comb">
+    <instance  name = "bluejay_data_inst/state_2__I_0_87"  library = "work"  arch = ""  type = "comb">
         <pins>
-        <pitem  name = "d1[2]"  direction = "in"  />
-        <pitem  name = "d1[0]"  direction = "in"  />
-        <pitem  name = "d1[1]"  direction = "in"  />
-        <pitem  name = "d0[2]"  direction = "in"  />
-        <pitem  name = "d0[1]"  direction = "in"  />
-        <pitem  name = "d0[0]"  direction = "in"  />
-        <pitem  name = "cond"  direction = "in"  />
+        <pitem  name = "b[2]"  direction = "in"  />
+        <pitem  name = "b[1]"  direction = "in"  />
+        <pitem  name = "b[0]"  direction = "in"  />
+        <pitem  name = "a[2]"  direction = "in"  />
+        <pitem  name = "a[1]"  direction = "in"  />
+        <pitem  name = "a[0]"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "SYNC"  />
+        <nitem  name = "bluejay_data_inst/state[2]"  />
+        <nitem  name = "bluejay_data_inst/state[1]"  />
+        <nitem  name = "bluejay_data_inst/state[0]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_110"  />
+        </nets>
+    </instance>
+
+    <instance  name = "bluejay_data_inst/select_37"  library = "work"  arch = ""  type = "comb">
+        <pins>
+        <pitem  name = "data[2]"  direction = "in"  />
+        <pitem  name = "data[1]"  direction = "in"  />
+        <pitem  name = "data[0]"  direction = "in"  />
+        <pitem  name = "data[11]"  direction = "in"  />
+        <pitem  name = "data[10]"  direction = "in"  />
+        <pitem  name = "data[9]"  direction = "in"  />
+        <pitem  name = "data[8]"  direction = "in"  />
+        <pitem  name = "data[7]"  direction = "in"  />
+        <pitem  name = "data[6]"  direction = "in"  />
+        <pitem  name = "data[5]"  direction = "in"  />
+        <pitem  name = "data[4]"  direction = "in"  />
+        <pitem  name = "data[3]"  direction = "in"  />
+        <pitem  name = "sel[3]"  direction = "in"  />
+        <pitem  name = "sel[2]"  direction = "in"  />
+        <pitem  name = "sel[1]"  direction = "in"  />
+        <pitem  name = "sel[0]"  direction = "in"  />
         <pitem  name = "o[2]"  direction = "out"  />
         <pitem  name = "o[1]"  direction = "out"  />
         <pitem  name = "o[0]"  direction = "out"  />
         </pins>
 
         <nets>
-        <nitem  name = "spi0/n270"  />
-        <nitem  name = "spi0/pwr"  />
-        <nitem  name = "spi0/state_reg[2]"  />
-        <nitem  name = "spi0/state_reg[1]"  />
-        <nitem  name = "spi0/state_reg[0]"  />
-        <nitem  name = "spi0/state_next_2__N_312"  />
-        <nitem  name = "spi0/state_next_2__N_277[2]"  />
-        <nitem  name = "spi0/state_next_2__N_277[1]"  />
-        <nitem  name = "spi0/state_next_2__N_277[0]"  />
+        <nitem  name = "bluejay_data_inst/state[2]"  />
+        <nitem  name = "bluejay_data_inst/state[1]"  />
+        <nitem  name = "bluejay_data_inst/state[0]"  />
+        <nitem  name = "bluejay_data_inst/n104"  />
+        <nitem  name = "bluejay_data_inst/n105"  />
+        <nitem  name = "bluejay_data_inst/n106"  />
+        <nitem  name = "bluejay_data_inst/n128"  />
+        <nitem  name = "bluejay_data_inst/n129"  />
+        <nitem  name = "bluejay_data_inst/n130"  />
+        <nitem  name = "bluejay_data_inst/n152"  />
+        <nitem  name = "bluejay_data_inst/n153"  />
+        <nitem  name = "bluejay_data_inst/n154"  />
+        <nitem  name = "bluejay_data_inst/n155"  />
+        <nitem  name = "bluejay_data_inst/n156"  />
+        <nitem  name = "bluejay_data_inst/update_o_N_159"  />
+        <nitem  name = "bluejay_data_inst/n158"  />
+        <nitem  name = "bluejay_data_inst/n181"  />
+        <nitem  name = "bluejay_data_inst/n182"  />
+        <nitem  name = "bluejay_data_inst/n183"  />
         </nets>
     </instance>
 
@@ -264,7 +303,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "led_counter[31]"  />
         <nitem  name = "led_counter[30]"  />
         <nitem  name = "led_counter[29]"  />
@@ -333,7 +372,7 @@
         </nets>
     </instance>
 
-    <instance  name = "reset_all_r_198"  library = "work"  arch = ""  type = "reg">
+    <instance  name = "reset_all_r_87"  library = "work"  arch = ""  type = "reg">
         <pins>
         <pitem  name = "d"  direction = "in"  />
         <pitem  name = "clk"  direction = "in"  />
@@ -345,7 +384,7 @@
         <nets>
         <nitem  name = "reset_all_w_N_60"  />
         <nitem  name = "SLM_CLK"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "reset_all_w"  />
         </nets>
     </instance>
@@ -420,7 +459,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "pwr"  />
         <nitem  name = "reset_clk_counter_3__N_57"  />
         </nets>
@@ -441,7 +480,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "reset_clk_counter[3]"  />
         <nitem  name = "reset_clk_counter[2]"  />
         <nitem  name = "reset_clk_counter[1]"  />
@@ -471,7 +510,7 @@
         <nitem  name = "reset_clk_counter[2]"  />
         <nitem  name = "reset_clk_counter[1]"  />
         <nitem  name = "reset_clk_counter[0]"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "pwr"  />
         <nitem  name = "n73"  />
         <nitem  name = "n74"  />
@@ -514,7 +553,7 @@
         </nets>
     </instance>
 
-    <instance  name = "reset_clk_counter_3__I_0_215"  library = "work"  arch = ""  type = "comb">
+    <instance  name = "reset_clk_counter_3__I_0_102"  library = "work"  arch = ""  type = "comb">
         <pins>
         <pitem  name = "d0[3]"  direction = "in"  />
         <pitem  name = "d0[2]"  direction = "in"  />
@@ -537,7 +576,7 @@
         <nitem  name = "reset_clk_counter_3__N_53[1]"  />
         <nitem  name = "reset_clk_counter_3__N_53[0]"  />
         <nitem  name = "pwr"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "reset_clk_counter_3__N_57"  />
         <nitem  name = "reset_clk_counter_3__N_33[3]"  />
         <nitem  name = "reset_clk_counter_3__N_33[2]"  />
@@ -546,7 +585,7 @@
         </nets>
     </instance>
 
-    <instance  name = "reset_all_w_I_0_216"  library = "work"  arch = ""  type = "comb">
+    <instance  name = "reset_all_w_I_0_103"  library = "work"  arch = ""  type = "comb">
         <pins>
         <pitem  name = "a0"  direction = "in"  />
         <pitem  name = "a1"  direction = "in"  />
@@ -588,7 +627,7 @@
         <nitem  name = "reset_clk_counter_3__N_33[2]"  />
         <nitem  name = "reset_clk_counter_3__N_33[1]"  />
         <nitem  name = "reset_clk_counter_3__N_33[0]"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "SLM_CLK"  />
         <nitem  name = "reset_clk_counter[3]"  />
         <nitem  name = "reset_clk_counter[2]"  />
@@ -597,7 +636,7 @@
         </nets>
     </instance>
 
-    <instance  name = "FT_OE_r_200"  library = "work"  arch = ""  type = "reg">
+    <instance  name = "spi_busy_falling_edge_89"  library = "work"  arch = ""  type = "reg">
         <pins>
         <pitem  name = "d"  direction = "in"  />
         <pitem  name = "clk"  direction = "in"  />
@@ -607,219 +646,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "FT_OE_N_62"  />
-        <nitem  name = "FIFO_CLK"  />
-        <nitem  name = "n176"  />
-        <nitem  name = "FT_OE"  />
-        </nets>
-    </instance>
-
-    <instance  name = "FR_RXF_I_0"  library = "work"  arch = ""  type = "comb">
-        <pins>
-        <pitem  name = "a[31]"  direction = "in"  />
-        <pitem  name = "a[30]"  direction = "in"  />
-        <pitem  name = "a[29]"  direction = "in"  />
-        <pitem  name = "a[28]"  direction = "in"  />
-        <pitem  name = "a[27]"  direction = "in"  />
-        <pitem  name = "a[26]"  direction = "in"  />
-        <pitem  name = "a[25]"  direction = "in"  />
-        <pitem  name = "a[24]"  direction = "in"  />
-        <pitem  name = "a[23]"  direction = "in"  />
-        <pitem  name = "a[22]"  direction = "in"  />
-        <pitem  name = "a[21]"  direction = "in"  />
-        <pitem  name = "a[20]"  direction = "in"  />
-        <pitem  name = "a[19]"  direction = "in"  />
-        <pitem  name = "a[18]"  direction = "in"  />
-        <pitem  name = "a[17]"  direction = "in"  />
-        <pitem  name = "a[16]"  direction = "in"  />
-        <pitem  name = "a[15]"  direction = "in"  />
-        <pitem  name = "a[14]"  direction = "in"  />
-        <pitem  name = "a[13]"  direction = "in"  />
-        <pitem  name = "a[12]"  direction = "in"  />
-        <pitem  name = "a[11]"  direction = "in"  />
-        <pitem  name = "a[10]"  direction = "in"  />
-        <pitem  name = "a[9]"  direction = "in"  />
-        <pitem  name = "a[8]"  direction = "in"  />
-        <pitem  name = "a[7]"  direction = "in"  />
-        <pitem  name = "a[6]"  direction = "in"  />
-        <pitem  name = "a[5]"  direction = "in"  />
-        <pitem  name = "a[4]"  direction = "in"  />
-        <pitem  name = "a[3]"  direction = "in"  />
-        <pitem  name = "a[2]"  direction = "in"  />
-        <pitem  name = "a[1]"  direction = "in"  />
-        <pitem  name = "a[0]"  direction = "in"  />
-        <pitem  name = "b[31]"  direction = "in"  />
-        <pitem  name = "b[30]"  direction = "in"  />
-        <pitem  name = "b[29]"  direction = "in"  />
-        <pitem  name = "b[28]"  direction = "in"  />
-        <pitem  name = "b[27]"  direction = "in"  />
-        <pitem  name = "b[26]"  direction = "in"  />
-        <pitem  name = "b[25]"  direction = "in"  />
-        <pitem  name = "b[24]"  direction = "in"  />
-        <pitem  name = "b[23]"  direction = "in"  />
-        <pitem  name = "b[22]"  direction = "in"  />
-        <pitem  name = "b[21]"  direction = "in"  />
-        <pitem  name = "b[20]"  direction = "in"  />
-        <pitem  name = "b[19]"  direction = "in"  />
-        <pitem  name = "b[18]"  direction = "in"  />
-        <pitem  name = "b[17]"  direction = "in"  />
-        <pitem  name = "b[16]"  direction = "in"  />
-        <pitem  name = "b[15]"  direction = "in"  />
-        <pitem  name = "b[14]"  direction = "in"  />
-        <pitem  name = "b[13]"  direction = "in"  />
-        <pitem  name = "b[12]"  direction = "in"  />
-        <pitem  name = "b[11]"  direction = "in"  />
-        <pitem  name = "b[10]"  direction = "in"  />
-        <pitem  name = "b[9]"  direction = "in"  />
-        <pitem  name = "b[8]"  direction = "in"  />
-        <pitem  name = "b[7]"  direction = "in"  />
-        <pitem  name = "b[6]"  direction = "in"  />
-        <pitem  name = "b[5]"  direction = "in"  />
-        <pitem  name = "b[4]"  direction = "in"  />
-        <pitem  name = "b[3]"  direction = "in"  />
-        <pitem  name = "b[2]"  direction = "in"  />
-        <pitem  name = "b[1]"  direction = "in"  />
-        <pitem  name = "b[0]"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "n176"  />
-        <nitem  name = "FR_RXF"  />
-        <nitem  name = "FT_OE_N_63"  />
-        </nets>
-    </instance>
-
-    <instance  name = "FT_OE_I_0_217"  library = "work"  arch = ""  type = "comb">
-        <pins>
-        <pitem  name = "i"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "FT_OE_N_63"  />
-        <nitem  name = "FT_OE_N_62"  />
-        </nets>
-    </instance>
-
-    <instance  name = "FT_OE_I_0"  library = "work"  arch = ""  type = "comb">
-        <pins>
-        <pitem  name = "a[31]"  direction = "in"  />
-        <pitem  name = "a[30]"  direction = "in"  />
-        <pitem  name = "a[29]"  direction = "in"  />
-        <pitem  name = "a[28]"  direction = "in"  />
-        <pitem  name = "a[27]"  direction = "in"  />
-        <pitem  name = "a[26]"  direction = "in"  />
-        <pitem  name = "a[25]"  direction = "in"  />
-        <pitem  name = "a[24]"  direction = "in"  />
-        <pitem  name = "a[23]"  direction = "in"  />
-        <pitem  name = "a[22]"  direction = "in"  />
-        <pitem  name = "a[21]"  direction = "in"  />
-        <pitem  name = "a[20]"  direction = "in"  />
-        <pitem  name = "a[19]"  direction = "in"  />
-        <pitem  name = "a[18]"  direction = "in"  />
-        <pitem  name = "a[17]"  direction = "in"  />
-        <pitem  name = "a[16]"  direction = "in"  />
-        <pitem  name = "a[15]"  direction = "in"  />
-        <pitem  name = "a[14]"  direction = "in"  />
-        <pitem  name = "a[13]"  direction = "in"  />
-        <pitem  name = "a[12]"  direction = "in"  />
-        <pitem  name = "a[11]"  direction = "in"  />
-        <pitem  name = "a[10]"  direction = "in"  />
-        <pitem  name = "a[9]"  direction = "in"  />
-        <pitem  name = "a[8]"  direction = "in"  />
-        <pitem  name = "a[7]"  direction = "in"  />
-        <pitem  name = "a[6]"  direction = "in"  />
-        <pitem  name = "a[5]"  direction = "in"  />
-        <pitem  name = "a[4]"  direction = "in"  />
-        <pitem  name = "a[3]"  direction = "in"  />
-        <pitem  name = "a[2]"  direction = "in"  />
-        <pitem  name = "a[1]"  direction = "in"  />
-        <pitem  name = "a[0]"  direction = "in"  />
-        <pitem  name = "b[31]"  direction = "in"  />
-        <pitem  name = "b[30]"  direction = "in"  />
-        <pitem  name = "b[29]"  direction = "in"  />
-        <pitem  name = "b[28]"  direction = "in"  />
-        <pitem  name = "b[27]"  direction = "in"  />
-        <pitem  name = "b[26]"  direction = "in"  />
-        <pitem  name = "b[25]"  direction = "in"  />
-        <pitem  name = "b[24]"  direction = "in"  />
-        <pitem  name = "b[23]"  direction = "in"  />
-        <pitem  name = "b[22]"  direction = "in"  />
-        <pitem  name = "b[21]"  direction = "in"  />
-        <pitem  name = "b[20]"  direction = "in"  />
-        <pitem  name = "b[19]"  direction = "in"  />
-        <pitem  name = "b[18]"  direction = "in"  />
-        <pitem  name = "b[17]"  direction = "in"  />
-        <pitem  name = "b[16]"  direction = "in"  />
-        <pitem  name = "b[15]"  direction = "in"  />
-        <pitem  name = "b[14]"  direction = "in"  />
-        <pitem  name = "b[13]"  direction = "in"  />
-        <pitem  name = "b[12]"  direction = "in"  />
-        <pitem  name = "b[11]"  direction = "in"  />
-        <pitem  name = "b[10]"  direction = "in"  />
-        <pitem  name = "b[9]"  direction = "in"  />
-        <pitem  name = "b[8]"  direction = "in"  />
-        <pitem  name = "b[7]"  direction = "in"  />
-        <pitem  name = "b[6]"  direction = "in"  />
-        <pitem  name = "b[5]"  direction = "in"  />
-        <pitem  name = "b[4]"  direction = "in"  />
-        <pitem  name = "b[3]"  direction = "in"  />
-        <pitem  name = "b[2]"  direction = "in"  />
-        <pitem  name = "b[1]"  direction = "in"  />
-        <pitem  name = "b[0]"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "n176"  />
-        <nitem  name = "FT_OE"  />
-        <nitem  name = "FT_RD_N_65"  />
-        </nets>
-    </instance>
-
-    <instance  name = "FT_RD_I_0"  library = "work"  arch = ""  type = "comb">
-        <pins>
-        <pitem  name = "i"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "FT_RD_N_65"  />
-        <nitem  name = "FT_RD_N_64"  />
-        </nets>
-    </instance>
-
-    <instance  name = "FT_RD_r_201"  library = "work"  arch = ""  type = "reg">
-        <pins>
-        <pitem  name = "d"  direction = "in"  />
-        <pitem  name = "clk"  direction = "in"  />
-        <pitem  name = "s"  direction = "in"  />
-        <pitem  name = "r"  direction = "in"  />
-        <pitem  name = "q"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "FT_RD_N_64"  />
-        <nitem  name = "FIFO_CLK"  />
-        <nitem  name = "n176"  />
-        <nitem  name = "FT_RD"  />
-        </nets>
-    </instance>
-
-    <instance  name = "spi_busy_falling_edge_202"  library = "work"  arch = ""  type = "reg">
-        <pins>
-        <pitem  name = "d"  direction = "in"  />
-        <pitem  name = "clk"  direction = "in"  />
-        <pitem  name = "s"  direction = "in"  />
-        <pitem  name = "r"  direction = "in"  />
-        <pitem  name = "q"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "spi_busy_falling_edge_N_77"  />
+        <nitem  name = "spi_busy_falling_edge_N_73"  />
         <nitem  name = "SLM_CLK"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "spi_busy_falling_edge"  />
         </nets>
     </instance>
@@ -833,6 +662,222 @@
         <nets>
         <nitem  name = "reset_all_w"  />
         <nitem  name = "reset_all_w_N_59"  />
+        </nets>
+    </instance>
+
+    <instance  name = "bluejay_data_inst/select_36"  library = "work"  arch = ""  type = "comb">
+        <pins>
+        <pitem  name = "data[32]"  direction = "in"  />
+        <pitem  name = "data[21]"  direction = "in"  />
+        <pitem  name = "data[10]"  direction = "in"  />
+        <pitem  name = "data[31]"  direction = "in"  />
+        <pitem  name = "data[20]"  direction = "in"  />
+        <pitem  name = "data[9]"  direction = "in"  />
+        <pitem  name = "data[30]"  direction = "in"  />
+        <pitem  name = "data[19]"  direction = "in"  />
+        <pitem  name = "data[8]"  direction = "in"  />
+        <pitem  name = "data[29]"  direction = "in"  />
+        <pitem  name = "data[18]"  direction = "in"  />
+        <pitem  name = "data[7]"  direction = "in"  />
+        <pitem  name = "data[28]"  direction = "in"  />
+        <pitem  name = "data[17]"  direction = "in"  />
+        <pitem  name = "data[6]"  direction = "in"  />
+        <pitem  name = "data[27]"  direction = "in"  />
+        <pitem  name = "data[16]"  direction = "in"  />
+        <pitem  name = "data[5]"  direction = "in"  />
+        <pitem  name = "data[26]"  direction = "in"  />
+        <pitem  name = "data[15]"  direction = "in"  />
+        <pitem  name = "data[4]"  direction = "in"  />
+        <pitem  name = "data[25]"  direction = "in"  />
+        <pitem  name = "data[14]"  direction = "in"  />
+        <pitem  name = "data[3]"  direction = "in"  />
+        <pitem  name = "data[24]"  direction = "in"  />
+        <pitem  name = "data[13]"  direction = "in"  />
+        <pitem  name = "data[2]"  direction = "in"  />
+        <pitem  name = "data[23]"  direction = "in"  />
+        <pitem  name = "data[12]"  direction = "in"  />
+        <pitem  name = "data[1]"  direction = "in"  />
+        <pitem  name = "data[22]"  direction = "in"  />
+        <pitem  name = "data[11]"  direction = "in"  />
+        <pitem  name = "data[0]"  direction = "in"  />
+        <pitem  name = "data[43]"  direction = "in"  />
+        <pitem  name = "data[42]"  direction = "in"  />
+        <pitem  name = "data[41]"  direction = "in"  />
+        <pitem  name = "data[40]"  direction = "in"  />
+        <pitem  name = "data[39]"  direction = "in"  />
+        <pitem  name = "data[38]"  direction = "in"  />
+        <pitem  name = "data[37]"  direction = "in"  />
+        <pitem  name = "data[36]"  direction = "in"  />
+        <pitem  name = "data[35]"  direction = "in"  />
+        <pitem  name = "data[34]"  direction = "in"  />
+        <pitem  name = "data[33]"  direction = "in"  />
+        <pitem  name = "sel[3]"  direction = "in"  />
+        <pitem  name = "sel[2]"  direction = "in"  />
+        <pitem  name = "sel[1]"  direction = "in"  />
+        <pitem  name = "sel[0]"  direction = "in"  />
+        <pitem  name = "o[10]"  direction = "out"  />
+        <pitem  name = "o[9]"  direction = "out"  />
+        <pitem  name = "o[8]"  direction = "out"  />
+        <pitem  name = "o[7]"  direction = "out"  />
+        <pitem  name = "o[6]"  direction = "out"  />
+        <pitem  name = "o[5]"  direction = "out"  />
+        <pitem  name = "o[4]"  direction = "out"  />
+        <pitem  name = "o[3]"  direction = "out"  />
+        <pitem  name = "o[2]"  direction = "out"  />
+        <pitem  name = "o[1]"  direction = "out"  />
+        <pitem  name = "o[0]"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "bluejay_data_inst/v_counter[10]"  />
+        <nitem  name = "bluejay_data_inst/v_counter[9]"  />
+        <nitem  name = "bluejay_data_inst/v_counter[8]"  />
+        <nitem  name = "bluejay_data_inst/v_counter[7]"  />
+        <nitem  name = "bluejay_data_inst/v_counter[6]"  />
+        <nitem  name = "bluejay_data_inst/v_counter[5]"  />
+        <nitem  name = "bluejay_data_inst/v_counter[4]"  />
+        <nitem  name = "bluejay_data_inst/v_counter[3]"  />
+        <nitem  name = "bluejay_data_inst/v_counter[2]"  />
+        <nitem  name = "bluejay_data_inst/v_counter[1]"  />
+        <nitem  name = "bluejay_data_inst/v_counter[0]"  />
+        <nitem  name = "bluejay_data_inst/n92"  />
+        <nitem  name = "bluejay_data_inst/n93"  />
+        <nitem  name = "bluejay_data_inst/n94"  />
+        <nitem  name = "bluejay_data_inst/n95"  />
+        <nitem  name = "bluejay_data_inst/n96"  />
+        <nitem  name = "bluejay_data_inst/n97"  />
+        <nitem  name = "bluejay_data_inst/n98"  />
+        <nitem  name = "bluejay_data_inst/n99"  />
+        <nitem  name = "bluejay_data_inst/n100"  />
+        <nitem  name = "bluejay_data_inst/n101"  />
+        <nitem  name = "bluejay_data_inst/n102"  />
+        <nitem  name = "bluejay_data_inst/n155"  />
+        <nitem  name = "bluejay_data_inst/n156"  />
+        <nitem  name = "bluejay_data_inst/update_o_N_159"  />
+        <nitem  name = "bluejay_data_inst/n158"  />
+        <nitem  name = "bluejay_data_inst/n169"  />
+        <nitem  name = "bluejay_data_inst/n170"  />
+        <nitem  name = "bluejay_data_inst/n171"  />
+        <nitem  name = "bluejay_data_inst/n172"  />
+        <nitem  name = "bluejay_data_inst/n173"  />
+        <nitem  name = "bluejay_data_inst/n174"  />
+        <nitem  name = "bluejay_data_inst/n175"  />
+        <nitem  name = "bluejay_data_inst/n176"  />
+        <nitem  name = "bluejay_data_inst/n177"  />
+        <nitem  name = "bluejay_data_inst/n178"  />
+        <nitem  name = "bluejay_data_inst/n179"  />
+        </nets>
+    </instance>
+
+    <instance  name = "bluejay_data_inst/select_35"  library = "work"  arch = ""  type = "comb">
+        <pins>
+        <pitem  name = "data[7]"  direction = "in"  />
+        <pitem  name = "data[6]"  direction = "in"  />
+        <pitem  name = "data[5]"  direction = "in"  />
+        <pitem  name = "data[4]"  direction = "in"  />
+        <pitem  name = "data[3]"  direction = "in"  />
+        <pitem  name = "data[2]"  direction = "in"  />
+        <pitem  name = "data[1]"  direction = "in"  />
+        <pitem  name = "data[0]"  direction = "in"  />
+        <pitem  name = "data[31]"  direction = "in"  />
+        <pitem  name = "data[30]"  direction = "in"  />
+        <pitem  name = "data[29]"  direction = "in"  />
+        <pitem  name = "data[28]"  direction = "in"  />
+        <pitem  name = "data[27]"  direction = "in"  />
+        <pitem  name = "data[26]"  direction = "in"  />
+        <pitem  name = "data[25]"  direction = "in"  />
+        <pitem  name = "data[24]"  direction = "in"  />
+        <pitem  name = "data[23]"  direction = "in"  />
+        <pitem  name = "data[22]"  direction = "in"  />
+        <pitem  name = "data[21]"  direction = "in"  />
+        <pitem  name = "data[20]"  direction = "in"  />
+        <pitem  name = "data[19]"  direction = "in"  />
+        <pitem  name = "data[18]"  direction = "in"  />
+        <pitem  name = "data[17]"  direction = "in"  />
+        <pitem  name = "data[16]"  direction = "in"  />
+        <pitem  name = "data[15]"  direction = "in"  />
+        <pitem  name = "data[14]"  direction = "in"  />
+        <pitem  name = "data[13]"  direction = "in"  />
+        <pitem  name = "data[12]"  direction = "in"  />
+        <pitem  name = "data[11]"  direction = "in"  />
+        <pitem  name = "data[10]"  direction = "in"  />
+        <pitem  name = "data[9]"  direction = "in"  />
+        <pitem  name = "data[8]"  direction = "in"  />
+        <pitem  name = "sel[3]"  direction = "in"  />
+        <pitem  name = "sel[2]"  direction = "in"  />
+        <pitem  name = "sel[1]"  direction = "in"  />
+        <pitem  name = "sel[0]"  direction = "in"  />
+        <pitem  name = "o[7]"  direction = "out"  />
+        <pitem  name = "o[6]"  direction = "out"  />
+        <pitem  name = "o[5]"  direction = "out"  />
+        <pitem  name = "o[4]"  direction = "out"  />
+        <pitem  name = "o[3]"  direction = "out"  />
+        <pitem  name = "o[2]"  direction = "out"  />
+        <pitem  name = "o[1]"  direction = "out"  />
+        <pitem  name = "o[0]"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "bluejay_data_inst/state_timeout_counter[7]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter[6]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter[5]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter[4]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter[3]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter[2]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter[1]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter[0]"  />
+        <nitem  name = "bluejay_data_inst/n83"  />
+        <nitem  name = "bluejay_data_inst/n84"  />
+        <nitem  name = "bluejay_data_inst/n85"  />
+        <nitem  name = "bluejay_data_inst/n86"  />
+        <nitem  name = "bluejay_data_inst/n87"  />
+        <nitem  name = "bluejay_data_inst/n88"  />
+        <nitem  name = "bluejay_data_inst/n89"  />
+        <nitem  name = "bluejay_data_inst/n90"  />
+        <nitem  name = "bluejay_data_inst/n119"  />
+        <nitem  name = "bluejay_data_inst/n120"  />
+        <nitem  name = "bluejay_data_inst/n121"  />
+        <nitem  name = "bluejay_data_inst/n122"  />
+        <nitem  name = "bluejay_data_inst/n123"  />
+        <nitem  name = "bluejay_data_inst/n124"  />
+        <nitem  name = "bluejay_data_inst/n125"  />
+        <nitem  name = "bluejay_data_inst/n126"  />
+        <nitem  name = "bluejay_data_inst/n143"  />
+        <nitem  name = "bluejay_data_inst/n144"  />
+        <nitem  name = "bluejay_data_inst/n145"  />
+        <nitem  name = "bluejay_data_inst/n146"  />
+        <nitem  name = "bluejay_data_inst/n147"  />
+        <nitem  name = "bluejay_data_inst/n148"  />
+        <nitem  name = "bluejay_data_inst/n149"  />
+        <nitem  name = "bluejay_data_inst/n150"  />
+        <nitem  name = "bluejay_data_inst/n155"  />
+        <nitem  name = "bluejay_data_inst/n156"  />
+        <nitem  name = "bluejay_data_inst/update_o_N_159"  />
+        <nitem  name = "bluejay_data_inst/n158"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_122[7]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_122[6]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_122[5]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_122[4]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_122[3]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_122[2]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_122[1]"  />
+        <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_122[0]"  />
+        </nets>
+    </instance>
+
+    <instance  name = "bluejay_data_inst/reduce_nor_34"  library = "work"  arch = ""  type = "comb">
+        <pins>
+        <pitem  name = "a[2]"  direction = "in"  />
+        <pitem  name = "a[1]"  direction = "in"  />
+        <pitem  name = "a[0]"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "bluejay_data_inst/n155"  />
+        <nitem  name = "bluejay_data_inst/n156"  />
+        <nitem  name = "bluejay_data_inst/update_o_N_159"  />
+        <nitem  name = "bluejay_data_inst/n158"  />
         </nets>
     </instance>
 
@@ -906,10 +951,10 @@
         </pins>
 
         <nets>
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "spi_busy_prev"  />
         <nitem  name = "pwr"  />
-        <nitem  name = "spi_busy_falling_edge_N_78"  />
+        <nitem  name = "spi_busy_falling_edge_N_74"  />
         </nets>
     </instance>
 
@@ -983,9 +1028,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "spi_busy"  />
-        <nitem  name = "spi_busy_falling_edge_N_79"  />
+        <nitem  name = "spi_busy_falling_edge_N_75"  />
         </nets>
     </instance>
 
@@ -997,13 +1042,13 @@
         </pins>
 
         <nets>
-        <nitem  name = "spi_busy_falling_edge_N_78"  />
-        <nitem  name = "spi_busy_falling_edge_N_79"  />
-        <nitem  name = "spi_busy_falling_edge_N_77"  />
+        <nitem  name = "spi_busy_falling_edge_N_74"  />
+        <nitem  name = "spi_busy_falling_edge_N_75"  />
+        <nitem  name = "spi_busy_falling_edge_N_73"  />
         </nets>
     </instance>
 
-    <instance  name = "spi_busy_prev_203"  library = "work"  arch = ""  type = "reg">
+    <instance  name = "spi_busy_prev_90"  library = "work"  arch = ""  type = "reg">
         <pins>
         <pitem  name = "d"  direction = "in"  />
         <pitem  name = "clk"  direction = "in"  />
@@ -1015,12 +1060,12 @@
         <nets>
         <nitem  name = "spi_busy"  />
         <nitem  name = "SLM_CLK"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "spi_busy_prev"  />
         </nets>
     </instance>
 
-    <instance  name = "fifo_write_cmd_204"  library = "work"  arch = ""  type = "reg">
+    <instance  name = "fifo_write_cmd_91"  library = "work"  arch = ""  type = "reg">
         <pins>
         <pitem  name = "d"  direction = "in"  />
         <pitem  name = "clk"  direction = "in"  />
@@ -1030,9 +1075,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "fifo_write_cmd_N_74"  />
+        <nitem  name = "fifo_write_cmd_N_70"  />
         <nitem  name = "SLM_CLK"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "fifo_write_cmd"  />
         </nets>
     </instance>
@@ -1107,10 +1152,10 @@
         </pins>
 
         <nets>
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "spi_busy_falling_edge"  />
         <nitem  name = "pwr"  />
-        <nitem  name = "fifo_write_cmd_N_75"  />
+        <nitem  name = "fifo_write_cmd_N_71"  />
         </nets>
     </instance>
 
@@ -1184,9 +1229,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "is_tx_fifo_full_flag"  />
-        <nitem  name = "fifo_write_cmd_N_76"  />
+        <nitem  name = "fifo_write_cmd_N_72"  />
         </nets>
     </instance>
 
@@ -1198,13 +1243,13 @@
         </pins>
 
         <nets>
-        <nitem  name = "fifo_write_cmd_N_75"  />
-        <nitem  name = "fifo_write_cmd_N_76"  />
-        <nitem  name = "fifo_write_cmd_N_74"  />
+        <nitem  name = "fifo_write_cmd_N_71"  />
+        <nitem  name = "fifo_write_cmd_N_72"  />
+        <nitem  name = "fifo_write_cmd_N_70"  />
         </nets>
     </instance>
 
-    <instance  name = "fifo_read_cmd_205"  library = "work"  arch = ""  type = "reg">
+    <instance  name = "fifo_read_cmd_92"  library = "work"  arch = ""  type = "reg">
         <pins>
         <pitem  name = "d"  direction = "in"  />
         <pitem  name = "clk"  direction = "in"  />
@@ -1214,9 +1259,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "start_tx_N_71"  />
+        <nitem  name = "start_tx_N_67"  />
         <nitem  name = "SLM_CLK"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "fifo_read_cmd"  />
         </nets>
     </instance>
@@ -1291,9 +1336,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "is_fifo_empty_flag"  />
-        <nitem  name = "start_tx_N_72"  />
+        <nitem  name = "start_tx_N_68"  />
         </nets>
     </instance>
 
@@ -1367,9 +1412,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "tx_uart_active_flag"  />
-        <nitem  name = "start_tx_N_73"  />
+        <nitem  name = "start_tx_N_69"  />
         </nets>
     </instance>
 
@@ -1381,9 +1426,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "start_tx_N_72"  />
-        <nitem  name = "start_tx_N_73"  />
-        <nitem  name = "start_tx_N_71"  />
+        <nitem  name = "start_tx_N_68"  />
+        <nitem  name = "start_tx_N_69"  />
+        <nitem  name = "start_tx_N_67"  />
         </nets>
     </instance>
 
@@ -1457,10 +1502,10 @@
         </pins>
 
         <nets>
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "fifo_read_cmd"  />
         <nitem  name = "pwr"  />
-        <nitem  name = "start_tx_N_70"  />
+        <nitem  name = "start_tx_N_66"  />
         </nets>
     </instance>
 
@@ -1473,14 +1518,14 @@
         </pins>
 
         <nets>
-        <nitem  name = "start_tx_N_70"  />
+        <nitem  name = "start_tx_N_66"  />
         <nitem  name = "start_tx"  />
-        <nitem  name = "start_tx_N_71"  />
-        <nitem  name = "start_tx_N_69"  />
+        <nitem  name = "start_tx_N_67"  />
+        <nitem  name = "start_tx_N_65"  />
         </nets>
     </instance>
 
-    <instance  name = "start_tx_206"  library = "work"  arch = ""  type = "reg">
+    <instance  name = "start_tx_93"  library = "work"  arch = ""  type = "reg">
         <pins>
         <pitem  name = "d"  direction = "in"  />
         <pitem  name = "clk"  direction = "in"  />
@@ -1490,14 +1535,14 @@
         </pins>
 
         <nets>
-        <nitem  name = "start_tx_N_69"  />
+        <nitem  name = "start_tx_N_65"  />
         <nitem  name = "SLM_CLK"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "start_tx"  />
         </nets>
     </instance>
 
-    <instance  name = "uart_rx_complete_rising_edge_207"  library = "work"  arch = ""  type = "reg">
+    <instance  name = "uart_rx_complete_rising_edge_94"  library = "work"  arch = ""  type = "reg">
         <pins>
         <pitem  name = "d"  direction = "in"  />
         <pitem  name = "clk"  direction = "in"  />
@@ -1507,44 +1552,26 @@
         </pins>
 
         <nets>
-        <nitem  name = "uart_rx_complete_rising_edge_N_81"  />
+        <nitem  name = "uart_rx_complete_rising_edge_N_77"  />
         <nitem  name = "SLM_CLK"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n131"  />
         <nitem  name = "uart_rx_complete_rising_edge"  />
         </nets>
     </instance>
 
-    <instance  name = "spi0/start_transfer_edge_I_6"  library = "work"  arch = ""  type = "comb">
+    <instance  name = "bluejay_data_inst/valid_o_I_7"  library = "work"  arch = ""  type = "comb">
         <pins>
-        <pitem  name = "a0"  direction = "in"  />
-        <pitem  name = "a1"  direction = "in"  />
+        <pitem  name = "i"  direction = "in"  />
         <pitem  name = "o"  direction = "out"  />
         </pins>
 
         <nets>
-        <nitem  name = "spi0/start_transfer_edge_N_330"  />
-        <nitem  name = "spi0/start_transfer_edge_N_331"  />
-        <nitem  name = "spi0/start_transfer_edge_N_329"  />
+        <nitem  name = "bluejay_data_inst/valid_o_N_156"  />
+        <nitem  name = "bluejay_data_inst/valid_o_N_155"  />
         </nets>
     </instance>
 
-    <instance  name = "spi0/start_transfer_edge_I_0"  library = "work"  arch = ""  type = "comb">
-        <pins>
-        <pitem  name = "a1"  direction = "in"  />
-        <pitem  name = "a0"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        <pitem  name = "c"  direction = "in"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "spi0/n270"  />
-        <nitem  name = "spi0/start_transfer_edge"  />
-        <nitem  name = "spi0/start_transfer_edge_N_328"  />
-        <nitem  name = "spi0/tx_shift_reg_14__N_313"  />
-        </nets>
-    </instance>
-
-    <instance  name = "i39"  library = "work"  arch = ""  type = "comb">
+    <instance  name = "i36"  library = "work"  arch = ""  type = "comb">
         <pins>
         <pitem  name = "i"  direction = "in"  />
         <pitem  name = "c"  direction = "in"  />
@@ -1552,13 +1579,13 @@
         </pins>
 
         <nets>
-        <nitem  name = "n1"  />
-        <nitem  name = "n176"  />
+        <nitem  name = "n249"  />
+        <nitem  name = "n131"  />
         <nitem  name = "FT_WR"  />
         </nets>
     </instance>
 
-    <instance  name = "spi0/start_transfer_prev_I_0"  library = "work"  arch = ""  type = "comb">
+    <instance  name = "bluejay_data_inst/h_counter_7__I_0"  library = "work"  arch = ""  type = "comb">
         <pins>
         <pitem  name = "a[31]"  direction = "in"  />
         <pitem  name = "a[30]"  direction = "in"  />
@@ -1584,13 +1611,6 @@
         <pitem  name = "a[10]"  direction = "in"  />
         <pitem  name = "a[9]"  direction = "in"  />
         <pitem  name = "a[8]"  direction = "in"  />
-        <pitem  name = "a[7]"  direction = "in"  />
-        <pitem  name = "a[6]"  direction = "in"  />
-        <pitem  name = "a[5]"  direction = "in"  />
-        <pitem  name = "a[4]"  direction = "in"  />
-        <pitem  name = "a[3]"  direction = "in"  />
-        <pitem  name = "a[2]"  direction = "in"  />
-        <pitem  name = "a[1]"  direction = "in"  />
         <pitem  name = "b[31]"  direction = "in"  />
         <pitem  name = "b[30]"  direction = "in"  />
         <pitem  name = "b[29]"  direction = "in"  />
@@ -1623,43 +1643,6 @@
         <pitem  name = "b[2]"  direction = "in"  />
         <pitem  name = "b[1]"  direction = "in"  />
         <pitem  name = "b[0]"  direction = "in"  />
-        <pitem  name = "a[0]"  direction = "in"  />
-        <pitem  name = "o"  direction = "out"  />
-        </pins>
-
-        <nets>
-        <nitem  name = "spi0/n270"  />
-        <nitem  name = "spi0/start_transfer_prev"  />
-        <nitem  name = "spi0/start_transfer_edge_N_330"  />
-        </nets>
-    </instance>
-
-    <instance  name = "spi0/start_transfer_I_0"  library = "work"  arch = ""  type = "comb">
-        <pins>
-        <pitem  name = "a[31]"  direction = "in"  />
-        <pitem  name = "a[30]"  direction = "in"  />
-        <pitem  name = "a[29]"  direction = "in"  />
-        <pitem  name = "a[28]"  direction = "in"  />
-        <pitem  name = "a[27]"  direction = "in"  />
-        <pitem  name = "a[26]"  direction = "in"  />
-        <pitem  name = "a[25]"  direction = "in"  />
-        <pitem  name = "a[24]"  direction = "in"  />
-        <pitem  name = "a[23]"  direction = "in"  />
-        <pitem  name = "a[22]"  direction = "in"  />
-        <pitem  name = "a[21]"  direction = "in"  />
-        <pitem  name = "a[20]"  direction = "in"  />
-        <pitem  name = "a[19]"  direction = "in"  />
-        <pitem  name = "a[18]"  direction = "in"  />
-        <pitem  name = "a[17]"  direction = "in"  />
-        <pitem  name = "a[16]"  direction = "in"  />
-        <pitem  name = "a[15]"  direction = "in"  />
-        <pitem  name = "a[14]"  direction = "in"  />
-        <pitem  name = "a[13]"  direction = "in"  />
-        <pitem  name = "a[12]"  direction = "in"  />
-        <pitem  name = "a[11]"  direction = "in"  />
-        <pitem  name = "a[10]"  direction = "in"  />
-        <pitem  name = "a[9]"  direction = "in"  />
-        <pitem  name = "a[8]"  direction = "in"  />
         <pitem  name = "a[7]"  direction = "in"  />
         <pitem  name = "a[6]"  direction = "in"  />
         <pitem  name = "a[5]"  direction = "in"  />
@@ -1667,29 +1650,82 @@
         <pitem  name = "a[3]"  direction = "in"  />
         <pitem  name = "a[2]"  direction = "in"  />
         <pitem  name = "a[1]"  direction = "in"  />
-        <pitem  name = "b[31]"  direction = "in"  />
-        <pitem  name = "b[30]"  direction = "in"  />
-        <pitem  name = "b[29]"  direction = "in"  />
-        <pitem  name = "b[28]"  direction = "in"  />
-        <pitem  name = "b[27]"  direction = "in"  />
-        <pitem  name = "b[26]"  direction = "in"  />
-        <pitem  name = "b[25]"  direction = "in"  />
-        <pitem  name = "b[24]"  direction = "in"  />
-        <pitem  name = "b[23]"  direction = "in"  />
-        <pitem  name = "b[22]"  direction = "in"  />
-        <pitem  name = "b[21]"  direction = "in"  />
-        <pitem  name = "b[20]"  direction = "in"  />
-        <pitem  name = "b[19]"  direction = "in"  />
-        <pitem  name = "b[18]"  direction = "in"  />
-        <pitem  name = "b[17]"  direction = "in"  />
-        <pitem  name = "b[16]"  direction = "in"  />
-        <pitem  name = "b[15]"  direction = "in"  />
-        <pitem  name = "b[14]"  direction = "in"  />
-        <pitem  name = "b[13]"  direction = "in"  />
-        <pitem  name = "b[12]"  direction = "in"  />
-        <pitem  name = "b[11]"  direction = "in"  />
-        <pitem  name = "b[10]"  direction = "in"  />
-        <pitem  name = "b[9]"  direction = "in"  />
+        <pitem  name = "a[0]"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "SYNC"  />
+        <nitem  name = "bluejay_data_inst/pwr"  />
+        <nitem  name = "bluejay_data_inst/h_counter[7]"  />
+        <nitem  name = "bluejay_data_inst/h_counter[6]"  />
+        <nitem  name = "bluejay_data_inst/h_counter[5]"  />
+        <nitem  name = "bluejay_data_inst/h_counter[4]"  />
+        <nitem  name = "bluejay_data_inst/h_counter[3]"  />
+        <nitem  name = "bluejay_data_inst/h_counter[2]"  />
+        <nitem  name = "bluejay_data_inst/h_counter[1]"  />
+        <nitem  name = "bluejay_data_inst/h_counter[0]"  />
+        <nitem  name = "bluejay_data_inst/valid_o_N_156"  />
+        </nets>
+    </instance>
+
+    <instance  name = "bluejay_data_inst/mux_8"  library = "work"  arch = ""  type = "comb">
+        <pins>
+        <pitem  name = "d0[2]"  direction = "in"  />
+        <pitem  name = "d0[0]"  direction = "in"  />
+        <pitem  name = "d1[2]"  direction = "in"  />
+        <pitem  name = "d0[1]"  direction = "in"  />
+        <pitem  name = "d1[1]"  direction = "in"  />
+        <pitem  name = "d1[0]"  direction = "in"  />
+        <pitem  name = "cond"  direction = "in"  />
+        <pitem  name = "o[2]"  direction = "out"  />
+        <pitem  name = "o[1]"  direction = "out"  />
+        <pitem  name = "o[0]"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "SYNC"  />
+        <nitem  name = "bluejay_data_inst/pwr"  />
+        <nitem  name = "bluejay_data_inst/valid_o_N_156"  />
+        <nitem  name = "bluejay_data_inst/n20"  />
+        <nitem  name = "bluejay_data_inst/n21"  />
+        <nitem  name = "bluejay_data_inst/n22"  />
+        </nets>
+    </instance>
+
+    <instance  name = "i39"  library = "work"  arch = ""  type = "comb">
+        <pins>
+        <pitem  name = "i"  direction = "in"  />
+        <pitem  name = "c"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "n249"  />
+        <nitem  name = "n131"  />
+        <nitem  name = "FT_SIWU"  />
+        </nets>
+    </instance>
+
+    <instance  name = "bluejay_data_inst/get_next_word_cmd_I_0"  library = "work"  arch = ""  type = "comb">
+        <pins>
+        <pitem  name = "a1"  direction = "in"  />
+        <pitem  name = "c"  direction = "in"  />
+        <pitem  name = "a0"  direction = "in"  />
+        <pitem  name = "o"  direction = "out"  />
+        </pins>
+
+        <nets>
+        <nitem  name = "bluejay_data_inst/pwr"  />
+        <nitem  name = "next_line_rdy_w"  />
+        <nitem  name = "bluejay_data_inst/get_next_word_cmd"  />
+        <nitem  name = "bluejay_data_inst/get_next_word_cmd_N_162"  />
+        </nets>
+    </instance>
+
+    <instance  name = "bluejay_data_inst/sub_6"  library = "work"  arch = ""  type = "comb">
+        <pins>
+        <pitem  name = "a[8]"  direction = "in"  />
         <pitem  name = "b[8]"  direction = "in"  />
         <pitem  name = "b[7]"  direction = "in"  />
         <pitem  name = "b[6]"  direction = "in"  />
