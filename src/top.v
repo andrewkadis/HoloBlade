@@ -118,8 +118,8 @@ module top(
     output DEBUG_3,
     output DEBUG_5,
     output DEBUG_6,
-    output  DEBUG_8,
-    output  DEBUG_9,
+    output DEBUG_8,
+    output DEBUG_9,
 
     // Programming Pins
     output ICE_CLK,
@@ -172,15 +172,15 @@ wire debug_ch4;
 // Map to scope probes
 // assign DEBUG_9 = debug_ch1; // Goes to TP9
 // assign DEBUG_8 = debug_ch2; // Goes to TP8
-assign DEBUG_5 = debug_ch3; // Goes to p5
-assign DEBUG_6 = debug_ch4; // Goes to p6
+// assign DEBUG_5 = debug_ch3; // Goes to p5
+// assign DEBUG_6 = debug_ch4; // Goes to p6
 // GPIOs attached to LEDs
 wire debug_led2;
 wire debug_led3;
 wire debug_led4;
 assign DEBUG_0 = debug_led4;
-assign DEBUG_1 = debug_led3;
-assign DEBUG_2 = debug_led2;
+// assign DEBUG_1 = debug_led3;
+// assign DEBUG_2 = debug_led2;
 // Drive unused pins to High-Impedance Output
 // assign DEBUG_5 = 1'bz;
 // assign DEBUG_6 = 1'bz;
@@ -418,26 +418,31 @@ bluejay_data bluejay_data_inst(
 ////////////////////////
 ///////// USB3 /////////
 ////////////////////////
-assign debug_ch1 = FT_OE;//FIFO_CLK;
-assign debug_ch2 = 1;//FR_RXF; //FIFO_D0
+// assign debug_ch1 = FT_OE;
+// assign debug_ch2 = FIFO_D0;
 // assign debug_ch3 = FT_RD;
-assign debug_ch4 = FIFO_D0;
+// assign debug_ch4 = FIFO_D0;
+assign DEBUG_1 = FR_RXF;
+assign DEBUG_2 = FT_OE;
+assign DEBUG_3 = FT_RD;
+assign DEBUG_5 = FIFO_D2;
+assign DEBUG_6 = FIFO_D3;
 // Connect all of our internal names up with names from schematic using wires
 wire RX_F;
 wire OE_N;
 wire RD_N;
 wire RESET_N;
-assign RX_F    = 1;//FR_RXF;
-assign OE_N    = FT_OE;
-// assign RD_N    = FT_RD;
+// assign RX_F    = FR_RXF;
+assign FT_OE   = FR_RXF;//0;//OE_N;//    = FT_OE;
+assign FT_RD   = FR_RXF;//RD_N;
 assign RESET_N = 1'bz;  //TODO: Would be great to connect this line in a future spin on the board
 // We get when the next line and frame are ready from USB GPIO 0 and 1
 // These are wired through TP8 and TP9 as not directly connected to FPGA
 wire next_line_rdy_i_w;
 wire next_frame_rdy_i_w;
 // assign next_line_rdy_i_w  = DEBUG_8;
-assign DEBUG_8  = FR_RXF;//FIFO_CLK;
-// assign DEBUG_9  = FR_RXF;
+assign DEBUG_8  = 0;//FR_RXF;//FIFO_CLK;
+assign DEBUG_9  = 0;//get_next_word_o;//FR_RXF;
 // assign next_frame_rdy_i_w = DEBUG_9;
 // Wire up our 32-bit data connection
 assign usb_data_o[31] = FIFO_D31;
@@ -479,13 +484,13 @@ usb_to_bluejay_if usb_to_bluejay_if_inst(
   // Control
   .reset_i(),
   // USB-Fifo Side
-  .clk_i(),  //TODO: Fix our sysclk as this will be wrong
+  .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
   .data_i(usb_data_o),
   .next_line_rdy_i(next_line_rdy_i_w),
   .next_frame_rdy_i(next_frame_rdy_i_w),
-  .fifo_empty_i(RX_F),
-  .fifo_output_enable_o(FT_OE),
-  .get_next_word_o(RD_N),
+  .fifo_empty_i(),//RX_F),
+  .fifo_output_enable_o(),//OE_N),
+  .get_next_word_o(),//RD_N),//),
   .reset_o(RESET_N),
   // Bluejay Data Interface
   .clk_o(),  //TODO: Fix our sysclk as this will be wrong
@@ -776,7 +781,7 @@ FIFO_Quad_Word tx_fifo(
 
 // Currently unused, tri-state all the lines
 // assign FT_OE    = 1;
-assign FT_RD    = 1;
+// assign FT_RD    = 1;
 assign FT_WR    = 1;
 assign FT_SIWU  = 1;
 // assign FR_RXF   = 1'bz;
