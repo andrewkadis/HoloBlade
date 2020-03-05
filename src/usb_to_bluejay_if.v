@@ -78,7 +78,7 @@ assign next_line_rdy_o = next_line_rdy_i;
 assign next_frame_rdy_o = next_frame_rdy_i;
 assign fifo_empty_o = (!fifo_empty_i);
 assign reset_o = (!reset_i);
-assign fifo_output_enable_o = 1'b0;
+assign fifo_output_enable_o = 1'b1;
 
 
 

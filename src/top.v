@@ -118,8 +118,8 @@ module top(
     output DEBUG_3,
     output DEBUG_5,
     output DEBUG_6,
-    output DEBUG_8,
-    output DEBUG_9,
+    output  DEBUG_8,
+    output  DEBUG_9,
 
     // Programming Pins
     output ICE_CLK,
@@ -293,10 +293,10 @@ assign RESET = ~reset_all_w;
 assign SLM_CLK = sys_clk;
 // Following lines are not used
 // All of these input lines have pull up/downs on them, so simply tri-state
-assign UPDATE = 1'bx;
-assign INVERT = 1'bx;
-assign SYNC   = 1'bx;
-assign VALID  = 1'bx;
+// assign UPDATE = 1'bx;
+// assign INVERT = 1'bx;
+// assign SYNC   = 1'bx;
+// assign VALID  = 1'bx;
 // Data Lines
 // assign DATA31 = 1'b1;
 // assign DATA0  = 1'b1;
@@ -341,70 +341,69 @@ wire next_frame_rdy_o_w;
 // 32-Bit Fifo Data connection comes from USB-FIFO chip
 wire[31:0] usb_data_o;
 // Signals so that the bluejay_data FSM can manage data from USB-FIFO chip
-wire fifo_empty_i;
+wire fifo_empty_i_w;
 wire get_next_word_o;
 // Map Bluejay Data Lines Out
 wire[31:0] bluejay_data_out;
-bluejay_data_out[31] = DATA31;
-bluejay_data_out[30] = DATA30;
-bluejay_data_out[29] = DATA29;
-bluejay_data_out[28] = DATA28;
-bluejay_data_out[27] = DATA27;
-bluejay_data_out[26] = DATA26;
-bluejay_data_out[25] = DATA25;
-bluejay_data_out[24] = DATA24;
-bluejay_data_out[23] = DATA23;
-bluejay_data_out[22] = DATA22;
-bluejay_data_out[21] = DATA21;
-bluejay_data_out[20] = DATA20;
-bluejay_data_out[19] = DATA19;
-bluejay_data_out[18] = DATA18;
-bluejay_data_out[17] = DATA17;
-bluejay_data_out[16] = DATA16;
-bluejay_data_out[15] = DATA15;
-bluejay_data_out[14] = DATA14;
-bluejay_data_out[13] = DATA13;
-bluejay_data_out[12] = DATA12;
-bluejay_data_out[11] = DATA11;
-bluejay_data_out[10] = DATA10;
-bluejay_data_out[19] = DATA19;
-bluejay_data_out[18] = DATA18;
-bluejay_data_out[17] = DATA17;
-bluejay_data_out[16] = DATA16;
-bluejay_data_out[15] = DATA15;
-bluejay_data_out[14] = DATA14;
-bluejay_data_out[13] = DATA13;
-bluejay_data_out[12] = DATA12;
-bluejay_data_out[11] = DATA11;
-bluejay_data_out[9]  = DATA9;
-bluejay_data_out[8]  = DATA8;
-bluejay_data_out[7]  = DATA7;
-bluejay_data_out[6]  = DATA6;
-bluejay_data_out[5]  = DATA5;
-bluejay_data_out[4]  = DATA4;
-bluejay_data_out[3]  = DATA3;
-bluejay_data_out[2]  = DATA2;
-bluejay_data_out[1]  = DATA1;
-bluejay_data_out[0]  = DATA0;
-
+assign bluejay_data_out[31] = DATA31;
+assign bluejay_data_out[30] = DATA30;
+assign bluejay_data_out[29] = DATA29;
+assign bluejay_data_out[28] = DATA28;
+assign bluejay_data_out[27] = DATA27;
+assign bluejay_data_out[26] = DATA26;
+assign bluejay_data_out[25] = DATA25;
+assign bluejay_data_out[24] = DATA24;
+assign bluejay_data_out[23] = DATA23;
+assign bluejay_data_out[22] = DATA22;
+assign bluejay_data_out[21] = DATA21;
+assign bluejay_data_out[20] = DATA20;
+assign bluejay_data_out[19] = DATA19;
+assign bluejay_data_out[18] = DATA18;
+assign bluejay_data_out[17] = DATA17;
+assign bluejay_data_out[16] = DATA16;
+assign bluejay_data_out[15] = DATA15;
+assign bluejay_data_out[14] = DATA14;
+assign bluejay_data_out[13] = DATA13;
+assign bluejay_data_out[12] = DATA12;
+assign bluejay_data_out[11] = DATA11;
+assign bluejay_data_out[10] = DATA10;
+assign bluejay_data_out[9]  = DATA9;
+assign bluejay_data_out[8]  = DATA8;
+assign bluejay_data_out[7]  = DATA7;
+assign bluejay_data_out[6]  = DATA6;
+assign bluejay_data_out[5]  = DATA5;
+assign bluejay_data_out[4]  = DATA4;
+assign bluejay_data_out[3]  = DATA3;
+assign bluejay_data_out[2]  = DATA2;
+assign bluejay_data_out[1]  = DATA1;
+assign bluejay_data_out[0]  = DATA0;
+// Data strobe signals for Bluejay
+wire sync_w;
+wire valid_w;
+wire update_w;
+wire invert_w;
+assign sync_w = SYNC;
+assign valid_w = VALID;
+assign update_w = UPDATE;
+assign invert_w = INVERT;
 // Instantiate Bluejay Data Interface
-bluejay_data_inst bluejay_data (
+bluejay_data bluejay_data_inst(
 
   // Control
   .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
-  .reset_i(reset_all_w),
-  new_frame_i(next_frame_rdy_w),
+  .reset_i(),
+  .new_frame_i(next_frame_rdy_w),
   // Read-Side:
   .data_i(usb_data_o),
   .next_line_rdy_i(next_line_rdy_w),
-  .fifo_empty_i(fifo_empty_i),
+  .fifo_empty_i(fifo_empty_i_w),
   .get_next_word_o(get_next_word_o),
   // Write-Side:
   .data_o(bluejay_data_out),
-  .sync_o(SYNC),
-  .valid_o(VALID),
-  .update_o(UPDATE),
-  .invert_o(INVERT)
+  .sync_o(sync_w),
+  .valid_o(valid_w),
+  .update_o(update_w),
+  .invert_o(invert_w)
 );
 
 
@@ -420,24 +419,26 @@ bluejay_data_inst bluejay_data (
 ///////// USB3 /////////
 ////////////////////////
 assign debug_ch1 = FT_OE;//FIFO_CLK;
-assign debug_ch2 = FR_RXF; //FIFO_D0
-assign debug_ch3 = FT_RD;
+assign debug_ch2 = 1;//FR_RXF; //FIFO_D0
+// assign debug_ch3 = FT_RD;
 assign debug_ch4 = FIFO_D0;
 // Connect all of our internal names up with names from schematic using wires
 wire RX_F;
 wire OE_N;
 wire RD_N;
 wire RESET_N;
-assign RX_F    = FR_RXF;
+assign RX_F    = 1;//FR_RXF;
 assign OE_N    = FT_OE;
-assign RD_N    = FT_RD;
-assign RESET_N = = 1'bz;  //TODO: Would be great to connect this line in a future spin on the board
+// assign RD_N    = FT_RD;
+assign RESET_N = 1'bz;  //TODO: Would be great to connect this line in a future spin on the board
 // We get when the next line and frame are ready from USB GPIO 0 and 1
 // These are wired through TP8 and TP9 as not directly connected to FPGA
 wire next_line_rdy_i_w;
 wire next_frame_rdy_i_w;
-assign next_line_rdy_i_w  = DEBUG_8;
-assign next_frame_rdy_i_w = DEBUG_9;
+// assign next_line_rdy_i_w  = DEBUG_8;
+assign DEBUG_8  = FR_RXF;//FIFO_CLK;
+// assign DEBUG_9  = FR_RXF;
+// assign next_frame_rdy_i_w = DEBUG_9;
 // Wire up our 32-bit data connection
 assign usb_data_o[31] = FIFO_D31;
 assign usb_data_o[30] = FIFO_D30;
@@ -473,12 +474,12 @@ assign usb_data_o[1]  = FIFO_D1;
 assign usb_data_o[0]  = FIFO_D0;
 
 // Define USB to BluejayData Interface
-usb_to_bluejay_if_inst usb_to_bluejay_if(
+usb_to_bluejay_if usb_to_bluejay_if_inst(
 
   // Control
-  .reset_i(reset_all_w),
+  .reset_i(),
   // USB-Fifo Side
-  .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
+  .clk_i(),  //TODO: Fix our sysclk as this will be wrong
   .data_i(usb_data_o),
   .next_line_rdy_i(next_line_rdy_i_w),
   .next_frame_rdy_i(next_frame_rdy_i_w),
@@ -774,10 +775,10 @@ FIFO_Quad_Word tx_fifo(
 //////////////////////////
 
 // Currently unused, tri-state all the lines
-// assign FT_OE    = 1'bz;
-// assign FT_RD    = 1'bz;
-assign FT_WR    = 1'bz;
-assign FT_SIWU  = 1'bz;
+// assign FT_OE    = 1;
+assign FT_RD    = 1;
+assign FT_WR    = 1;
+assign FT_SIWU  = 1;
 // assign FR_RXF   = 1'bz;
 // assign FT_TXE   = 1'bz;
 // assign FIFO_BE3 = 1'bz;
