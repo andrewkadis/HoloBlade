@@ -70,7 +70,8 @@ def usb_fifo(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SI
 
         # Update FIFO empty flag if we have data in our FIFO
         filling = len(memory)
-        if filling > 0:
+        print(filling)
+        if filling > 1:
             RX_F.next = ACTIVE_LOW_TRUE
         else:
             RX_F.next = ACTIVE_LOW_FALSE

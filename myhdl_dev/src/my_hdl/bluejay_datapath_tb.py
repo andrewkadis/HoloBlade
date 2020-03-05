@@ -105,7 +105,7 @@ def bluejay_datapath_tb():
 
 
     # Control Logic between SLM and simulated USB-FIFO
-    usb_to_bluejay_if_inst = usb_to_bluejay_interface.usb_fifo_if(
+    usb_to_bluejay_if_inst = usb_to_bluejay_interface.usb_to_bluejay_if(
         # Control
         reset_all,
         # USB-Fifo
@@ -336,7 +336,8 @@ def main():
 
     tb = bluejay_datapath_tb()
     tb.config_sim(trace=True)
-    tb.run_sim(5000000)
+    # tb.run_sim(5000000)
+    tb.run_sim(50000)
 
     # bluejay_gen_verilog()
 

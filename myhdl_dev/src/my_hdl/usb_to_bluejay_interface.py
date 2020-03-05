@@ -75,13 +75,22 @@ def usb_to_bluejay_if(
         # get_next_word_o.next  = not get_next_word_i
         reset_o.next          = not reset_i
         # Currently we are using the usb-fifo in read-only mode (Data from USB to FPGA), hence the USB chip is always driving data buses and OE_N is always asserted
-        fifo_output_enable_o.next = ACTIVE_LOW_TRUE
+        # fifo_output_enable_o.next = ACTIVE_LOW_TRUE
+
+    # We assert update enable whenever there is data in the usb-fifo
+    # Note we can't just asser tthis all the time of the chip will have errors (observed on scope)
+    @always(clk_i.posedge)
+    def usb_output_enable():
+        if fifo_empty_i==ACTIVE_LOW_TRUE:
+            fifo_output_enable_o.next  = ACTIVE_LOW_TRUE
+        else:
+            fifo_output_enable_o.next  = ACTIVE_LOW_FALSE
 
     @always_comb
     def test_me():
         get_next_word_o.next  = not get_next_word_i
 
-    return route_signals, test_me
+    return route_signals, test_me, usb_output_enable
 
 
 
