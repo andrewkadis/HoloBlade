@@ -76,7 +76,6 @@ def bluejay_datapath_tb():
     # Read-Side
     bluejay_data_i   = Signal(0)
     next_line_rdy_i  = Signal(False)
-    next_frame_rdy_i = Signal(False)
     fifo_empty_i     = Signal(False)
     get_next_word_o  = Signal(False)
     # get_next_word_dummy  = Signal(False)
@@ -106,7 +105,7 @@ def bluejay_datapath_tb():
         clk_i,
         bluejay_data_i,
         next_line_rdy_i,
-        next_frame_rdy_i,
+        new_frame_i,
         fifo_empty_i,
         get_next_word_o
     )
@@ -136,10 +135,10 @@ def bluejay_datapath_tb():
         reset_all.next = False
         # Signal to indicate we are doing a new frame
         yield delay(FULL_CLOCK_PERIOD)
-        new_frame_i.next = True
-        yield clk_i.negedge
-        new_frame_i.next = False
-        yield clk_i.posedge
+        # new_frame_i.next = True
+        # yield clk_i.negedge
+        # new_frame_i.next = False
+        # yield clk_i.posedge
 
  # Iterate through test vector
         for i in range(1280):

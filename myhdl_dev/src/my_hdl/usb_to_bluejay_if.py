@@ -13,8 +13,10 @@ ACTIVE_LOW_FALSE  = True
 
 t_state = enum(
     'IDLE',
+    'INITING',
     'WAITING',
-    'PULSE'
+    'NEW_LINE_PULSE',
+    'NEW_FRAME_PULSE'
     )
 
     
@@ -96,18 +98,37 @@ def usb_to_bluejay_if(
     # Don't need to wait 40 cycles, its a FIFO so could probably do straight away, but wait 40 for now to give us plenty of time
     # Timing constants
     wait_period = 40 # Maps to 40 32-bit words per line
+    reset_wait_period = 5 # Wait 5 cycles at startup before resetting
     # Signals for FSM
-    state                 = Signal(t_state.IDLE)
-    state_timeout_counter = Signal(intbv(0)[8:]) 
+    state                 = Signal(t_state.INITING)
+    state_timeout_counter = Signal(intbv(reset_wait_period)[8:]) 
     data_in_fifo_prev     = Signal(False)
     @always(clk_i.posedge)
     def gen_next_line_ready():
 
         # Off by default
         next_line_rdy_o.next = 0
+        next_frame_rdy_o.next = 0        
 
         # Which state are we in?
-        if state == t_state.IDLE:
+        if state == t_state.INITING:
+
+            # Simply wait here for a few cycles at startup
+            # Waiting...
+            state_timeout_counter.next = state_timeout_counter - 1
+            # End of Blank period for end of line?
+            if state_timeout_counter == 1:
+                # Move into pulse
+                state.next = t_state.NEW_FRAME_PULSE
+
+        elif state == t_state.NEW_FRAME_PULSE:
+
+            # Pulse for next frame for a single-cycle
+            next_frame_rdy_o.next = 1
+            # Wait in IDLE for any data
+            state.next = t_state.IDLE
+
+        elif state == t_state.IDLE:
 
             # In IDLE, edge-detector to look for RD_N being asserted
             data_in_fifo_prev.next = fifo_empty_i
@@ -123,11 +144,10 @@ def usb_to_bluejay_if(
                 state_timeout_counter.next = state_timeout_counter - 1
                 # End of Blank period for end of line?
                 if state_timeout_counter == 1:
-
                     # Move into pule
-                    state.next = t_state.PULSE
+                    state.next = t_state.NEW_LINE_PULSE
 
-        elif state == t_state.PULSE:  
+        elif state == t_state.NEW_LINE_PULSE:  
 
             # Pulse that the next line is ready to drive the bluejay data interface
             next_line_rdy_o.next = 1
