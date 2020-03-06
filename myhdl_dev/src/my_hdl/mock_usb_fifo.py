@@ -13,7 +13,7 @@ ACTIVE_LOW_FALSE  = True
 
 # Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
 @block
-def usb_fifo(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SIM_DATA_IN, SIM_DATA_IN_WR, maxFilling=sys.maxsize):
+def usb_fifo(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, SIM_DATA_IN_WR, maxFilling=sys.maxsize):
     
     """ Synchronous fifo model based on a list.
     
@@ -26,8 +26,6 @@ def usb_fifo(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SI
     RD_N    -- Read Enable input signal
     OE_N    --  Data Output Enable input signal, needs to be asserted one clock before aserting RD_N, active-low
     RESET_N -- Reset Line, active-low
-    GPIO0   -- Configurable GPIO Line
-    GPIO1   -- Configurable GPIO Line
     Optional parameter:
     maxFilling -- maximum fifo filling, "infinite" by default
     """

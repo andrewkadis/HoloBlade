@@ -2,7 +2,7 @@
 
 # Testbench to test the functionality of sending data over USB3 to the SLM
 # Tests the following modules:
-#  - usb_to_bluejay_interface
+#  - usb_to_bluejay_if
 #  - bluejay_data
 # Uses the following simulated modules to assist testing
 #  - mock_usb_fifo
@@ -16,7 +16,7 @@ import myhdl
 from myhdl import *
 
 import bluejay_data
-import usb_to_bluejay_interface
+import usb_to_bluejay_if
 import mock_usb_fifo
 
 from bluejay_data import t_state
@@ -49,19 +49,11 @@ def bluejay_datapath_tb():
     RD_N        = Signal(True)
     OE_N        = Signal(True)
     RESET_N     = Signal(True)
-    GPIO0       = Signal(False)
-    GPIO1       = Signal(False)
     # Simulated Signals for loading Test Data
     SIM_DATA_IN    = Signal(0)
     SIM_DATA_IN_WR = Signal(False)
     # Inst our simulate USB FIFO
-    sim_usb_fifo = mock_usb_fifo.usb_fifo(clk_100, usb_data_o, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SIM_DATA_IN, SIM_DATA_IN_WR)
-    # Function to simulate asserting a GPIO with FTDI USB3 Drivers on the PC
-    def simulate_gpio_assert(gpio_idx, value):
-        if gpio_idx==0:
-            GPIO0.next = value
-        if gpio_idx==1:
-            GPIO1.next = value
+    sim_usb_fifo = mock_usb_fifo.usb_fifo(clk_100, usb_data_o, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, SIM_DATA_IN_WR)
     # Function to simulate loading data into FIFO with USB3 Drivers on the PC
     def simulate_load_fifo_data(data_to_load):
         # Load all our data into internal fifo
@@ -73,11 +65,6 @@ def bluejay_datapath_tb():
         # De-assert once all data clocked in
         SIM_DATA_IN_WR.next = False
         yield delay(60)
-        # Pulse GPIO to indicate end of a line
-        simulate_gpio_assert(0, True)
-        yield(clk_i.posedge)
-        yield(clk_i.negedge)
-        simulate_gpio_assert(0, False)
 
 
 
@@ -105,14 +92,12 @@ def bluejay_datapath_tb():
 
 
     # Control Logic between SLM and simulated USB-FIFO
-    usb_to_bluejay_if_inst = usb_to_bluejay_interface.usb_to_bluejay_if(
+    usb_to_bluejay_if_inst = usb_to_bluejay_if.usb_to_bluejay_if(
         # Control
         reset_all,
         # USB-Fifo
         clk_100,
         usb_data_o,
-        GPIO0,
-        GPIO1,
         RX_F,
         OE_N,
         RD_N,
