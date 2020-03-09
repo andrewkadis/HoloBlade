@@ -271,11 +271,6 @@ assign reset_all_w = reset_all_r;
 // assign debug_ch3 = pc_data_tx[6];
 // assign debug_ch4 = fifo_temp_output[6];
 
-// assign debug_ch1 = SEN;
-// assign debug_ch2 = SDAT;
-// assign debug_ch3 = SOUT;
-// assign debug_ch4 = SCK;
-
 
 
 
@@ -426,13 +421,14 @@ bluejay_data bluejay_data_inst(
 // assign DEBUG_2 = UART_TX;//next_frame_rdy_w;
 // assign DEBUG_3 = SEN;
 // assign DEBUG_5 = SCK;
-// assign DEBUG_6 = SOUT;
+// assign DEBUG_8 = SOUT;
 assign DEBUG_8 = SDAT;
 // assign DEBUG_1 = RX_F;
 // assign DEBUG_2 = FT_RD;//next_frame_rdy_w;
 // assign DEBUG_3 = next_line_rdy_w;//reset_all_w;//FT_OE;//get_next_word_o;
 // assign DEBUG_5 = bluejay_data_out[22];
 // assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+// assign DEBUG_8 = SOUT; // TODO: No idea why SPI comms don't work when this input is not routed out, but do so for now
 // Connect all of our internal names up with names from schematic using wires
 wire RX_F;
 wire OE_N;
@@ -685,6 +681,11 @@ spi spi0(
 	
 );
 
+// Need to Buffer SOUT input as otherwise doesn't work simulaneously with the USB3
+// This was observed as not working but when we drove SOUT to a debug pin for testing, things worked
+// Hence remedied by adding an output buffer
+// wire SOUT_UNBUFFERED;
+// SB_GB clk_gb ( .USER_SIGNAL_TO_GLOBAL_BUFFER(SOUT_UNBUFFERED), .GLOBAL_BUFFER_OUTPUT(SOUT) );
 
 
 
