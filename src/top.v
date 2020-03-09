@@ -423,10 +423,10 @@ bluejay_data bluejay_data_inst(
 // assign debug_ch3 = FT_RD;
 // assign debug_ch4 = FIFO_D0;
 assign DEBUG_1 = RX_F;
-assign DEBUG_2 = FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = FT_RD;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_5 = next_line_rdy_w;
-assign DEBUG_6 = FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_2 = FT_RD;//next_frame_rdy_w;
+assign DEBUG_3 = next_line_rdy_w;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_5 = bluejay_data_out[22];
+assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // Connect all of our internal names up with names from schematic using wires
 wire RX_F;
 wire OE_N;
@@ -485,14 +485,14 @@ usb_to_bluejay_if usb_to_bluejay_if_inst(
   .reset_i(),
   // USB-Fifo Side
   .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
-  .data_i(usb_data_o),
+  .data_i(),
   .fifo_empty_i(RX_F),
   .fifo_output_enable_o(OE_N),
   .get_next_word_o(RD_N),//),
   .reset_o(RESET_N),
   // Bluejay Data Interface
   .clk_o(),  //TODO: Fix our sysclk as this will be wrong
-  .data_o(usb_data_o),
+  .data_o(),
   .next_line_rdy_o(next_line_rdy_w),
   .next_frame_rdy_o(next_frame_rdy_w),
   .fifo_empty_o(fifo_empty_i_w),
