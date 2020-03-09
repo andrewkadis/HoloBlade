@@ -3,8 +3,6 @@ module tb_usb_to_bluejay_if;
 reg reset_i;
 reg clk_i;
 reg [31:0] data_i;
-reg next_line_rdy_i;
-reg next_frame_rdy_i;
 reg fifo_empty_i;
 wire fifo_output_enable_o;
 wire get_next_word_o;
@@ -21,8 +19,6 @@ initial begin
         reset_i,
         clk_i,
         data_i,
-        next_line_rdy_i,
-        next_frame_rdy_i,
         fifo_empty_i,
         get_next_word_i
     );
@@ -42,8 +38,6 @@ usb_to_bluejay_if dut(
     reset_i,
     clk_i,
     data_i,
-    next_line_rdy_i,
-    next_frame_rdy_i,
     fifo_empty_i,
     fifo_output_enable_o,
     get_next_word_o,
