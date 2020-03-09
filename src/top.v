@@ -336,8 +336,8 @@ assign SLM_CLK = sys_clk;
 /////////////////////////////////////////
 
 // Use GPIOs from USB3 Chip to drive next line andd next frame ready signals
-wire next_line_rdy_o_w;
-wire next_frame_rdy_o_w;
+// wire next_line_rdy_o_w;
+// wire next_frame_rdy_o_w;
 // 32-Bit Fifo Data connection comes from USB-FIFO chip
 wire[31:0] usb_data_o;
 // Signals so that the bluejay_data FSM can manage data from USB-FIFO chip
@@ -391,8 +391,8 @@ bluejay_data bluejay_data_inst(
 
   // Control
   .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
-  .reset_i(),
-  .new_frame_i(next_frame_rdy_w),
+  .reset_i(reset_all_w),
+  .new_frame_i(),
   // Read-Side:
   .data_i(usb_data_o),
   .next_line_rdy_i(next_line_rdy_w),
@@ -422,19 +422,19 @@ bluejay_data bluejay_data_inst(
 // assign debug_ch2 = FIFO_D0;
 // assign debug_ch3 = FT_RD;
 // assign debug_ch4 = FIFO_D0;
-assign DEBUG_1 = FR_RXF;
-assign DEBUG_2 = FT_OE;
-assign DEBUG_3 = FT_RD;
-assign DEBUG_5 = FIFO_D2;
-assign DEBUG_6 = FIFO_D3;
+assign DEBUG_1 = RX_F;
+assign DEBUG_2 = FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = FT_RD;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_5 = next_line_rdy_w;
+assign DEBUG_6 = FIFO_D22;//get_next_word_o;//FIFO_D22;
 // Connect all of our internal names up with names from schematic using wires
 wire RX_F;
 wire OE_N;
 wire RD_N;
 wire RESET_N;
-// assign RX_F    = FR_RXF;
-assign FT_OE   = FR_RXF;//0;//OE_N;//    = FT_OE;
-assign FT_RD   = FR_RXF;//RD_N;
+assign RX_F    = FR_RXF;
+assign FT_OE   = RD_N;//OE_N;//RX_F;//OE_N;//    = FT_OE;
+assign FT_RD   = RD_N;//FR_RXF;//RD_N;
 assign RESET_N = 1'bz;  //TODO: Would be great to connect this line in a future spin on the board
 // We get when the next line and frame are ready from USB GPIO 0 and 1
 // These are wired through TP8 and TP9 as not directly connected to FPGA
@@ -486,18 +486,16 @@ usb_to_bluejay_if usb_to_bluejay_if_inst(
   // USB-Fifo Side
   .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
   .data_i(usb_data_o),
-  .next_line_rdy_i(next_line_rdy_i_w),
-  .next_frame_rdy_i(next_frame_rdy_i_w),
-  .fifo_empty_i(),//RX_F),
-  .fifo_output_enable_o(),//OE_N),
-  .get_next_word_o(),//RD_N),//),
+  .fifo_empty_i(RX_F),
+  .fifo_output_enable_o(OE_N),
+  .get_next_word_o(RD_N),//),
   .reset_o(RESET_N),
   // Bluejay Data Interface
   .clk_o(),  //TODO: Fix our sysclk as this will be wrong
   .data_o(usb_data_o),
-  .next_line_rdy_o(next_line_rdy_o_w),
-  .next_frame_rdy_o(next_frame_rdy_o_w),
-  .fifo_empty_o(fifo_empty_i),
+  .next_line_rdy_o(next_line_rdy_w),
+  .next_frame_rdy_o(next_frame_rdy_w),
+  .fifo_empty_o(fifo_empty_i_w),
   .get_next_word_i(get_next_word_o)
 	  
  );
