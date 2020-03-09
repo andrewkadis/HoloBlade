@@ -422,11 +422,11 @@ bluejay_data bluejay_data_inst(
 // assign debug_ch2 = FIFO_D0;
 // assign debug_ch3 = FT_RD;
 // assign debug_ch4 = FIFO_D0;
-assign DEBUG_1 = UART_RX;
-assign DEBUG_2 = UART_TX;//next_frame_rdy_w;
-assign DEBUG_3 = SEN;
-assign DEBUG_5 = SCK;
-assign DEBUG_6 = SOUT;
+// assign DEBUG_1 = UART_RX;
+// assign DEBUG_2 = UART_TX;//next_frame_rdy_w;
+// assign DEBUG_3 = SEN;
+// assign DEBUG_5 = SCK;
+// assign DEBUG_6 = SOUT;
 assign DEBUG_8 = SDAT;
 // assign DEBUG_1 = RX_F;
 // assign DEBUG_2 = FT_RD;//next_frame_rdy_w;
