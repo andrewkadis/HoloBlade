@@ -38,8 +38,8 @@
                         <Button x:Name="Startup" Content="Startup" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Click="SPI_startup" Margin="10,5"/>
                         <Button x:Name="LoadImageData" Content="Load Image Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_load_image_data" Margin="10,5"/>
                         <Button x:Name="ContinuousUpdate" Content="Continuous Update" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_continuous_update" Margin="10,5"/>
-                        <Button x:Name="SingleUpdate" Content="Single Update" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_single_update" Margin="10,5"/>
-                        <Button x:Name="SPIBridgeTBD5" Content="SPIBridgeTBD5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_2_Click" Margin="10,5"/>
+                        <Button x:Name="SingleUpdate" Content="SingleUpdate BufA" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_single_update_A" Margin="10,5"/>
+                        <Button x:Name="SPIBridgeTBD5" Content="SingleUpdate Buf B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_single_update_B" Margin="10,5"/>
                         <Button x:Name="DisplaySequence" Content="Display Sequence" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_display_sequence" Margin="10,5"/>
                     </StackPanel>
                 </Border>

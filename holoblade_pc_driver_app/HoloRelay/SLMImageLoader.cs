@@ -51,7 +51,7 @@ namespace HoloRelay
 
             // Set Clock
             m_send_me[0] = 0x09;
-            m_send_me[1] = 0x32;
+            m_send_me[1] = 0x64;
             m_serial_comms.Send_test_sequence(m_send_me);
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
             // Readback Clock
@@ -150,7 +150,7 @@ namespace HoloRelay
 
         // Only update the SLM once so we can see the image we just loaded
         // Works, but we get artifacts when switching, better to run fast
-        public void UpdateDisplaySingle()
+        public void UpdateDisplayBufA()
         {
 
             // Display Buffer A
@@ -158,6 +158,22 @@ namespace HoloRelay
             m_send_me[1] = 0x20;
             // For above:
             //   - DestBuf = B, SrcBuf = A
+            //   - SerialCom = PanelUpdate
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
+
+        // Only update the SLM once so we can see the image we just loaded
+        // Works, but we get artifacts when switching, better to run fast
+        public void UpdateDisplayBufB()
+        {
+
+            // Display Buffer B
+            m_send_me[0] = 0x08;
+            m_send_me[1] = 0x10;
+            // For above:
+            //   - DestBuf = A, SrcBuf = B
             //   - SerialCom = PanelUpdate
             m_serial_comms.Send_test_sequence(m_send_me);
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
