@@ -5,6 +5,11 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
+
+// FTD
+using FTD3XX_NET;
+using static FTD3XX_NET.FTDI;
 
 namespace HoloRelay
 {
@@ -72,6 +77,27 @@ namespace HoloRelay
             m_serial_comms.Send_test_sequence(m_send_me);
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
 
+        }
+
+        // Function to startup USB3 chip clocks - important to do this early as these clocks drive the FPGA
+        public void StartUSB3Clocks()
+        {
+            // Open our FTDI601 USB3 Chip
+            FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
+            FTDI d3xxDevice = new FTDI();
+            ftStatus = d3xxDevice.OpenByIndex(0);
+            if (ftStatus != FTDI.FT_STATUS.FT_OK)
+            {
+                Debug.WriteLine("OpenByIndex failed! ftStatus={0}", ftStatus);
+            }
+            d3xxDevice.SetPipeTimeout(0x82, 0);
+
+            // We drive the entire FPGA design off of the FIFO's 100MHz vlock, therefore we want clock to run all the time
+            // Set a timeout of 0 to achieve this, without this, clock will only be on for 10 seconds
+            d3xxDevice.SetSuspendTimeout(0);
+
+            // Disconnect afterwards - clocks shall stay on
+            ftStatus = d3xxDevice.Close();
         }
 
         // Function to force the SLM to update forever

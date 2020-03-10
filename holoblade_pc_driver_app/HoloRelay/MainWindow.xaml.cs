@@ -668,8 +668,10 @@ namespace HoloRelay
         private void SPI_startup(object sender, RoutedEventArgs e)
         {
 
-            // Init the SLM
             SLMImageLoader slm_image_loader = new SLMImageLoader();
+            // Startup USB3 chip clocks as these drives the FPGA
+            slm_image_loader.StartUSB3Clocks();
+            // Init the SLM
             slm_image_loader.InitSLM();
 
         }

@@ -28,3 +28,7 @@ C:\Users\User\Documents\Dev\awesome-board-support\holoblade_pc_driver_app\HoloRe
 C:\Users\User\Documents\Dev\awesome-board-support\holoblade_pc_driver_app\HoloRelay\obj\Debug\HoloRelay.csproj.CoreCompileInputs.cache
 C:\Users\User\Documents\Dev\awesome-board-support\holoblade_pc_driver_app\HoloRelay\obj\Debug\HoloRelay.exe
 C:\Users\User\Documents\Dev\awesome-board-support\holoblade_pc_driver_app\HoloRelay\obj\Debug\HoloRelay.pdb
+C:\Users\User\Documents\Dev\awesome-board-support\holoblade_pc_driver_app\HoloRelay\obj\Debug\HoloRelay_Content.g.cs
+C:\Users\User\Documents\Dev\awesome-board-support\holoblade_pc_driver_app\HoloRelay\bin\Debug\FTD3XX_NET.dll
+C:\Users\User\Documents\Dev\awesome-board-support\holoblade_pc_driver_app\HoloRelay\obj\Debug\HoloRelay.csproj.CopyComplete
+C:\Users\User\Documents\Dev\awesome-board-support\holoblade_pc_driver_app\HoloRelay\bin\Debug\FTD3XX.dll

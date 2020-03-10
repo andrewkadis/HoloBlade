@@ -16,7 +16,7 @@ namespace HoloRelay
         {
             // Open a 8N1 Serial Port which is at COM3
             SerialPort test_com_port = new SerialPort();
-            test_com_port.PortName = "COM20";
+            test_com_port.PortName = "COM18";
             test_com_port.DataBits = 8;
             test_com_port.StopBits = StopBits.One;
             test_com_port.BaudRate = 115200;
