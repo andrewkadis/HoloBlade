@@ -94,8 +94,8 @@ end
 *******************************************************************/
 // Module to step 50MHz System Clock down to 1Hz Clock for SPI
 reg spi_clk;
-reg[5:0] spi_clk_counter;
-parameter spi_countdown = 6'd100; // Count down from 50*2, ie: with a 50MHz clock we count down from 100MHz
+reg[7:0] spi_clk_counter;
+parameter spi_countdown = 8'd200; // Count down from 100*2, ie: with a 100MHz clock we count down from 200M
 always @ (posedge i_clock)
 	if(spi_clk_counter==0) begin
 		// Clock has expired, reset and toggle

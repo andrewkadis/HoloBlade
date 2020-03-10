@@ -213,7 +213,7 @@ assign debug_led4 = led_counter[24];
 wire sys_clk;
 clock clock_inst(
 
-   .i_xtal(ICE_SYSCLK),
+   .i_xtal(FIFO_CLK),
    .o_sys_clk(sys_clk)
 	
  );
@@ -422,13 +422,15 @@ bluejay_data bluejay_data_inst(
 // assign DEBUG_3 = SEN;
 // assign DEBUG_5 = SCK;
 // assign DEBUG_8 = SOUT;
-assign DEBUG_8 = SDAT;
+assign DEBUG_9 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // assign DEBUG_1 = RX_F;
 // assign DEBUG_2 = FT_RD;//next_frame_rdy_w;
 // assign DEBUG_3 = next_line_rdy_w;//reset_all_w;//FT_OE;//get_next_word_o;
 // assign DEBUG_5 = bluejay_data_out[22];
 // assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-// assign DEBUG_8 = SOUT; // TODO: No idea why SPI comms don't work when this input is not routed out, but do so for now
+// assign DEBUG_8 = SOUT; 
+assign DEBUG_5 = SLM_CLK;
+assign DEBUG_6 = FIFO_CLK;
 // Connect all of our internal names up with names from schematic using wires
 wire RX_F;
 wire OE_N;
@@ -444,7 +446,7 @@ wire next_line_rdy_i_w;
 wire next_frame_rdy_i_w;
 // assign next_line_rdy_i_w  = DEBUG_8;
 // assign DEBUG_8  = 0;//FR_RXF;//FIFO_CLK;
-assign DEBUG_9  = 0;//get_next_word_o;//FR_RXF;
+// assign DEBUG_9  = 0;//get_next_word_o;//FR_RXF;
 // assign next_frame_rdy_i_w = DEBUG_9;
 // Wire up our 32-bit data connection
 assign usb_data_o[31] = FIFO_D31;
@@ -524,8 +526,8 @@ wire rx_complete;
 // Assign UART_RX Data to LED3 for Debug
 assign debug_led3  = rx_complete;
 // Want to interface to 115200 baud UART
-// 50000000 / 115200 = 434 Clocks Per Bit.
-parameter c_CLKS_PER_BIT    = 434;
+// 100000000 / 115200 = 868 Clocks Per Bit.
+parameter c_CLKS_PER_BIT    = 868;
 uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
    .i_Clock(sys_clk),
    .i_Rx_Serial(UART_RX),
