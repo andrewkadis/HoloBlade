@@ -34,6 +34,8 @@
 -ver "src/uart_tx.v"
 -ver "src/spi.v"
 -ver "src/FIFO_Quad_Word_mod.v"
+-ver "src/usb_to_bluejay_if.v"
+-ver "src/bluejay_data.v"
 -p "C:/Users/User/Documents/Dev/awesome-board-firmware"
 
 #set result format/file last

@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 16:52:36
 
-* File Generated:     Feb 27 2020 21:49:35
+* File Generated:     Mar 10 2020 15:49:22
 
 * Purpose:            Detailed IO and package pin info
 
@@ -19,62 +19,62 @@ Package, TQ144
 
 Pin Number, Pin Type Name, Signal Name, Direction, Global Buffer, IO Standard, Pull Up, IO Function, IO Bank, 
 ---------------, ---------------, ---------------, ---------------, ---------------, ---------------, ---------------, ---------------, ---------------, 
-1, PIO, ICE_CREST, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
+1, PIO, not used, , , , , , leftBank
 2, PIO, FT_OE, Output, , SB_LVCMOS, No Pull Up, Simple Output, leftBank
-3, PIO, FT_RD, Output, , SB_LVCMOS, No Pull Up, Output Registered, leftBank
-4, PIO, FT_WR, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
+3, PIO, FT_RD, Output, , SB_LVCMOS, No Pull Up, Simple Output, leftBank
+4, PIO, FT_WR, Output, , SB_LVCMOS, No Pull Up, Simple Output, leftBank
 5, GND, not used, , , , , , UnknownBank
 6, VCCIO_3, not used, , , , , , leftBank
-7, PIO, FT_SIWU, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
+7, PIO, FT_SIWU, Output, , SB_LVCMOS, No Pull Up, Simple Output, leftBank
 8, PIO, FR_RXF, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
-9, PIO, ICE_CDONE, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-10, PIO, FIFO_BE3, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-11, PIO, FIFO_BE2, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-12, PIO, FIFO_BE1, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
+9, PIO, not used, , , , , , leftBank
+10, PIO, ICE_CREST, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
+11, PIO, not used, , , , , , leftBank
+12, PIO, not used, , , , , , leftBank
 13, GND, not used, , , , , , UnknownBank
 14, GND, not used, , , , , , UnknownBank
-15, PIO, FIFO_BE0, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-16, PIO, FIFO_D31, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-17, PIO, FIFO_D30, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-18, PIO, FIFO_D29, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-19, PIO, FIFO_D28, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-20, PIO_GBIN, FIFO_D27, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
+15, PIO, ICE_CDONE, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
+16, PIO, FIFO_D31, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+17, PIO, FIFO_D30, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+18, PIO, FIFO_D29, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+19, PIO, FIFO_D28, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+20, PIO_GBIN, FIFO_D27, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
 21, PIO_GBIN, FIFO_CLK, Input, glb Buff, SB_LVCMOS, No Pull Up, Simple Input, leftBank
-22, PIO, FIFO_D26, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-23, PIO, FIFO_D25, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-24, PIO, FIFO_D24, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-25, PIO, FIFO_D23, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-26, PIO, FIFO_D22, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
+22, PIO, FIFO_D26, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+23, PIO, FIFO_D25, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+24, PIO, FIFO_D24, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+25, PIO, FIFO_D23, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+26, PIO, FIFO_D22, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
 27, VCC, not used, , , , , , UnknownBank
-28, PIO, FIFO_D21, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-29, PIO, FIFO_D20, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
+28, PIO, FIFO_D21, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+29, PIO, FIFO_D20, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
 30, VCCIO_3, not used, , , , , , leftBank
-31, PIO, FIFO_D19, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-32, PIO, FIFO_D18, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-33, PIO, FIFO_D17, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-34, PIO, FIFO_D16, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, leftBank
-37, PIO, FIFO_D15, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
-38, PIO, FIFO_D14, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
-39, PIO, FIFO_D13, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
+31, PIO, FIFO_D19, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+32, PIO, FIFO_D18, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+33, PIO, FIFO_D17, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+34, PIO, FIFO_D16, Input, , SB_LVCMOS, No Pull Up, Simple Input, leftBank
+37, PIO, FIFO_D15, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
+38, PIO, FIFO_D14, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
+39, PIO, FIFO_D13, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
 40, VCC, not used, , , , , , UnknownBank
-41, PIO, FIFO_D12, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
-42, PIO, FIFO_D11, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
-43, PIO, FIFO_D10, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
-44, PIO, FIFO_D9, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
-45, PIO, FIFO_D8, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
+41, PIO, FIFO_D12, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
+42, PIO, FIFO_D11, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
+43, PIO, FIFO_D10, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
+44, PIO, FIFO_D9, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
+45, PIO, FIFO_D8, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
 46, VCCIO_2, not used, , , , , , bottomBank
-47, PIO, FIFO_D7, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
-48, PIO, FIFO_D6, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
-49, PIO_GBIN, FIFO_D5, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
+47, PIO, FIFO_D7, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
+48, PIO, FIFO_D6, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
+49, PIO_GBIN, FIFO_D5, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
 52, PIO_GBIN, ICE_CLK, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
 53, AGND_BOT, not used, , , , , , UnknownBank
 54, AVDD_BOT, not used, , , , , , UnknownBank
-55, PIO, FIFO_D4, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
-56, PIO, FIFO_D3, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
+55, PIO, FIFO_D4, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
+56, PIO, FIFO_D3, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
 57, VCCIO_2, not used, , , , , , bottomBank
 59, GND, not used, , , , , , UnknownBank
-60, PIO, FIFO_D2, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
-61, PIO, FIFO_D1, Output, , SB_LVCMOS, No Pull Up, Output Tristatable by Enable, bottomBank
+60, PIO, FIFO_D2, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
+61, PIO, FIFO_D1, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
 62, PIO, FIFO_D0, Input, , SB_LVCMOS, No Pull Up, Simple Input, bottomBank
 63, PIO, DEBUG_8, Output, , SB_LVCMOS, No Pull Up, Simple Output, bottomBank
 64, PIO, DEBUG_9, Output, , SB_LVCMOS, No Pull Up, Simple Output, bottomBank
@@ -106,7 +106,7 @@ Pin Number, Pin Type Name, Signal Name, Direction, Global Buffer, IO Standard, P
 90, PIO, SYNC, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
 91, PIO, INVERT, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
 92, VCC, not used, , , , , , UnknownBank
-93, PIO_GBIN, ICE_SYSCLK, Input, , SB_LVCMOS, No Pull Up, Simple Input, rightBank
+93, PIO_GBIN, not used, , , , , , rightBank
 94, PIO_GBIN, VALID, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
 95, PIO, SLM_CLK, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
 96, PIO, DATA10, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
@@ -157,4 +157,4 @@ Pin Number, Pin Type Name, Signal Name, Direction, Global Buffer, IO Standard, P
 142, PIO, RESET, Output, , SB_LVCMOS, No Pull Up, Simple Output, topBank
 143, PIO, SDAT, Output, , SB_LVCMOS, No Pull Up, Simple Output, topBank
 144, PIO, SCK, Output, , SB_LVCMOS, No Pull Up, Simple Output, topBank
-Total Number of Used Pins, 103
+Total Number of Used Pins, 98

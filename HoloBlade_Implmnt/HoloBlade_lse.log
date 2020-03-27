@@ -3,7 +3,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2015 Lattice Semiconductor Corporation,  All rights reserved.
-Thu Feb 27 21:49:17 2020
+Tue Mar 10 15:49:00 2020
 
 
 Command Line:  C:\lscc\iCEcube2\LSE\bin\nt\synthesis.exe -f HoloBlade_lse.prj 
@@ -73,6 +73,8 @@ Verilog design file = src/uart_rx.v
 Verilog design file = src/uart_tx.v
 Verilog design file = src/spi.v
 Verilog design file = src/FIFO_Quad_Word_mod.v
+Verilog design file = src/usb_to_bluejay_if.v
+Verilog design file = src/bluejay_data.v
 -sdc option: SDC file input not used.
 Technology check ok...
 
@@ -81,10 +83,9 @@ Analyzing Verilog file C:/lscc/iCEcube2/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice
 Compile design.
 Compile Design Begin
 Analyzing Verilog file src/top.v. VERI-1482
-WARNING - synthesis: src/top.v(578): pc_data_tx is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(733): pc_data_tx is already implicitly declared earlier. VERI-1362
 WARNING - synthesis: src/top.v(194): identifier sys_clk is used before its declaration. VERI-1875
 WARNING - synthesis: src/top.v(233): identifier reset_countdown is used before its declaration. VERI-1875
-WARNING - synthesis: src/top.v(650): assignment to input FIFO_CLKVERI-1214
 Analyzing Verilog file src/clock.v. VERI-1482
 Analyzing Verilog file src/uart_rx.v. VERI-1482
 WARNING - synthesis: src/uart_rx.v(23): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
@@ -99,12 +100,13 @@ WARNING - synthesis: src/uart_tx.v(27): parameter declaration becomes local in u
 WARNING - synthesis: src/uart_tx.v(28): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
 WARNING - synthesis: src/uart_tx.v(29): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
 Analyzing Verilog file src/spi.v. VERI-1482
-WARNING - synthesis: src/spi.v(98): literal value truncated to fit in 6 bits. VERI-1208
 WARNING - synthesis: src/spi.v(65): parameter declaration becomes local in spi with formal parameter declaration list. VERI-1199
 WARNING - synthesis: src/spi.v(79): identifier state_reg is used before its declaration. VERI-1875
 WARNING - synthesis: src/spi.v(79): identifier LOAD is used before its declaration. VERI-1875
 WARNING - synthesis: src/spi.v(98): parameter declaration becomes local in spi with formal parameter declaration list. VERI-1199
 Analyzing Verilog file src/fifo_quad_word_mod.v. VERI-1482
+Analyzing Verilog file src/usb_to_bluejay_if.v. VERI-1482
+Analyzing Verilog file src/bluejay_data.v. VERI-1482
 Analyzing Verilog file C:/lscc/iCEcube2/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v. VERI-1482
 WARNING - synthesis: C:/lscc/iCEcube2/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(79): assignment to input EVERI-1214
 WARNING - synthesis: C:/lscc/iCEcube2/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(88): assignment to input EVERI-1214
@@ -120,15 +122,23 @@ WARNING - synthesis: C:/lscc/iCEcube2/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40
 Top module name (Verilog): top
 INFO - synthesis: src/top.v(5): compiling module top. VERI-1018
 INFO - synthesis: src/clock.v(4): compiling module clock. VERI-1018
-INFO - synthesis: C:/lscc/iCEcube2/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(699): compiling module SB_PLL40_CORE(DIVR=4'b01,DIVF=7'b1000010,DIVQ=3'b100,FILTER_RANGE=3'b01). VERI-1018
 INFO - synthesis: C:/lscc/iCEcube2/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(579): compiling module SB_GB. VERI-1018
-WARNING - synthesis: src/clock.v(27): input port EXTFEEDBACK is not connected on this instance. VDB-1013
-INFO - synthesis: src/uart_rx.v(14): compiling module uart_rx(CLKS_PER_BIT=434). VERI-1018
+INFO - synthesis: src/bluejay_data.v(8): compiling module bluejay_data. VERI-1018
+WARNING - synthesis: src/bluejay_data.v(89): expression size 32 truncated to fit in target size 8. VERI-1209
+WARNING - synthesis: src/bluejay_data.v(103): expression size 32 truncated to fit in target size 8. VERI-1209
+WARNING - synthesis: src/bluejay_data.v(106): expression size 32 truncated to fit in target size 11. VERI-1209
+WARNING - synthesis: src/bluejay_data.v(117): expression size 32 truncated to fit in target size 8. VERI-1209
+WARNING - synthesis: src/bluejay_data.v(125): expression size 32 truncated to fit in target size 8. VERI-1209
+WARNING - synthesis: src/bluejay_data.v(146): Register sync_o_78 is stuck at Zero. VDB-5013
+INFO - synthesis: src/usb_to_bluejay_if.v(8): compiling module usb_to_bluejay_if. VERI-1018
+WARNING - synthesis: src/usb_to_bluejay_if.v(87): expression size 32 truncated to fit in target size 8. VERI-1209
+WARNING - synthesis: src/usb_to_bluejay_if.v(105): expression size 32 truncated to fit in target size 8. VERI-1209
+INFO - synthesis: src/uart_rx.v(14): compiling module uart_rx(CLKS_PER_BIT=868). VERI-1018
 WARNING - synthesis: src/uart_rx.v(80): expression size 32 truncated to fit in target size 10. VERI-1209
 WARNING - synthesis: src/uart_rx.v(91): expression size 32 truncated to fit in target size 10. VERI-1209
 WARNING - synthesis: src/uart_rx.v(102): expression size 32 truncated to fit in target size 3. VERI-1209
 WARNING - synthesis: src/uart_rx.v(120): expression size 32 truncated to fit in target size 10. VERI-1209
-INFO - synthesis: src/uart_tx.v(14): compiling module uart_tx(CLKS_PER_BIT=434). VERI-1018
+INFO - synthesis: src/uart_tx.v(14): compiling module uart_tx(CLKS_PER_BIT=868). VERI-1018
 WARNING - synthesis: src/uart_tx.v(68): expression size 32 truncated to fit in target size 10. VERI-1209
 WARNING - synthesis: src/uart_tx.v(86): expression size 32 truncated to fit in target size 10. VERI-1209
 WARNING - synthesis: src/uart_tx.v(96): expression size 32 truncated to fit in target size 3. VERI-1209
@@ -145,13 +155,15 @@ WARNING - synthesis: src/spi.v(233): CS should be on the sensitivity list. VERI-
 WARNING - synthesis: src/spi.v(234): state_reg should be on the sensitivity list. VERI-1221
 INFO - synthesis: src/fifo_quad_word_mod.v(10): compiling module FIFO_Quad_Word. VERI-1018
 INFO - synthesis: src/fifo_quad_word_mod.v(25): compiling module FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_1. VERI-1018
-WARNING - synthesis: src/top.v(611): actual bit length 8 differs from formal bit length 32 for port wr_data_i. VERI-1330
-WARNING - synthesis: src/top.v(793): expression size 32 truncated to fit in target size 1. VERI-1209
-WARNING - synthesis: src/top.v(802): Register reset_all_cmd_r_210 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/top.v(766): actual bit length 8 differs from formal bit length 32 for port wr_data_i. VERI-1330
+WARNING - synthesis: src/top.v(948): expression size 32 truncated to fit in target size 1. VERI-1209
+WARNING - synthesis: src/top.v(957): Register reset_all_cmd_r_91 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/top.v(402): input port new_frame_i is not connected on this instance. VDB-1013
+WARNING - synthesis: src/top.v(504): input port reset_i is not connected on this instance. VDB-1013
 Loading NGL library 'C:/lscc/iCEcube2/LSE/xo2c00/data/xo2clib.ngl'...
 Loading NGL library 'C:/lscc/iCEcube2/LSE/or5g00/data/orc5glib.ngl'...
 Top-level module name = top.
-WARNING - synthesis: Initial value found on net n176 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net n131 will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net state_next[2] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net state_next[1] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net state_next[0] will be ignored due to unrecognized driver type
@@ -161,8 +173,12 @@ WARNING - synthesis: Initial value found on net wr_addr_nxt_r[0] will be ignored
 WARNING - synthesis: Initial value found on net rd_addr_nxt_r[2] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net rd_addr_nxt_r[1] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net rd_addr_nxt_r[0] will be ignored due to unrecognized driver type
-WARNING - synthesis: src/clock.v(27): input port EXTFEEDBACK is not connected on this instance. VDB-1013
-######## Missing driver on net DEBUG_3. Patching with GND.
+WARNING - synthesis: src/top.v(402): input port new_frame_i is not connected on this instance. VDB-1013
+WARNING - synthesis: src/top.v(504): input port reset_i is not connected on this instance. VDB-1013
+WARNING - synthesis: src/bluejay_data.v(44): net \bluejay_data_inst/new_frame_i does not have a driver. VDB-1002
+######## Missing driver on net INVERT. Patching with GND.
+######## Missing driver on net DEBUG_2. Patching with GND.
+######## Missing driver on net \bluejay_data_inst/new_frame_i. Patching with GND.
 INFO - synthesis: Extracted state machine for register '\spi0/t' with one-hot encoding
 State machine has 16 reachable states with original encodings of:
 
@@ -235,23 +251,23 @@ original encoding -> new encoding (one-hot encoding)
 
 
 
-WARNING - synthesis: src/fifo_quad_word_mod.v(448): Register \i688/i167_168 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/fifo_quad_word_mod.v(448): Register \i901/i401_402 is stuck at Zero. VDB-5013
 WARNING - synthesis: Bit 0 of Register \tx_fifo/lscc_fifo_inst/mem_LUT.data_raw_r_ is stuck at Zero
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i15 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i14 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i13 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i12 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i11 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i10 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i9 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i8 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i7 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i6 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i5 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i4 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i3 will be ignored.
-WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i2 will be ignored.
 WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i1 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i2 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i3 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i4 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i5 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i6 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i7 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i8 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i9 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i10 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i11 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i12 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i13 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i14 will be ignored.
+WARNING - synthesis: Initial value found on instance \spi0/tx_shift_reg_i15 will be ignored.
 Applying 1.000000 MHz constraint to all clocks
 
 Writing scf file : HoloBlade_Implmnt/HoloBlade.scf
@@ -259,46 +275,42 @@ Writing scf file : HoloBlade_Implmnt/HoloBlade.scf
 Results of NGD DRC are available in top_drc.log.
 
 ################### Begin Area Report (top)######################
-Number of register bits => 231 of 3520 (6 % )
-SB_CARRY => 47
-SB_DFF => 147
-SB_DFFE => 11
-SB_DFFESR => 24
-SB_DFFN => 14
-SB_DFFNESS => 1
+Number of register bits => 278 of 3520 (7 % )
+SB_CARRY => 81
+SB_DFF => 145
+SB_DFFE => 16
+SB_DFFESR => 41
+SB_DFFN => 15
 SB_DFFNSR => 1
 SB_DFFR => 18
 SB_DFFS => 2
-SB_DFFSR => 10
-SB_DFFSS => 3
-SB_GB => 1
+SB_DFFSR => 25
+SB_DFFSS => 15
 SB_GB_IO => 1
-SB_IO => 102
-SB_LUT4 => 311
-SB_PLL40_CORE => 1
+SB_IO => 97
+SB_LUT4 => 500
 ################### End Area Report ##################
 
 ################### Begin Clock Report ######################
 Clock Nets
-Number of Clocks: 3
-  Net : SLM_CLK_c, loads : 175
+Number of Clocks: 2
+  Net : SLM_CLK_c, loads : 224
   Net : spi0/spi_clk, loads : 57
-  Net : FIFO_CLK_c, loads : 2
 Clock Enable Nets
 Number of Clock Enables: 0
 Top 0 highest fanout Clock Enables:
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : reset_all_w, loads : 41
+  Net : reset_all_w, loads : 61
+  Net : tx_fifo/lscc_fifo_inst/wr_addr_r_1, loads : 36
+  Net : bluejay_data_inst/data_output_active_cmd, loads : 34
   Net : spi0/state_reg_1, loads : 29
-  Net : spi0/n3279, loads : 23
-  Net : tx_fifo/lscc_fifo_inst/wr_addr_r_1, loads : 22
+  Net : bluejay_data_inst/state_1, loads : 27
+  Net : bluejay_data_inst/state_2, loads : 26
+  Net : bluejay_data_inst/state_0, loads : 26
+  Net : n5462, loads : 24
+  Net : bluejay_data_inst/n1373, loads : 22
   Net : tx_fifo/lscc_fifo_inst/rd_addr_r_1, loads : 20
-  Net : uart_rx_complete_rising_edge, loads : 18
-  Net : spi0/state_next_1, loads : 17
-  Net : spi0/n4, loads : 16
-  Net : tx_fifo/lscc_fifo_inst/n4, loads : 16
-  Net : spi0/n1728, loads : 14
 ################### End Clock Report ##################
 
 Timing Report Summary
@@ -306,9 +318,6 @@ Timing Report Summary
 --------------------------------------------------------------------------------
 Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
-                                        |             |             |
-create_clock -period 1000.000000 -name  |             |             |
-clk2 [get_nets FIFO_CLK_c]              |    1.000 MHz|  568.828 MHz|     1  
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
 clk1 [get_nets \spi0/spi_clk]           |    1.000 MHz|   86.341 MHz|     3  
@@ -322,8 +331,8 @@ clk0 [get_nets SLM_CLK_c]               |    1.000 MHz|   24.611 MHz|    26
 All constraints were met.
 
 
-Peak Memory Usage: 38.180  MB
+Peak Memory Usage: 40.066  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 0.938  secs
+Elapsed CPU time for LSE flow : 1.172  secs
 --------------------------------------------------------------

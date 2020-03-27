@@ -423,14 +423,13 @@ bluejay_data bluejay_data_inst(
 // assign DEBUG_5 = SCK;
 // assign DEBUG_8 = SOUT;
 assign DEBUG_9 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
-// assign DEBUG_1 = RX_F;
-// assign DEBUG_2 = FT_RD;//next_frame_rdy_w;
-// assign DEBUG_3 = next_line_rdy_w;//reset_all_w;//FT_OE;//get_next_word_o;
-// assign DEBUG_5 = bluejay_data_out[22];
-// assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-// assign DEBUG_8 = SOUT; 
-assign DEBUG_5 = SLM_CLK;
-assign DEBUG_6 = FIFO_CLK;
+// Debugging Lines
+assign DEBUG_1 = fifo_empty_i_w;
+// assign DEBUG_2 = RD_N;//next_frame_rdy_w;
+assign DEBUG_3 = next_line_rdy_w;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_5 = bluejay_data_out[22];
+assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_8 = get_next_word_o; 
 // Connect all of our internal names up with names from schematic using wires
 wire RX_F;
 wire OE_N;
