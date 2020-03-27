@@ -1,0 +1,153 @@
+
+
+*****************************************************************
+TEST SUITE:
+
+	MachineName: LAPTOP-1QGM76UF
+	UserName:    Kadds
+	OSVersion:   Microsoft Windows NT 6.2.9200.0
+	64-bit:      True
+	Processors:  4
+	CLRVersion:  4.0.30319.42000
+	RunDate:     03/12/2019
+	RunTime:     04:51:22.457 PM
+	AppName:     FT600APIUsageDemoApp
+	AppVersion:  1.0.0.6
+*****************************************************************
+
+USB DEVICES CONNECTED:
+
+	USB Root Hub (USB 3.0) 
+	USB\ROOT_HUB30\4&49135DE&0&0 
+
+	USB Composite Device 
+	USB\VID_05C8&PID_038F\200901010001 
+
+	USB Composite Device 
+	USB\VID_0403&PID_601F\000000000001 
+
+	FTDI FT601 USB 3.0 Bridge Device 
+	USB\VID_0403&PID_601F&MI_00\6&1F7B2494&0&0000 
+
+	Altera USB-Blaster 
+	USB\VID_09FB&PID_6001\91D28408 
+
+
+The test will take around 1 minute.
+Please ensure the device is connected throughout this period except for specific tests that require device unplugging.
+
+
+[TEST 00]: TestSaveChipConfiguration started at 04:51:22.630 PM...
+
+	Chip Configuration
+	VendorID                 : 0x0403
+	ProductID                : 0x601F
+	Manufacturer             : FTDI
+	Description              : FTDI SuperSpeed-FIFO Bridge
+	SerialNumber             : 000000000001
+	PowerAttributes          : 0xE0
+	PowerConsumption         : 0x0060
+	FIFOMode                 : 0x01
+	ChannelConfig            : 0x02
+	OptionalFeatureSupport   : 0x0000
+	FlashEEPROMDetection     : 0x10
+		MEMORY           : Flash
+		VALUES           : Custom
+		CUSTOMDATA       : Valid
+		CUSTOMDATACHKSUM : Valid
+	MSIO_Control             : 0x00010800
+	GPIO_Control             : 0x00000000
+
+[TEST 00]: TestSaveChipConfiguration completed successfully in 1 seconds!
+
+
+[TEST 01]: TestGetDeviceInfoList started at 04:51:23.969 PM...
+
+	D3XX DEVICES CONNECTED:
+
+	DEVICE[0]
+	SerialNumber             : 000000000001
+	Description              : FTDI SuperSpeed-FIFO Bridge
+	Flags                    : 4
+	LocId                    : 0
+	ID                       : 0x0403601F
+	Type                     : 601
+
+
+[TEST 01]: TestGetDeviceInfoList completed successfully in 47 mseconds!
+
+
+[TEST 02]: TestOpenByIndex started at 04:51:24.016 PM...
+
+	OpenByIndex [0]
+	Close
+
+[TEST 02]: TestOpenByIndex completed successfully in 275 mseconds!
+
+
+[TEST 03]: TestOpenBySerialNumber started at 04:51:24.293 PM...
+
+	OpenBySerialNumber [000000000001]
+	Close
+
+[TEST 03]: TestOpenBySerialNumber completed successfully in 281 mseconds!
+
+
+[TEST 04]: TestOpenByDescription started at 04:51:24.575 PM...
+
+	OpenByDescription [FTDI SuperSpeed-FIFO Bridge]
+	Close
+
+[TEST 04]: TestOpenByDescription completed successfully in 281 mseconds!
+
+
+[TEST 05]: TestIsOpen started at 04:51:24.858 PM...
+
+	IsOpen before Open is False
+	IsOpen after Open is True
+	IsOpen after Close is False
+
+[TEST 05]: TestIsOpen completed successfully in 281 mseconds!
+
+
+[TEST 06]: TestIsUSB3 started at 04:51:25.140 PM...
+
+	IsUSB3 is True
+
+[TEST 06]: TestIsUSB3 completed successfully in 278 mseconds!
+
+
+[TEST 07]: TestClose started at 04:51:25.419 PM...
+
+	Close before Open is FT_INVALID_HANDLE
+	Close after Open is FT_OK
+	Close after Close is FT_INVALID_HANDLE
+
+[TEST 07]: TestClose completed successfully in 282 mseconds!
+
+
+[TEST 08]: TestGetVersions started at 04:51:25.703 PM...
+
+	Firmware Version         : 0x00000109
+	Driver Version           : 0x01030002
+	Library Version          : 0x01020006
+
+[TEST 08]: TestGetVersions completed successfully in 243 mseconds!
+
+
+[TEST 09]: TestGetChipConfiguration started at 04:51:25.946 PM...
+
+	Chip Configuration
+	VendorID                 : 0x0403
+	ProductID                : 0x601F
+	Manufacturer             : FTDI
+	Description              : FTDI SuperSpeed-FIFO Bridge
+	SerialNumber             : 000000000001
+	PowerAttributes          : 0xE0
+	PowerConsumption         : 0x0060
+	FIFOMode                 : 0x01
+	ChannelConfig            : 0x02
+	OptionalFeatureSupport   : 0x0000
+	FlashEEPROMDetection     : 0x10
+		MEMORY           : Flash
+		VALUES   
