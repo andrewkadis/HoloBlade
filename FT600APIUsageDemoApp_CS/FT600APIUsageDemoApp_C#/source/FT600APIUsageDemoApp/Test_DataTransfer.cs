@@ -255,6 +255,20 @@ namespace FT600APIUsageDemoApp
             byte[] line_two = new byte[words_per_line];
             UInt32 bytesWritten = 0;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             //if (!TestLoopbackPrepare.bBasicLoopbackWorking)
             //{
             //    Debug.Log("ERROR: Basic Loopback failed, test will be skipped!");
@@ -269,7 +283,120 @@ namespace FT600APIUsageDemoApp
                 return TestResult;
             }
 
-            PipeTimeout.Disable(d3xxDevice, 0x82);
+
+
+
+
+
+            /////////////////////////////////////////////
+            //////////// Chip Configuration /////////////
+            /////////////////////////////////////////////
+
+            // Set our config Values
+            var conf = new FTDI.FT_60XCONFIGURATION
+            {
+                // Set default values
+                VendorID = FTDI.FT_60XCONFIGURATION_DEFAULT_VENDORID,
+                ProductID = FTDI.FT_60XCONFIGURATION_DEFAULT_PRODUCTID_601,
+                PowerAttributes = FTDI.FT_60XCONFIGURATION_DEFAULT_POWERATTRIBUTES,
+                PowerConsumption = FTDI.FT_60XCONFIGURATION_DEFAULT_POWERCONSUMPTION,
+                BatteryChargingGPIOConfig = FTDI.FT_60XCONFIGURATION_DEFAULT_BATTERYCHARGING,
+                OptionalFeatureSupport = FTDI.FT_60XCONFIGURATION_DEFAULT_OPTIONALFEATURE,
+                MSIO_Control = FTDI.FT_60XCONFIGURATION_DEFAULT_MSIOCONTROL,
+                GPIO_Control = FTDI.FT_60XCONFIGURATION_DEFAULT_GPIOCONTROL,
+                FlashEEPROMDetection = 0,
+                SerialNumber = FTDI.FT_60XCONFIGURATION_DEFAULT_SERIALNUMBER,
+                // Set custom values
+                FIFOMode = (byte)FTDI.FT_60XCONFIGURATION_FIFO_MODE.MODE_245,
+                ChannelConfig = (byte)FTDI.FT_60XCONFIGURATION_CHANNEL_CONFIG.ONE_OUTPIPE,
+                Manufacturer = "Awesome Inc",
+                Description = "Being Awesome"
+            };
+            //conf.SerialNumber = "123456789012345";
+            ftStatus = d3xxDevice.SetChipConfiguration(conf);
+            if (ftStatus != FTDI.FT_STATUS.FT_OK) { Console.WriteLine("Fatal Error"); };
+            // Need to close afterwards and wait at least 2s before re-opening (from datasheet)
+            ftStatus = d3xxDevice.Close();
+            if (ftStatus != FTDI.FT_STATUS.FT_OK) { Console.WriteLine("Fatal Error"); };
+            Thread.Sleep(2000);
+            ftStatus = d3xxDevice.OpenByIndex(0);
+            if (ftStatus != FTDI.FT_STATUS.FT_OK) { Console.WriteLine("OpenByIndex failed! ftStatus={0}", ftStatus); return TestResult; }
+
+            // Read what is set
+            ftStatus = d3xxDevice.GetChipConfiguration(conf);
+            if (ftStatus != FTDI.FT_STATUS.FT_OK) { Console.WriteLine("Fatal Error"); };
+            // Print results
+            Console.WriteLine("\tChip Configuration");
+            Console.WriteLine("\tVendorID : 0x{0:X4}", conf.VendorID);
+            Console.WriteLine("\tProductID : 0x{0:X4}", conf.ProductID);
+            Console.WriteLine("\tManufacturer : " + conf.Manufacturer);
+            Console.WriteLine("\tDescription : " + conf.Description);
+            Console.WriteLine("\tSerialNumber : " + conf.SerialNumber);
+            Console.WriteLine("\tPowerAttributes : 0x{0:X2}", conf.PowerAttributes);
+            Console.WriteLine("\tPowerConsumption : 0x{0:X4}", conf.PowerConsumption);
+            Console.WriteLine("\tFIFOMode : 0x{0:X2}", conf.FIFOMode);
+            Console.WriteLine("\tChannelConfig : 0x{0:X2}", conf.ChannelConfig);
+            Console.WriteLine("\tOptionalFeatureSupport : 0x{0:X4}", conf.OptionalFeatureSupport);
+            Console.WriteLine("\tBatteryChargingGPIOConfig: 0x{0:X2}", conf.BatteryChargingGPIOConfig);
+            Console.WriteLine("\tMSIO_Control : 0x{0:X8}", conf.MSIO_Control);
+            Console.WriteLine("\tGPIO_Control : 0x{0:X8}", conf.GPIO_Control);
+            Console.WriteLine("\tFlashEEPROMDetection : 0x{0:X2}", conf.FlashEEPROMDetection);
+            if (conf.FlashEEPROMDetection > 0)
+            {
+                bool bROM = (conf.FlashEEPROMDetection & (1 << (byte)FTDI.FT_60XCONFIGURATION_FLASH_ROM_BIT.ROM)) > 0;
+                Debug.Log("\t\tMEMORY : {0}", bROM ? "Rom" : "Flash");
+                if (bROM)
+                {
+                    bool bMemoryExist = (conf.FlashEEPROMDetection & (1 << (byte)FTDI.FT_60XCONFIGURATION_FLASH_ROM_BIT.MEMORY_NOTEXIST)) > 0;
+                    Debug.Log("\t\tMEMORY_NOTEXIST : {0}", bMemoryExist ? "Invalid" : "Valid");
+                }
+                bool bCustom = (conf.FlashEEPROMDetection & (1 << (byte)FTDI.FT_60XCONFIGURATION_FLASH_ROM_BIT.CUSTOM)) > 0;
+                Debug.Log("\t\tVALUES : {0}", bCustom ? "Custom" : "Default");
+                if (!bCustom)
+                { // Default configuration
+                    bool bGPIO0 = (conf.FlashEEPROMDetection & (1 << (byte)FTDI.FT_60XCONFIGURATION_FLASH_ROM_BIT.GPIO_0)) > 0;
+                    bool bGPIO1 = (conf.FlashEEPROMDetection & (1 << (byte)FTDI.FT_60XCONFIGURATION_FLASH_ROM_BIT.GPIO_1)) > 0;
+                    Debug.Log("\t\tGPIO_0 : {0}", bGPIO0 ? "High" : "Low"); Debug.Log("\t\tGPIO_1 : {0}", bGPIO1 ? "High" : "Low");
+                    if (bGPIO0 && bGPIO1)
+                    {
+                        Debug.Log("\t\tChannel : 4 channels, 600 mode");
+                    }
+                    else if (!bGPIO0 && bGPIO1)
+                    {
+                        Debug.Log("\t\tChannel : 2 channels, 600 mode");
+                    }
+                    else if (bGPIO0 && !bGPIO1)
+                    {
+                        Debug.Log("\t\tChannel : 1 channel, 600 mode");
+                    }
+                    else if (!bGPIO0 && !bGPIO1)
+                    {
+                        Debug.Log("\t\tChannel : 1 channel, 245 mode");
+                    }
+                }
+                else
+                { // Custom configuration
+                    bool bInvalidData = (conf.FlashEEPROMDetection & (1 << (byte)FTDI.FT_60XCONFIGURATION_FLASH_ROM_BIT.CUSTOMDATA_INVALID)) > 0;
+                    bool bInvalidDataChecksum = (conf.FlashEEPROMDetection & (1 << (byte)FTDI.FT_60XCONFIGURATION_FLASH_ROM_BIT.CUSTOMDATACHKSUM_INVALID)) > 0;
+                    Debug.Log("\t\tCUSTOMDATA : {0}", bInvalidData ? "Invalid" : "Valid"); Debug.Log("\t\tCUSTOMDATACHKSUM: {0}", bInvalidDataChecksum ? "Invalid" : "Valid");
+                }
+            }
+            //ftStatus = d3xxDevice.Close();
+            //if (ftStatus != FTDI.FT_STATUS.FT_OK) { Console.WriteLine("Fatal Error"); };
+
+
+
+
+
+
+
+
+            // Disable Input Timeouts
+            //d3xxDevice.SetPipeTimeout(0x82, 0);
+            //PipeTimeout.Disable(d3xxDevice, 0x82);
+
+            // Disable tiomeouts on our output pipe
+            d3xxDevice.SetPipeTimeout(0x02, 500);
 
             // We drive the entire FPGA design off of the FIFO's 100MHz vlock, therefore we want clock to run all the time
             // Set a timeout of 0 to achieve this, without this, clock will only be on for 10 seconds
@@ -278,8 +405,8 @@ namespace FT600APIUsageDemoApp
             // Diagnostics Code
             System.Collections.Generic.List<FT_PIPE_INFORMATION> info = d3xxDevice.DataPipeInformation;
             //d3xxDevice.ResetChipConfiguration();
-            var conf = new FTDI.FT_60XCONFIGURATION();
-            FT_STATUS status = d3xxDevice.GetChipConfiguration(conf);
+            //var conf = new FTDI.FT_60XCONFIGURATION();
+            //FT_STATUS status = d3xxDevice.GetChipConfiguration(conf);
 
 
 
@@ -329,7 +456,7 @@ namespace FT600APIUsageDemoApp
             ///////////////////////////////////////////
             /////////// Entire Image Test /////////////
             ///////////////////////////////////////////
-            uint lines_per_frame = 1280;
+            uint lines_per_frame = 10;// 1280;
             uint bytes_per_line = words_per_line * 4;
             byte[][] Frame1 = new byte[lines_per_frame][];
             // Load up all of our lines with data
@@ -343,13 +470,34 @@ namespace FT600APIUsageDemoApp
                 }
                 Frame1[row] = next_line;
             }
+
+            //// Run in streaming mode for max performance with fixed block sizes
+            //ftStatus = d3xxDevice.SetStreamPipe(0x02, bytes_per_line);
+            //if (ftStatus != FTDI.FT_STATUS.FT_OK)
+            //{
+            //    Debug.Log("Couldnt set to streaming mode! ftStatus={0}", ftStatus);
+            //    d3xxDevice.AbortPipe(0x02);
+            //    bLoopbackFails = true;
+            //}
+
             // Pump all our lines, lots of data!!
             for (int row = 0; row < lines_per_frame; row++)
             {
                 ftStatus = d3xxDevice.WritePipe(0x02, Frame1[row], (UInt32)bytes_per_line, ref bytesWritten);
-                //Console.WriteLine(Frame1[row].ToString());
+                // Print Transfer Details
+                Console.WriteLine("Bytes: " + bytesWritten.ToString() + " Status: " + ftStatus.ToString() );
+                // Print Pipe State
+                foreach (var desc in d3xxDevice.DataPipeInformation)
+                {
+                    Console.WriteLine("\tPIPE INFORMATION");
+                    Console.WriteLine("\tPipeType : {0:d} ({1})", desc.PipeType, desc.PipeType.ToString());
+                    Console.WriteLine("\tPipeId : 0x{0:X2}", desc.PipeId);
+                    Console.WriteLine("\tMaximumPacketSize : 0x{0:X4}", desc.MaximumPacketSize);
+                    Console.WriteLine("\tInterval : 0x{0:X2}", desc.Interval);
+                }
+
                 //Frame1[row].ToList().ForEach(i => Console.WriteLine(i.ToString()));
-                Thread.Sleep(1);
+                Thread.Sleep(100);
             }
 
 

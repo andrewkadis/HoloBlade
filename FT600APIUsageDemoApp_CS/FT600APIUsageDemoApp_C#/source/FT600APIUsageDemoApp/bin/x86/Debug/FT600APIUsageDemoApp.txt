@@ -1,0 +1,98 @@
+
+
+*****************************************************************
+TEST SUITE:
+
+	MachineName: KADDS-BEAST
+	UserName:    Kadds
+	OSVersion:   Microsoft Windows NT 6.2.9200.0
+	64-bit:      True
+	Processors:  24
+	CLRVersion:  4.0.30319.42000
+	RunDate:     03/30/2020
+	RunTime:     06:58:54.403 PM
+	AppName:     FT600APIUsageDemoApp
+	AppVersion:  1.0.0.6
+*****************************************************************
+
+USB DEVICES CONNECTED:
+
+	USB Composite Device 
+	USB\VID_0403&PID_6010\FT4DSHWT 
+
+	USB Serial Converter B 
+	USB\VID_0403&PID_6010&MI_01\8&94EE62&0&0001 
+
+	USB Root Hub (USB 3.0) 
+	USB\ROOT_HUB30\7&38EFF5&0&0 
+
+	USB Composite Device 
+	USB\VID_0403&PID_601F\000000000001 
+
+	Generic SuperSpeed USB Hub 
+	USB\VID_0424&PID_5744\6&2838F1DC&0&7 
+
+	FTDI FT601 USB 3.0 Bridge Device 
+	USB\VID_0403&PID_601F&MI_00\8&1F7B2494&0&0000 
+
+	USB Mass Storage Device 
+	USB\VID_0424&PID_4063\000000264001 
+
+	USB Root Hub (USB 3.0) 
+	USB\ROOT_HUB30\5&7262A8E&0&0 
+
+	Generic USB Hub 
+	USB\VID_0424&PID_2640\7&3A32343C&0&1 
+
+	Generic USB Hub 
+	USB\VID_0424&PID_2744\6&2838F1DC&0&3 
+
+	USB Root Hub (USB 3.0) 
+	USB\ROOT_HUB30\7&11E6CAF8&0&0 
+
+	USB Serial Converter A 
+	USB\VID_0403&PID_6010&MI_00\8&94EE62&0&0000 
+
+	USB Composite Device 
+	USB\VID_046D&PID_C33A\0E7838713836 
+
+	Generic USB Hub 
+	USB\VID_0424&PID_2514\6&2838F1DC&0&1 
+
+	USB Composite Device 
+	USB\VID_046D&PID_C539\8&25F65393&0&3 
+
+	Saleae Logic Pro 16 USB Logic Analyzer 
+	USB\VID_21A9&PID_1006\SERNUM 
+
+	USB Root Hub (USB 3.0) 
+	USB\ROOT_HUB30\5&23F8E3F5&0&0 
+
+	USB Composite Device 
+	USB\VID_0458&PID_708C\200901010001 
+
+
+The test will take around 1 minute.
+Please ensure the device is connected throughout this period except for specific tests that require device unplugging.
+
+
+[TEST 00]: TestLoopback started at 06:58:54.504 PM...
+
+		MEMORY : Flash
+		VALUES : Custom
+		CUSTOMDATA : Valid
+		CUSTOMDATACHKSUM: Valid
+
+[TEST 00]: TestLoopback completed successfully in 5 seconds!
+
+*****************************************************************
+TEST SUMMARY:
+
+	LogCount: Success (1) Fails (0)
+	Start:    06:58:54.504 PM
+	End:      06:59:00.174 PM
+	Duration: 5 seconds
+
+	All tests executed!
+*****************************************************************
+
