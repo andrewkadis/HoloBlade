@@ -9,8 +9,8 @@ TEST SUITE:
 	64-bit:      True
 	Processors:  24
 	CLRVersion:  4.0.30319.42000
-	RunDate:     03/30/2020
-	RunTime:     06:58:54.403 PM
+	RunDate:     04/01/2020
+	RunTime:     06:00:23.444 PM
 	AppName:     FT600APIUsageDemoApp
 	AppVersion:  1.0.0.6
 *****************************************************************
@@ -22,6 +22,9 @@ USB DEVICES CONNECTED:
 
 	USB Serial Converter B 
 	USB\VID_0403&PID_6010&MI_01\8&94EE62&0&0001 
+
+	USB Composite Device 
+	USB\VID_0458&PID_708C\200901010001 
 
 	USB Root Hub (USB 3.0) 
 	USB\ROOT_HUB30\7&38EFF5&0&0 
@@ -68,30 +71,28 @@ USB DEVICES CONNECTED:
 	USB Root Hub (USB 3.0) 
 	USB\ROOT_HUB30\5&23F8E3F5&0&0 
 
-	USB Composite Device 
-	USB\VID_0458&PID_708C\200901010001 
-
 
 The test will take around 1 minute.
 Please ensure the device is connected throughout this period except for specific tests that require device unplugging.
 
 
-[TEST 00]: TestLoopback started at 06:58:54.504 PM...
+[TEST 00]: TestLoopback started at 06:00:23.516 PM...
 
 		MEMORY : Flash
 		VALUES : Custom
 		CUSTOMDATA : Valid
 		CUSTOMDATACHKSUM: Valid
+WritePipe failed! ftStatus=FT_OTHER_ERROR
 
-[TEST 00]: TestLoopback completed successfully in 5 seconds!
+[TEST 00]: TestLoopback failed in 3 seconds!
 
 *****************************************************************
 TEST SUMMARY:
 
-	LogCount: Success (1) Fails (0)
-	Start:    06:58:54.504 PM
-	End:      06:59:00.174 PM
-	Duration: 5 seconds
+	LogCount: Success (0) Fails (1)
+	Start:    06:00:23.516 PM
+	End:      06:00:27.303 PM
+	Duration: 3 seconds
 
 	All tests executed!
 *****************************************************************

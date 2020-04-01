@@ -254,6 +254,7 @@ namespace FT600APIUsageDemoApp
             byte[] line_one = new byte[words_per_line];
             byte[] line_two = new byte[words_per_line];
             UInt32 bytesWritten = 0;
+            var pOverlapped = new System.Threading.NativeOverlapped();
 
 
 
@@ -396,11 +397,12 @@ namespace FT600APIUsageDemoApp
             //PipeTimeout.Disable(d3xxDevice, 0x82);
 
             // Disable tiomeouts on our output pipe
-            d3xxDevice.SetPipeTimeout(0x02, 500);
+            d3xxDevice.SetPipeTimeout(0x02, 5000);
 
             // We drive the entire FPGA design off of the FIFO's 100MHz vlock, therefore we want clock to run all the time
             // Set a timeout of 0 to achieve this, without this, clock will only be on for 10 seconds
             d3xxDevice.SetSuspendTimeout(0);
+
 
             // Diagnostics Code
             System.Collections.Generic.List<FT_PIPE_INFORMATION> info = d3xxDevice.DataPipeInformation;
@@ -453,52 +455,92 @@ namespace FT600APIUsageDemoApp
 
 
 
+
+
             ///////////////////////////////////////////
             /////////// Entire Image Test /////////////
             ///////////////////////////////////////////
-            uint lines_per_frame = 10;// 1280;
+            uint lines_per_frame = 1280;
             uint bytes_per_line = words_per_line * 4;
-            byte[][] Frame1 = new byte[lines_per_frame][];
-            // Load up all of our lines with data
-            for (int row = 0; row < lines_per_frame; row++)
+            uint total_bytes_per_frame = lines_per_frame * bytes_per_line;
+            byte[] Frame1 = new byte[total_bytes_per_frame];
+            // Load up all of our 32-bit words with alternating data
+            // Iterate through 8 bytes at a time
+            for (int curr_byte = 0; curr_byte < (total_bytes_per_frame-7); curr_byte+=8)
             {
-                // Each byte is the same
-                byte[] next_line = new byte[bytes_per_line];
-                for (int data_byte = 0; data_byte < bytes_per_line; data_byte++)
-                {
-                    next_line[data_byte] = 0xFF;
-                }
-                Frame1[row] = next_line;
+                // Pattern on even 32-bit words
+                Frame1[curr_byte + 0] = 0x55;
+                Frame1[curr_byte + 1] = 0x55;
+                Frame1[curr_byte + 2] = 0x55;
+                Frame1[curr_byte + 3] = 0x55;
+                // Pattern on odd 32-bit words
+                Frame1[curr_byte + 4] = 0xAA;
+                Frame1[curr_byte + 5] = 0xAA;
+                Frame1[curr_byte + 6] = 0xAA;
+                Frame1[curr_byte + 7] = 0xAA;
             }
 
-            //// Run in streaming mode for max performance with fixed block sizes
-            //ftStatus = d3xxDevice.SetStreamPipe(0x02, bytes_per_line);
-            //if (ftStatus != FTDI.FT_STATUS.FT_OK)
+
+            // Run in streaming mode for max performance with fixed block sizes
+            ftStatus = d3xxDevice.SetStreamPipe(0x02, total_bytes_per_frame);
+            if (ftStatus != FTDI.FT_STATUS.FT_OK)
+            {
+                Debug.Log("Couldnt set to streaming mode! ftStatus={0}", ftStatus);
+                d3xxDevice.AbortPipe(0x02);
+                bLoopbackFails = true;
+            }
+
+
+            // Output Frame
+            //ftStatus = d3xxDevice.WritePipe(0x02, Frame1, (UInt32)total_bytes_per_frame, ref bytesWritten);
+            //Thread.Sleep(10000);
+            // Write
+            ftStatus = d3xxDevice.WritePipeAsync(0x02, Frame1, (UInt32)total_bytes_per_frame, ref bytesWritten, ref pOverlapped);
+            // Async wait
+            ftStatus = d3xxDevice.WaitAsync(ref pOverlapped, ref bytesWritten, true);
+            if ((ftStatus != FTDI.FT_STATUS.FT_OK) || (bytesWritten != total_bytes_per_frame))
+            {
+                Console.WriteLine("Error with async transfer");
+            };
+            // Print Transfer Details
+            Console.WriteLine("Bytes: " + bytesWritten.ToString() + " Status: " + ftStatus.ToString());
+            // Print Pipe State
+            foreach (var desc in d3xxDevice.DataPipeInformation)
+            {
+                Console.WriteLine("\tPIPE INFORMATION");
+                Console.WriteLine("\tPipeType : {0:d} ({1})", desc.PipeType, desc.PipeType.ToString());
+                Console.WriteLine("\tPipeId : 0x{0:X2}", desc.PipeId);
+                Console.WriteLine("\tMaximumPacketSize : 0x{0:X4}", desc.MaximumPacketSize);
+                Console.WriteLine("\tInterval : 0x{0:X2}", desc.Interval);
+            }
+            //Frame1[row].ToList().ForEach(i => Console.WriteLine(i.ToString()));
+            //Thread.Sleep(100);
+
+
+
+            //// Pump all our lines, lots of data!!
+            //for (int row = 0; row < lines_per_frame; row++)
             //{
-            //    Debug.Log("Couldnt set to streaming mode! ftStatus={0}", ftStatus);
-            //    d3xxDevice.AbortPipe(0x02);
-            //    bLoopbackFails = true;
+            //    //ftStatus = d3xxDevice.WritePipe(0x02, Frame1[row], (UInt32)bytes_per_line, ref bytesWritten);
+            //    // Write
+            //    ftStatus = d3xxDevice.WritePipeAsync(0x02, Frame1[row], (UInt32)bytes_per_line, ref bytesWritten, ref pOverlapped);
+            //    // Async wait
+            //    ftStatus = d3xxDevice.WaitAsync(ref pOverlapped, ref bytesWritten, true);
+            //    if (ftStatus != FTDI.FT_STATUS.FT_OK || bytesWritten != bytes_per_line){ Console.WriteLine("Error with async transfer"); };
+            //    // Print Transfer Details
+            //    Console.WriteLine("Bytes: " + bytesWritten.ToString() + " Status: " + ftStatus.ToString() );
+            //    // Print Pipe State
+            //    foreach (var desc in d3xxDevice.DataPipeInformation)
+            //    {
+            //        Console.WriteLine("\tPIPE INFORMATION");
+            //        Console.WriteLine("\tPipeType : {0:d} ({1})", desc.PipeType, desc.PipeType.ToString());
+            //        Console.WriteLine("\tPipeId : 0x{0:X2}", desc.PipeId);
+            //        Console.WriteLine("\tMaximumPacketSize : 0x{0:X4}", desc.MaximumPacketSize);
+            //        Console.WriteLine("\tInterval : 0x{0:X2}", desc.Interval);
+            //    }
+            //    //Frame1[row].ToList().ForEach(i => Console.WriteLine(i.ToString()));
+            //    //Thread.Sleep(100);
             //}
-
-            // Pump all our lines, lots of data!!
-            for (int row = 0; row < lines_per_frame; row++)
-            {
-                ftStatus = d3xxDevice.WritePipe(0x02, Frame1[row], (UInt32)bytes_per_line, ref bytesWritten);
-                // Print Transfer Details
-                Console.WriteLine("Bytes: " + bytesWritten.ToString() + " Status: " + ftStatus.ToString() );
-                // Print Pipe State
-                foreach (var desc in d3xxDevice.DataPipeInformation)
-                {
-                    Console.WriteLine("\tPIPE INFORMATION");
-                    Console.WriteLine("\tPipeType : {0:d} ({1})", desc.PipeType, desc.PipeType.ToString());
-                    Console.WriteLine("\tPipeId : 0x{0:X2}", desc.PipeId);
-                    Console.WriteLine("\tMaximumPacketSize : 0x{0:X4}", desc.MaximumPacketSize);
-                    Console.WriteLine("\tInterval : 0x{0:X2}", desc.Interval);
-                }
-
-                //Frame1[row].ToList().ForEach(i => Console.WriteLine(i.ToString()));
-                Thread.Sleep(100);
-            }
 
 
 
