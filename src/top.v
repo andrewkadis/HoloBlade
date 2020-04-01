@@ -432,19 +432,21 @@ bluejay_data bluejay_data_inst(
 // assign DEBUG_8 = SOUT;
 assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
-assign DEBUG_1 = fifo_empty_i_w;
-assign DEBUG_2 = RD_N;//next_frame_rdy_w;
-assign DEBUG_3 = next_line_rdy_w;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_1 = RX_F;
+assign DEBUG_2 = OE_N;//next_frame_rdy_w;
+assign DEBUG_3 = RD_N;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = usb3_fifo_is_empty; 
 assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
 assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_4 = get_next_word_o; 
 // Connect all of our internal names up with names from schematic using wires
 wire RX_F;
 wire OE_N;
 wire RD_N;
+assign OE_N = RX_F;
+assign RD_N = 0;
 wire RESET_N;
 assign RX_F    = FR_RXF;
-assign FT_OE   = RD_N;//OE_N;//RX_F;//OE_N;//    = FT_OE;
+assign FT_OE   = OE_N;//RX_F;//OE_N;//    = FT_OE;
 assign FT_RD   = RD_N;//FR_RXF;//RD_N;
 assign RESET_N = 1'bz;  //TODO: Would be great to connect this line in a future spin on the board
 // We get when the next line and frame are ready from USB GPIO 0 and 1
@@ -510,8 +512,32 @@ assign usb_data_o[0]  = FIFO_D0;
 //   .get_next_word_i(get_next_word_o)
 	  
 //  );
+// Define USB to BluejayData Interface
+usb_to_bluejay_if usb_to_bluejay_if_inst(
+
+  // Control
+  .reset_i(),
+  // USB-Fifo Side
+  .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
+  .data_i(),
+  .fifo_empty_i(),
+  .fifo_output_enable_o(),
+  .get_next_word_o(),//),
+  .reset_o(RESET_N),
+  // Bluejay Data Interface
+  .clk_o(),  //TODO: Fix our sysclk as this will be wrong
+  .data_o(),
+  .next_line_rdy_o(),
+  .next_frame_rdy_o(),
+  .fifo_empty_o(),
+  .get_next_word_i()
+	  
+ );
+
 
 wire usb3_fifo_is_full_w;
+wire usb3_fifo_is_empty;
+wire usb3_fifo_is_almost_empty;
 wire write_to_usb3_fifo_w;
 
 
@@ -525,7 +551,7 @@ fifo_dc_32_gen fifo_dc_32_gen_inst(
   .rd_clk_i(sys_clk),             // Crossing a clock domain, so Main FPGA CLock drives read side
 
   // Write Side
-  .wr_en_i(write_to_usb3_fifo_w),  // Enable 
+  .wr_en_i(RD_N),                  // Enable 
   .wr_data_i(usb_data_o),          // 32-bit data input
   .full_o(usb3_fifo_is_full),      // Flag for when FIFO is full
 
