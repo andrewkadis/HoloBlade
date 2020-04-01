@@ -179,6 +179,14 @@ wire debug_led2;
 wire debug_led3;
 wire debug_led4;
 assign DEBUG_0 = debug_led4;
+
+
+// Temp for LA
+wire DEBUG_4;
+wire DEBUG_7;
+assign DEBUG_4 = DEBUG_8;
+assign DEBUG_7 = DEBUG_9;
+
 // assign DEBUG_1 = debug_led3;
 // assign DEBUG_2 = debug_led2;
 // Drive unused pins to High-Impedance Output
@@ -422,14 +430,14 @@ bluejay_data bluejay_data_inst(
 // assign DEBUG_3 = SEN;
 // assign DEBUG_5 = SCK;
 // assign DEBUG_8 = SOUT;
-assign DEBUG_9 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
+assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
 assign DEBUG_1 = fifo_empty_i_w;
-// assign DEBUG_2 = RD_N;//next_frame_rdy_w;
+assign DEBUG_2 = RD_N;//next_frame_rdy_w;
 assign DEBUG_3 = next_line_rdy_w;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_5 = bluejay_data_out[22];
+assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
 assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_8 = get_next_word_o; 
+assign DEBUG_4 = get_next_word_o; 
 // Connect all of our internal names up with names from schematic using wires
 wire RX_F;
 wire OE_N;
@@ -481,32 +489,53 @@ assign usb_data_o[2]  = FIFO_D2;
 assign usb_data_o[1]  = FIFO_D1;
 assign usb_data_o[0]  = FIFO_D0;
 
-// Define USB to BluejayData Interface
-usb_to_bluejay_if usb_to_bluejay_if_inst(
+// // Define USB to BluejayData Interface
+// usb_to_bluejay_if usb_to_bluejay_if_inst(
 
-  // Control
-  .reset_i(),
-  // USB-Fifo Side
-  .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
-  .data_i(),
-  .fifo_empty_i(RX_F),
-  .fifo_output_enable_o(OE_N),
-  .get_next_word_o(RD_N),//),
-  .reset_o(RESET_N),
-  // Bluejay Data Interface
-  .clk_o(),  //TODO: Fix our sysclk as this will be wrong
-  .data_o(),
-  .next_line_rdy_o(next_line_rdy_w),
-  .next_frame_rdy_o(next_frame_rdy_w),
-  .fifo_empty_o(fifo_empty_i_w),
-  .get_next_word_i(get_next_word_o)
+//   // Control
+//   .reset_i(),
+//   // USB-Fifo Side
+//   .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
+//   .data_i(),
+//   .fifo_empty_i(RX_F),
+//   .fifo_output_enable_o(OE_N),
+//   .get_next_word_o(RD_N),//),
+//   .reset_o(RESET_N),
+//   // Bluejay Data Interface
+//   .clk_o(),  //TODO: Fix our sysclk as this will be wrong
+//   .data_o(),
+//   .next_line_rdy_o(next_line_rdy_w),
+//   .next_frame_rdy_o(next_frame_rdy_w),
+//   .fifo_empty_o(fifo_empty_i_w),
+//   .get_next_word_i(get_next_word_o)
 	  
- );
+//  );
+
+wire usb3_fifo_is_full_w;
+wire write_to_usb3_fifo_w;
 
 
+// Connect up our monster data 32-bit FIFO
+fifo_dc_32_gen fifo_dc_32_gen_inst(
 
+  // Control Signals
+  .rst_i(reset_all_w),            // Reset Line
+  .rp_rst_i(reset_all_w),         // Line to Reset the read pointer, don't care about packetized communications so simply reset as normal
+  .wr_clk_i(sys_clk),             // Crossing a clock domain, so 100 MHz CLock from the USB3 Chip drives write side
+  .rd_clk_i(sys_clk),             // Crossing a clock domain, so Main FPGA CLock drives read side
 
+  // Write Side
+  .wr_en_i(write_to_usb3_fifo_w),  // Enable 
+  .wr_data_i(usb_data_o),          // 32-bit data input
+  .full_o(usb3_fifo_is_full),      // Flag for when FIFO is full
 
+  // Read Side
+  .rd_en_i(),                      // Enable 
+  .rd_data_o(),                    // 32-bit data output
+  .empty_o(),                      // Flag for when FIFO is empty
+  .almost_empty_o()                // Flag for when FIFO is almost empty, this is set to assert at 40, so use to make sure that there is at least one 40-word line of the image available before reading
+
+);
 
 
 
