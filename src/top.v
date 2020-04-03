@@ -466,41 +466,31 @@ assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////// USB3 Chip Interfacing ///////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-// Connect all of our internal names up with names from schematic using wires
-// TODO: Make everything active-high for simplicity...
-// RXF_N tells us if data is available on the USB3 Chip and is an input
-wire RXF_N;
-assign RXF_N = FR_RXF;
-// OE_N is an active low output signal to tell the USB3 Chip that the FPGA is the bus master while asserted
-wire OE_N;
-assign FT_OE = OE_N;
-// RD_N is an active low output signal to tell that USB3 Chip that data is being read (ie: it is the RD signal for the USB3 FIFO)
-wire RD_N;
-assign FT_RD = RD_N;
-// Sequential logic code to handle interfacing of FTDI USB3 Chip
-// Supporting registers are active-low
-reg OE_N_r = 1;
-reg RD_N_r = 1;
-assign OE_N = OE_N_r;
-assign RD_N = RD_N_r;
-always @ (posedge sys_clk) begin
 
-  // If RXF_N is deasserted, both OE_N and RD_N shall be deasserted
-  // Note that setting these registers here gives a 1-clock cycle, this is exactly what we want as is consistent with timing
-  if(RXF_N==1) begin
-    OE_N_r <= 1;
-    RD_N_r <= 1;
-  end else if( (RXF_N==0) && (OE_N==1) ) begin
-    // First clock cycle after RX_N has been asserted, assert OE_N to give the FPGA control of the data bus
-    OE_N_r <= 0;
-    RD_N_r <= 1;
-  end else if( (RXF_N==0) && (OE_N==0) ) begin
-    // Second clock cycle after RX_N has been asserted, assert RD_N to kick off a data transfer
-    OE_N_r <= 0;
-    RD_N_r <= 0;
-  end
+// Connect up USB3 Chip using our custom interface
+// It incorpoates a FIFO, handles buffering, crossing clocks domains and ACTIVE LOW/HIGH interfacing issues - makes everything ACTIVE_HIGH
+usb3_if usb3_if_inst(
 
-end
+	// Control Signals
+	.reset(),
+	.enable(),
+	// FTDI USB3 Chip
+   .ftdi_clk(sys_clk),  // CLK line from the FT601 Chip, set to a constant 100MHz
+   .FR_RXF(FR_RXF),     // RXF_N tells us if data is available on the USB3 Chip and is an input
+   .FT_OE(FT_OE),       // OE_N is an active low output signal to tell the USB3 Chip that the FPGA is the bus master while asserted
+   .FT_RD(FT_RD),       // RD_N is an active low output signal to tell that USB3 Chip that data is being read (ie: it is the RD signal for the USB3 FIFO)
+   .usb3_data_in(),
+   // FPGA side
+   .fpga_clk(),
+   .fifo_empty(),
+   .full_dataline_available(),
+   .get_next_word(),
+   .fifo_data_out()
+
+);
+
+
+
 // wire OE_N;
 // wire RD_N;
 
@@ -608,9 +598,9 @@ usb_to_bluejay_if usb_to_bluejay_if_inst(
 
 wire usb3_fifo_is_full;
 wire usb3_fifo_is_empty;
-// wire usb3_fifo_is_almost_empty;
+// We pull data from the 
 wire write_to_usb3_fifo;
-assign write_to_usb3_fifo = ~RXF_N;
+assign write_to_usb3_fifo = ~FR_RXF;
 
 // wire usb3_fifo_read_enable;
 // assign usb3_fifo_read_enable = usb3_fifo_is_full;
