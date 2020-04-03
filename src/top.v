@@ -221,7 +221,7 @@ assign debug_led4 = led_counter[24];
 wire sys_clk;
 clock clock_inst(
 
-   .i_xtal(FIFO_CLK),
+   .i_xtal(sys_clk),
    .o_sys_clk(sys_clk)
 	
  );
@@ -435,7 +435,7 @@ assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this outp
 assign DEBUG_1 = FR_RXF;
 assign DEBUG_2 = FT_OE;//FT_OE;//next_frame_rdy_w;
 assign DEBUG_3 = FT_RD;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = usb3_fifo_read_enable;
+assign DEBUG_4 = 1;//usb3_fifo_read_enable;
 assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
 assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
@@ -475,7 +475,7 @@ usb3_if usb3_if_inst(
 	.reset(),
 	.enable(),
 	// FTDI USB3 Chip
-   .ftdi_clk(sys_clk),  // CLK line from the FT601 Chip, set to a constant 100MHz
+   .ftdi_clk(),//sys_clk),  // CLK line from the FT601 Chip, set to a constant 100MHz
    .FR_RXF(FR_RXF),     // RXF_N tells us if data is available on the USB3 Chip and is an input
    .FT_OE(FT_OE),       // OE_N is an active low output signal to tell the USB3 Chip that the FPGA is the bus master while asserted
    .FT_RD(FT_RD),       // RD_N is an active low output signal to tell that USB3 Chip that data is being read (ie: it is the RD signal for the USB3 FIFO)
@@ -574,89 +574,89 @@ assign usb_data_o[0]  = FIFO_D0;
 	  
 //  );
 // Define USB to BluejayData Interface
-usb_to_bluejay_if usb_to_bluejay_if_inst(
+// usb_to_bluejay_if usb_to_bluejay_if_inst(
 
-  // Control
-  .reset_i(),
-  // USB-Fifo Side
-  .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
-  .data_i(),
-  .fifo_empty_i(),
-  .fifo_output_enable_o(),
-  .get_next_word_o(),//),
-  .reset_o(RESET_N),
-  // Bluejay Data Interface
-  .clk_o(),  //TODO: Fix our sysclk as this will be wrong
-  .data_o(),
-  .next_line_rdy_o(),
-  .next_frame_rdy_o(),
-  .fifo_empty_o(),
-  .get_next_word_i()
+//   // Control
+//   .reset_i(),
+//   // USB-Fifo Side
+//   .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
+//   .data_i(),
+//   .fifo_empty_i(),
+//   .fifo_output_enable_o(),
+//   .get_next_word_o(),//),
+//   .reset_o(RESET_N),
+//   // Bluejay Data Interface
+//   .clk_o(),  //TODO: Fix our sysclk as this will be wrong
+//   .data_o(),
+//   .next_line_rdy_o(),
+//   .next_frame_rdy_o(),
+//   .fifo_empty_o(),
+//   .get_next_word_i()
 	  
- );
+//  );
 
 
-wire usb3_fifo_is_full;
-wire usb3_fifo_is_empty;
-// We pull data from the 
-wire write_to_usb3_fifo;
-assign write_to_usb3_fifo = ~FR_RXF;
+// wire usb3_fifo_is_full;
+// wire usb3_fifo_is_empty;
+// // We pull data from the 
+// wire write_to_usb3_fifo;
+// assign write_to_usb3_fifo = ~FR_RXF;
 
-// wire usb3_fifo_read_enable;
-// assign usb3_fifo_read_enable = usb3_fifo_is_full;
-wire[6:0] bytes_in_fifo_count;
-reg       usb3_fifo_read_enable = 0;
-always @(posedge sys_clk) begin
-  if (bytes_in_fifo_count==6'd0)
-    usb3_fifo_read_enable <= 0;
-  else if(bytes_in_fifo_count==6'd40)
-    usb3_fifo_read_enable <= 1;
-  else
-    usb3_fifo_read_enable <= usb3_fifo_read_enable;
-end
-
-            // if (r_Rx_Data == 1'b0)          // Start bit detected
-            //   r_SM_Main <= s_RX_START_BIT;
-            // else
-            //   r_SM_Main <= s_IDLE;
-
-// reg reset_fifo_master;
-// reg reset_fifo_ptr;
+// // wire usb3_fifo_read_enable;
+// // assign usb3_fifo_read_enable = usb3_fifo_is_full;
+// wire[6:0] bytes_in_fifo_count;
+// reg       usb3_fifo_read_enable = 0;
 // always @(posedge sys_clk) begin
-//   reset_fifo_master <= reset_all_w;
-//   reset_fifo_ptr    <= reset_all_w;
+//   if (bytes_in_fifo_count==6'd0)
+//     usb3_fifo_read_enable <= 0;
+//   else if(bytes_in_fifo_count==6'd40)
+//     usb3_fifo_read_enable <= 1;
+//   else
+//     usb3_fifo_read_enable <= usb3_fifo_read_enable;
 // end
 
-// reg fifo_wr_clk;
-// reg fifo_rd_clk;
-// always @(posedge sys_clk) begin
-//   fifo_wr_clk <= sys_clk;
-//   fifo_rd_clk <= sys_clk;
-// end
-// assign reset_fifo = reset_all_w;
+//             // if (r_Rx_Data == 1'b0)          // Start bit detected
+//             //   r_SM_Main <= s_RX_START_BIT;
+//             // else
+//             //   r_SM_Main <= s_IDLE;
 
-// Connect up our monster data 32-bit FIFO
-fifo_dc_32_lut_gen fifo_dc_32_lut_gen_inst(
+// // reg reset_fifo_master;
+// // reg reset_fifo_ptr;
+// // always @(posedge sys_clk) begin
+// //   reset_fifo_master <= reset_all_w;
+// //   reset_fifo_ptr    <= reset_all_w;
+// // end
 
-  // Control Signals
-  .rst_i(reset_all_w),             // Reset Line
-  .rp_rst_i(),          // Line to Reset the read pointer, don't care about packetized communications so simply reset as normal
-  .wr_clk_i(sys_clk),         // Crossing a clock domain, so 100 MHz CLock from the USB3 Chip drives write side
-  .rd_clk_i(sys_clk),         // Crossing a clock domain, so Main FPGA CLock drives read side
+// // reg fifo_wr_clk;
+// // reg fifo_rd_clk;
+// // always @(posedge sys_clk) begin
+// //   fifo_wr_clk <= sys_clk;
+// //   fifo_rd_clk <= sys_clk;
+// // end
+// // assign reset_fifo = reset_all_w;
 
-  // Write Side
-  .wr_en_i(write_to_usb3_fifo),    // Enable 
-  .wr_data_i(usb_data_o),          // 32-bit data input
-  .full_o(usb3_fifo_is_full),      // Flag for when FIFO is full
+// // Connect up our monster data 32-bit FIFO
+// fifo_dc_32_lut_gen fifo_dc_32_lut_gen_inst(
 
-  // Read Side
-  .rd_en_i(usb3_fifo_read_enable),                      // Enable 
-  .rd_data_o(),                        // 32-bit data output
-  .empty_o(usb3_fifo_is_empty),         // Flag for when FIFO is empty
-  .rd_data_cnt_o(bytes_in_fifo_count)  // How many bytes are currently in the FIFO, use this to ensure we are able to pull an entire FIFO at a time
-  // .almost_empty_o()                // Flag for when FIFO is almost empty, this is set to assert at 40, so use to make sure that there is at least one 40-word line of the image available before reading
+//   // Control Signals
+//   .rst_i(reset_all_w),             // Reset Line
+//   .rp_rst_i(),          // Line to Reset the read pointer, don't care about packetized communications so simply reset as normal
+//   .wr_clk_i(sys_clk),         // Crossing a clock domain, so 100 MHz CLock from the USB3 Chip drives write side
+//   .rd_clk_i(sys_clk),         // Crossing a clock domain, so Main FPGA CLock drives read side
 
-);
+//   // Write Side
+//   .wr_en_i(write_to_usb3_fifo),    // Enable 
+//   .wr_data_i(usb_data_o),          // 32-bit data input
+//   .full_o(usb3_fifo_is_full),      // Flag for when FIFO is full
+
+//   // Read Side
+//   .rd_en_i(usb3_fifo_read_enable),                      // Enable 
+//   .rd_data_o(),                        // 32-bit data output
+//   .empty_o(usb3_fifo_is_empty),         // Flag for when FIFO is empty
+//   .rd_data_cnt_o(bytes_in_fifo_count)  // How many bytes are currently in the FIFO, use this to ensure we are able to pull an entire FIFO at a time
+//   // .almost_empty_o()                // Flag for when FIFO is almost empty, this is set to assert at 40, so use to make sure that there is at least one 40-word line of the image available before reading
+
+// );
 
 
 

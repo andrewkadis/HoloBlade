@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 Lattice Synthesis Timing Report, Version  
-Wed Apr 01 22:24:48 2020
+Fri Apr 03 17:14:26 2020
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
@@ -19,94 +19,118 @@ Report level:    verbose report, limited to 3 items per constraint
 
 ================================================================================
 Constraint: create_clock -period 1000.000000 -name clk1 [get_nets \spi0/spi_clk]
-            866 items scored, 0 timing errors detected.
+            1070 items scored, 0 timing errors detected.
 --------------------------------------------------------------------------------
 
 
-Passed:  The following path meets requirements by 494.209ns
+Passed:  The following path meets requirements by 988.164ns
 
  Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
 
    Source:         SB_DFFR    C              \spi0/state_reg_i1  (from \spi0/spi_clk +)
-   Destination:    SB_DFFN    D              \spi0/tx_shift_reg_i15  (to \spi0/spi_clk -)
+   Destination:    SB_DFFS    D              \spi0/t_FSM_i0  (to \spi0/spi_clk +)
 
-   Delay:                   5.658ns  (20.9% logic, 79.1% route), 3 logic levels.
+   Delay:                  11.703ns  (24.1% logic, 75.9% route), 7 logic levels.
 
  Constraint Details:
 
-      5.658ns data_path \spi0/state_reg_i1 to \spi0/tx_shift_reg_i15 meets
-    500.000ns delay constraint less
-      0.133ns L_S requirement (totaling 499.867ns) by 494.209ns
+     11.703ns data_path \spi0/state_reg_i1 to \spi0/t_FSM_i0 meets
+    1000.000ns delay constraint less
+      0.133ns L_S requirement (totaling 999.867ns) by 988.164ns
 
- Path Details: \spi0/state_reg_i1 to \spi0/tx_shift_reg_i15
+ Path Details: \spi0/state_reg_i1 to \spi0/t_FSM_i0
 
    Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
 L_CO        ---     0.367              C to Q              \spi0/state_reg_i1 (from \spi0/spi_clk)
 Route        30   e 1.800                                  state_reg[1]
-LUT4        ---     0.408             I0 to O              i19_3_lut
-Route        24   e 1.655                                  n4888
-LUT4        ---     0.408             I2 to O              i1813_4_lut
-Route         1   e 1.020                                  n2657
+LUT4        ---     0.408             I2 to O              i438_4_lut
+Route         2   e 1.158                                  n938
+LUT4        ---     0.408             I1 to O              \spi0/i439_2_lut
+Route         2   e 1.158                                  \spi0/n916
+LUT4        ---     0.408             I2 to O              \spi0/mux_425_i1_4_lut
+Route         1   e 1.020                                  \spi0/n920
+LUT4        ---     0.408             I3 to O              \spi0/mux_432_i1_3_lut_4_lut
+Route         2   e 1.158                                  \spi0/state_next[0]
+LUT4        ---     0.408             I3 to O              \spi0/i1_4_lut
+Route        16   e 1.574                                  \spi0/n4
+LUT4        ---     0.408             I1 to O              \spi0/i2619_2_lut_4_lut
+Route         1   e 1.020                                  \spi0/n500
                   --------
-                    5.658  (20.9% logic, 79.1% route), 3 logic levels.
+                   11.703  (24.1% logic, 75.9% route), 7 logic levels.
 
 
-Passed:  The following path meets requirements by 494.209ns
+Passed:  The following path meets requirements by 988.164ns
 
  Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
 
    Source:         SB_DFFR    C              \spi0/state_reg_i1  (from \spi0/spi_clk +)
-   Destination:    SB_DFFN    D              \spi0/tx_shift_reg_i14  (to \spi0/spi_clk -)
+   Destination:    SB_DFFR    D              \spi0/t_FSM_i1  (to \spi0/spi_clk +)
 
-   Delay:                   5.658ns  (20.9% logic, 79.1% route), 3 logic levels.
+   Delay:                  11.703ns  (24.1% logic, 75.9% route), 7 logic levels.
 
  Constraint Details:
 
-      5.658ns data_path \spi0/state_reg_i1 to \spi0/tx_shift_reg_i14 meets
-    500.000ns delay constraint less
-      0.133ns L_S requirement (totaling 499.867ns) by 494.209ns
+     11.703ns data_path \spi0/state_reg_i1 to \spi0/t_FSM_i1 meets
+    1000.000ns delay constraint less
+      0.133ns L_S requirement (totaling 999.867ns) by 988.164ns
 
- Path Details: \spi0/state_reg_i1 to \spi0/tx_shift_reg_i14
+ Path Details: \spi0/state_reg_i1 to \spi0/t_FSM_i1
 
    Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
 L_CO        ---     0.367              C to Q              \spi0/state_reg_i1 (from \spi0/spi_clk)
 Route        30   e 1.800                                  state_reg[1]
-LUT4        ---     0.408             I0 to O              i19_3_lut
-Route        24   e 1.655                                  n4888
-LUT4        ---     0.408             I2 to O              i1812_4_lut
-Route         1   e 1.020                                  n2656
+LUT4        ---     0.408             I2 to O              i438_4_lut
+Route         2   e 1.158                                  n938
+LUT4        ---     0.408             I1 to O              \spi0/i439_2_lut
+Route         2   e 1.158                                  \spi0/n916
+LUT4        ---     0.408             I2 to O              \spi0/mux_425_i1_4_lut
+Route         1   e 1.020                                  \spi0/n920
+LUT4        ---     0.408             I3 to O              \spi0/mux_432_i1_3_lut_4_lut
+Route         2   e 1.158                                  \spi0/state_next[0]
+LUT4        ---     0.408             I3 to O              \spi0/i1_4_lut
+Route        16   e 1.574                                  \spi0/n4
+LUT4        ---     0.408             I1 to O              \spi0/i2663_2_lut_4_lut
+Route         1   e 1.020                                  \spi0/n499
                   --------
-                    5.658  (20.9% logic, 79.1% route), 3 logic levels.
+                   11.703  (24.1% logic, 75.9% route), 7 logic levels.
 
 
-Passed:  The following path meets requirements by 494.209ns
+Passed:  The following path meets requirements by 988.164ns
 
  Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
 
    Source:         SB_DFFR    C              \spi0/state_reg_i1  (from \spi0/spi_clk +)
-   Destination:    SB_DFFN    D              \spi0/tx_shift_reg_i13  (to \spi0/spi_clk -)
+   Destination:    SB_DFFR    D              \spi0/t_FSM_i2  (to \spi0/spi_clk +)
 
-   Delay:                   5.658ns  (20.9% logic, 79.1% route), 3 logic levels.
+   Delay:                  11.703ns  (24.1% logic, 75.9% route), 7 logic levels.
 
  Constraint Details:
 
-      5.658ns data_path \spi0/state_reg_i1 to \spi0/tx_shift_reg_i13 meets
-    500.000ns delay constraint less
-      0.133ns L_S requirement (totaling 499.867ns) by 494.209ns
+     11.703ns data_path \spi0/state_reg_i1 to \spi0/t_FSM_i2 meets
+    1000.000ns delay constraint less
+      0.133ns L_S requirement (totaling 999.867ns) by 988.164ns
 
- Path Details: \spi0/state_reg_i1 to \spi0/tx_shift_reg_i13
+ Path Details: \spi0/state_reg_i1 to \spi0/t_FSM_i2
 
    Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
 L_CO        ---     0.367              C to Q              \spi0/state_reg_i1 (from \spi0/spi_clk)
 Route        30   e 1.800                                  state_reg[1]
-LUT4        ---     0.408             I0 to O              i19_3_lut
-Route        24   e 1.655                                  n4888
-LUT4        ---     0.408             I2 to O              i1811_4_lut
-Route         1   e 1.020                                  n2655
+LUT4        ---     0.408             I2 to O              i438_4_lut
+Route         2   e 1.158                                  n938
+LUT4        ---     0.408             I1 to O              \spi0/i439_2_lut
+Route         2   e 1.158                                  \spi0/n916
+LUT4        ---     0.408             I2 to O              \spi0/mux_425_i1_4_lut
+Route         1   e 1.020                                  \spi0/n920
+LUT4        ---     0.408             I3 to O              \spi0/mux_432_i1_3_lut_4_lut
+Route         2   e 1.158                                  \spi0/state_next[0]
+LUT4        ---     0.408             I3 to O              \spi0/i1_4_lut
+Route        16   e 1.574                                  \spi0/n4
+LUT4        ---     0.408             I1 to O              \spi0/i2664_2_lut_4_lut
+Route         1   e 1.020                                  \spi0/n498
                   --------
-                    5.658  (20.9% logic, 79.1% route), 3 logic levels.
+                   11.703  (24.1% logic, 75.9% route), 7 logic levels.
 
-Report: 5.791 ns is the maximum delay for this constraint.
+Report: 11.836 ns is the maximum delay for this constraint.
 
 
 
@@ -120,71 +144,71 @@ Passed:  The following path meets requirements by 959.368ns
 
  Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
 
-   Source:         SB_DFF     C              led_counter_620_783__i0  (from DEBUG_5_c +)
-   Destination:    SB_DFF     D              led_counter_620_783__i24  (to DEBUG_5_c +)
+   Source:         SB_DFF     C              led_counter_610_768__i0  (from DEBUG_5_c +)
+   Destination:    SB_DFF     D              led_counter_610_768__i24  (to DEBUG_5_c +)
 
    Delay:                  40.499ns  (26.1% logic, 73.9% route), 26 logic levels.
 
  Constraint Details:
 
-     40.499ns data_path led_counter_620_783__i0 to led_counter_620_783__i24 meets
+     40.499ns data_path led_counter_610_768__i0 to led_counter_610_768__i24 meets
     1000.000ns delay constraint less
       0.133ns L_S requirement (totaling 999.867ns) by 959.368ns
 
- Path Details: led_counter_620_783__i0 to led_counter_620_783__i24
+ Path Details: led_counter_610_768__i0 to led_counter_610_768__i24
 
    Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
-L_CO        ---     0.367              C to Q              led_counter_620_783__i0 (from DEBUG_5_c)
-Route         2   e 1.258                                  n25_adj_615
-LUT4        ---     0.408             I1 to CO             led_counter_620_783_add_4_2
-Route         2   e 1.158                                  n4291
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_3
-Route         2   e 1.158                                  n4292
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_4
-Route         2   e 1.158                                  n4293
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_5
-Route         2   e 1.158                                  n4294
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_6
-Route         2   e 1.158                                  n4295
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_7
-Route         2   e 1.158                                  n4296
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_8
-Route         2   e 1.158                                  n4297
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_9
-Route         2   e 1.158                                  n4298
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_10
-Route         2   e 1.158                                  n4299
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_11
-Route         2   e 1.158                                  n4300
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_12
-Route         2   e 1.158                                  n4301
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_13
-Route         2   e 1.158                                  n4302
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_14
-Route         2   e 1.158                                  n4303
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_15
-Route         2   e 1.158                                  n4304
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_16
-Route         2   e 1.158                                  n4305
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_17
-Route         2   e 1.158                                  n4306
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_18
-Route         2   e 1.158                                  n4307
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_19
-Route         2   e 1.158                                  n4308
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_20
-Route         2   e 1.158                                  n4309
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_21
-Route         2   e 1.158                                  n4310
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_22
-Route         2   e 1.158                                  n4311
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_23
-Route         2   e 1.158                                  n4312
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_24
-Route         2   e 1.158                                  n4313
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_25
-Route         1   e 1.020                                  n4314
-LUT4        ---     0.408             I3 to O              led_counter_620_783_add_4_26_lut
+L_CO        ---     0.367              C to Q              led_counter_610_768__i0 (from DEBUG_5_c)
+Route         2   e 1.258                                  n25_adj_612
+LUT4        ---     0.408             I1 to CO             led_counter_610_768_add_4_2
+Route         2   e 1.158                                  n4614
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_3
+Route         2   e 1.158                                  n4615
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_4
+Route         2   e 1.158                                  n4616
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_5
+Route         2   e 1.158                                  n4617
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_6
+Route         2   e 1.158                                  n4618
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_7
+Route         2   e 1.158                                  n4619
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_8
+Route         2   e 1.158                                  n4620
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_9
+Route         2   e 1.158                                  n4621
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_10
+Route         2   e 1.158                                  n4622
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_11
+Route         2   e 1.158                                  n4623
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_12
+Route         2   e 1.158                                  n4624
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_13
+Route         2   e 1.158                                  n4625
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_14
+Route         2   e 1.158                                  n4626
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_15
+Route         2   e 1.158                                  n4627
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_16
+Route         2   e 1.158                                  n4628
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_17
+Route         2   e 1.158                                  n4629
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_18
+Route         2   e 1.158                                  n4630
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_19
+Route         2   e 1.158                                  n4631
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_20
+Route         2   e 1.158                                  n4632
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_21
+Route         2   e 1.158                                  n4633
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_22
+Route         2   e 1.158                                  n4634
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_23
+Route         2   e 1.158                                  n4635
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_24
+Route         2   e 1.158                                  n4636
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_25
+Route         1   e 1.020                                  n4637
+LUT4        ---     0.408             I3 to O              led_counter_610_768_add_4_26_lut
 Route         1   e 1.020                                  n106
                   --------
                    40.499  (26.1% logic, 73.9% route), 26 logic levels.
@@ -194,69 +218,69 @@ Passed:  The following path meets requirements by 960.796ns
 
  Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
 
-   Source:         SB_DFF     C              led_counter_620_783__i0  (from DEBUG_5_c +)
-   Destination:    SB_DFF     D              led_counter_620_783__i23  (to DEBUG_5_c +)
+   Source:         SB_DFF     C              led_counter_610_768__i0  (from DEBUG_5_c +)
+   Destination:    SB_DFF     D              led_counter_610_768__i23  (to DEBUG_5_c +)
 
    Delay:                  39.071ns  (26.0% logic, 74.0% route), 25 logic levels.
 
  Constraint Details:
 
-     39.071ns data_path led_counter_620_783__i0 to led_counter_620_783__i23 meets
+     39.071ns data_path led_counter_610_768__i0 to led_counter_610_768__i23 meets
     1000.000ns delay constraint less
       0.133ns L_S requirement (totaling 999.867ns) by 960.796ns
 
- Path Details: led_counter_620_783__i0 to led_counter_620_783__i23
+ Path Details: led_counter_610_768__i0 to led_counter_610_768__i23
 
    Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
-L_CO        ---     0.367              C to Q              led_counter_620_783__i0 (from DEBUG_5_c)
-Route         2   e 1.258                                  n25_adj_615
-LUT4        ---     0.408             I1 to CO             led_counter_620_783_add_4_2
-Route         2   e 1.158                                  n4291
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_3
-Route         2   e 1.158                                  n4292
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_4
-Route         2   e 1.158                                  n4293
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_5
-Route         2   e 1.158                                  n4294
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_6
-Route         2   e 1.158                                  n4295
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_7
-Route         2   e 1.158                                  n4296
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_8
-Route         2   e 1.158                                  n4297
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_9
-Route         2   e 1.158                                  n4298
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_10
-Route         2   e 1.158                                  n4299
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_11
-Route         2   e 1.158                                  n4300
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_12
-Route         2   e 1.158                                  n4301
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_13
-Route         2   e 1.158                                  n4302
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_14
-Route         2   e 1.158                                  n4303
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_15
-Route         2   e 1.158                                  n4304
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_16
-Route         2   e 1.158                                  n4305
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_17
-Route         2   e 1.158                                  n4306
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_18
-Route         2   e 1.158                                  n4307
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_19
-Route         2   e 1.158                                  n4308
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_20
-Route         2   e 1.158                                  n4309
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_21
-Route         2   e 1.158                                  n4310
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_22
-Route         2   e 1.158                                  n4311
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_23
-Route         2   e 1.158                                  n4312
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_24
-Route         2   e 1.158                                  n4313
-LUT4        ---     0.408             I3 to O              led_counter_620_783_add_4_25_lut
+L_CO        ---     0.367              C to Q              led_counter_610_768__i0 (from DEBUG_5_c)
+Route         2   e 1.258                                  n25_adj_612
+LUT4        ---     0.408             I1 to CO             led_counter_610_768_add_4_2
+Route         2   e 1.158                                  n4614
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_3
+Route         2   e 1.158                                  n4615
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_4
+Route         2   e 1.158                                  n4616
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_5
+Route         2   e 1.158                                  n4617
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_6
+Route         2   e 1.158                                  n4618
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_7
+Route         2   e 1.158                                  n4619
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_8
+Route         2   e 1.158                                  n4620
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_9
+Route         2   e 1.158                                  n4621
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_10
+Route         2   e 1.158                                  n4622
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_11
+Route         2   e 1.158                                  n4623
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_12
+Route         2   e 1.158                                  n4624
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_13
+Route         2   e 1.158                                  n4625
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_14
+Route         2   e 1.158                                  n4626
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_15
+Route         2   e 1.158                                  n4627
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_16
+Route         2   e 1.158                                  n4628
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_17
+Route         2   e 1.158                                  n4629
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_18
+Route         2   e 1.158                                  n4630
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_19
+Route         2   e 1.158                                  n4631
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_20
+Route         2   e 1.158                                  n4632
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_21
+Route         2   e 1.158                                  n4633
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_22
+Route         2   e 1.158                                  n4634
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_23
+Route         2   e 1.158                                  n4635
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_24
+Route         2   e 1.158                                  n4636
+LUT4        ---     0.408             I3 to O              led_counter_610_768_add_4_25_lut
 Route         1   e 1.020                                  n107
                   --------
                    39.071  (26.0% logic, 74.0% route), 25 logic levels.
@@ -266,69 +290,69 @@ Passed:  The following path meets requirements by 960.934ns
 
  Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
 
-   Source:         SB_DFF     C              led_counter_620_783__i1  (from DEBUG_5_c +)
-   Destination:    SB_DFF     D              led_counter_620_783__i24  (to DEBUG_5_c +)
+   Source:         SB_DFF     C              led_counter_610_768__i1  (from DEBUG_5_c +)
+   Destination:    SB_DFF     D              led_counter_610_768__i24  (to DEBUG_5_c +)
 
    Delay:                  38.933ns  (26.1% logic, 73.9% route), 25 logic levels.
 
  Constraint Details:
 
-     38.933ns data_path led_counter_620_783__i1 to led_counter_620_783__i24 meets
+     38.933ns data_path led_counter_610_768__i1 to led_counter_610_768__i24 meets
     1000.000ns delay constraint less
       0.133ns L_S requirement (totaling 999.867ns) by 960.934ns
 
- Path Details: led_counter_620_783__i1 to led_counter_620_783__i24
+ Path Details: led_counter_610_768__i1 to led_counter_610_768__i24
 
    Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
-L_CO        ---     0.367              C to Q              led_counter_620_783__i1 (from DEBUG_5_c)
+L_CO        ---     0.367              C to Q              led_counter_610_768__i1 (from DEBUG_5_c)
 Route         2   e 1.258                                  n24
-LUT4        ---     0.408             I1 to CO             led_counter_620_783_add_4_3
-Route         2   e 1.158                                  n4292
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_4
-Route         2   e 1.158                                  n4293
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_5
-Route         2   e 1.158                                  n4294
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_6
-Route         2   e 1.158                                  n4295
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_7
-Route         2   e 1.158                                  n4296
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_8
-Route         2   e 1.158                                  n4297
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_9
-Route         2   e 1.158                                  n4298
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_10
-Route         2   e 1.158                                  n4299
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_11
-Route         2   e 1.158                                  n4300
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_12
-Route         2   e 1.158                                  n4301
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_13
-Route         2   e 1.158                                  n4302
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_14
-Route         2   e 1.158                                  n4303
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_15
-Route         2   e 1.158                                  n4304
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_16
-Route         2   e 1.158                                  n4305
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_17
-Route         2   e 1.158                                  n4306
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_18
-Route         2   e 1.158                                  n4307
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_19
-Route         2   e 1.158                                  n4308
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_20
-Route         2   e 1.158                                  n4309
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_21
-Route         2   e 1.158                                  n4310
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_22
-Route         2   e 1.158                                  n4311
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_23
-Route         2   e 1.158                                  n4312
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_24
-Route         2   e 1.158                                  n4313
-LUT4        ---     0.408             CI to CO             led_counter_620_783_add_4_25
-Route         1   e 1.020                                  n4314
-LUT4        ---     0.408             I3 to O              led_counter_620_783_add_4_26_lut
+LUT4        ---     0.408             I1 to CO             led_counter_610_768_add_4_3
+Route         2   e 1.158                                  n4615
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_4
+Route         2   e 1.158                                  n4616
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_5
+Route         2   e 1.158                                  n4617
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_6
+Route         2   e 1.158                                  n4618
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_7
+Route         2   e 1.158                                  n4619
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_8
+Route         2   e 1.158                                  n4620
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_9
+Route         2   e 1.158                                  n4621
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_10
+Route         2   e 1.158                                  n4622
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_11
+Route         2   e 1.158                                  n4623
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_12
+Route         2   e 1.158                                  n4624
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_13
+Route         2   e 1.158                                  n4625
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_14
+Route         2   e 1.158                                  n4626
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_15
+Route         2   e 1.158                                  n4627
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_16
+Route         2   e 1.158                                  n4628
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_17
+Route         2   e 1.158                                  n4629
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_18
+Route         2   e 1.158                                  n4630
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_19
+Route         2   e 1.158                                  n4631
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_20
+Route         2   e 1.158                                  n4632
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_21
+Route         2   e 1.158                                  n4633
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_22
+Route         2   e 1.158                                  n4634
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_23
+Route         2   e 1.158                                  n4635
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_24
+Route         2   e 1.158                                  n4636
+LUT4        ---     0.408             CI to CO             led_counter_610_768_add_4_25
+Route         1   e 1.020                                  n4637
+LUT4        ---     0.408             I3 to O              led_counter_610_768_add_4_26_lut
 Route         1   e 1.020                                  n106
                   --------
                    38.933  (26.1% logic, 73.9% route), 25 logic levels.
@@ -343,7 +367,7 @@ Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
-clk1 [get_nets \spi0/spi_clk]           |  1000.000 ns|    11.582 ns|     3  
+clk1 [get_nets \spi0/spi_clk]           |  1000.000 ns|    11.836 ns|     7  
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
 clk0 [get_nets DEBUG_5_c]               |  1000.000 ns|    40.632 ns|    26  
@@ -360,8 +384,8 @@ Timing summary:
 
 Timing errors: 0  Score: 0
 
-Constraints cover  4427 paths, 759 nets, and 2082 connections (91.4% coverage)
+Constraints cover  4615 paths, 759 nets, and 2053 connections (95.6% coverage)
 
 
-Peak memory: 42921984 bytes, TRCE: 1601536 bytes, DLYMAN: 0 bytes
+Peak memory: 42655744 bytes, TRCE: 1716224 bytes, DLYMAN: 0 bytes
 CPU_TIME_REPORT: 0 secs 

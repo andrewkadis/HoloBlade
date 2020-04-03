@@ -9,8 +9,8 @@ add_file -verilog -lib work "src/uart_tx.v"
 add_file -verilog -lib work "src/spi.v" 
 add_file -verilog -lib work "src/FIFO_Quad_Word_mod.v" 
 add_file -verilog -lib work "src/bluejay_data.v" 
-add_file -verilog -lib work "src/usb_to_bluejay_if.v" 
-add_file -verilog -lib work "src/fifo_dc_32_gen.v" 
+add_file -verilog -lib work "src/usb3_if.v" 
+add_file -verilog -lib work "src/fifo_dc_32_lut_gen.v" 
 #implementation: "HoloBlade_Implmnt"
 impl -add HoloBlade_Implmnt -type fpga
 

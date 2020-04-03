@@ -3,13 +3,13 @@ DeviceFamily=iCE40
 Device=HX4K
 DevicePackage=TQ144
 DevicePower=
-NetlistFile=
+NetlistFile=HoloBlade_Implmnt/HoloBlade.edf
 AdditionalEDIFFile=
 IPEDIFFile=
-DesignLib=HoloBlade_Implmnt/sbt/netlist/oadb-top
+DesignLib=
 DesignView=
-DesignCell=top
-SynthesisSDCFile=D:/Dev/awesome-board-firmware/HoloBlade_Implmnt/HoloBlade.scf
+DesignCell=
+SynthesisSDCFile=HoloBlade_Implmnt/HoloBlade.scf
 UserPinConstraintFile=
 UserSDCFile=
 PhysicalConstraintFile=phys/pinout.pcf
@@ -32,7 +32,7 @@ Version=Lattice Semiconductor Corporation iCEcube - Release: 2017.08.27940 - Bui
 ProjectName=HoloBlade
 Vendor=SiliconBlue
 Synthesis=lse
-ProjectVFiles=src/top.v=work,src/clock.v=work,src/uart_rx.v=work,src/uart_tx.v=work,src/spi.v=work,src/FIFO_Quad_Word_mod.v=work,src/bluejay_data.v=work,src/usb_to_bluejay_if.v=work,src/fifo_dc_32_gen.v=work
+ProjectVFiles=src/top.v=work,src/clock.v=work,src/uart_rx.v=work,src/uart_tx.v=work,src/spi.v=work,src/FIFO_Quad_Word_mod.v=work,src/bluejay_data.v=work,src/usb3_if.v,src/fifo_dc_32_lut_gen.v
 ProjectCFiles=
 CurImplementation=HoloBlade_Implmnt
 Implementations=HoloBlade_Implmnt
