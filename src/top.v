@@ -432,16 +432,13 @@ bluejay_data bluejay_data_inst(
 // assign DEBUG_8 = SOUT;
 assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
-assign DEBUG_1 = RX_F;
-assign DEBUG_2 = usb3_fifo_is_full;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = usb3_fifo_is_empty;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_1 = FR_RXF;
+assign DEBUG_2 = FT_OE;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = FT_RD;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = usb3_fifo_read_enable;
 assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
 assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-// Connect all of our internal names up with names from schematic using wires
-wire RX_F;
-reg OE_N_r;
-reg RD_N_r;
+
 
 
 // Latch using registers to give us 1-cycle delay
@@ -465,21 +462,61 @@ reg RD_N_r;
 //   end else begin
 //     RD_N_r <= 1;
 //   end
-always @ (negedge sys_clk) begin
-   OE_N_r <= RX_F;//RX_F;
-   RD_N_r <= RX_F;//RX_F;
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////// USB3 Chip Interfacing ///////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Connect all of our internal names up with names from schematic using wires
+// TODO: Make everything active-high for simplicity...
+// RXF_N tells us if data is available on the USB3 Chip and is an input
+wire RXF_N;
+assign RXF_N = FR_RXF;
+// OE_N is an active low output signal to tell the USB3 Chip that the FPGA is the bus master while asserted
+wire OE_N;
+assign FT_OE = OE_N;
+// RD_N is an active low output signal to tell that USB3 Chip that data is being read (ie: it is the RD signal for the USB3 FIFO)
+wire RD_N;
+assign FT_RD = RD_N;
+// Sequential logic code to handle interfacing of FTDI USB3 Chip
+// Supporting registers are active-low
+reg OE_N_r = 1;
+reg RD_N_r = 1;
+assign OE_N = OE_N_r;
+assign RD_N = RD_N_r;
+always @ (posedge sys_clk) begin
+
+  // If RXF_N is deasserted, both OE_N and RD_N shall be deasserted
+  // Note that setting these registers here gives a 1-clock cycle, this is exactly what we want as is consistent with timing
+  if(RXF_N==1) begin
+    OE_N_r <= 1;
+    RD_N_r <= 1;
+  end else if( (RXF_N==0) && (OE_N==1) ) begin
+    // First clock cycle after RX_N has been asserted, assert OE_N to give the FPGA control of the data bus
+    OE_N_r <= 0;
+    RD_N_r <= 1;
+  end else if( (RXF_N==0) && (OE_N==0) ) begin
+    // Second clock cycle after RX_N has been asserted, assert RD_N to kick off a data transfer
+    OE_N_r <= 0;
+    RD_N_r <= 0;
+  end
+
 end
+// wire OE_N;
+// wire RD_N;
+
+// reg OE_N_r;
+// reg RD_N_r;
+
+
 
 // Buffer the output so it doesn't sag
-SB_GB ft_rd_bug ( .USER_SIGNAL_TO_GLOBAL_BUFFER(RD_N_r), .GLOBAL_BUFFER_OUTPUT(FT_RD) );
-SB_GB ft_oe_buf ( .USER_SIGNAL_TO_GLOBAL_BUFFER(RD_N_r), .GLOBAL_BUFFER_OUTPUT(FT_OE) );
+// SB_GB ft_rd_bug ( .USER_SIGNAL_TO_GLOBAL_BUFFER(RD_N_r), .GLOBAL_BUFFER_OUTPUT(FT_RD) );
+// SB_GB ft_oe_buf ( .USER_SIGNAL_TO_GLOBAL_BUFFER(RD_N_r), .GLOBAL_BUFFER_OUTPUT(FT_OE) );
 
 // assign OE_N_r = 0;//RX_F;
 // assign RD_N_r = RX_F;
-
-
 wire RESET_N;
-assign RX_F    = FR_RXF;
+
 // assign FT_OE   = OE_N_r;//RX_F;//OE_N;//    = FT_OE;
 // assign FT_RD   = RD_N_r;//FR_RXF;//RD_N;
 assign RESET_N = 1'bz;  //TODO: Would be great to connect this line in a future spin on the board
@@ -573,7 +610,7 @@ wire usb3_fifo_is_full;
 wire usb3_fifo_is_empty;
 // wire usb3_fifo_is_almost_empty;
 wire write_to_usb3_fifo;
-assign write_to_usb3_fifo = ~RX_F;
+assign write_to_usb3_fifo = ~RXF_N;
 
 // wire usb3_fifo_read_enable;
 // assign usb3_fifo_read_enable = usb3_fifo_is_full;
