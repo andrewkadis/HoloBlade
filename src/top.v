@@ -221,7 +221,7 @@ assign debug_led4 = led_counter[24];
 wire sys_clk;
 clock clock_inst(
 
-   .i_xtal(sys_clk),
+   .i_xtal(FIFO_CLK),
    .o_sys_clk(sys_clk)
 	
  );
@@ -430,14 +430,16 @@ bluejay_data bluejay_data_inst(
 // assign DEBUG_3 = SEN;
 // assign DEBUG_5 = SCK;
 // assign DEBUG_8 = SOUT;
-assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
+// assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
 assign DEBUG_1 = FR_RXF;
-assign DEBUG_2 = FT_OE;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = FT_RD;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = 1;//usb3_fifo_read_enable;
+assign DEBUG_2 = FT_RD;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = usb_data_o[22];//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = usb_fifo_dataline_available;//usb3_fifo_read_enable;
 assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
-assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_6 = usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_7 = test_fifo_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
 
 
 
@@ -468,27 +470,46 @@ assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 ///////////////////////////////////////////////////////////////////////////
 
 // Connect up USB3 Chip using our custom interface
-// It incorpoates a FIFO, handles buffering, crossing clocks domains and ACTIVE LOW/HIGH interfacing issues - makes everything ACTIVE_HIGH
+// It incorporates a FIFO, handles buffering, crossing clocks domains and ACTIVE LOW/HIGH interfacing issues - makes everything ACTIVE_HIGH
+// FPGA-side signals
+wire usb_fifo_is_empty;
+wire usb_fifo_dataline_available;
+wire usb_fifo_get_next_word;
 usb3_if usb3_if_inst(
 
 	// Control Signals
-	.reset(),
-	.enable(),
+	.reset(reset_all_w),
+
 	// FTDI USB3 Chip
-   .ftdi_clk(),//sys_clk),  // CLK line from the FT601 Chip, set to a constant 100MHz
-   .FR_RXF(FR_RXF),     // RXF_N tells us if data is available on the USB3 Chip and is an input
-   .FT_OE(FT_OE),       // OE_N is an active low output signal to tell the USB3 Chip that the FPGA is the bus master while asserted
-   .FT_RD(FT_RD),       // RD_N is an active low output signal to tell that USB3 Chip that data is being read (ie: it is the RD signal for the USB3 FIFO)
-   .usb3_data_in(),
-   // FPGA side
-   .fpga_clk(),
-   .fifo_empty(),
-   .full_dataline_available(),
-   .get_next_word(),
-   .fifo_data_out()
+  .ftdi_clk(sys_clk),          // CLK line from the FT601 Chip, set to a constant 100MHz
+  .FR_RXF(FR_RXF),             // RXF_N tells us if data is available on the USB3 Chip and is an input
+  .FT_OE(FT_OE),               // OE_N is an active low output signal to tell the USB3 Chip that the FPGA is the bus master while asserted
+  .FT_RD(FT_RD),               // RD_N is an active low output signal to tell that USB3 Chip that data is being read (ie: it is the RD signal for the USB3 FIFO)
+  .usb3_data_in(usb_data_o),   // Data input lines from USB3 chip
+
+  // FPGA side
+  .fpga_clk(sys_clk),
+  .fifo_empty(usb_fifo_is_empty),
+  .fifo_dataline_available(usb_fifo_dataline_available),
+  .get_next_word(usb_fifo_get_next_word),
+  .fifo_data_out(test_fifo_out)
 
 );
 
+// Temp for testing
+wire[31:0] test_fifo_out;
+// Temporary logic to allow us to test that read_enable is funcitoning correctly
+reg usb_fifo_get_next_word_r = 0;
+assign usb_fifo_get_next_word = usb_fifo_get_next_word_r;
+
+always @(posedge sys_clk) begin
+  if (usb_fifo_is_empty)
+    usb_fifo_get_next_word_r = 0;
+  else if(usb_fifo_dataline_available)
+    usb_fifo_get_next_word_r <= 1;
+  else
+    usb_fifo_get_next_word_r <= usb_fifo_get_next_word_r;
+end
 
 
 // wire OE_N;
