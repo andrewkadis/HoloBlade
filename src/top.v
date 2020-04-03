@@ -184,8 +184,8 @@ assign DEBUG_0 = debug_led4;
 // Temp for LA
 wire DEBUG_4;
 wire DEBUG_7;
-assign DEBUG_4 = DEBUG_8;
-assign DEBUG_7 = DEBUG_9;
+assign DEBUG_4 = DEBUG_9;
+assign DEBUG_7 = DEBUG_8;
 
 // assign DEBUG_1 = debug_led3;
 // assign DEBUG_2 = debug_led2;
@@ -348,38 +348,38 @@ wire fifo_empty_i_w;
 wire get_next_word_o;
 // Map Bluejay Data Lines Out
 wire[31:0] bluejay_data_out;
-assign bluejay_data_out[31] = DATA31;
-assign bluejay_data_out[30] = DATA30;
-assign bluejay_data_out[29] = DATA29;
-assign bluejay_data_out[28] = DATA28;
-assign bluejay_data_out[27] = DATA27;
-assign bluejay_data_out[26] = DATA26;
-assign bluejay_data_out[25] = DATA25;
-assign bluejay_data_out[24] = DATA24;
-assign bluejay_data_out[23] = DATA23;
-assign bluejay_data_out[22] = DATA22;
-assign bluejay_data_out[21] = DATA21;
-assign bluejay_data_out[20] = DATA20;
-assign bluejay_data_out[19] = DATA19;
-assign bluejay_data_out[18] = DATA18;
-assign bluejay_data_out[17] = DATA17;
-assign bluejay_data_out[16] = DATA16;
-assign bluejay_data_out[15] = DATA15;
-assign bluejay_data_out[14] = DATA14;
-assign bluejay_data_out[13] = DATA13;
-assign bluejay_data_out[12] = DATA12;
-assign bluejay_data_out[11] = DATA11;
-assign bluejay_data_out[10] = DATA10;
-assign bluejay_data_out[9]  = DATA9;
-assign bluejay_data_out[8]  = DATA8;
-assign bluejay_data_out[7]  = DATA7;
-assign bluejay_data_out[6]  = DATA6;
-assign bluejay_data_out[5]  = DATA5;
-assign bluejay_data_out[4]  = DATA4;
-assign bluejay_data_out[3]  = DATA3;
-assign bluejay_data_out[2]  = DATA2;
-assign bluejay_data_out[1]  = DATA1;
-assign bluejay_data_out[0]  = DATA0;
+assign DATA31 = bluejay_data_out[31];
+assign DATA30 = bluejay_data_out[30];
+assign DATA29 = bluejay_data_out[29];
+assign DATA28 = bluejay_data_out[28];
+assign DATA27 = bluejay_data_out[27];
+assign DATA26 = bluejay_data_out[26];
+assign DATA25 = bluejay_data_out[25];
+assign DATA24 = bluejay_data_out[24];
+assign DATA23 = bluejay_data_out[23];
+assign DATA22 = bluejay_data_out[22];
+assign DATA21 = bluejay_data_out[21];
+assign DATA20 = bluejay_data_out[20];
+assign DATA19 = bluejay_data_out[19];
+assign DATA18 = bluejay_data_out[18];
+assign DATA17 = bluejay_data_out[17];
+assign DATA16 = bluejay_data_out[16];
+assign DATA15 = bluejay_data_out[15];
+assign DATA14 = bluejay_data_out[14];
+assign DATA13 = bluejay_data_out[13];
+assign DATA12 = bluejay_data_out[12];
+assign DATA11 = bluejay_data_out[11];
+assign DATA10 = bluejay_data_out[10];
+assign DATA9  = bluejay_data_out[9];
+assign DATA8  = bluejay_data_out[8];
+assign DATA7  = bluejay_data_out[7];
+assign DATA6  = bluejay_data_out[6];
+assign DATA5  = bluejay_data_out[5];
+assign DATA4  = bluejay_data_out[4];
+assign DATA3  = bluejay_data_out[3];
+assign DATA2  = bluejay_data_out[2];
+assign DATA1  = bluejay_data_out[1];
+assign DATA0  = bluejay_data_out[0];
 // Data strobe signals for Bluejay
 wire sync_w;
 wire valid_w;
@@ -402,7 +402,7 @@ bluejay_data bluejay_data_inst(
   .fifo_empty_i(fifo_empty_i_w),
   .get_next_word_o(get_next_word_o),
   // Write-Side:
-  .data_o(bluejay_data_out),
+  .data_o(),//bluejay_data_out),
   .sync_o(sync_w),
   .valid_o(valid_w),
   .update_o(update_w),
@@ -433,9 +433,9 @@ bluejay_data bluejay_data_inst(
 assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
 assign DEBUG_1 = RX_F;
-assign DEBUG_2 = FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = FT_RD;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = usb3_fifo_is_empty; 
+assign DEBUG_2 = usb3_fifo_is_full;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = usb3_fifo_is_empty;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = usb3_fifo_read_enable;
 assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
 assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // Connect all of our internal names up with names from schematic using wires
@@ -569,33 +569,73 @@ usb_to_bluejay_if usb_to_bluejay_if_inst(
  );
 
 
-wire usb3_fifo_is_full_w;
+wire usb3_fifo_is_full;
 wire usb3_fifo_is_empty;
-wire usb3_fifo_is_almost_empty;
-wire write_to_usb3_fifo_w;
+// wire usb3_fifo_is_almost_empty;
+wire write_to_usb3_fifo;
+assign write_to_usb3_fifo = ~RX_F;
 
+// wire usb3_fifo_read_enable;
+// assign usb3_fifo_read_enable = usb3_fifo_is_full;
+wire[6:0] bytes_in_fifo_count;
+reg       usb3_fifo_read_enable = 0;
+always @(posedge sys_clk) begin
+  if (bytes_in_fifo_count==6'd0)
+    usb3_fifo_read_enable <= 0;
+  else if(bytes_in_fifo_count==6'd40)
+    usb3_fifo_read_enable <= 1;
+  else
+    usb3_fifo_read_enable <= usb3_fifo_read_enable;
+end
+
+            // if (r_Rx_Data == 1'b0)          // Start bit detected
+            //   r_SM_Main <= s_RX_START_BIT;
+            // else
+            //   r_SM_Main <= s_IDLE;
+
+// reg reset_fifo_master;
+// reg reset_fifo_ptr;
+// always @(posedge sys_clk) begin
+//   reset_fifo_master <= reset_all_w;
+//   reset_fifo_ptr    <= reset_all_w;
+// end
+
+// reg fifo_wr_clk;
+// reg fifo_rd_clk;
+// always @(posedge sys_clk) begin
+//   fifo_wr_clk <= sys_clk;
+//   fifo_rd_clk <= sys_clk;
+// end
+// assign reset_fifo = reset_all_w;
 
 // Connect up our monster data 32-bit FIFO
-fifo_dc_32_gen fifo_dc_32_gen_inst(
+fifo_dc_32_lut_gen fifo_dc_32_lut_gen_inst(
 
   // Control Signals
-  .rst_i(reset_all_w),            // Reset Line
-  .rp_rst_i(reset_all_w),         // Line to Reset the read pointer, don't care about packetized communications so simply reset as normal
-  .wr_clk_i(sys_clk),             // Crossing a clock domain, so 100 MHz CLock from the USB3 Chip drives write side
-  .rd_clk_i(sys_clk),             // Crossing a clock domain, so Main FPGA CLock drives read side
+  .rst_i(reset_all_w),             // Reset Line
+  .rp_rst_i(),          // Line to Reset the read pointer, don't care about packetized communications so simply reset as normal
+  .wr_clk_i(sys_clk),         // Crossing a clock domain, so 100 MHz CLock from the USB3 Chip drives write side
+  .rd_clk_i(sys_clk),         // Crossing a clock domain, so Main FPGA CLock drives read side
 
   // Write Side
-  .wr_en_i(RD_N),                  // Enable 
+  .wr_en_i(write_to_usb3_fifo),    // Enable 
   .wr_data_i(usb_data_o),          // 32-bit data input
   .full_o(usb3_fifo_is_full),      // Flag for when FIFO is full
 
   // Read Side
-  .rd_en_i(),                      // Enable 
-  .rd_data_o(),                    // 32-bit data output
-  .empty_o(usb3_fifo_is_empty),    // Flag for when FIFO is empty
-  .almost_empty_o()                // Flag for when FIFO is almost empty, this is set to assert at 40, so use to make sure that there is at least one 40-word line of the image available before reading
+  .rd_en_i(usb3_fifo_read_enable),                      // Enable 
+  .rd_data_o(),                        // 32-bit data output
+  .empty_o(usb3_fifo_is_empty),         // Flag for when FIFO is empty
+  .rd_data_cnt_o(bytes_in_fifo_count)  // How many bytes are currently in the FIFO, use this to ensure we are able to pull an entire FIFO at a time
+  // .almost_empty_o()                // Flag for when FIFO is almost empty, this is set to assert at 40, so use to make sure that there is at least one 40-word line of the image available before reading
 
 );
+
+
+
+
+
+
 
 
 
