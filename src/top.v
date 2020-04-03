@@ -433,21 +433,55 @@ bluejay_data bluejay_data_inst(
 assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
 assign DEBUG_1 = RX_F;
-assign DEBUG_2 = OE_N;//next_frame_rdy_w;
-assign DEBUG_3 = RD_N;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_2 = FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = FT_RD;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = usb3_fifo_is_empty; 
 assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
 assign DEBUG_6 = usb_data_o[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // Connect all of our internal names up with names from schematic using wires
 wire RX_F;
-wire OE_N;
-wire RD_N;
-assign OE_N = RX_F;
-assign RD_N = 0;
+reg OE_N_r;
+reg RD_N_r;
+
+
+// Latch using registers to give us 1-cycle delay
+  // always @(posedge i_Clock)
+  //   begin
+  //     r_Rx_Data_R <= i_Rx_Serial;
+  //     r_Rx_Data   <= r_Rx_Data_R;
+  //   end
+// always @ (negedge sys_clk) begin
+//   // OE_N_r <= OE_N_r;
+//   // RD_N_r <= RD_N_r;
+
+//   if(RX_F==0) begin
+//     OE_N_r <= 0;
+//   end else begin
+//     OE_N_r <= 1;
+//   end
+
+//   if(OE_N_r==0) begin
+//     RD_N_r <= 0;
+//   end else begin
+//     RD_N_r <= 1;
+//   end
+always @ (negedge sys_clk) begin
+   OE_N_r <= RX_F;//RX_F;
+   RD_N_r <= RX_F;//RX_F;
+end
+
+// Buffer the output so it doesn't sag
+SB_GB ft_rd_bug ( .USER_SIGNAL_TO_GLOBAL_BUFFER(RD_N_r), .GLOBAL_BUFFER_OUTPUT(FT_RD) );
+SB_GB ft_oe_buf ( .USER_SIGNAL_TO_GLOBAL_BUFFER(RD_N_r), .GLOBAL_BUFFER_OUTPUT(FT_OE) );
+
+// assign OE_N_r = 0;//RX_F;
+// assign RD_N_r = RX_F;
+
+
 wire RESET_N;
 assign RX_F    = FR_RXF;
-assign FT_OE   = OE_N;//RX_F;//OE_N;//    = FT_OE;
-assign FT_RD   = RD_N;//FR_RXF;//RD_N;
+// assign FT_OE   = OE_N_r;//RX_F;//OE_N;//    = FT_OE;
+// assign FT_RD   = RD_N_r;//FR_RXF;//RD_N;
 assign RESET_N = 1'bz;  //TODO: Would be great to connect this line in a future spin on the board
 // We get when the next line and frame are ready from USB GPIO 0 and 1
 // These are wired through TP8 and TP9 as not directly connected to FPGA
@@ -558,7 +592,7 @@ fifo_dc_32_gen fifo_dc_32_gen_inst(
   // Read Side
   .rd_en_i(),                      // Enable 
   .rd_data_o(),                    // 32-bit data output
-  .empty_o(),                      // Flag for when FIFO is empty
+  .empty_o(usb3_fifo_is_empty),    // Flag for when FIFO is empty
   .almost_empty_o()                // Flag for when FIFO is almost empty, this is set to assert at 40, so use to make sure that there is at least one 40-word line of the image available before reading
 
 );

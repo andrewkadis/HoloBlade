@@ -1,111 +1,100 @@
 ----------------------------------------------------------------------
 Report for cell top.TECH
-Register bits:  278 of 3520 (7.898%)
+Register bits:  265 of 3520 (7.528%)
 I/O cells:      0
                                   Cell usage:
                                cell     count   Res Usage(%)
-                           SB_CARRY        81          100.0
-                             SB_DFF       145          100.0
-                            SB_DFFE        16          100.0
-                          SB_DFFESR        41          100.0
-                            SB_DFFN        15          100.0
+                           SB_CARRY        74          100.0
+                             SB_DFF       142          100.0
+                            SB_DFFE        14          100.0
+                          SB_DFFESR        33          100.0
+                            SB_DFFN        16          100.0
                           SB_DFFNSR         1          100.0
                             SB_DFFR        18          100.0
                             SB_DFFS         2          100.0
                            SB_DFFSR        25          100.0
-                           SB_DFFSS        15          100.0
+                           SB_DFFSS        14          100.0
+                              SB_GB         2          100.0
                            SB_GB_IO         1          100.0
                               SB_IO        97          100.0
-                            SB_LUT4       500          100.0
+                            SB_LUT4       460          100.0
 SUB MODULES
                      FIFO_Quad_Word         1
-FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_1         1
+FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_3         1
                        bluejay_data         1
                                 spi         1
           uart_rx(CLKS_PER_BIT=868)         1
           uart_tx(CLKS_PER_BIT=868)         1
-                  usb_to_bluejay_if         1
-                              TOTAL       964
+                              TOTAL       905
 ----------------------------------------------------------------------
 Report for cell spi.v1
 Instance Path : spi0
                                   Cell usage:
                                cell     count   Res Usage(%)
-                           SB_CARRY         7            8.6
-                             SB_DFF        21           14.5
-                            SB_DFFN        15          100.0
+                           SB_CARRY         7            9.5
+                             SB_DFF        21           14.8
+                            SB_DFFN        15           93.8
                           SB_DFFNSR         1          100.0
                             SB_DFFR        18          100.0
                             SB_DFFS         2          100.0
                            SB_DFFSR         5           20.0
-                           SB_DFFSS         4           26.7
-                            SB_LUT4        45            9.0
+                           SB_DFFSS         4           28.6
+                            SB_LUT4        45            9.8
                               TOTAL       118
 ----------------------------------------------------------------------
 Report for cell bluejay_data.v1
 Instance Path : bluejay_data_inst
                                   Cell usage:
                                cell     count   Res Usage(%)
-                           SB_CARRY        25           30.9
-                          SB_DFFESR         9           22.0
+                           SB_CARRY        25           33.8
+                          SB_DFFESR         9           27.3
                            SB_DFFSR        14           56.0
-                           SB_DFFSS        11           73.3
-                            SB_LUT4       144           28.8
-                              TOTAL       203
-----------------------------------------------------------------------
-Report for cell uart_rx(CLKS_PER_BIT=868).v1
-Instance Path : pc_rx
-                                  Cell usage:
-                               cell     count   Res Usage(%)
-                           SB_CARRY         9           11.1
-                             SB_DFF        11            7.6
-                            SB_DFFE         2           12.5
-                          SB_DFFESR        12           29.3
-                           SB_DFFSR         2            8.0
-                            SB_LUT4        41            8.2
-                              TOTAL        77
-----------------------------------------------------------------------
-Report for cell uart_tx(CLKS_PER_BIT=868).v1
-Instance Path : pc_tx
-                                  Cell usage:
-                               cell     count   Res Usage(%)
-                           SB_CARRY         9           11.1
-                             SB_DFF        10            6.9
-                            SB_DFFE         2           12.5
-                          SB_DFFESR        12           29.3
-                           SB_DFFSR         2            8.0
-                            SB_LUT4        35            7.0
-                              TOTAL        70
+                           SB_DFFSS        10           71.4
+                            SB_LUT4       144           31.3
+                              TOTAL       202
 ----------------------------------------------------------------------
 Report for cell FIFO_Quad_Word.v1
 Instance Path : tx_fifo
                                   Cell usage:
                                cell     count   Res Usage(%)
-                             SB_DFF        45           31.0
-                            SB_DFFE        10           62.5
+                             SB_DFF        45           31.7
+                            SB_DFFE        10           71.4
                            SB_DFFSR         2            8.0
-                            SB_LUT4        64           12.8
+                            SB_LUT4        58           12.6
 SUB MODULES
-FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_1         1
-                              TOTAL       122
+FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_3         1
+                              TOTAL       116
 ----------------------------------------------------------------------
-Report for cell FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_1.v1
+Report for cell FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_3.v1
 Instance Path : tx_fifo.lscc_fifo_inst
                                   Cell usage:
                                cell     count   Res Usage(%)
-                             SB_DFF        45           31.0
-                            SB_DFFE        10           62.5
+                             SB_DFF        45           31.7
+                            SB_DFFE        10           71.4
                            SB_DFFSR         2            8.0
-                            SB_LUT4        64           12.8
-                              TOTAL       121
+                            SB_LUT4        58           12.6
+                              TOTAL       115
 ----------------------------------------------------------------------
-Report for cell usb_to_bluejay_if.v1
-Instance Path : usb_to_bluejay_if_inst
+Report for cell uart_tx(CLKS_PER_BIT=868).v1
+Instance Path : pc_tx
                                   Cell usage:
                                cell     count   Res Usage(%)
-                           SB_CARRY         7            8.6
-                             SB_DFF         3            2.1
-                            SB_DFFE         2           12.5
-                          SB_DFFESR         8           19.5
-                            SB_LUT4        38            7.6
-                              TOTAL        58
+                           SB_CARRY         9           12.2
+                             SB_DFF        10            7.0
+                            SB_DFFE         2           14.3
+                          SB_DFFESR        12           36.4
+                           SB_DFFSR         2            8.0
+                            SB_LUT4        34            7.4
+                              TOTAL        69
+----------------------------------------------------------------------
+Report for cell uart_rx(CLKS_PER_BIT=868).v1
+Instance Path : pc_rx
+                                  Cell usage:
+                               cell     count   Res Usage(%)
+                           SB_CARRY         9           12.2
+                             SB_DFF        11            7.7
+                            SB_DFFE         2           14.3
+                          SB_DFFESR        12           36.4
+                           SB_DFFSR         2            8.0
+                            SB_LUT4        40            8.7
+                              TOTAL        76

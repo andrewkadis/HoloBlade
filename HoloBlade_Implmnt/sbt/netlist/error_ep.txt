@@ -1,0 +1,1 @@
+Kparser Unable to open D:/Dev/awesome-board-firmware/HoloBlade_Implmnt/HoloBlade.edf

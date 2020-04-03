@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
-<ispXCF version="3.11.0">
+<ispXCF version="3.11.1">
 	<Comment></Comment>
 	<Chain>
 		<Comm>JTAG</Comm>
@@ -19,8 +19,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/User/Documents/Dev/awesome-board-firmware/bin/top_bitmap.hex</File>
-			<FileTime>03/03/20 22:37:01</FileTime>
+			<File>D:/Dev/awesome-board-firmware/bin/top_bitmap.hex</File>
+			<FileTime>03/27/20 15:21:40</FileTime>
 			<Operation>Fast Program</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>

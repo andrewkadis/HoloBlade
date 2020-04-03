@@ -9,7 +9,7 @@ IPEDIFFile=
 DesignLib=HoloBlade_Implmnt/sbt/netlist/oadb-top
 DesignView=
 DesignCell=top
-SynthesisSDCFile=C:/Users/User/Documents/Dev/awesome-board-firmware/HoloBlade_Implmnt/HoloBlade.scf
+SynthesisSDCFile=D:/Dev/awesome-board-firmware/HoloBlade_Implmnt/HoloBlade.scf
 UserPinConstraintFile=
 UserSDCFile=
 PhysicalConstraintFile=phys/pinout.pcf
@@ -32,7 +32,7 @@ Version=Lattice Semiconductor Corporation iCEcube - Release: 2017.08.27940 - Bui
 ProjectName=HoloBlade
 Vendor=SiliconBlue
 Synthesis=lse
-ProjectVFiles=src/top.v=work,src/clock.v=work,src/uart_rx.v=work,src/uart_tx.v=work,src/spi.v=work,src/FIFO_Quad_Word_mod.v=work,src/usb_to_bluejay_if.v=work,src/bluejay_data.v=work
+ProjectVFiles=src/top.v=work,src/clock.v=work,src/uart_rx.v=work,src/uart_tx.v=work,src/spi.v=work,src/FIFO_Quad_Word_mod.v=work,src/bluejay_data.v=work,src/usb_to_bluejay_if.v=work,src/fifo_dc_32_gen.v=work
 ProjectCFiles=
 CurImplementation=HoloBlade_Implmnt
 Implementations=HoloBlade_Implmnt
