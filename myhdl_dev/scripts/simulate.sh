@@ -7,7 +7,7 @@
 # pwd
 
 # Setup Environment Variables
-export GTKWAVE_ROOT=/c/gtkwave
+export GTKWAVE_ROOT=/d/ProgramFiles/gtkwave64
 # export LD_LIBRARY_PATH=$ICE_ROOT/sbt_backend/bin/win32/opt/synpwrap:$LD_LIBRARY_PATH
 # export SYNPLIFY_PATH=$ICE_ROOT/synpbase
 # export SBT_DIR=$ICE_ROOT/sbt_backend/
@@ -15,8 +15,11 @@ export GTKWAVE_ROOT=/c/gtkwave
 # Clean existing files first - don't want to accidentally use them if our build fails
 ./scripts/clean.sh
 
+pwd
+ls -la .
+
 # Generate verilog using myHDL
-python.exe ./bluejay_data.py
+python27 ./bluejay_data.py
 
 # Visualise simulation results
 $GTKWAVE_ROOT/bin/gtkwave.exe ./bluejay_data_tb.vcd &
