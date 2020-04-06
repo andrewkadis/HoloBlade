@@ -221,8 +221,9 @@ assign debug_led4 = led_counter[24];
 wire sys_clk;
 clock clock_inst(
 
-   .i_xtal(FIFO_CLK),
-   .o_sys_clk(sys_clk)
+  // Main Clock
+  .i_xtal(ICE_SYSCLK),
+  .o_sys_clk(sys_clk)
 	
  );
 
@@ -481,7 +482,7 @@ usb3_if usb3_if_inst(
 	.reset(reset_all_w),
 
 	// FTDI USB3 Chip
-  .ftdi_clk(sys_clk),          // CLK line from the FT601 Chip, set to a constant 100MHz
+  .ftdi_clk(FIFO_CLK),         // CLK line from the FT601 Chip, set to a constant 100MHz
   .FR_RXF(FR_RXF),             // RXF_N tells us if data is available on the USB3 Chip and is an input
   .FT_OE(FT_OE),               // OE_N is an active low output signal to tell the USB3 Chip that the FPGA is the bus master while asserted
   .FT_RD(FT_RD),               // RD_N is an active low output signal to tell that USB3 Chip that data is being read (ie: it is the RD signal for the USB3 FIFO)
