@@ -55,13 +55,6 @@ def usb3_if(
 
     """
 
-    # FIFO-side:
-    # fpga_clk                : Main FPGA clock
-    # fifo_empty              : Is our fifo empty?
-    # fifo_dataline_available : Goes high when there are at least 40 lines of data available in the internal FIFO
-    # get_next_word           : Line to pull data from FIFO
-    # fifo_data_out           : 32-bit Data Out from internal 32-wide, 64-deep FIFO
-
     ##########################################################
     ################## FTDI601 Connections ###################
     ##########################################################

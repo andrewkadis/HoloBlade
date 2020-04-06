@@ -5,7 +5,7 @@
 #  - usb_to_bluejay_if
 #  - bluejay_data
 # Uses the following simulated modules to assist testing
-#  - mock_usb_fifo
+#  - mock_ft601
 
 
 
@@ -17,7 +17,7 @@ from myhdl import *
 
 import bluejay_data
 import usb_to_bluejay_if
-import mock_usb_fifo
+import mock_ft601
 import usb3_if
 
 from bluejay_data import t_state
@@ -56,7 +56,7 @@ def bluejay_datapath_tb():
     usb3_data_in    = Signal(0)
     SIM_DATA_IN_WR = Signal(False)
     # Inst our simulate USB FIFO
-    sim_usb_fifo = mock_usb_fifo.usb_fifo(ftdi_clk, usb_data_o, TXE_N, FR_RXF, WR_N, FT_RD, FT_OE, RESET_N, usb3_data_in, SIM_DATA_IN_WR)
+    mock_ft601 = mock_ft601.mock_ft601(ftdi_clk, usb_data_o, TXE_N, FR_RXF, WR_N, FT_RD, FT_OE, RESET_N, usb3_data_in, SIM_DATA_IN_WR)
     # Function to simulate loading data into FIFO with USB3 Drivers on the PC
     def simulate_load_fifo_data(data_to_load):
         # Load all our data into internal fifo
@@ -191,7 +191,7 @@ def bluejay_datapath_tb():
 
         # yield delay(1000)
 
-    return sim_usb_fifo, usb3_if_inst, bluejay_data_inst, test_protocol
+    return sim_mock_ft601, usb3_if_inst, bluejay_data_inst, test_protocol
 
 
     # # Timing Code, useful for clearing our Assert signals
