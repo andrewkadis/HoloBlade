@@ -18,6 +18,7 @@ from myhdl import *
 import bluejay_data
 import usb_to_bluejay_if
 import mock_usb_fifo
+import usb3_if
 
 from bluejay_data import t_state
 
@@ -34,8 +35,10 @@ PERIOD = 10 # clk frequency = 50 MHz
 def bluejay_datapath_tb():
     
     # Global Control signals
-    # We drive the entire design off of the usb's 100MHz clock signal
+    # Main clock is 100.5MHz clock signal derived from PLL on external XTAL oscillator
     clk_100   = Signal(False)
+    # FT601 part of the design has its own 100 MHz oscialltor
+    ftdi_clk  = Signal(False)
     # Active-High Reset for entire design
     reset_all = Signal(False)
 
@@ -44,27 +47,40 @@ def bluejay_datapath_tb():
     # Our Simulated USB-FIFO
     usb_data_o  = Signal(0)
     TXE_N       = Signal(True)
-    RX_F        = Signal(True)
+    FR_RXF      = Signal(True)
     WR_N        = Signal(True)
-    RD_N        = Signal(True)
-    OE_N        = Signal(True)
+    FT_RD       = Signal(True)
+    FT_OE       = Signal(True)
     RESET_N     = Signal(True)
     # Simulated Signals for loading Test Data
-    SIM_DATA_IN    = Signal(0)
+    usb3_data_in    = Signal(0)
     SIM_DATA_IN_WR = Signal(False)
     # Inst our simulate USB FIFO
-    sim_usb_fifo = mock_usb_fifo.usb_fifo(clk_100, usb_data_o, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, SIM_DATA_IN_WR)
+    sim_usb_fifo = mock_usb_fifo.usb_fifo(ftdi_clk, usb_data_o, TXE_N, FR_RXF, WR_N, FT_RD, FT_OE, RESET_N, usb3_data_in, SIM_DATA_IN_WR)
     # Function to simulate loading data into FIFO with USB3 Drivers on the PC
     def simulate_load_fifo_data(data_to_load):
         # Load all our data into internal fifo
         for data_word in data_to_load:
-            yield clk_i.posedge
-            SIM_DATA_IN.next = data_word
+            yield ftdi_clk.posedge
+            usb3_data_in.next = data_word
             SIM_DATA_IN_WR.next = True
-            yield clk_i.negedge
+            yield ftdi_clk.negedge
         # De-assert once all data clocked in
         SIM_DATA_IN_WR.next = False
         yield delay(60)
+
+
+
+
+    # Insert our implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
+    write_to_dc32_fifo = Signal(False)
+    dc32_fifo_data_in  = Signal(0)
+    dc_32_fifo_is_full = Signal(False)
+    usb3_if_inst = usb3_if.usb3_if(ftdi_clk, FR_RXF, FT_OE, FT_RD, usb3_data_in, write_to_dc32_fifo, dc32_fifo_data_in, dc_32_fifo_is_full)
+
+
+
+
 
 
 
@@ -90,25 +106,25 @@ def bluejay_datapath_tb():
 
 
 
-    # Control Logic between SLM and simulated USB-FIFO
-    usb_to_bluejay_if_inst = usb_to_bluejay_if.usb_to_bluejay_if(
-        # Control
-        reset_all,
-        # USB-Fifo
-        clk_100,
-        usb_data_o,
-        RX_F,
-        OE_N,
-        RD_N,
-        RESET_N,
-        # Bluejay Data Interface
-        clk_i,
-        bluejay_data_i,
-        next_line_rdy_i,
-        new_frame_i,
-        fifo_empty_i,
-        get_next_word_o
-    )
+    # # Control Logic between SLM and simulated USB-FIFO
+    # usb_to_bluejay_if_inst = usb_to_bluejay_if.usb_to_bluejay_if(
+    #     # Control
+    #     reset_all,
+    #     # USB-Fifo
+    #     clk_100,
+    #     usb_data_o,
+    #     RX_F,
+    #     OE_N,
+    #     RD_N,
+    #     RESET_N,
+    #     # Bluejay Data Interface
+    #     clk_i,
+    #     bluejay_data_i,
+    #     next_line_rdy_i,
+    #     new_frame_i,
+    #     fifo_empty_i,
+    #     get_next_word_o
+    # )
 
 
     @instance
@@ -129,9 +145,11 @@ def bluejay_datapath_tb():
         FULL_CLOCK_PERIOD = 2*PERIOD
         yield delay(FULL_CLOCK_PERIOD)
         # Reset
-        yield clk_i.negedge
+        yield ftdi_clk.negedge
+        # yield clk_i.negedge
         reset_all.next = True
-        yield clk_i.posedge
+        yield ftdi_clk.posedge
+        # yield clk_i.posedge
         reset_all.next = False
         # Signal to indicate we are doing a new frame
         yield delay(FULL_CLOCK_PERIOD)
@@ -173,7 +191,7 @@ def bluejay_datapath_tb():
 
         # yield delay(1000)
 
-    return sim_usb_fifo, usb_to_bluejay_if_inst, bluejay_data_inst, test_protocol
+    return sim_usb_fifo, usb3_if_inst, bluejay_data_inst, test_protocol
 
 
     # # Timing Code, useful for clearing our Assert signals
