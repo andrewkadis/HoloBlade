@@ -36,14 +36,28 @@ PERIOD = 10 # clk frequency = 50 MHz
 @block
 def bluejay_datapath_tb():
     
+    # Active-High Reset for entire design
+    reset_all = Signal(False)
+    # Simulated Clcok Generation
     # Global Control signals
     # Main clock is 100.5MHz clock signal derived from PLL on external XTAL oscillator
     clk_100   = Signal(False)
     # FT601 part of the design has its own 100 MHz oscialltor
     ftdi_clk  = Signal(False)
-    # Active-High Reset for entire design
-    reset_all = Signal(False)
+    # FTDI Clock
+    @instance
+    def wrClkGen():
+        while 1:
+            yield delay(5)
+            ftdi_clk.next = not ftdi_clk
 
+    # FPGA Clock - give it a little bit of jitter compared to the FTDI to be more realistic
+    @instance
+    def rdClkGen():
+        yield delay(3)
+        while 1:
+            yield delay(5)
+            clk_100.next = not clk_100    
 
 
     # Our Simulated USB-FIFO
@@ -68,10 +82,9 @@ def bluejay_datapath_tb():
             SIM_DATA_IN_WR.next = True
             yield ftdi_clk.negedge
         # De-assert once all data clocked in
+        yield ftdi_clk.posedge
         SIM_DATA_IN_WR.next = False
-        yield delay(60)
-
-
+        yield(ftdi_clk.negedge)
 
 
     # Insert our implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
@@ -97,6 +110,8 @@ def bluejay_datapath_tb():
 
 
     # Instantiate our timing controller
+    # Control
+    reset_all   = Signal(False)
     line_of_data_available = Signal(False)
     next_frame_rdy_o       = Signal(False)
     timing_controller_inst = timing_controller.timing_controller(clk_100, reset_all, num_words_in_buffer, line_of_data_available, next_frame_rdy_o)
@@ -104,24 +119,14 @@ def bluejay_datapath_tb():
 
 
     # Signals for Bluejay Data Module
-    # Control
-    clk_i       = Signal(False)
-    reset_all   = Signal(False)
-    new_frame_i = Signal(False)
-    # Read-Side
-    bluejay_data_i   = Signal(0)
-    next_line_rdy_i  = Signal(False)
-    fifo_empty_i     = Signal(False)
-    get_next_word_o  = Signal(False)
-    # get_next_word_dummy  = Signal(False)
-    # Write-Side
+    # SLM-Side
     bluejay_data_o = Signal(0)
     sync_o = Signal(False)
     valid_o = Signal(False)
     update_o = Signal(False)
     invert_o = Signal(False)
     # Inst our Bluejay Data Interface
-    bluejay_data_inst = bluejay_data.bluejay_data(clk_i, reset_all, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    bluejay_data_inst = bluejay_data.bluejay_data(clk_100, reset_all, next_frame_rdy_o, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
 
 
 
@@ -152,11 +157,17 @@ def bluejay_datapath_tb():
         # Test Data
         test_line = [
 
-            # Line 1
-            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
-            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
-            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
-            0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000
+            # # Line 1
+            # 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+            # 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+            # 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
+            # 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000
+
+            # Alternate
+            1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+            11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+            21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+            31, 32, 33, 34, 35, 36, 37, 38, 39, 40
 
         ]
 
@@ -179,13 +190,13 @@ def bluejay_datapath_tb():
 
  # Iterate through test vector
         # for i in range(1280):
-        for i in range(1):
+        # for i in range(1):
 
-            # Wait 1us and then load another line
-            yield delay(1000)
+        # Wait 1us and then load another line
+        yield delay(1000)
 
-            # Load line
-            yield simulate_load_fifo_data(test_line)
+        # Load line
+        yield simulate_load_fifo_data(test_line)
 
         # Wait another 10us then end simulation
         yield delay(10000)
@@ -211,7 +222,7 @@ def bluejay_datapath_tb():
 
         # yield delay(1000)
 
-    return mock_ft601_inst, usb3_if_inst, mock_dc32_fifo_inst, timing_controller_inst, bluejay_data_inst, test_protocol
+    return wrClkGen, rdClkGen, mock_ft601_inst, usb3_if_inst, mock_dc32_fifo_inst, timing_controller_inst, bluejay_data_inst, test_protocol
 
 
     # # Timing Code, useful for clearing our Assert signals

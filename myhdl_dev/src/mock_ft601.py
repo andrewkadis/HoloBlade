@@ -14,7 +14,7 @@ ACTIVE_LOW_FALSE  = True
 # Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
 @block
 def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, SIM_DATA_IN_WR, maxFilling=sys.maxsize):
-    
+
     """ Synchronous fifo model based on a list.
     
     Ports, Descriptions taken direct from the Datasheet:
@@ -41,20 +41,21 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
     # This is a simulation, so have a simulated memory block
     memory = []
 
-
-    # @always(CLK.posedge)
-    # def sim_write_data_from_pc():
-
-
     # Read Data from the mock_ft601 with the FPGA
-    @always(CLK.posedge)
+    @always(CLK.negedge)
     def access():
+
+        # Need to check empty status first to be consistent with FT601 documentation
+        filling = len(memory)
+        if filling > 0: # This is 0 as we are checking before clocking anything out
+            RX_F.next = ACTIVE_LOW_TRUE
+        else:
+            RX_F.next = ACTIVE_LOW_FALSE
 
         # Load data into the FIFO by writing from PC
         # This simulates writing data to the USB3 from the FTDI Drivers
         if SIM_DATA_IN_WR:
             memory.insert(0, SIM_DATA_IN.val)
-            # print(memory)
 
         # Only read Data if OE_N is Asserted
         if OE_N==ACTIVE_LOW_TRUE:
@@ -62,17 +63,10 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
             if RD_N==ACTIVE_LOW_TRUE:
                 try:
                     DATA.next = memory.pop()
-                    # print(memory)
                 except IndexError:
-                    raise Exception("Underflow -- Read from empty fifo")
+                    DATA.next = 0x00000000 # Should stricly be 0xFFFFFFFF from datasheet but this is easier to read on simulator
 
-        # Update FIFO empty flag if we have data in our FIFO
-        filling = len(memory)
-        print(filling)
-        if filling > 1:
-            RX_F.next = ACTIVE_LOW_TRUE
-        else:
-            RX_F.next = ACTIVE_LOW_FALSE
+
 
 
     # @always_comb
@@ -120,7 +114,8 @@ def sim_mock_ft601_tb():
     SIM_DATA_IN_WR = Signal(False)
     # memory = []
     
-    sim_mock_ft601 = mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SIM_DATA_IN, SIM_DATA_IN_WR)
+    # sim_mock_ft601 = mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SIM_DATA_IN, SIM_DATA_IN_WR)
+    sim_mock_ft601 = mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, SIM_DATA_IN_WR, maxFilling=sys.maxsize)
 
 
     def simulate_gpio_assert(gpio_idx, value):
@@ -138,10 +133,10 @@ def sim_mock_ft601_tb():
             SIM_DATA_IN_WR.next = True
             yield CLK.negedge
         # De-assert once all data clocked in
+        yield CLK.posedge
         SIM_DATA_IN_WR.next = False
         # Pulse GPIO to indicate end of a line
         simulate_gpio_assert(0, True)
-        yield(CLK.posedge)
         yield(CLK.negedge)
         simulate_gpio_assert(0, False)
 

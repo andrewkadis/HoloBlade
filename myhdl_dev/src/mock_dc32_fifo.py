@@ -33,20 +33,21 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
 
     """
 
-    # FTDI Clock
-    @instance
-    def wrClkGen():
-        while 1:
-            yield delay(5)
-            ftdi_clk.next = not ftdi_clk
 
-    # FPGA Clock - give it a little bit of jitter compared to the FTDI to be more realistic
-    @instance
-    def rdClkGen():
-        yield delay(3)
-        while 1:
-            yield delay(5)
-            fpga_clk.next = not fpga_clk    
+    # # FTDI Clock
+    # @instance
+    # def wrClkGen():
+    #     while 1:
+    #         yield delay(5)
+    #         ftdi_clk.next = not ftdi_clk
+
+    # # FPGA Clock - give it a little bit of jitter compared to the FTDI to be more realistic
+    # @instance
+    # def rdClkGen():
+    #     yield delay(3)
+    #     while 1:
+    #         yield delay(5)
+    #         fpga_clk.next = not fpga_clk    
     
     # This is a simulation, so have a simulated memory block
     memory = []
@@ -86,7 +87,7 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
         else:
             fifo_empty.next = False
 
-    return update_write_side, update_read_side, wrClkGen, rdClkGen
+    return update_write_side, update_read_side#, wrClkGen, rdClkGen
 
 
 @block

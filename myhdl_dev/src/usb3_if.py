@@ -75,27 +75,27 @@ def usb3_if(
     OE_N_r = Signal(False)
     RD_N_r = Signal(False)
     # Route these registers to their wires
-    @always_comb
-    def usb3_readout_comb_logic():
-        OE_N.next = OE_N_r
-        RD_N.next = RD_N_r
+    # @always_comb
+    # def usb3_readout_comb_logic():
+    #     OE_N.next = OE_N_r
+    #     RD_N.next = RD_N_r
     # Sequential logic to handle handle reading data out of FTDI USB3 Chip
-    @always(ftdi_clk.posedge)
+    @always(ftdi_clk.negedge)
     def usb3_readout_seq_logic():
         # If RXF_N is deasserted, both OE_N and RD_N shall be deasserted
         # Note that setting these registers here gives a 1-clock cycle, this is exactly what we want as is consistent with timing
         # We also check fifo_is_full as don't want to pull data out of USB3 chip when our FIFO can't store it
         if( (RXF_N==False) or (dc32_fifo_is_full==True) ):
-            OE_N_r.next = False
-            RD_N_r.next = False
+            OE_N.next = False
+            RD_N.next = False
         elif( (RXF_N==True) and (OE_N==False) and (dc32_fifo_is_full==False) ):
             # First clock cycle after RX_N has been asserted, assert OE_N to give the FPGA control of the data bus
-            OE_N_r.next = True
-            RD_N_r.next = False
+            OE_N.next = True
+            RD_N.next = False
         elif( (RXF_N==True) and (OE_N==True) and (dc32_fifo_is_full==False) ):
             # Second clock cycle after RX_N has been asserted, assert RD_N to kick off a data transfer
-            OE_N_r.next = True
-            RD_N_r.next = True
+            OE_N.next = True
+            RD_N.next = True
 
     ##########################################################
     ################ DC_32 FIFO Connections ##################
@@ -103,11 +103,11 @@ def usb3_if(
     @always_comb
     def dc32_fifo_routing():
         # We write to the FIFO whenever we are clocking out of the USB Chip so they are sync'd
-        write_to_dc32_fifo.next = RD_N_r
+        write_to_dc32_fifo.next = RD_N
         # Route the data pins through appprpriately
         dc32_fifo_data_in.next = usb3_data_in
 
-    return active_high_conversion, usb3_readout_comb_logic, usb3_readout_seq_logic, dc32_fifo_routing
+    return active_high_conversion, usb3_readout_seq_logic, dc32_fifo_routing
 
 
 
