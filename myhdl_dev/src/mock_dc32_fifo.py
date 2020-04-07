@@ -12,7 +12,7 @@ FIFO_DEPTH = 64
 
 # Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
 @block
-def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full, fifo_empty, fifo_dataline_available, get_next_word, fifo_data_out):
+def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full, fifo_empty, get_next_word, fifo_data_out, num_words_in_buffer):
     
     """ Synchronous fifo model based on a list.
     
@@ -27,9 +27,9 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
     dc32_fifo_is_full       : Goes high when there are at least 40 lines of data available in the internal FIFO
     # FPGA-side
     fifo_empty              : Is our fifo empty?
-    fifo_dataline_available : Goes high when there are at least 40 lines of data available in the internal FIFO
     get_next_word           : Line to pull data from FIFO
     fifo_data_out           : 32-bit Data Out from internal 32-wide, 64-deep FIFO
+    num_words_in_buffer     : Number of words in the buffer clocked appropriately by both domains, used by downstream logic
 
     """
 
@@ -57,6 +57,7 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
         # Write to memory
         if write_to_dc32_fifo==True:
             memory.insert(0, dc32_fifo_data_in.val)
+            num_words_in_buffer.next = num_words_in_buffer + 1
         # Update if we are full
         filling = len(memory)
         if filling==FIFO_DEPTH:
@@ -74,6 +75,7 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
         if get_next_word:
             try:
                 popMe = memory.pop()
+                num_words_in_buffer.next = num_words_in_buffer - 1
                 fifo_data_out.next = popMe
             except IndexError:
                 raise Exception("Underflow -- Read from empty fifo")
@@ -83,8 +85,6 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
             fifo_empty.next = True
         else:
             fifo_empty.next = False
-        # TODO: temp
-        fifo_dataline_available = True
 
     return update_write_side, update_read_side, wrClkGen, rdClkGen
 
@@ -104,11 +104,11 @@ def mock_dc32_fifo_tb():
     dc32_fifo_is_full       = Signal(False)
     # FPGA-side
     fifo_empty              = Signal(False)
-    fifo_dataline_available = Signal(False)
     get_next_word           = Signal(False)
     fifo_data_out           = Signal(0)
+    num_words_in_buffer     = Signal(0)
     # DUTs
-    dut = mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full, fifo_empty, fifo_dataline_available, get_next_word, fifo_data_out)
+    dut = mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full, fifo_empty, get_next_word, fifo_data_out, num_words_in_buffer)
 
     @instance
     def test_protocol():

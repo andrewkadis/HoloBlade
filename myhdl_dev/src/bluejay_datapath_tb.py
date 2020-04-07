@@ -19,6 +19,8 @@ import bluejay_data
 import usb_to_bluejay_if
 import mock_ft601
 import usb3_if
+import mock_dc32_fifo
+import timing_controller
 
 from bluejay_data import t_state
 
@@ -56,7 +58,7 @@ def bluejay_datapath_tb():
     usb3_data_in    = Signal(0)
     SIM_DATA_IN_WR = Signal(False)
     # Inst our simulate USB FIFO
-    mock_ft601 = mock_ft601.mock_ft601(ftdi_clk, usb_data_o, TXE_N, FR_RXF, WR_N, FT_RD, FT_OE, RESET_N, usb3_data_in, SIM_DATA_IN_WR)
+    mock_ft601_inst = mock_ft601.mock_ft601(ftdi_clk, usb_data_o, TXE_N, FR_RXF, WR_N, FT_RD, FT_OE, RESET_N, usb3_data_in, SIM_DATA_IN_WR)
     # Function to simulate loading data into FIFO with USB3 Drivers on the PC
     def simulate_load_fifo_data(data_to_load):
         # Load all our data into internal fifo
@@ -75,12 +77,29 @@ def bluejay_datapath_tb():
     # Insert our implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
     write_to_dc32_fifo = Signal(False)
     dc32_fifo_data_in  = Signal(0)
-    dc_32_fifo_is_full = Signal(False)
-    usb3_if_inst = usb3_if.usb3_if(ftdi_clk, FR_RXF, FT_OE, FT_RD, usb3_data_in, write_to_dc32_fifo, dc32_fifo_data_in, dc_32_fifo_is_full)
+    dc32_fifo_is_full  = Signal(False)
+    usb3_if_inst = usb3_if.usb3_if(ftdi_clk, FR_RXF, FT_OE, FT_RD, usb3_data_in, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full)
+
+
+
+    # Inst our simulated 32-bitDC FIFO and its signals
+    # Signals
+    reset_ptr  = Signal(0) # Nveer changes, unused only here because generated FIFO from Lattice tools includes it
+    # FPGA-side
+    fifo_empty              = Signal(False)
+    get_next_word           = Signal(False)
+    fifo_data_out           = Signal(0)
+    num_words_in_buffer     = Signal(0)
+    # Instantiate our simulated FIFO
+    mock_dc32_fifo_inst = mock_dc32_fifo.mock_dc32_fifo(reset_all, reset_ptr, ftdi_clk, clk_100, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full, fifo_empty, get_next_word, fifo_data_out, num_words_in_buffer)
 
 
 
 
+    # Instantiate our timing controller
+    line_of_data_available = Signal(False)
+    next_frame_rdy_o       = Signal(False)
+    timing_controller_inst = timing_controller.timing_controller(clk_100, reset_all, num_words_in_buffer, line_of_data_available, next_frame_rdy_o)
 
 
 
@@ -159,7 +178,8 @@ def bluejay_datapath_tb():
         # yield clk_i.posedge
 
  # Iterate through test vector
-        for i in range(1280):
+        # for i in range(1280):
+        for i in range(1):
 
             # Wait 1us and then load another line
             yield delay(1000)
@@ -191,7 +211,7 @@ def bluejay_datapath_tb():
 
         # yield delay(1000)
 
-    return sim_mock_ft601, usb3_if_inst, bluejay_data_inst, test_protocol
+    return mock_ft601_inst, usb3_if_inst, mock_dc32_fifo_inst, timing_controller_inst, bluejay_data_inst, test_protocol
 
 
     # # Timing Code, useful for clearing our Assert signals
