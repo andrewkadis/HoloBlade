@@ -93,9 +93,12 @@ def usb3_if(
             OE_N.next = True
             RD_N.next = False
         elif( (RXF_N==True) and (OE_N==True) and (dc32_fifo_is_full==False) ):
-            # Second clock cycle after RX_N has been asserted, assert RD_N to kick off a data transfer
+            # Second clock cycle after RX_N has been asserted, assert RD_N to kick off a data transfer, we write to the downstream FIFO at the same time
             OE_N.next = True
             RD_N.next = True
+
+
+
 
     ##########################################################
     ################ DC_32 FIFO Connections ##################
@@ -103,7 +106,11 @@ def usb3_if(
     @always_comb
     def dc32_fifo_routing():
         # We write to the FIFO whenever we are clocking out of the USB Chip so they are sync'd
-        write_to_dc32_fifo.next = RD_N
+        # Need to be very careful here, from diagram on pg.16 of datasheet can only write when all three lines are asserted. We also need to check if the FIFO is full
+        if( (RXF_N==True) and (OE_N==True) and (RD_N==True) and (dc32_fifo_is_full==False)):
+            write_to_dc32_fifo.next = True
+        else:
+            write_to_dc32_fifo.next = False
         # Route the data pins through appprpriately
         dc32_fifo_data_in.next = usb3_data_in
 

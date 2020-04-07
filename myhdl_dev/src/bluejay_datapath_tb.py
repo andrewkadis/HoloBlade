@@ -30,18 +30,11 @@ ACTIVE_LOW_TRUE   = False
 ACTIVE_LOW_FALSE  = True
 PERIOD = 10 # clk frequency = 50 MHz
 
-
-
-# testbench
+# Simulated Clcok Generation - this needs to be external to datapath of simulated fifos will get corrupted
 @block
-def bluejay_datapath_tb():
-    
-    # Active-High Reset for entire design
-    reset_all = Signal(False)
-    # Simulated Clcok Generation
+def bluejay_datapath_clkGen(ftdi_clk, fpga_clk):
+
     # Global Control signals
-    # Main clock is 100.5MHz clock signal derived from PLL on external XTAL oscillator
-    clk_100   = Signal(False)
     # FT601 part of the design has its own 100 MHz oscialltor
     ftdi_clk  = Signal(False)
     # FTDI Clock
@@ -51,14 +44,28 @@ def bluejay_datapath_tb():
             yield delay(5)
             ftdi_clk.next = not ftdi_clk
 
+    # Main clock is 100.5MHz clock signal derived from PLL on external XTAL oscillator
     # FPGA Clock - give it a little bit of jitter compared to the FTDI to be more realistic
     @instance
     def rdClkGen():
-        yield delay(3)
+        # yield delay(3)
         while 1:
             yield delay(5)
-            clk_100.next = not clk_100    
+            fpga_clk.next = not fpga_clk 
 
+    return wrClkGen, rdClkGen
+
+
+# testbench
+@block
+def bluejay_datapath_tb():
+    
+    # Active-High Reset for entire design
+    reset_all = Signal(False)
+    # Clocks
+    ftdi_clk = Signal(False)
+    fpga_clk = Signal(False)
+    bluejay_datapath_clkGen_inst = bluejay_datapath_clkGen(ftdi_clk, fpga_clk)
 
     # Our Simulated USB-FIFO
     usb_data_o  = Signal(0)
@@ -77,21 +84,21 @@ def bluejay_datapath_tb():
     def simulate_load_fifo_data(data_to_load):
         # Load all our data into internal fifo
         for data_word in data_to_load:
-            yield ftdi_clk.posedge
+            yield ftdi_clk.negedge
             usb3_data_in.next = data_word
             SIM_DATA_IN_WR.next = True
-            yield ftdi_clk.negedge
+            yield ftdi_clk.posedge
         # De-assert once all data clocked in
-        yield ftdi_clk.posedge
+        yield ftdi_clk.negedge
         SIM_DATA_IN_WR.next = False
-        yield(ftdi_clk.negedge)
+        yield(ftdi_clk.posedge)
 
 
     # Insert our implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
     write_to_dc32_fifo = Signal(False)
     dc32_fifo_data_in  = Signal(0)
     dc32_fifo_is_full  = Signal(False)
-    usb3_if_inst = usb3_if.usb3_if(ftdi_clk, FR_RXF, FT_OE, FT_RD, usb3_data_in, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full)
+    usb3_if_inst = usb3_if.usb3_if(ftdi_clk, FR_RXF, FT_OE, FT_RD, usb_data_o, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full)
 
 
 
@@ -104,7 +111,7 @@ def bluejay_datapath_tb():
     fifo_data_out           = Signal(0)
     num_words_in_buffer     = Signal(0)
     # Instantiate our simulated FIFO
-    mock_dc32_fifo_inst = mock_dc32_fifo.mock_dc32_fifo(reset_all, reset_ptr, ftdi_clk, clk_100, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full, fifo_empty, get_next_word, fifo_data_out, num_words_in_buffer)
+    mock_dc32_fifo_inst = mock_dc32_fifo.mock_dc32_fifo(reset_all, reset_ptr, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full, fifo_empty, get_next_word, fifo_data_out, num_words_in_buffer)
 
 
 
@@ -114,7 +121,7 @@ def bluejay_datapath_tb():
     reset_all   = Signal(False)
     line_of_data_available = Signal(False)
     next_frame_rdy_o       = Signal(False)
-    timing_controller_inst = timing_controller.timing_controller(clk_100, reset_all, num_words_in_buffer, line_of_data_available, next_frame_rdy_o)
+    timing_controller_inst = timing_controller.timing_controller(fpga_clk, reset_all, num_words_in_buffer, line_of_data_available, next_frame_rdy_o)
 
 
 
@@ -126,7 +133,7 @@ def bluejay_datapath_tb():
     update_o = Signal(False)
     invert_o = Signal(False)
     # Inst our Bluejay Data Interface
-    bluejay_data_inst = bluejay_data.bluejay_data(clk_100, reset_all, next_frame_rdy_o, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    bluejay_data_inst = bluejay_data.bluejay_data(fpga_clk, reset_all, next_frame_rdy_o, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
 
 
 
@@ -222,7 +229,7 @@ def bluejay_datapath_tb():
 
         # yield delay(1000)
 
-    return wrClkGen, rdClkGen, mock_ft601_inst, usb3_if_inst, mock_dc32_fifo_inst, timing_controller_inst, bluejay_data_inst, test_protocol
+    return bluejay_datapath_clkGen_inst, mock_ft601_inst, usb3_if_inst, mock_dc32_fifo_inst, timing_controller_inst, bluejay_data_inst, test_protocol
 
 
     # # Timing Code, useful for clearing our Assert signals
@@ -370,7 +377,7 @@ def main():
     tb = bluejay_datapath_tb()
     tb.config_sim(trace=True)
     # tb.run_sim(5000000)
-    tb.run_sim(50000)
+    tb.run_sim(2000)
 
     # bluejay_gen_verilog()
 

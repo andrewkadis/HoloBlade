@@ -34,29 +34,19 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
     """
 
 
-    # # FTDI Clock
-    # @instance
-    # def wrClkGen():
-    #     while 1:
-    #         yield delay(5)
-    #         ftdi_clk.next = not ftdi_clk
+    # Register to give us 1-cyle delay for write_to_dc_fifo so it is sync'd with the data going in
+    write_to_dc32_fifo_r = Signal(False)
 
-    # # FPGA Clock - give it a little bit of jitter compared to the FTDI to be more realistic
-    # @instance
-    # def rdClkGen():
-    #     yield delay(3)
-    #     while 1:
-    #         yield delay(5)
-    #         fpga_clk.next = not fpga_clk    
-    
     # This is a simulation, so have a simulated memory block
-    memory = []
+    memory  = []
 
     # Dual Clock FIFO - look at the write-side facing the FT601
     @always(ftdi_clk.posedge)
     def update_write_side():
+        # Latch the write word register so they are synchronised, our data going into the fifo will have a 1-cycle delay and need to support this
+        write_to_dc32_fifo_r.next = write_to_dc32_fifo
         # Write to memory
-        if write_to_dc32_fifo==True:
+        if write_to_dc32_fifo_r==True:
             memory.insert(0, dc32_fifo_data_in.val)
             num_words_in_buffer.next = num_words_in_buffer + 1
         # Update if we are full
@@ -70,9 +60,9 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
 
 
     # Dual Clock FIFO - look at the read-side facing the FPGA
+    # @always(fpga_clk.posedge)
     @always(fpga_clk.posedge)
     def update_read_side():
-        # Read from Memory
         if get_next_word:
             try:
                 popMe = memory.pop()
@@ -222,6 +212,7 @@ def main():
     tb = mock_dc32_fifo_tb()
     tb.config_sim(trace=True)
     tb.run_sim(3000)
+    
     
 if __name__ == '__main__':
     main()

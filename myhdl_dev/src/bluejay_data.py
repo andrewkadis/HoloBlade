@@ -75,7 +75,7 @@ def bluejay_data(clk_i, reset_i, new_frame_i, data_i, next_line_rdy_i, fifo_empt
     # Combinational Logic to ensure that we only ever get data from FIFO when not empty
     @always_comb
     def check_fifo_not_empty():
-        if (get_next_word_cmd==True) and (fifo_empty_i==True):
+        if (get_next_word_cmd==True) and (fifo_empty_i==False):
             get_next_word_o.next = True
         else:
             get_next_word_o.next = False
