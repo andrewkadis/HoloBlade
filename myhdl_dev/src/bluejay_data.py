@@ -21,8 +21,9 @@ t_state = enum(
     'FRAME_END_UPDATE_HIGH'
     )
 
+
 @block
-def bluejay_data(clk_i, reset_i, next_frame_rdy, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, data_o, sync_o, valid_o, update_o, invert_o):
+def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, data_o, sync_o, valid_o, update_o, invert_o):
 
 
     """ Peripheral to clock data out to a Bluejay SLM's Data Interface
@@ -30,8 +31,8 @@ def bluejay_data(clk_i, reset_i, next_frame_rdy, fifo_data_out, line_of_data_ava
     I/O pins:
     --------
     Control:
-    clk_i                   : 50MHz input clock
-    reset_i                 : Reset line
+    fpga_clk                : 100MHz input clock
+    reset_all               : Reset line
     next_frame_rdy          : Signal line to indicate that we want to start outputting a new frame
     Read-Side:
     fifo_data_out           : 32-bit input data to be shown on SLM
@@ -66,7 +67,7 @@ def bluejay_data(clk_i, reset_i, next_frame_rdy, fifo_data_out, line_of_data_ava
     # shiftReg = Signal(modbv(0)[50:])
 
 
-    # @always(clk_i.negedge)
+    # @always(fpga_clk.negedge)
     # def clear():
 
     #     if state == (t_state.LINE_OUT_DATA or LINE_OUT_ENTER):
@@ -90,7 +91,7 @@ def bluejay_data(clk_i, reset_i, next_frame_rdy, fifo_data_out, line_of_data_ava
 
 
 
-    @always(clk_i.posedge)
+    @always(fpga_clk.posedge)
     def update():
 
         # Default Outputs
@@ -209,7 +210,7 @@ def bluejay_data(clk_i, reset_i, next_frame_rdy, fifo_data_out, line_of_data_ava
             v_counter.next = num_lines
 
         # Reset Check
-        if( reset_i==True ):
+        if( reset_all==True ):
             # Explicitly clear all outputs
             data_output_active_cmd.next = False
             sync_o.next = False
@@ -239,7 +240,7 @@ def bluejay_data_tb():
 
     # Signals for Bluejay Data Module
     # Control
-    clk_i          = Signal(False)
+    fpga_clk       = Signal(False)
     reset_all      = Signal(False)
     next_frame_rdy = Signal(False)
     # Read-Side
@@ -254,7 +255,7 @@ def bluejay_data_tb():
     update_o       = Signal(False)
     invert_o       = Signal(False)
     # Inst our Bluejay Data Interface
-    bluejay_data_inst = bluejay_data(clk_i, reset_all, next_frame_rdy, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    bluejay_data_inst = bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
 
 
     # Inst our simulated FIFO
@@ -263,13 +264,13 @@ def bluejay_data_tb():
     full = Signal(False)
     empty = Signal(False)
     # fifo_empty.next = not empty
-    dut = test_fifo.fifo2(fifo_data_out, fifo_data_i, get_next_word, we, empty, full, clk_i, maxFilling=2000000)
+    dut = test_fifo.fifo2(fifo_data_out, fifo_data_i, get_next_word, we, empty, full, fpga_clk, maxFilling=2000000)
 
     # Clock
     PERIOD = 10 # 50 MHz
     @always(delay(PERIOD))
     def clkgen():
-        clk_i.next = not clk_i
+        fpga_clk.next = not fpga_clk
 
     # Invert the empty signal
     @always_comb
@@ -294,16 +295,16 @@ def bluejay_data_tb():
         FULL_CLOCK_PERIOD = 2*PERIOD
         yield delay(FULL_CLOCK_PERIOD)
         # Reset
-        yield clk_i.negedge
+        yield fpga_clk.negedge
         reset_all.next = True
-        yield clk_i.posedge
+        yield fpga_clk.posedge
         reset_all.next = False
         # Signal to indicate we are doing a new frame
         yield delay(FULL_CLOCK_PERIOD)
         next_frame_rdy.next = True
-        yield clk_i.negedge
+        yield fpga_clk.negedge
         next_frame_rdy.next = False
-        yield clk_i.posedge
+        yield fpga_clk.posedge
         # Iterate through test vector
         for i in range(1280):
 
@@ -312,23 +313,23 @@ def bluejay_data_tb():
 
             # Load line
             for item in test_vector:
-                yield clk_i.negedge
+                yield fpga_clk.negedge
                 # yield delay(10)
                 fifo_data_i.next = item
                 we.next = True
                 # yield delay(10)
-                yield clk_i.posedge
+                yield fpga_clk.posedge
                 # yield delay(1)
                 we.next = False
                 # yield delay(10)
 
             # Assert that we have reached end-of-line
-            yield clk_i.negedge
+            yield fpga_clk.negedge
             # yield delay(FULL_CLOCK_PERIOD)
             line_of_data_available.next = True
-            yield clk_i.posedge
+            yield fpga_clk.posedge
             line_of_data_available.next = False
-            yield clk_i.negedge
+            yield fpga_clk.negedge
             # yield delay()
             we.next = False
 

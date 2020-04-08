@@ -107,7 +107,7 @@ def timing_controller_gen_verilog():
     fpga_clk               = Signal(False)
     reset_all              = Signal(False)
     # DC32 FIFO
-    num_words_in_buffer    = Signal(intbv(0)[8:]) # FIFO Depth is 64
+    num_words_in_buffer    = Signal(intbv(0)[7:]) # FIFO Depth is 64
     # Bluejay Display
     line_of_data_available = Signal(False)
     next_frame_rdy         = Signal(False)

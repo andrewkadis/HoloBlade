@@ -122,20 +122,33 @@ def bluejay_datapath_tb():
     fifo_empty              = Signal(False)
     get_next_word           = Signal(False)
     fifo_data_out           = Signal(0)
-    num_words_in_buffer    = Signal(intbv(0)[8:]) # FIFO Depth is 64
-    # Instantiate our simulated FIFO
-    mock_dc32_fifo_inst = mock_dc32_fifo.mock_dc32_fifo(reset_all, reset_ptr, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full, fifo_empty, get_next_word, fifo_data_out, num_words_in_buffer)
-
-
+    num_words_in_buffer     = Signal(0)
+    # DUTs
+    mock_dc32_fifo_inst = mock_dc32_fifo.mock_dc32_fifo(
+        # Signals
+        reset_all,
+        reset_ptr,
+        ftdi_clk,
+        fpga_clk,
+        # FT601-side
+        write_to_dc32_fifo,
+        dc32_fifo_data_in,
+        dc32_fifo_is_full,
+        # FPGA-side
+        fifo_empty,
+        get_next_word,
+        fifo_data_out, 
+        num_words_in_buffer
+    )
 
 
     # Instantiate our timing controller
-    # Signals for Bluejay Data Module
-    # DC32 FIFO
+    # Block to control timing of display updates, controls reset, frame-rate, next-line_of_data_available-rdy, next-frame-rdy
+    # Signals
     # Bluejay Display
     line_of_data_available = Signal(False)
     next_frame_rdy         = Signal(False)
-    # Control Logic between SLM and simulated USB-FIFO
+    # Instantiate
     timing_controller_inst = timing_controller.timing_controller(
         # Control
         fpga_clk,

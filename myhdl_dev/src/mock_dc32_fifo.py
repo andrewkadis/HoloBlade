@@ -99,7 +99,22 @@ def mock_dc32_fifo_tb():
     fifo_data_out           = Signal(0)
     num_words_in_buffer     = Signal(0)
     # DUTs
-    dut = mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full, fifo_empty, get_next_word, fifo_data_out, num_words_in_buffer)
+    dut = mock_dc32_fifo(
+        # Signals
+        reset,
+        reset_rp,
+        ftdi_clk,
+        fpga_clk,
+        # FT601-side:
+        write_to_dc32_fifo,
+        dc32_fifo_data_in,
+        dc32_fifo_is_full,
+        # FPGA-side
+        fifo_empty,
+        get_next_word,
+        fifo_data_out, 
+        num_words_in_buffer
+    )
 
     @instance
     def test_protocol():
