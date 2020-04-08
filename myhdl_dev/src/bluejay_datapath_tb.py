@@ -240,7 +240,7 @@ def bluejay_datapath_tb():
         # Wait another 10us then end simulation
         yield delay(10000)
         # End Simulation
-        raise StopSimulation()
+        # raise StopSimulation()
 
         # yield(clk_i.posedge)
         # # Read out data until our USB FIFO is empty
@@ -408,7 +408,7 @@ def main():
 
     tb = bluejay_datapath_tb()
     tb.config_sim(trace=True)
-    tb.run_sim(5000000)
+    tb.run_sim(50000)
     # tb.run_sim(2000)
 
     # bluejay_gen_verilog()

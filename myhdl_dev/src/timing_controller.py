@@ -60,11 +60,13 @@ def timing_controller(
 
     # State Machine to manage generation of the next_line_ready once data is available
     # TODO: Extend this later to support frame ready updates and external sync
+    # Regularly re-pulse once every second
+    repulse_period = 62500000 # Once a second, therefore just use our period (not not precisely 1Hz but close enough)
     # Wait 5 cycles at startup before resetting
     reset_wait_period = 5 
     # Signals for FSM
     state                 = Signal(t_state.INITING)
-    state_timeout_counter = Signal(intbv(reset_wait_period)[8:]) 
+    state_timeout_counter = Signal(intbv(0)[32:]) 
     @always(fpga_clk.posedge)
     def run_timing():
 
@@ -80,19 +82,25 @@ def timing_controller(
             # Waiting...
             state_timeout_counter.next = state_timeout_counter - 1
             # End of Blank period for end of line?
-            if state_timeout_counter == 1:
+            if state_timeout_counter <= 1:    # Here we also check for 0, as this is what the intial value shall be on startup
                 # Move into pulse
                 state.next = t_state.NEW_FRAME_PULSE
 
         elif state == t_state.NEW_FRAME_PULSE:
             # Pulse for next frame for a single-cycle
             next_frame_rdy.next = 1
-            # Wait in IDLE for any data
+            # Wait in IDLE for repulsing
+            state_timeout_counter.next = repulse_period
             state.next = t_state.IDLE
 
         elif state == t_state.IDLE:
-            # In current implementation, we just stay here forever... Do nothing
-            state.next = t_state.IDLE
+            state_timeout_counter.next = state_timeout_counter - 1
+            # Ready for repulse?
+            if state_timeout_counter == 1:
+                # Move into pulse
+                state_timeout_counter.next = reset_wait_period
+                state.next = t_state.INITING
+
 
 
     return check_line_available, run_timing
