@@ -335,19 +335,187 @@ assign SLM_CLK = sys_clk;
 // assign DATA9  = 1'b1;
 // assign DATA10 = 1'b1;
 
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////
+///////// USB3 /////////
+////////////////////////
+// assign debug_ch1 = FT_OE;
+// assign debug_ch2 = FIFO_D0;
+// assign debug_ch3 = FT_RD;
+// assign debug_ch4 = FIFO_D0;
+// assign DEBUG_1 = UART_RX;
+// assign DEBUG_2 = UART_TX;//next_frame_rdy_w;
+// assign DEBUG_3 = SEN;
+// assign DEBUG_5 = SCK;
+// assign DEBUG_8 = SOUT;
+// assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
+// Debugging Lines
+// Keep clock at the top so we don't lose track of things
+assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
+assign DEBUG_1 = line_of_data_available;
+assign DEBUG_2 = get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = fifo_data_out[22];//usb3_fifo_read_enable;
+assign DEBUG_6 = usb3_data_in[22];//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_7 = bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
+
+
+
+// Latch using registers to give us 1-cycle delay
+  // always @(posedge i_Clock)
+  //   begin
+  //     r_Rx_Data_R <= i_Rx_Serial;
+  //     r_Rx_Data   <= r_Rx_Data_R;
+  //   end
+// always @ (negedge sys_clk) begin
+//   // OE_N_r <= OE_N_r;
+//   // RD_N_r <= RD_N_r;
+
+//   if(RX_F==0) begin
+//     OE_N_r <= 0;
+//   end else begin
+//     OE_N_r <= 1;
+//   end
+
+//   if(OE_N_r==0) begin
+//     RD_N_r <= 0;
+//   end else begin
+//     RD_N_r <= 1;
+//   end
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////// USB3 Chip Interfacing ///////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Connect up USB3 Chip using our custom interface
+// Wire up our 32-bit data connection from the FT601 chip
+wire[31:0] usb3_data_in;
+assign usb3_data_in[31] = FIFO_D31;
+assign usb3_data_in[30] = FIFO_D30;
+assign usb3_data_in[29] = FIFO_D29;
+assign usb3_data_in[28] = FIFO_D28;
+assign usb3_data_in[27] = FIFO_D27;
+assign usb3_data_in[26] = FIFO_D26;
+assign usb3_data_in[25] = FIFO_D25;
+assign usb3_data_in[24] = FIFO_D24;
+assign usb3_data_in[23] = FIFO_D23;
+assign usb3_data_in[22] = FIFO_D22;
+assign usb3_data_in[21] = FIFO_D21;
+assign usb3_data_in[20] = FIFO_D20;
+assign usb3_data_in[19] = FIFO_D19;
+assign usb3_data_in[18] = FIFO_D18;
+assign usb3_data_in[17] = FIFO_D17;
+assign usb3_data_in[16] = FIFO_D16;
+assign usb3_data_in[15] = FIFO_D15;
+assign usb3_data_in[14] = FIFO_D14;
+assign usb3_data_in[13] = FIFO_D13;
+assign usb3_data_in[12] = FIFO_D12;
+assign usb3_data_in[11] = FIFO_D11;
+assign usb3_data_in[10] = FIFO_D10;
+assign usb3_data_in[9]  = FIFO_D9;
+assign usb3_data_in[8]  = FIFO_D8;
+assign usb3_data_in[7]  = FIFO_D7;
+assign usb3_data_in[6]  = FIFO_D6;
+assign usb3_data_in[5]  = FIFO_D5;
+assign usb3_data_in[4]  = FIFO_D4;
+assign usb3_data_in[3]  = FIFO_D3;
+assign usb3_data_in[2]  = FIFO_D2;
+assign usb3_data_in[1]  = FIFO_D1;
+assign usb3_data_in[0]  = FIFO_D0;
+// Implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
+// FPGA side
+wire        write_to_dc32_fifo;
+wire[31:0]  dc32_fifo_data_in;
+wire        dc32_fifo_is_full;
+// Instantiate
+usb3_if usb3_if_inst(
+  // FTDI USB3 Chip
+  .ftdi_clk(ftdi_clk),
+  .FR_RXF(FR_RXF),
+  .FT_OE(FT_OE),
+  .FT_RD(FT_RD),
+  .usb3_data_in(usb3_data_in),
+  // FPGA side
+  .write_to_dc32_fifo(write_to_dc32_fifo),
+  .dc32_fifo_data_in(dc32_fifo_data_in),
+  .dc32_fifo_is_full(dc32_fifo_is_full)
+ );
+
+
+
+///////////////////////////////////////////////////////////////////////////
+/////////// DualClock 32-bit Wide FIFO Chip Interfacing ///////////////////
+///////////////////////////////////////////////////////////////////////////
+// This is a 32-bit wide, 64 word deep, FIFO made up of LUTs from the Lattice Radiant generation tool which is used to buffer up a single line of data at a time
+// Note that it also lets us cross clock domains fom the FTDI CLock domain to the main FPGA clock
+// Inst our simulated 32-bit DC FIFO and its signals
+// Signals
+wire reset_ptr; // Never changes, unused only here because generated FIFO from Lattice tools includes it
+// FPGA-side
+wire       fifo_empty;
+wire       get_next_word;
+wire[31:0] fifo_data_out;
+wire[6:0]  num_words_in_buffer;
+// Instantiate FIFO
+fifo_dc_32_lut_gen fifo_dc_32_lut_gen_inst(
+  // Signals
+  .rst_i(reset_all),
+  .rp_rst_i(reset_ptr),
+  .wr_clk_i(ftdi_clk),
+  .rd_clk_i(fpga_clk),
+  // FT601-side
+  .wr_en_i(write_to_dc32_fifo),
+  .wr_data_i(dc32_fifo_data_in),
+  .full_o(dc32_fifo_is_full),
+  // FPGA-side
+  .empty_o(fifo_empty),
+  .rd_en_i(get_next_word),
+  .rd_data_o(fifo_data_out), 
+  .rd_data_cnt_o(num_words_in_buffer)
+);
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////// Timing Controller ///////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Block to control timing of display updates, controls reset, frame-rate, next-line_of_data_available-rdy, next-frame-rdy
+// Note that it also lets us cross clock domains fom the FTDI CLock domain to the main FPGA clock
+// Signals
+// Bluejay Display
+wire line_of_data_available;
+wire next_frame_rdy;
+// Control Logic between SLM and simulated USB-FIFO
+timing_controller timing_controller_inst(
+  // Control
+  .fpga_clk(fpga_clk),
+  .reset_all(reset_all),
+  // DC32 FIFO
+  .num_words_in_buffer(num_words_in_buffer),
+  // Bluejay Display
+  .line_of_data_available(line_of_data_available),
+  .next_frame_rdy(next_frame_rdy)
+);
+
+
+
+
 /////////////////////////////////////////
 //////// Bluejay Data Interface /////////
 /////////////////////////////////////////
-
-// Use GPIOs from USB3 Chip to drive next line andd next frame ready signals
-// wire next_line_rdy_o_w;
-// wire next_frame_rdy_o_w;
-// 32-Bit Fifo Data connection comes from USB-FIFO chip
-wire[31:0] usb_data_o;
-// Signals so that the bluejay_data FSM can manage data from USB-FIFO chip
-wire fifo_empty_i_w;
-wire get_next_word_o;
-// Map Bluejay Data Lines Out
+// Controller for the Bluejay Data Interface, encasulates an internal state machine to handle clocking out timing and pulls data out of FIFO as appropriate
+// Data Lines
 wire[31:0] bluejay_data_out;
 assign DATA31 = bluejay_data_out[31];
 assign DATA30 = bluejay_data_out[30];
@@ -381,312 +549,63 @@ assign DATA3  = bluejay_data_out[3];
 assign DATA2  = bluejay_data_out[2];
 assign DATA1  = bluejay_data_out[1];
 assign DATA0  = bluejay_data_out[0];
-// Data strobe signals for Bluejay
-wire sync_w;
-wire valid_w;
-wire update_w;
-wire invert_w;
-assign sync_w = SYNC;
-assign valid_w = VALID;
-assign update_w = UPDATE;
-assign invert_w = INVERT;
-// Instantiate Bluejay Data Interface
+// Signals for Bluejay Data Module
+// SLM-Side
+wire[31:0] bluejay_data_o;
+wire       sync_o;
+wire       valid_o;
+wire       update_o;
+wire       invert_o;
+// Inst our Bluejay Data Interface
 bluejay_data bluejay_data_inst(
-
   // Control
-  .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
-  .reset_i(reset_all_w),
-  .new_frame_i(),
-  // Read-Side:
-  .data_i(usb_data_o),
-  .next_line_rdy_i(next_line_rdy_w),
-  .fifo_empty_i(fifo_empty_i_w),
-  .get_next_word_o(get_next_word_o),
-  // Write-Side:
-  .data_o(),//bluejay_data_out),
-  .sync_o(sync_w),
-  .valid_o(valid_w),
-  .update_o(update_w),
-  .invert_o(invert_w)
+  .fpga_clk(fpga_clk),
+  .reset_all(reset_all),
+  // FPGA-side
+  .next_frame_rdy(next_frame_rdy),
+  .fifo_data_out(fifo_data_out),
+  .line_of_data_available(line_of_data_available),
+  .fifo_empty(fifo_empty),
+  .get_next_word(get_next_word),
+  // SLM-side
+  .data_o(bluejay_data_o),
+  .sync_o(sync_o),
+  .valid_o(valid_o),
+  .update_o(update_o),
+  .invert_o(invert_o)
 );
 
 
 
 
-
-
-
-
-
-
-////////////////////////
-///////// USB3 /////////
-////////////////////////
-// assign debug_ch1 = FT_OE;
-// assign debug_ch2 = FIFO_D0;
-// assign debug_ch3 = FT_RD;
-// assign debug_ch4 = FIFO_D0;
-// assign DEBUG_1 = UART_RX;
-// assign DEBUG_2 = UART_TX;//next_frame_rdy_w;
-// assign DEBUG_3 = SEN;
-// assign DEBUG_5 = SCK;
-// assign DEBUG_8 = SOUT;
-// assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
-// Debugging Lines
-assign DEBUG_1 = FR_RXF;
-assign DEBUG_2 = FT_RD;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = usb_data_o[22];//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = usb_fifo_dataline_available;//usb3_fifo_read_enable;
-assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
-assign DEBUG_6 = usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_7 = test_fifo_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-
-
-
-
-// Latch using registers to give us 1-cycle delay
-  // always @(posedge i_Clock)
-  //   begin
-  //     r_Rx_Data_R <= i_Rx_Serial;
-  //     r_Rx_Data   <= r_Rx_Data_R;
-  //   end
-// always @ (negedge sys_clk) begin
-//   // OE_N_r <= OE_N_r;
-//   // RD_N_r <= RD_N_r;
-
-//   if(RX_F==0) begin
-//     OE_N_r <= 0;
-//   end else begin
-//     OE_N_r <= 1;
-//   end
-
-//   if(OE_N_r==0) begin
-//     RD_N_r <= 0;
-//   end else begin
-//     RD_N_r <= 1;
-//   end
-
-///////////////////////////////////////////////////////////////////////////
-///////////////////// USB3 Chip Interfacing ///////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-
-// Connect up USB3 Chip using our custom interface
-// It incorporates a FIFO, handles buffering, crossing clocks domains and ACTIVE LOW/HIGH interfacing issues - makes everything ACTIVE_HIGH
-// FPGA-side signals
-wire usb_fifo_is_empty;
-wire usb_fifo_dataline_available;
-wire usb_fifo_get_next_word;
-usb3_if usb3_if_inst(
-
-	// Control Signals
-	.reset(reset_all_w),
-
-	// FTDI USB3 Chip
-  .ftdi_clk(FIFO_CLK),         // CLK line from the FT601 Chip, set to a constant 100MHz
-  .FR_RXF(FR_RXF),             // RXF_N tells us if data is available on the USB3 Chip and is an input
-  .FT_OE(FT_OE),               // OE_N is an active low output signal to tell the USB3 Chip that the FPGA is the bus master while asserted
-  .FT_RD(FT_RD),               // RD_N is an active low output signal to tell that USB3 Chip that data is being read (ie: it is the RD signal for the USB3 FIFO)
-  .usb3_data_in(usb_data_o),   // Data input lines from USB3 chip
-
-  // FPGA side
-  .fpga_clk(sys_clk),
-  .fifo_empty(usb_fifo_is_empty),
-  .fifo_dataline_available(usb_fifo_dataline_available),
-  .get_next_word(usb_fifo_get_next_word),
-  .fifo_data_out(test_fifo_out)
-
-);
-
-// Temp for testing
-wire[31:0] test_fifo_out;
-// Temporary logic to allow us to test that read_enable is funcitoning correctly
-reg usb_fifo_get_next_word_r = 0;
-assign usb_fifo_get_next_word = usb_fifo_get_next_word_r;
-
-always @(posedge sys_clk) begin
-  if (usb_fifo_is_empty)
-    usb_fifo_get_next_word_r = 0;
-  else if(usb_fifo_dataline_available)
-    usb_fifo_get_next_word_r <= 1;
-  else
-    usb_fifo_get_next_word_r <= usb_fifo_get_next_word_r;
-end
-
-
-// wire OE_N;
-// wire RD_N;
-
-// reg OE_N_r;
-// reg RD_N_r;
-
-
-
-// Buffer the output so it doesn't sag
-// SB_GB ft_rd_bug ( .USER_SIGNAL_TO_GLOBAL_BUFFER(RD_N_r), .GLOBAL_BUFFER_OUTPUT(FT_RD) );
-// SB_GB ft_oe_buf ( .USER_SIGNAL_TO_GLOBAL_BUFFER(RD_N_r), .GLOBAL_BUFFER_OUTPUT(FT_OE) );
-
-// assign OE_N_r = 0;//RX_F;
-// assign RD_N_r = RX_F;
-wire RESET_N;
-
-// assign FT_OE   = OE_N_r;//RX_F;//OE_N;//    = FT_OE;
-// assign FT_RD   = RD_N_r;//FR_RXF;//RD_N;
-assign RESET_N = 1'bz;  //TODO: Would be great to connect this line in a future spin on the board
-// We get when the next line and frame are ready from USB GPIO 0 and 1
-// These are wired through TP8 and TP9 as not directly connected to FPGA
-wire next_line_rdy_i_w;
-wire next_frame_rdy_i_w;
-// assign next_line_rdy_i_w  = DEBUG_8;
-// assign DEBUG_8  = 0;//FR_RXF;//FIFO_CLK;
-// assign DEBUG_9  = 0;//get_next_word_o;//FR_RXF;
-// assign next_frame_rdy_i_w = DEBUG_9;
-// Wire up our 32-bit data connection
-assign usb_data_o[31] = FIFO_D31;
-assign usb_data_o[30] = FIFO_D30;
-assign usb_data_o[29] = FIFO_D29;
-assign usb_data_o[28] = FIFO_D28;
-assign usb_data_o[27] = FIFO_D27;
-assign usb_data_o[26] = FIFO_D26;
-assign usb_data_o[25] = FIFO_D25;
-assign usb_data_o[24] = FIFO_D24;
-assign usb_data_o[23] = FIFO_D23;
-assign usb_data_o[22] = FIFO_D22;
-assign usb_data_o[21] = FIFO_D21;
-assign usb_data_o[20] = FIFO_D20;
-assign usb_data_o[19] = FIFO_D19;
-assign usb_data_o[18] = FIFO_D18;
-assign usb_data_o[17] = FIFO_D17;
-assign usb_data_o[16] = FIFO_D16;
-assign usb_data_o[15] = FIFO_D15;
-assign usb_data_o[14] = FIFO_D14;
-assign usb_data_o[13] = FIFO_D13;
-assign usb_data_o[12] = FIFO_D12;
-assign usb_data_o[11] = FIFO_D11;
-assign usb_data_o[10] = FIFO_D10;
-assign usb_data_o[9]  = FIFO_D9;
-assign usb_data_o[8]  = FIFO_D8;
-assign usb_data_o[7]  = FIFO_D7;
-assign usb_data_o[6]  = FIFO_D6;
-assign usb_data_o[5]  = FIFO_D5;
-assign usb_data_o[4]  = FIFO_D4;
-assign usb_data_o[3]  = FIFO_D3;
-assign usb_data_o[2]  = FIFO_D2;
-assign usb_data_o[1]  = FIFO_D1;
-assign usb_data_o[0]  = FIFO_D0;
-
-// // Define USB to BluejayData Interface
-// usb_to_bluejay_if usb_to_bluejay_if_inst(
+// // Data strobe signals for Bluejay
+// wire sync_w;
+// wire valid_w;
+// wire update_w;
+// wire invert_w;
+// assign sync_w = SYNC;
+// assign valid_w = VALID;
+// assign update_w = UPDATE;
+// assign invert_w = INVERT;
+// // Instantiate Bluejay Data Interface
+// bluejay_data bluejay_data_inst(
 
 //   // Control
-//   .reset_i(),
-//   // USB-Fifo Side
 //   .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
+//   .reset_i(reset_all_w),
+//   .new_frame_i(),
+//   // Read-Side:
 //   .data_i(),
-//   .fifo_empty_i(RX_F),
-//   .fifo_output_enable_o(OE_N),
-//   .get_next_word_o(RD_N),//),
-//   .reset_o(RESET_N),
-//   // Bluejay Data Interface
-//   .clk_o(),  //TODO: Fix our sysclk as this will be wrong
-//   .data_o(),
-//   .next_line_rdy_o(next_line_rdy_w),
-//   .next_frame_rdy_o(next_frame_rdy_w),
-//   .fifo_empty_o(fifo_empty_i_w),
-//   .get_next_word_i(get_next_word_o)
-	  
-//  );
-// Define USB to BluejayData Interface
-// usb_to_bluejay_if usb_to_bluejay_if_inst(
-
-//   // Control
-//   .reset_i(),
-//   // USB-Fifo Side
-//   .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
-//   .data_i(),
-//   .fifo_empty_i(),
-//   .fifo_output_enable_o(),
-//   .get_next_word_o(),//),
-//   .reset_o(RESET_N),
-//   // Bluejay Data Interface
-//   .clk_o(),  //TODO: Fix our sysclk as this will be wrong
-//   .data_o(),
-//   .next_line_rdy_o(),
-//   .next_frame_rdy_o(),
-//   .fifo_empty_o(),
-//   .get_next_word_i()
-	  
-//  );
-
-
-// wire usb3_fifo_is_full;
-// wire usb3_fifo_is_empty;
-// // We pull data from the 
-// wire write_to_usb3_fifo;
-// assign write_to_usb3_fifo = ~FR_RXF;
-
-// // wire usb3_fifo_read_enable;
-// // assign usb3_fifo_read_enable = usb3_fifo_is_full;
-// wire[6:0] bytes_in_fifo_count;
-// reg       usb3_fifo_read_enable = 0;
-// always @(posedge sys_clk) begin
-//   if (bytes_in_fifo_count==6'd0)
-//     usb3_fifo_read_enable <= 0;
-//   else if(bytes_in_fifo_count==6'd40)
-//     usb3_fifo_read_enable <= 1;
-//   else
-//     usb3_fifo_read_enable <= usb3_fifo_read_enable;
-// end
-
-//             // if (r_Rx_Data == 1'b0)          // Start bit detected
-//             //   r_SM_Main <= s_RX_START_BIT;
-//             // else
-//             //   r_SM_Main <= s_IDLE;
-
-// // reg reset_fifo_master;
-// // reg reset_fifo_ptr;
-// // always @(posedge sys_clk) begin
-// //   reset_fifo_master <= reset_all_w;
-// //   reset_fifo_ptr    <= reset_all_w;
-// // end
-
-// // reg fifo_wr_clk;
-// // reg fifo_rd_clk;
-// // always @(posedge sys_clk) begin
-// //   fifo_wr_clk <= sys_clk;
-// //   fifo_rd_clk <= sys_clk;
-// // end
-// // assign reset_fifo = reset_all_w;
-
-// // Connect up our monster data 32-bit FIFO
-// fifo_dc_32_lut_gen fifo_dc_32_lut_gen_inst(
-
-//   // Control Signals
-//   .rst_i(reset_all_w),             // Reset Line
-//   .rp_rst_i(),          // Line to Reset the read pointer, don't care about packetized communications so simply reset as normal
-//   .wr_clk_i(sys_clk),         // Crossing a clock domain, so 100 MHz CLock from the USB3 Chip drives write side
-//   .rd_clk_i(sys_clk),         // Crossing a clock domain, so Main FPGA CLock drives read side
-
-//   // Write Side
-//   .wr_en_i(write_to_usb3_fifo),    // Enable 
-//   .wr_data_i(usb_data_o),          // 32-bit data input
-//   .full_o(usb3_fifo_is_full),      // Flag for when FIFO is full
-
-//   // Read Side
-//   .rd_en_i(usb3_fifo_read_enable),                      // Enable 
-//   .rd_data_o(),                        // 32-bit data output
-//   .empty_o(usb3_fifo_is_empty),         // Flag for when FIFO is empty
-//   .rd_data_cnt_o(bytes_in_fifo_count)  // How many bytes are currently in the FIFO, use this to ensure we are able to pull an entire FIFO at a time
-//   // .almost_empty_o()                // Flag for when FIFO is almost empty, this is set to assert at 40, so use to make sure that there is at least one 40-word line of the image available before reading
-
+//   .next_line_rdy_i(usb_fifo_dataline_available),
+//   .fifo_empty_i(usb_fifo_is_empty),
+//   .get_next_word_o(usb_fifo_get_next_word),
+//   // Write-Side:
+//   .data_o(bluejay_data_out),
+//   .sync_o(sync_w),
+//   .valid_o(valid_w),
+//   .update_o(update_w),
+//   .invert_o(invert_w)
 // );
-
-
-
-
-
-
-
-
 
 
 
