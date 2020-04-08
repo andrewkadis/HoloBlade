@@ -121,38 +121,30 @@ def usb3_if(
 # Generated Verilog
 def usb3_if_gen_verilog():
 
-    # Signals for Bluejay Data Module
-    # Control Signals
-    reset                    = Signal(False)
+    # Implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
     # FTDI USB3 Chip
     ftdi_clk                 = Signal(False)
-    usb3_data_in             = Signal(intbv(0)[32:])
-    FR_RXF                   = Signal(False)
-    FT_OE                    = Signal(False)
-    FT_RD                    = Signal(False)
+    FR_RXF      = Signal(True)
+    FT_RD       = Signal(True)
+    FT_OE       = Signal(True)
+    usb_data_o  = Signal(True)
     # FPGA side
-    fpga_clk                 = Signal(False)
-    fifo_empty               = Signal(False)
-    fifo_dataline_available  = Signal(False)
-    get_next_word            = Signal(False)
-    fifo_data_out            = Signal(intbv(0)[32:])
+    write_to_dc32_fifo = Signal(False)
+    dc32_fifo_data_in  = Signal(intbv(0)[32:])
+    dc32_fifo_is_full  = Signal(False)
 
-    # Instatiate
+    # Instantiate
     usb3_if_inst = usb3_if(
-        # Control Signals
-        reset,
         # FTDI USB3 Chip
         ftdi_clk,
-        usb3_data_in,
         FR_RXF,
         FT_OE,
         FT_RD,
+        usb_data_o,
         # FPGA side
-        fpga_clk,
-        fifo_empty,
-        fifo_dataline_available,
-        get_next_word,
-        fifo_data_out
+        write_to_dc32_fifo,
+        dc32_fifo_data_in,
+        dc32_fifo_is_full
     )
 
     # Convert

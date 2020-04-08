@@ -94,22 +94,35 @@ def bluejay_datapath_tb():
         yield(ftdi_clk.posedge)
 
 
-    # Insert our implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
+    # Implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
+    # FPGA side
     write_to_dc32_fifo = Signal(False)
-    dc32_fifo_data_in  = Signal(0)
+    dc32_fifo_data_in  = Signal(intbv(0)[32:])
     dc32_fifo_is_full  = Signal(False)
-    usb3_if_inst = usb3_if.usb3_if(ftdi_clk, FR_RXF, FT_OE, FT_RD, usb_data_o, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full)
+    # Instantiate
+    usb3_if_inst = usb3_if.usb3_if(
+        # FTDI USB3 Chip
+        ftdi_clk,
+        FR_RXF,
+        FT_OE,
+        FT_RD,
+        usb_data_o,
+        # FPGA side
+        write_to_dc32_fifo,
+        dc32_fifo_data_in,
+        dc32_fifo_is_full
+    )
 
 
 
     # Inst our simulated 32-bitDC FIFO and its signals
     # Signals
-    reset_ptr  = Signal(0) # Nveer changes, unused only here because generated FIFO from Lattice tools includes it
+    reset_ptr  = Signal(0) # Never changes, unused only here because generated FIFO from Lattice tools includes it
     # FPGA-side
     fifo_empty              = Signal(False)
     get_next_word           = Signal(False)
     fifo_data_out           = Signal(0)
-    num_words_in_buffer     = Signal(0)
+    num_words_in_buffer    = Signal(intbv(0)[8:]) # FIFO Depth is 64
     # Instantiate our simulated FIFO
     mock_dc32_fifo_inst = mock_dc32_fifo.mock_dc32_fifo(reset_all, reset_ptr, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_is_full, fifo_empty, get_next_word, fifo_data_out, num_words_in_buffer)
 
@@ -117,12 +130,22 @@ def bluejay_datapath_tb():
 
 
     # Instantiate our timing controller
-    # Control
-    reset_all   = Signal(False)
+    # Signals for Bluejay Data Module
+    # DC32 FIFO
+    # Bluejay Display
     line_of_data_available = Signal(False)
     next_frame_rdy_o       = Signal(False)
-    timing_controller_inst = timing_controller.timing_controller(fpga_clk, reset_all, num_words_in_buffer, line_of_data_available, next_frame_rdy_o)
-
+    # Control Logic between SLM and simulated USB-FIFO
+    timing_controller_inst = timing_controller.timing_controller(
+        # Control
+        fpga_clk,
+        reset_all,
+        # DC32 FIFO
+        num_words_in_buffer,
+        # Bluejay Display
+        line_of_data_available,
+        next_frame_rdy_o
+    )
 
 
     # Signals for Bluejay Data Module
@@ -376,8 +399,8 @@ def main():
 
     tb = bluejay_datapath_tb()
     tb.config_sim(trace=True)
-    # tb.run_sim(5000000)
-    tb.run_sim(2000)
+    tb.run_sim(5000000)
+    # tb.run_sim(2000)
 
     # bluejay_gen_verilog()
 
