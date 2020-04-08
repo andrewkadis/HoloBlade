@@ -1,12 +1,12 @@
 module tb_bluejay_data;
 
-reg clk_i;
-reg reset_i;
-reg new_frame_i;
-reg [31:0] data_i;
-reg next_line_rdy_i;
-reg fifo_empty_i;
-wire get_next_word_o;
+reg fpga_clk;
+reg reset_all;
+reg next_frame_rdy;
+reg [31:0] fifo_data_out;
+reg line_of_data_available;
+reg fifo_empty;
+wire get_next_word;
 wire [31:0] data_o;
 wire sync_o;
 wire valid_o;
@@ -15,16 +15,16 @@ reg invert_o;
 
 initial begin
     $from_myhdl(
-        clk_i,
-        reset_i,
-        new_frame_i,
-        data_i,
-        next_line_rdy_i,
-        fifo_empty_i,
+        fpga_clk,
+        reset_all,
+        next_frame_rdy,
+        fifo_data_out,
+        line_of_data_available,
+        fifo_empty,
         invert_o
     );
     $to_myhdl(
-        get_next_word_o,
+        get_next_word,
         data_o,
         sync_o,
         valid_o,
@@ -33,13 +33,13 @@ initial begin
 end
 
 bluejay_data dut(
-    clk_i,
-    reset_i,
-    new_frame_i,
-    data_i,
-    next_line_rdy_i,
-    fifo_empty_i,
-    get_next_word_o,
+    fpga_clk,
+    reset_all,
+    next_frame_rdy,
+    fifo_data_out,
+    line_of_data_available,
+    fifo_empty,
+    get_next_word,
     data_o,
     sync_o,
     valid_o,
