@@ -194,15 +194,15 @@ assign DEBUG_7 = DEBUG_8;
 // assign DEBUG_6 = 1'bz;
 
 // Route out clock
-// assign debug_ch1 = sys_clk;
+// assign debug_ch1 = fpga_clk;
 
 // LEDs - drive them with a counter
 // Counter 
 reg [31:0] led_counter = 32'b0;
-always @ (posedge sys_clk) begin
+always @ (posedge fpga_clk) begin
     led_counter <= led_counter + 1;
 end
-assign debug_led4 = led_counter[24];
+assign debug_led4 = led_counter[22];
 
 
 
@@ -218,12 +218,12 @@ assign debug_led4 = led_counter[24];
 ////////////////////////
 
 // Clock
-wire sys_clk;
+wire fpga_clk;
 clock clock_inst(
 
   // Main Clock
   .i_xtal(ICE_SYSCLK),
-  .o_sys_clk(sys_clk)
+  .o_sys_clk(fpga_clk)
 	
  );
 
@@ -243,7 +243,7 @@ reg[3:0] reset_clk_counter = reset_countdown; // Start at reset_countdown as we 
 // We need to hold reset dow for at least tReset (100ns)
 // Hence if we pulse for 10 cycles at 50MHz, this is 200ns, plenty of headroom
 parameter reset_countdown = 4'd10;
-always @ (posedge sys_clk) begin
+always @ (posedge fpga_clk) begin
   
   // Default state is no reset
   reset_all_r <= 0;
@@ -294,7 +294,7 @@ assign reset_all_w = reset_all_r;
 // Reset line is attached to reset_all, note active-low
 assign RESET = ~reset_all_w;
 // SLM Clock is simply the global buffered clock
-assign SLM_CLK = sys_clk;
+assign SLM_CLK = fpga_clk;
 // Following lines are not used
 // All of these input lines have pull up/downs on them, so simply tri-state
 // assign UPDATE = 1'bx;
@@ -362,21 +362,19 @@ assign SLM_CLK = sys_clk;
 // assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
 // Keep clock at the top so we don't lose track of things
-assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
+assign DEBUG_5 = fpga_clk;//bluejay_data_out[22];
 assign DEBUG_1 = FR_RXF;//line_of_data_available;
-assign DEBUG_2 = FT_OE;//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = FT_RD;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_2 = write_to_dc32_fifo;//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = num_words_in_buffer[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = usb3_data_in[22];//usb3_fifo_read_enable;
-assign DEBUG_6 = write_to_dc32_fifo;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_7 = dc32_fifo_data_in[22];//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_6 = dc32_fifo_data_in[22];//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_7 = get_next_word;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 
-  // .reset_all(reset_all),
-  // // DC32 FIFO
-  // .num_words_in_buffer(num_words_in_buffer),
-  // // Bluejay Display
-  // .line_of_data_available(line_of_data_available),
-  // .next_frame_rdy(next_frame_rdy)
+  // .empty_o(fifo_empty),
+  // .rd_en_i(get_next_word),
+  // .rd_data_o(fifo_data_out), 
+  // .rd_data_cnt_o(num_words_in_buffer)
 
 
 
@@ -576,7 +574,7 @@ bluejay_data bluejay_data_inst(
 // bluejay_data bluejay_data_inst(
 
 //   // Control
-//   .clk_i(sys_clk),  //TODO: Fix our sysclk as this will be wrong
+//   .clk_i(fpga_clk),  //TODO: Fix our sysclk as this will be wrong
 //   .reset_i(reset_all_w),
 //   .new_frame_i(),
 //   // Read-Side:
@@ -610,7 +608,7 @@ assign debug_led3  = rx_complete;
 // 100000000 / 115200 = 868 Clocks Per Bit.
 parameter c_CLKS_PER_BIT    = 868;
 uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
-   .i_Clock(sys_clk),
+   .i_Clock(fpga_clk),
    .i_Rx_Serial(UART_RX),
    .o_Rx_DV(rx_complete),
    .o_Rx_Byte(pc_data_rx)
@@ -652,7 +650,7 @@ reg delay_double_cycle = 0;
 reg  start_tx  = 0;
 wire tx_uart_active_flag;
 // Pulse when we rx a byte
-// always @(posedge sys_clk) begin
+// always @(posedge fpga_clk) begin
 
   // Defaults
   // start_tx           = 0;
@@ -680,7 +678,7 @@ wire tx_uart_active_flag;
 // Define Tx Instance
 uart_tx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_tx(
 
-   .i_Clock(sys_clk),           // Clock
+   .i_Clock(fpga_clk),           // Clock
    .i_Tx_DV(start_tx),          // Command to start TX of individual Byte
    .i_Tx_Byte(pc_data_tx),    // Byte of data to send
    .o_Tx_Active(tx_uart_active_flag),       // Flag for whether or not UART is active
@@ -742,7 +740,7 @@ reg reset;
 spi spi0(
 	
 	// Control Signals
-	.i_clock(sys_clk),
+	.i_clock(fpga_clk),
 	.i_reset(reset_all_w),                     // The PC is able to reset the entire FPGA
 	.enable(spi_enable),
 	.start_transfer(spi_start_transfer_w),
@@ -786,7 +784,7 @@ reg fifo_write_cmd = 0;
 // This is implemented via a falling edge detector
 reg spi_busy_falling_edge;
 reg spi_busy_prev = 0;
-always @(posedge sys_clk) begin
+always @(posedge fpga_clk) begin
 	if( (spi_busy_prev==1) && (spi_busy==0) )
 		spi_busy_falling_edge = 1;
 	else
@@ -794,7 +792,7 @@ always @(posedge sys_clk) begin
 	spi_busy_prev = spi_busy;
 end
 // Logic to handle writing data
-always @ (posedge sys_clk) begin
+always @ (posedge fpga_clk) begin
 
   fifo_write_cmd = 0;
   // Write a new word into the FIFO if a SPI transaction has just completed
@@ -815,7 +813,7 @@ wire[31:0] fifo_temp_output;
 wire[7:0] pc_data_tx;
 assign pc_data_tx[7:0] = fifo_temp_output[7:0];
 // Logic to handle reading data
-always @ (posedge sys_clk) begin
+always @ (posedge fpga_clk) begin
 
   // Read a word out of the FIFO if data is present and the UART is inactive
   // Note FIFO is empty flag is high when no items in FIFO (confusing)
@@ -841,7 +839,7 @@ end
 FIFO_Quad_Word tx_fifo(
 
 	// Control Signals
-	.clk_i(sys_clk),
+	.clk_i(fpga_clk),
 	.rst_i(reset_all_w),               // Reset FIFO
 	
 	// Write Side
@@ -973,7 +971,7 @@ reg even_byte_flag = 1;
 // This is implemented via a rising edge detector on rx_complete 
 reg uart_rx_complete_rising_edge;
 reg uart_rx_complete_prev = 0;
-always @(posedge sys_clk) begin
+always @(posedge fpga_clk) begin
 	if( (uart_rx_complete_prev==0) && (rx_complete==1) )
 		uart_rx_complete_rising_edge = 1;
 	else
@@ -982,7 +980,7 @@ always @(posedge sys_clk) begin
 end
 
 // Trigger actions from UART commands
-always @ (posedge sys_clk) begin
+always @ (posedge fpga_clk) begin
 
     // Set all potential commands to 0 as default
     spi_start_transfer_r = 0;
