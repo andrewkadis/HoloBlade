@@ -362,13 +362,25 @@ assign SLM_CLK = fpga_clk;
 // assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
 // Keep clock at the top so we don't lose track of things
+// assign DEBUG_5 = fpga_clk;//bluejay_data_out[22];
+// assign DEBUG_1 = FR_RXF;//line_of_data_available;
+// assign DEBUG_2 = get_next_word;//get_next_word;//FT_OE;//next_frame_rdy_w;
+// assign DEBUG_3 = fifo_data_out[22];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+// assign DEBUG_4 = bluejay_data_o[22];//usb3_fifo_read_enable;
+// assign DEBUG_6 = line_of_data_available;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+// assign DEBUG_7 = valid_o;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
+
+
 assign DEBUG_5 = fpga_clk;//bluejay_data_out[22];
 assign DEBUG_1 = FR_RXF;//line_of_data_available;
-assign DEBUG_2 = get_next_word;//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = fifo_data_out[22];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = bluejay_data_o[22];//usb3_fifo_read_enable;
-assign DEBUG_6 = line_of_data_available;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_7 = valid_o;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_2 = fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = valid_o;//usb3_fifo_read_enable;
+assign DEBUG_6 = reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_7 = next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
+
 
 
 
@@ -478,6 +490,8 @@ fifo_dc_32_lut_gen fifo_dc_32_lut_gen_inst(
 // Block to control timing of display updates, controls reset, frame-rate, next-line_of_data_available-rdy, next-frame-rdy
 // Note that it also lets us cross clock domains fom the FTDI CLock domain to the main FPGA clock
 // Signals
+// Control
+wire reset_all;
 // Bluejay Display
 wire line_of_data_available;
 wire next_frame_rdy;
