@@ -364,11 +364,13 @@ assign SLM_CLK = fpga_clk;
 // Keep clock at the top so we don't lose track of things
 assign DEBUG_5 = fpga_clk;//bluejay_data_out[22];
 assign DEBUG_1 = FR_RXF;//line_of_data_available;
-assign DEBUG_2 = write_to_dc32_fifo;//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = num_words_in_buffer[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = usb3_data_in[22];//usb3_fifo_read_enable;
-assign DEBUG_6 = dc32_fifo_data_in[22];//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_7 = get_next_word;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_2 = get_next_word;//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = fifo_data_out[22];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = bluejay_data_o[22];//usb3_fifo_read_enable;
+assign DEBUG_6 = line_of_data_available;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_7 = valid_o;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
+
 
 
   // .empty_o(fifo_empty),
