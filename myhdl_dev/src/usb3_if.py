@@ -123,11 +123,11 @@ def usb3_if_gen_verilog():
 
     # Implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
     # FTDI USB3 Chip
-    ftdi_clk                 = Signal(False)
+    ftdi_clk    = Signal(False)
     FR_RXF      = Signal(True)
     FT_RD       = Signal(True)
     FT_OE       = Signal(True)
-    usb_data_o  = Signal(True)
+    usb_data_o  = Signal(intbv(0)[32:])
     # FPGA side
     write_to_dc32_fifo = Signal(False)
     dc32_fifo_data_in  = Signal(intbv(0)[32:])
