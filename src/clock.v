@@ -9,14 +9,31 @@ module clock(
 // Raw output from PLL - we'll buffer it before outputting
 wire pll_clk_unbuf;
 
-// Drive our system off a 50 MHz Clock
+// Drive our system off a 100 MHz Clock
 // Note that due to PLL limitations, its actually 100.5HMz
+// These values were originally obtained from the 'configure PLL option of iCEcube2 GUI'
+// SB_PLL40_CORE #(.FEEDBACK_PATH("SIMPLE"),
+// 	   .PLLOUT_SELECT("GENCLK"),
+//                 .DIVR(4'b0001),
+//                 .DIVF(7'b1000010),
+//                 .DIVQ(3'b011),
+//                 .FILTER_RANGE(3'b001)
+// ) pll_config (
+//                 .REFERENCECLK(i_xtal),
+//                 .PLLOUTGLOBAL(pll_clk_unbuf),
+//                 .LOCK(),
+//                 .RESETB(1'b1),
+//                 .BYPASS(1'b0)
+// );
+
+
+// Temp mod so use 62.25 MHz instead, slower is easier for development (also get good sampling on the saleae as is 1/4th of the sampling frequency)
 // These values were originally obtained from the 'configure PLL option of iCEcube2 GUI'
 SB_PLL40_CORE #(.FEEDBACK_PATH("SIMPLE"),
 	   .PLLOUT_SELECT("GENCLK"),
                 .DIVR(4'b0001),
-                .DIVF(7'b1000010),
-                .DIVQ(3'b011),
+                .DIVF(7'b1010010),
+                .DIVQ(3'b100),
                 .FILTER_RANGE(3'b001)
 ) pll_config (
                 .REFERENCECLK(i_xtal),
