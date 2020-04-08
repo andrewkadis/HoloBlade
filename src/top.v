@@ -363,37 +363,22 @@ assign SLM_CLK = sys_clk;
 // Debugging Lines
 // Keep clock at the top so we don't lose track of things
 assign DEBUG_5 = sys_clk;//bluejay_data_out[22];
-assign DEBUG_1 = line_of_data_available;
-assign DEBUG_2 = get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = fifo_data_out[22];//usb3_fifo_read_enable;
-assign DEBUG_6 = usb3_data_in[22];//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_7 = bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_1 = FR_RXF;//line_of_data_available;
+assign DEBUG_2 = FT_OE;//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = FT_RD;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = usb3_data_in[22];//usb3_fifo_read_enable;
+assign DEBUG_6 = write_to_dc32_fifo;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_7 = dc32_fifo_data_in[22];//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 
+  // .reset_all(reset_all),
+  // // DC32 FIFO
+  // .num_words_in_buffer(num_words_in_buffer),
+  // // Bluejay Display
+  // .line_of_data_available(line_of_data_available),
+  // .next_frame_rdy(next_frame_rdy)
 
 
-// Latch using registers to give us 1-cycle delay
-  // always @(posedge i_Clock)
-  //   begin
-  //     r_Rx_Data_R <= i_Rx_Serial;
-  //     r_Rx_Data   <= r_Rx_Data_R;
-  //   end
-// always @ (negedge sys_clk) begin
-//   // OE_N_r <= OE_N_r;
-//   // RD_N_r <= RD_N_r;
-
-//   if(RX_F==0) begin
-//     OE_N_r <= 0;
-//   end else begin
-//     OE_N_r <= 1;
-//   end
-
-//   if(OE_N_r==0) begin
-//     RD_N_r <= 0;
-//   end else begin
-//     RD_N_r <= 1;
-//   end
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////// USB3 Chip Interfacing ///////////////////////////////
@@ -441,7 +426,7 @@ wire        dc32_fifo_is_full;
 // Instantiate
 usb3_if usb3_if_inst(
   // FTDI USB3 Chip
-  .ftdi_clk(ftdi_clk),
+  .ftdi_clk(FIFO_CLK),
   .FR_RXF(FR_RXF),
   .FT_OE(FT_OE),
   .FT_RD(FT_RD),
@@ -472,7 +457,7 @@ fifo_dc_32_lut_gen fifo_dc_32_lut_gen_inst(
   // Signals
   .rst_i(reset_all),
   .rp_rst_i(reset_ptr),
-  .wr_clk_i(ftdi_clk),
+  .wr_clk_i(FIFO_CLK),
   .rd_clk_i(fpga_clk),
   // FT601-side
   .wr_en_i(write_to_dc32_fifo),
