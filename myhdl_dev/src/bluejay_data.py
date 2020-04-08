@@ -22,7 +22,7 @@ t_state = enum(
     )
 
 @block
-def bluejay_data(clk_i, reset_i, new_frame_i, data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, data_o, sync_o, valid_o, update_o, invert_o):
+def bluejay_data(clk_i, reset_i, next_frame_rdy, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, data_o, sync_o, valid_o, update_o, invert_o):
 
 
     """ Peripheral to clock data out to a Bluejay SLM's Data Interface
@@ -30,20 +30,20 @@ def bluejay_data(clk_i, reset_i, new_frame_i, data_i, next_line_rdy_i, fifo_empt
     I/O pins:
     --------
     Control:
-    clk_i            : 50MHz input clock
-    reset_i          : Reset line
-    new_frame_i      : Signal line to indicate that we want to start outputting a new frame
+    clk_i                   : 50MHz input clock
+    reset_i                 : Reset line
+    next_frame_rdy          : Signal line to indicate that we want to start outputting a new frame
     Read-Side:
-    data_i           : 32-bit input data to be shown on SLM
-    next_line_rdy_i  : line to indicate that a new line of data is available, active-high for 1 cycle
-    fifo_empty_i     : flag to indicate whether or not the FIFO is empty
-    get_next_word_o  : line to pull next data word out of fifo 
+    fifo_data_out           : 32-bit input data to be shown on SLM
+    line_of_data_available  : line to indicate that a new line of data is available, active-high for 1 cycle
+    fifo_empty              : flag to indicate whether or not the FIFO is empty
+    get_next_word           : line to pull next data word out of fifo 
     Write-Side:
-    data_o           : 32-bit output line to data interface on Bluejay SLM
-    sync_o           : Synchronisation line on Bluejay SLM, used to control which address we are writing to
-    valid_o          : Hold high while writing out a line
-    update_o         : Used to assert when a Buffer Switch shall take place
-    invert_o         : Used to enable DC_Balancing
+    data_o                  : 32-bit output line to data interface on Bluejay SLM
+    sync_o                  : Synchronisation line on Bluejay SLM, used to control which address we are writing to
+    valid_o                 : Hold high while writing out a line
+    update_o                : Used to assert when a Buffer Switch shall take place
+    invert_o                : Used to enable DC_Balancing
 
     """
 
@@ -70,21 +70,21 @@ def bluejay_data(clk_i, reset_i, new_frame_i, data_i, next_line_rdy_i, fifo_empt
     # def clear():
 
     #     if state == (t_state.LINE_OUT_DATA or LINE_OUT_ENTER):
-    #         get_next_word_o.next = get_next_word_o#True
+    #         get_next_word.next = get_next_word#True
 
     # Combinational Logic to ensure that we only ever get data from FIFO when not empty
     @always_comb
     def check_fifo_not_empty():
-        if (get_next_word_cmd==True) and (fifo_empty_i==False):
-            get_next_word_o.next = True
+        if (get_next_word_cmd==True) and (fifo_empty==False):
+            get_next_word.next = True
         else:
-            get_next_word_o.next = False
+            get_next_word.next = False
 
     # Combinational Logic to ensure that we simply output data straight from FIFO input
     @always_comb
     def output_connect():
         if(data_output_active_cmd):
-            data_o.next = data_i
+            data_o.next = fifo_data_out
         else:
             data_o.next = 0x00000000
 
@@ -110,8 +110,8 @@ def bluejay_data(clk_i, reset_i, new_frame_i, data_i, next_line_rdy_i, fifo_empt
         if state == t_state.IDLE:
 
             # When the next line is ready, transition to clocking out data
-            # Only do  this is row_count is +ive else ignore until next new_frame_i assertion
-            if (next_line_rdy_i==True) and (v_counter>=0):
+            # Only do  this is row_count is +ive else ignore until next next_frame_rdy assertion
+            if (line_of_data_available==True) and (v_counter>=0):
                 state.next = t_state.LINE_OUT_ENTER
                 # Start getting the next word out of the FIFO now as there shall be a 1-cycle clock delay
                 get_next_word_cmd.next = True
@@ -165,7 +165,7 @@ def bluejay_data(clk_i, reset_i, new_frame_i, data_i, next_line_rdy_i, fifo_empt
                     # Have we clocked out the entire image?
                     if v_counter == 1:
 
-                        # Row counter is now 0 and we shall not clock out futher data until new_frame_i is subsequently asserted
+                        # Row counter is now 0 and we shall not clock out futher data until next_frame_rdy is subsequently asserted
                         # v_counter.next = 0
                         # Yes, advance to FRAME_END_BLANK state and start the counter again
                         state.next = t_state.FRAME_END_BLANK
@@ -205,7 +205,7 @@ def bluejay_data(clk_i, reset_i, new_frame_i, data_i, next_line_rdy_i, fifo_empt
         ################################################
 
         # New Frame Check
-        if(new_frame_i==True):
+        if(next_frame_rdy==True):
             v_counter.next = num_lines
 
         # Reset Check
@@ -239,22 +239,22 @@ def bluejay_data_tb():
 
     # Signals for Bluejay Data Module
     # Control
-    clk_i       = Signal(False)
-    reset_all   = Signal(False)
-    new_frame_i = Signal(False)
+    clk_i          = Signal(False)
+    reset_all      = Signal(False)
+    next_frame_rdy = Signal(False)
     # Read-Side
-    bluejay_data_i   = Signal(0)
-    next_line_rdy_i  = Signal(False)
-    fifo_empty_i     = Signal(False)
-    get_next_word_o  = Signal(False)
+    fifo_data_out           = Signal(0)
+    line_of_data_available  = Signal(False)
+    fifo_empty              = Signal(False)
+    get_next_word           = Signal(False)
     # Write-Side
     bluejay_data_o = Signal(0)
-    sync_o = Signal(False)
-    valid_o = Signal(False)
-    update_o = Signal(False)
-    invert_o = Signal(False)
+    sync_o         = Signal(False)
+    valid_o        = Signal(False)
+    update_o       = Signal(False)
+    invert_o       = Signal(False)
     # Inst our Bluejay Data Interface
-    bluejay_data_inst = bluejay_data(clk_i, reset_all, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    bluejay_data_inst = bluejay_data(clk_i, reset_all, next_frame_rdy, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
 
 
     # Inst our simulated FIFO
@@ -262,8 +262,8 @@ def bluejay_data_tb():
     we = Signal(False)
     full = Signal(False)
     empty = Signal(False)
-    # fifo_empty_i.next = not empty
-    dut = test_fifo.fifo2(bluejay_data_i, fifo_data_i, get_next_word_o, we, empty, full, clk_i, maxFilling=2000000)
+    # fifo_empty.next = not empty
+    dut = test_fifo.fifo2(fifo_data_out, fifo_data_i, get_next_word, we, empty, full, clk_i, maxFilling=2000000)
 
     # Clock
     PERIOD = 10 # 50 MHz
@@ -274,7 +274,7 @@ def bluejay_data_tb():
     # Invert the empty signal
     @always_comb
     def inv():
-        fifo_empty_i.next = not empty
+        fifo_empty.next = not empty
 
 
     # Load test data
@@ -300,9 +300,9 @@ def bluejay_data_tb():
         reset_all.next = False
         # Signal to indicate we are doing a new frame
         yield delay(FULL_CLOCK_PERIOD)
-        new_frame_i.next = True
+        next_frame_rdy.next = True
         yield clk_i.negedge
-        new_frame_i.next = False
+        next_frame_rdy.next = False
         yield clk_i.posedge
         # Iterate through test vector
         for i in range(1280):
@@ -325,9 +325,9 @@ def bluejay_data_tb():
             # Assert that we have reached end-of-line
             yield clk_i.negedge
             # yield delay(FULL_CLOCK_PERIOD)
-            next_line_rdy_i.next = True
+            line_of_data_available.next = True
             yield clk_i.posedge
-            next_line_rdy_i.next = False
+            line_of_data_available.next = False
             yield clk_i.negedge
             # yield delay()
             we.next = False
@@ -344,22 +344,38 @@ def bluejay_gen_verilog():
 
     # Signals for Bluejay Data Module
     # Control
-    clk_i       = Signal(False)
-    reset_all   = Signal(False)
-    new_frame_i = Signal(False)
+    fpga_clk         = Signal(False)
+    reset_all        = Signal(False)
+    next_frame_rdy   = Signal(False)
     # Read-Side
-    bluejay_data_i   = Signal(intbv(0)[32:])
-    next_line_rdy_i  = Signal(False)
-    fifo_empty_i     = Signal(False)
-    get_next_word_o  = Signal(False)
-    # Write-Side
-    bluejay_data_o = Signal(intbv(0)[32:])
-    sync_o = Signal(False)
-    valid_o = Signal(False)
-    update_o = Signal(False)
-    invert_o = Signal(False)
+    fifo_data_out           = Signal(intbv(0)[32:])
+    line_of_data_available  = Signal(False)
+    fifo_empty              = Signal(False)
+    get_next_word           = Signal(False)
+    # SLM-Side
+    bluejay_data_o   = Signal(intbv(0)[32:])
+    sync_o           = Signal(False)
+    valid_o          = Signal(False)
+    update_o         = Signal(False)
+    invert_o         = Signal(False)
     # Inst our Bluejay Data Interface
-    bluejay_data_inst = bluejay_data(clk_i, reset_all, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    bluejay_data_inst = bluejay_data(
+        # Control
+        fpga_clk,
+        reset_all,
+        # FPGA-side
+        next_frame_rdy,
+        fifo_data_out,
+        line_of_data_available,
+        fifo_empty,
+        get_next_word,
+        # SLM-side
+        bluejay_data_o,
+        sync_o,
+        valid_o,
+        update_o,
+        invert_o
+    )
 
     # Convert
     bluejay_data_inst.convert(hdl='Verilog')

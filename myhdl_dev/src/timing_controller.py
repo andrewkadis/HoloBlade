@@ -31,7 +31,7 @@ def timing_controller(
     
     # Bluejay Data Interface
     line_of_data_available,
-    next_frame_rdy_o
+    next_frame_rdy
 
     ):
     
@@ -46,7 +46,7 @@ def timing_controller(
     num_words_in_buffer      : How many words of data are in the DC32-FIFO, used to determine whether or not there is an entire line of data available
     Bluejay Data Interface:
     line_of_data_available   : Flag to indicate to the bluejay FSM that there is at least a line of data available in the FIFO currently (ie: more than 40 words)
-    next_frame_rdy_o         : This line drives frame updates in current bluejay FSM implementation
+    next_frame_rdy           : This line drives frame updates in current bluejay FSM implementation
     """
 
     # If there are sufficient words available in the DC-FIFO, then flag this
@@ -70,7 +70,7 @@ def timing_controller(
 
         # Off by default
         reset_all.next = False
-        next_frame_rdy_o.next = False      
+        next_frame_rdy.next = False      
 
         # Which state are we in?
         if state == t_state.INITING:
@@ -86,7 +86,7 @@ def timing_controller(
 
         elif state == t_state.NEW_FRAME_PULSE:
             # Pulse for next frame for a single-cycle
-            next_frame_rdy_o.next = 1
+            next_frame_rdy.next = 1
             # Wait in IDLE for any data
             state.next = t_state.IDLE
 
@@ -110,7 +110,7 @@ def timing_controller_gen_verilog():
     num_words_in_buffer    = Signal(intbv(0)[8:]) # FIFO Depth is 64
     # Bluejay Display
     line_of_data_available = Signal(False)
-    next_frame_rdy_o       = Signal(False)
+    next_frame_rdy         = Signal(False)
     
     # Control Logic between SLM and simulated USB-FIFO
     timing_controller_inst = timing_controller(
@@ -121,7 +121,7 @@ def timing_controller_gen_verilog():
         num_words_in_buffer,
         # Bluejay Display
         line_of_data_available,
-        next_frame_rdy_o
+        next_frame_rdy
     )
 
     # Convert

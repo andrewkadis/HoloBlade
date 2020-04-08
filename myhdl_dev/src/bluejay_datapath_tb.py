@@ -134,7 +134,7 @@ def bluejay_datapath_tb():
     # DC32 FIFO
     # Bluejay Display
     line_of_data_available = Signal(False)
-    next_frame_rdy_o       = Signal(False)
+    next_frame_rdy         = Signal(False)
     # Control Logic between SLM and simulated USB-FIFO
     timing_controller_inst = timing_controller.timing_controller(
         # Control
@@ -144,41 +144,37 @@ def bluejay_datapath_tb():
         num_words_in_buffer,
         # Bluejay Display
         line_of_data_available,
-        next_frame_rdy_o
+        next_frame_rdy
     )
+
 
 
     # Signals for Bluejay Data Module
     # SLM-Side
-    bluejay_data_o = Signal(0)
-    sync_o = Signal(False)
-    valid_o = Signal(False)
-    update_o = Signal(False)
-    invert_o = Signal(False)
+    bluejay_data_o   = Signal(intbv(0)[32:])
+    sync_o           = Signal(False)
+    valid_o          = Signal(False)
+    update_o         = Signal(False)
+    invert_o         = Signal(False)
     # Inst our Bluejay Data Interface
-    bluejay_data_inst = bluejay_data.bluejay_data(fpga_clk, reset_all, next_frame_rdy_o, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
+    bluejay_data_inst = bluejay_data.bluejay_data(
+        # Control
+        fpga_clk,
+        reset_all,
+        # FPGA-side
+        next_frame_rdy,
+        fifo_data_out,
+        line_of_data_available,
+        fifo_empty,
+        get_next_word,
+        # SLM-side
+        bluejay_data_o,
+        sync_o,
+        valid_o,
+        update_o,
+        invert_o
+    )
 
-
-
-    # # Control Logic between SLM and simulated USB-FIFO
-    # usb_to_bluejay_if_inst = usb_to_bluejay_if.usb_to_bluejay_if(
-    #     # Control
-    #     reset_all,
-    #     # USB-Fifo
-    #     clk_100,
-    #     usb_data_o,
-    #     RX_F,
-    #     OE_N,
-    #     RD_N,
-    #     RESET_N,
-    #     # Bluejay Data Interface
-    #     clk_i,
-    #     bluejay_data_i,
-    #     next_line_rdy_i,
-    #     new_frame_i,
-    #     fifo_empty_i,
-    #     get_next_word_o
-    # )
 
 
     @instance
