@@ -202,7 +202,7 @@ reg [31:0] led_counter = 32'b0;
 always @ (posedge fpga_clk) begin
     led_counter <= led_counter + 1;
 end
-assign debug_led4 = led_counter[22];
+assign debug_led4 = led_counter[24];
 
 
 

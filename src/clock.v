@@ -10,7 +10,7 @@ module clock(
 wire pll_clk_unbuf;
 
 // Drive our system off a 50 MHz Clock
-// Note that due to PLL limitations, its actually 50.25HMz
+// Note that due to PLL limitations, its actually 100.5HMz
 // These values were originally obtained from the 'configure PLL option of iCEcube2 GUI'
 SB_PLL40_CORE #(.FEEDBACK_PATH("SIMPLE"),
 	   .PLLOUT_SELECT("GENCLK"),
@@ -27,6 +27,6 @@ SB_PLL40_CORE #(.FEEDBACK_PATH("SIMPLE"),
 );
 
 // Buffer the output so it doesn't sag
-SB_GB clk_gb ( .USER_SIGNAL_TO_GLOBAL_BUFFER(i_xtal), .GLOBAL_BUFFER_OUTPUT(o_sys_clk) );
+SB_GB clk_gb ( .USER_SIGNAL_TO_GLOBAL_BUFFER(pll_clk_unbuf), .GLOBAL_BUFFER_OUTPUT(o_sys_clk) );
 
 endmodule
