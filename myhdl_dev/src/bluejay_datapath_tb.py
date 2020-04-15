@@ -241,7 +241,7 @@ def bluejay_datapath_tb():
 
             # Load line
             yield simulate_load_fifo_data(test_line)
-            yield delay(500)
+            yield delay(800)
             # For debug
             print(total_lines)
             total_lines = total_lines + 1

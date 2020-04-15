@@ -51,7 +51,7 @@ def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_dat
 
     # Timing constants
     num_words_per_line = 40
-    num_lines          = 1280
+    num_lines          = 64;#1280
     end_of_line_blank_cycles  = 4  # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
     end_of_frame_blank_cycles = 12 # Need to blank for 16 cycles before asseting UPDATE (tDUV from pg. 18 datasheet), already waited 4 hence wait 12
     update_high_cycles        = 48 # Need to hold high for 48 cycles (tUPLS from datasheet, use Typ rather than Min)
@@ -166,8 +166,8 @@ def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_dat
                     # Have we clocked out the entire image?
                     if v_counter == 1:
 
-                        # Row counter is now 0 and we shall not clock out futher data until next_frame_rdy is subsequently asserted
-                        # v_counter.next = 0
+                        # Row counter is now 0, reset for subsequent frame
+                        v_counter.next = num_lines
                         # Yes, advance to FRAME_END_BLANK state and start the counter again
                         state.next = t_state.FRAME_END_BLANK
                         state_timeout_counter.next = end_of_frame_blank_cycles
@@ -206,8 +206,8 @@ def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_dat
         ################################################
 
         # New Frame Check
-        if(next_frame_rdy==True):
-            v_counter.next = num_lines
+        # if(next_frame_rdy==True):
+        #     v_counter.next = num_lines
 
         # Reset Check
         if( reset_all==True ):
@@ -217,7 +217,7 @@ def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_dat
             valid_o.next = False
             update_o.next = False
             h_counter.next = 0
-            v_counter.next = 0
+            v_counter.next = num_lines
             state.next     = t_state.IDLE
 
 
