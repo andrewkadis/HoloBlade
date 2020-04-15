@@ -24,7 +24,6 @@ import timing_controller
 
 from bluejay_data import t_state
 
-
 # Constants
 ACTIVE_LOW_TRUE   = False
 ACTIVE_LOW_FALSE  = True
@@ -231,16 +230,38 @@ def bluejay_datapath_tb():
         # for i in range(1280):
         # for i in range(1):
 
+        # Temp for debug
+        total_lines = 0
+
+
         # Wait 1us and then load another line
         yield delay(1000)
 
-        # Load line
-        yield simulate_load_fifo_data(test_line)
+        for i in range(0, 1305):
 
-        # Wait another 10us then end simulation
-        yield delay(10000)
+            # Load line
+            yield simulate_load_fifo_data(test_line)
+            yield delay(500)
+            # For debug
+            print(total_lines)
+            total_lines = total_lines + 1
+
+        # # Load line
+        # yield simulate_load_fifo_data(test_line)
+        # yield delay(1000)
+
+        # # Load line
+        # yield simulate_load_fifo_data(test_line)
+        # yield delay(1000)
+        
+        # # Load line
+        # yield simulate_load_fifo_data(test_line)
+        # yield delay(1000)
+
+        # Wait another 500ns then end simulation
+        yield delay(500)
         # End Simulation
-        # raise StopSimulation()
+        raise StopSimulation()
 
         # yield(clk_i.posedge)
         # # Read out data until our USB FIFO is empty
@@ -263,152 +284,11 @@ def bluejay_datapath_tb():
 
     return bluejay_datapath_clkGen_inst, mock_ft601_inst, usb3_if_inst, mock_dc32_fifo_inst, timing_controller_inst, bluejay_data_inst, test_protocol
 
-
-    # # Timing Code, useful for clearing our Assert signals
-    # @always(clk_i.posedge)
-    # def timing():
-    #     # data_i.next = data_i.next + 1
-    #     # Clear Assert signals
-    #     # if data_rdy_i==True:
-    #     if(next_line_rdy_i==True):
-    #         next_line_rdy_i.next = False
-    #     # if(reset_i==True):
-    #     #     reset_i.next    = False
-
-
-
-    # # # Data Ready goes high for 1 cycle for latching output
-    # # @always(delay(100))
-    # # def data_rdy_assert():
-    # #     data_rdy_i.next = 1
-    # # Clear next cycle
-    # # @instance
-    # # def data_rdy_clear():
-    # #     while True:
-
-    # Load test data
-    # @instance
-    # def load_test_data():
-
-    #     # Test Vector corresponds to a single line of data
-    #     test_vector = [
-    #         0x11000000,
-    #         0x21000000,
-    #         0x31000000,
-    #         0x41000000,
-    #         0x51000000,
-    #         0x61000000,
-    #         0x71000000,
-    #         0x81000000,
-    #         0x91000000,
-    #         0xA1000000,
-    #         0x12000000,
-    #         0x22000000,
-    #         0x32000000,
-    #         0x42000000,
-    #         0x52000000,
-    #         0x62000000,
-    #         0x72000000,
-    #         0x82000000,
-    #         0x92000000,
-    #         0xA2000000,
-    #         0x12000000,
-    #         0x23000000,
-    #         0x33000000,
-    #         0x43000000,
-    #         0x53000000,
-    #         0x63000000,
-    #         0x73000000,
-    #         0x83000000,
-    #         0x93000000,
-    #         0xA3000000,
-    #         0x14000000,
-    #         0x24000000,
-    #         0x34000000,
-    #         0x44000000,
-    #         0x54000000,
-    #         0x64000000,
-    #         0x74000000,
-    #         0x84000000,
-    #         0x94000000,
-    #         0xA4000000
-    #     ]
-    #     # Wait an initial period
-    #     FULL_CLOCK_PERIOD = 2*PERIOD
-    #     yield delay(FULL_CLOCK_PERIOD)
-    #     # Reset
-    #     yield clk_i.negedge
-    #     reset_i.next = True
-    #     yield clk_i.posedge
-    #     reset_i.next = False
-    #     # Signal to indicate we are doing a new frame
-    #     yield delay(FULL_CLOCK_PERIOD)
-    #     new_frame_i.next = True
-    #     yield clk_i.negedge
-    #     new_frame_i.next = False
-    #     yield clk_i.posedge
-    #     # Iterate through test vector
-    #     while True:
-
-    #         # Wait 500ms and then load another line
-    #         yield delay(5000)
-
-    #         # Load line
-    #         for item in test_vector:
-    #             yield clk_i.negedge
-    #             # yield delay(10)
-    #             fifo_data_i.next = item
-    #             we.next = True
-    #             # yield delay(10)
-    #             yield clk_i.posedge
-    #             # yield delay(1)
-    #             we.next = False
-    #             # yield delay(10)
-
-    #         # Assert that we have reached end-of-line
-    #         yield clk_i.negedge
-    #         # yield delay(FULL_CLOCK_PERIOD)
-    #         next_line_rdy_i.next = True
-    #         yield clk_i.posedge
-    #         next_line_rdy_i.next = False
-    #         yield clk_i.negedge
-    #         # yield delay()
-    #         we.next = False
-
-    # return dut, bluejay_data_inst, clkgen, load_test_data
-
-# # Generated Verilog
-# def bluejay_gen_verilog():
-
-#     # Signals for Bluejay Data Module
-#     # Control
-#     clk_i = Signal(False)
-#     reset_i = Signal(False)
-#     state = Signal(t_state.IDLE)
-#     new_frame_i = Signal(False)
-#     # Read-Side
-#     bluejay_data_i  = Signal(intbv(0)[32:])
-#     next_line_rdy_i = Signal(False)
-#     fifo_empty_i    = Signal(False)
-#     get_next_word_o = Signal(False)
-#     # Write-Side
-#     bluejay_data_o  = Signal(intbv(0)[32:])
-#     sync_o = Signal(False)
-#     valid_o = Signal(False)
-#     update_o = Signal(False)
-#     invert_o = Signal(False)
-
-#     # Device under test for testing
-#     bluejay_data_inst = bluejay_data(clk_i, reset_i, state, new_frame_i, bluejay_data_i, next_line_rdy_i, fifo_empty_i, get_next_word_o, bluejay_data_o, sync_o, valid_o, update_o, invert_o)
-#     bluejay_data_inst.convert(hdl='Verilog')
-#     # return bluejay_data_inst
-
-
 def main():
 
     tb = bluejay_datapath_tb()
     tb.config_sim(trace=True)
-    tb.run_sim(50000)
+    tb.run_sim(50000000) # 50 ms max but should be stopped by the stopSimulation above
     # tb.run_sim(2000)
 
     # bluejay_gen_verilog()

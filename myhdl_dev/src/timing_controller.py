@@ -12,6 +12,7 @@ NUMBER_OF_WORDS_IN_SINGLE_LINE = 40
 
 t_state = enum(
     'INITING',
+    'RESET_PULSE',
     'NEW_FRAME_PULSE',
     'IDLE'
     )
@@ -72,23 +73,28 @@ def timing_controller(
 
         # Off by default
         reset_all.next = False
-        next_frame_rdy.next = False      
+        next_frame_rdy.next = False   
 
         # Which state are we in?
         if state == t_state.INITING:
-            # Assert reset for all modules
+            # Automatic state to manage transitions and startup
+            state.next = t_state.RESET_PULSE
+            state_timeout_counter.next = reset_wait_period
+
+
+        elif state == t_state.RESET_PULSE:
+            # Pulse reset high for a few cycles - Assert reset for all modules
             reset_all.next = True
-            # Simply wait here for a few cycles at startup
-            # Waiting...
-            state_timeout_counter.next = state_timeout_counter - 1
             # End of Blank period for end of line?
-            if state_timeout_counter <= 1:    # Here we also check for 0, as this is what the intial value shall be on startup
+            state_timeout_counter.next = state_timeout_counter - 1
+            if state_timeout_counter < reset_wait_period:
                 # Move into pulse
                 state.next = t_state.NEW_FRAME_PULSE
 
+        
         elif state == t_state.NEW_FRAME_PULSE:
-            # Pulse for next frame for a single-cycle
-            next_frame_rdy.next = 1
+            # Pulse new_frame high for a single-cycle - automatic transition
+            next_frame_rdy.next = True
             # Wait in IDLE for repulsing
             state_timeout_counter.next = repulse_period
             state.next = t_state.IDLE
