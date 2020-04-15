@@ -356,8 +356,8 @@ assign SLM_CLK = fpga_clk;
 // assign debug_ch4 = FIFO_D0;
 // assign DEBUG_1 = UART_RX;
 // assign DEBUG_2 = UART_TX;//next_frame_rdy_w;
-// assign DEBUG_3 = SEN;
-// assign DEBUG_5 = SCK;
+// assign DEBUG_2 = SOUT;
+// assign DEBUG_3 = SCK;
 // assign DEBUG_8 = SOUT;
 // assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
@@ -371,14 +371,14 @@ assign SLM_CLK = fpga_clk;
 // assign DEBUG_7 = valid_o;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 
+assign DEBUG_7 = fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
-assign DEBUG_5 = fpga_clk;//bluejay_data_out[22];
-assign DEBUG_1 = FR_RXF;//line_of_data_available;
-assign DEBUG_2 = fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = valid_o;//usb3_fifo_read_enable;
-assign DEBUG_6 = reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_7 = next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_1 = UART_RX;//FR_RXF;//line_of_data_available;
+assign DEBUG_2 = SOUT;//rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = SCK;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = SDAT;//UART_RX;//valid_o;//usb3_fifo_read_enable;
+assign DEBUG_5 = SEN;
+assign DEBUG_6 = UART_TX;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 
 
@@ -622,7 +622,8 @@ wire rx_complete;
 assign debug_led3  = rx_complete;
 // Want to interface to 115200 baud UART
 // 100000000 / 115200 = 868 Clocks Per Bit.
-parameter c_CLKS_PER_BIT    = 868;
+//  62500000 / 115200 = 543 Clocks Per Bit.
+parameter c_CLKS_PER_BIT    = 543;
 uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
    .i_Clock(fpga_clk),
    .i_Rx_Serial(UART_RX),
