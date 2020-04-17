@@ -359,7 +359,7 @@ assign SLM_CLK = fpga_clk;
 // assign DEBUG_2 = SOUT;
 // assign DEBUG_3 = SCK;
 // assign DEBUG_8 = SOUT;
-// assign DEBUG_7 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
+assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
 // Keep clock at the top so we don't lose track of things
 // assign DEBUG_5 = fpga_clk;//bluejay_data_out[22];
@@ -374,11 +374,11 @@ assign SLM_CLK = fpga_clk;
 assign DEBUG_7 = fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 assign DEBUG_1 = UART_RX;//FR_RXF;//line_of_data_available;
-assign DEBUG_2 = SOUT;//rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = SCK;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = SDAT;//UART_RX;//valid_o;//usb3_fifo_read_enable;
-assign DEBUG_5 = SEN;
-assign DEBUG_6 = UART_TX;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_2 = SEN;//rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = UART_TX;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = SCK;//valid_o;//usb3_fifo_read_enable;
+// assign DEBUG_5 = line_of_data_available;//SEN;
+assign DEBUG_6 = SOUT;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 
 
