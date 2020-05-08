@@ -836,15 +836,11 @@ namespace HoloRelay
             usb_data.Send_test_sequence(false);
         }
 
-
-        private void enter_standby_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void poll_hw_info_Click(object sender, RoutedEventArgs e)
         {
-
+            // Read and print hwinfo Register
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.PollHwInfoRegister();
         }
 
         private void poll_mode_and_status_Click(object sender, RoutedEventArgs e)
@@ -854,17 +850,27 @@ namespace HoloRelay
             slm_image_loader.PollModeRegister();
             slm_image_loader.PollStatusRegister();
 
+        }
 
+        private void enter_standby_Click(object sender, RoutedEventArgs e)
+        {
+            // Enter Mode
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterStandbyMode();
         }
 
         private void enter_test_Click(object sender, RoutedEventArgs e)
-        {
-
+        { 
+            // Enter Mode
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterTestMode();
         }
 
         private void enter_normal_Click(object sender, RoutedEventArgs e)
         {
-
+            // Enter Mode
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterNormalMode();
         }
     }
 }

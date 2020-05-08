@@ -173,7 +173,7 @@ namespace HoloRelay
             long UpdateMode = (register_value_hex >> 2) & 0x01;
             string UpdateMode_status = (UpdateMode == 0) ? UpdateMode_status = "External" : UpdateMode_status = "Serial";
             // HDP Mode
-            long HDPMode = (register_value_hex >> 0) & 0x02;
+            long HDPMode = (register_value_hex >> 0) & 0x03;
             string HDPMode_status = "";
             if (HDPMode == 0) { HDPMode_status = "Sleep Mode";   };
             if (HDPMode == 1) { HDPMode_status = "Standby Mode"; };
@@ -192,45 +192,69 @@ namespace HoloRelay
 
         }
 
-        // Function to move from Sleep State to Normal State
-        public void SleepToNormal()
+        // Function to poll hwinfo register
+        public void PollHwInfoRegister()
         {
 
-            // Send WHOAMI Register
+            // Define Serial port and keep track of data read
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            string recv_bytes = "";
+            // Read Hardware Configuration Register
             m_send_me[0] = 0xF8;
             m_send_me[1] = 0x00;
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            // Pretty Print Results
+            Console.WriteLine("Hardware Reg ID: 0x" + recv_bytes);
+            // Close the Serial port we opened
+            fpga_com_port.Close();
 
-            // Set Clock
-            m_send_me[0] = 0x09;
-            //m_send_me[1] = 0x64; // 100 MHz
-            m_send_me[1] = 0x42; // 66 MHz
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
-            // Readback Clock
-            m_send_me[0] = 0x89;
-            m_send_me[1] = 0x00;
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+        }
 
-            // Check status
-            m_send_me[0] = 0x81;
-            m_send_me[1] = 0x00;
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
-
+        // Function to enter Test Mode
+        public void EnterTestMode()
+        {
+            // Define Serial port and keep track of data read
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            string recv_bytes = "";
             // Wakeup + Set Enable Serial Command Updates
             m_send_me[0] = 0x01;
-            m_send_me[1] = 0x02; // Normal + External Updates Commands
-            //m_send_me[1] = 0x06; // Normal + Serial Updates Commands
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
-            // Readback status
-            m_send_me[0] = 0x81;
-            m_send_me[1] = 0x00;
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            //m_send_me[1] = 0x07; // Test + External Updates Commands
+            m_send_me[1] = 0x07; // Test + Serial Updates Commands
+            recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+        }
+
+        // Function to enter Standby Mode
+        public void EnterStandbyMode()
+        {
+            // Define Serial port and keep track of data read
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            string recv_bytes = "";
+            // Wakeup + Set Enable Serial Command Updates
+            m_send_me[0] = 0x01;
+            //m_send_me[1] = 0x01; // Standby + External Updates Commands
+            m_send_me[1] = 0x05; // Standby + Serial Updates Commands
+            recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+        }
+
+        // Function to enter Normal Mode
+        public void EnterNormalMode()
+        {
+            // Define Serial port and keep track of data read
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            string recv_bytes = "";
+            // Wakeup + Set Enable Serial Command Updates
+            m_send_me[0] = 0x01;
+            //m_send_me[1] = 0x02; // Normal + External Updates Commands
+            m_send_me[1] = 0x06; // Normal + Serial Updates Commands
+            recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            // Close the Serial port we opened
+            fpga_com_port.Close();
 
         }
 
