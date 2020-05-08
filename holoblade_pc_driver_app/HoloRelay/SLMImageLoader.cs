@@ -10,6 +10,7 @@ using System.Threading;
 // FTD
 using FTD3XX_NET;
 using static FTD3XX_NET.FTDI;
+using System.Windows.Documents;
 
 namespace HoloRelay
 {
@@ -258,6 +259,45 @@ namespace HoloRelay
 
         }
 
+
+        // Only update the SLM once so we can see the image we just loaded
+        // Works, but we get artifacts when switching, better to run fast
+        public void UpdateDisplayBufA()
+        {
+            // Define Serial port and keep track of data read
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            string recv_bytes = "";
+            // Display Buffer A
+            m_send_me[0] = 0x08;
+            m_send_me[1] = 0x20;
+            // For above:
+            //   - DestBuf = B, SrcBuf = A
+            //   - SerialCom = PanelUpdate
+            recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+        }
+
+        // Only update the SLM once so we can see the image we just loaded
+        // Works, but we get artifacts when switching, better to run fast
+        public void UpdateDisplayBufB()
+        {
+            // Define Serial port and keep track of data read
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            string recv_bytes = "";
+            // Display Buffer B
+            m_send_me[0] = 0x08;
+            m_send_me[1] = 0x10;
+            // For above:
+            //   - DestBuf = A, SrcBuf = B
+            //   - SerialCom = PanelUpdate
+            recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+        }
+
         // Function to startup USB3 chip clocks - important to do this early as these clocks drive the FPGA
         public void StartUSB3Clocks()
         {
@@ -324,38 +364,6 @@ namespace HoloRelay
                 //System.Threading.Thread.Sleep(240);
 
             }
-
-        }
-
-        // Only update the SLM once so we can see the image we just loaded
-        // Works, but we get artifacts when switching, better to run fast
-        public void UpdateDisplayBufA()
-        {
-
-            // Display Buffer A
-            m_send_me[0] = 0x08;
-            m_send_me[1] = 0x20;
-            // For above:
-            //   - DestBuf = B, SrcBuf = A
-            //   - SerialCom = PanelUpdate
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
-
-        }
-
-        // Only update the SLM once so we can see the image we just loaded
-        // Works, but we get artifacts when switching, better to run fast
-        public void UpdateDisplayBufB()
-        {
-
-            // Display Buffer B
-            m_send_me[0] = 0x08;
-            m_send_me[1] = 0x10;
-            // For above:
-            //   - DestBuf = A, SrcBuf = B
-            //   - SerialCom = PanelUpdate
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
 
         }
 
@@ -818,7 +826,7 @@ namespace HoloRelay
         // Rationale:
         //    - Simply write alterating bits for each row
         //    - Go 32 pixels wide, in practice I found it challenging to resolve finer than this with the eye (could see 16 but difficult, could not go finer)
-        private void loadHorizontalGratingTestImage()
+        public void loadHorizontalGratingTestImage()
         {
 
             // Iterate through X lines to load data
@@ -858,16 +866,19 @@ namespace HoloRelay
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
                 System.Threading.Thread.Sleep(1);
 
+                // Keep printing for feedback every X percent
+                run_loading_image_feedback(0.2, i, num_lines_to_write);
+
             }
 
             // Close the Serial port we opened
             fpga_com_port.Close();
 
-            // Print our final row address
-            m_send_me[0] = 0x8D;
-            m_send_me[1] = 0x00;
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print that we are done
+            Console.WriteLine("... Image Loading Complete");
 
         }
 
@@ -950,11 +961,8 @@ namespace HoloRelay
             // Close the Serial port we opened
             fpga_com_port.Close();
 
-            // Print our final row address
-            m_send_me[0] = 0x8D;
-            m_send_me[1] = 0x00;
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            // Print that we are done
+            Console.WriteLine("... Image Loading Complete");
 
         }
 
@@ -965,7 +973,7 @@ namespace HoloRelay
         //    - Note that for each line, we have to write 1/4 line '1', 1/2 a line '0' and then 1/4 line '1'
         //    - This is to handle the repeating case, if we don't do this we will just get lines
         //    - We also have to switch bit state every 128 rows
-        private void loadCheckboardTestImage()
+        public void loadCheckboardTestImage()
         {
 
             // Iterate through X lines to load data
@@ -1037,23 +1045,24 @@ namespace HoloRelay
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
                 System.Threading.Thread.Sleep(1);
 
+                // Keep printing for feedback every X percent
+                run_loading_image_feedback(0.2, i, num_lines_to_write);
+
             }
 
             // Close the Serial port we opened
             fpga_com_port.Close();
 
-            // Print our final row address
-            m_send_me[0] = 0x8D;
-            m_send_me[1] = 0x00;
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            // Print that we are done
+            Console.WriteLine("... Image Loading Complete");
+
 
         }
 
         // Helper Function to send 'Vertical Lines' Test Image
         // Rationale:
         //    - We simply alternate what is displayed every 128 rows
-        private void loadVerticalLinesTestImage()
+        public void loadVerticalLinesTestImage()
         {
 
             // Iterate through X lines to load data
@@ -1142,7 +1151,7 @@ namespace HoloRelay
         // Rationale:
         //    - Simply write entire line of '1' and '0' alterating every 32 rows
         //    - Go 32 pixels wide, in practice I found it harder to resolve finer than this with the eyes (could see 16 but challenging, couldnt go finer than this)
-        private void loadVerticalGratingTestImage()
+        public void loadVerticalGratingTestImage()
         {
 
             // Iterate through X lines to load data
@@ -1232,7 +1241,7 @@ namespace HoloRelay
         //    - Single line 32 pixels wide
         //    - Simply set the central 32 rows' values to be '1', rest are '0'
         //    - Need some more complex logic to do this but nothing too bad
-        private void loadSingleHorizontalLineTestImage()
+        public void loadSingleHorizontalLineTestImage()
         {
 
             // Iterate through X lines to load data
@@ -1324,7 +1333,7 @@ namespace HoloRelay
         //    - Can't do a single Smiley Face due to the fact that the first 128 pixels are copied 10 times
         //    - Hence do 10x10 smiley faces
         //    - Nothing clever here, these have been manually coded using the Img 
-        private void loadSmileyFacesTestImage()
+        public void loadSmileyFacesTestImage()
         {
 
             // Have definition of Byte array from autogenerate to C file
@@ -1553,7 +1562,7 @@ namespace HoloRelay
         }
 
         // Helper Function to load Full Image
-        private void loadFullImage()
+        public void loadFullImage()
         {
 
             // Iterate through X lines to load data
@@ -1593,6 +1602,9 @@ namespace HoloRelay
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
                 System.Threading.Thread.Sleep(1);
 
+                // Keep printing for feedback every X percent
+                run_loading_image_feedback(0.2, i, num_lines_to_write);
+
             }
 
             // Close the Serial port we opened
@@ -1608,7 +1620,7 @@ namespace HoloRelay
 
 
         // Helper Function to load Blank Image
-        private void loadBlankImage()
+        public void loadBlankImage()
         {
 
             // Iterate through X lines to load data
@@ -1648,17 +1660,27 @@ namespace HoloRelay
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
                 System.Threading.Thread.Sleep(1);
 
+                // Keep printing for feedback every X percent
+                run_loading_image_feedback(0.2, i, num_lines_to_write);
+
             }
 
             // Close the Serial port we opened
             fpga_com_port.Close();
 
-            // Print our final row address
-            m_send_me[0] = 0x8D;
-            m_send_me[1] = 0x00;
-            m_serial_comms.Send_test_sequence(m_send_me);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            // Print that we are done
+            Console.WriteLine("... Image Loading Complete");
 
+
+        }
+
+        private void run_loading_image_feedback(double load_percent_feedback, int curr_line_number, int total_num_lines)
+        {
+            // Keep printing for feedback every X percent
+            if ((curr_line_number % (total_num_lines * load_percent_feedback) == 0))
+            {
+                Console.WriteLine("...");
+            }
         }
 
     }
