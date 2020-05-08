@@ -39,6 +39,32 @@ namespace HoloRelay
         };
         Image m_curr_image = Image.checkerboard_image; // Checkboard by default
 
+        // Function to Startup the SLM
+        public void StartupSLM()
+        {
+
+            // Define Serial port and keep track of data read
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            string recv_bytes = "";
+            // Sets clocks and readback if they were set correctly
+            m_send_me[0] = 0x09;
+            //m_send_me[1] = 0x64; // 100 MHz
+            m_send_me[1] = 0x42; // 66 MHz
+            m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            // Readback Clock
+            m_send_me[0] = 0x89;
+            m_send_me[1] = 0x00;
+            recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            // Print Results
+            long set_clock_freq = Convert.ToInt64(recv_bytes, 16);
+            Console.WriteLine("Clock set to " + set_clock_freq + "MHz");
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+
+        }
+
         // Function to run-through sequence to initialise a SLM
         public void InitSLM()
         {
@@ -85,11 +111,84 @@ namespace HoloRelay
         public void PollStatusRegister()
         {
 
+            // Define Serial port and keep track of data read
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            string recv_bytes = "";
             // Read Status Register
             m_send_me[0] = 0x83;
             m_send_me[1] = 0x00;
-            m_serial_comms.Send_test_sequence_with_read_mask(m_send_me, 0x63);
-            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            // Work out what this value corresponds to
+            long register_value_hex = Convert.ToInt64(recv_bytes, 16);
+            // LC Switch
+            long LCSwitch = (register_value_hex >> 6) & 0x01;
+            string LCSwitch_status = (LCSwitch==0) ? LCSwitch_status = "Transitioning" : LCSwitch_status = "Stable";
+            // Apron
+            long Apron = (register_value_hex >> 5) & 0x01;
+            string Apron_status = (Apron == 0) ? Apron_status = "Low" : Apron_status = "High";
+            // Destination Buffer
+            long DestBuf = (register_value_hex >> 1) & 0x01;
+            string DestBuf_status = (DestBuf == 0) ? DestBuf_status = "Buf A" : DestBuf_status = "Buf B";
+            // Source Buffer
+            long SrcBuf = (register_value_hex >> 0) & 0x01;
+            string SrcBuf_status = (SrcBuf == 0) ? SrcBuf_status = "Buf A" : SrcBuf_status = "Buf B";
+            // Pretty Print Results
+            Console.WriteLine("Status Register: 0x" + recv_bytes);
+            Console.WriteLine("  - LC Switch:   " + LCSwitch_status);
+            Console.WriteLine("  - Apron:       " + Apron_status);
+            Console.WriteLine("  - Dst Buffer:  " + DestBuf_status + " (Rd/Wr Buf)");
+            Console.WriteLine("  - Src Buffer:  " + SrcBuf_status + " (Clock into SLM Buf)");
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+
+        }
+
+        // Function to poll mode register
+        public void PollModeRegister()
+        {
+
+            // Define Serial port and keep track of data read
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            string recv_bytes = "";
+            // Read Mode Register
+            m_send_me[0] = 0x81;
+            m_send_me[1] = 0x00;
+            recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            // Work out what this value corresponds to
+            long register_value_hex = Convert.ToInt64(recv_bytes, 16);
+            // TileEnable
+            long TileEnable = (register_value_hex >> 7) & 0x01;
+            string TileEnable_status = (TileEnable == 0) ? TileEnable_status = "Disabled" : TileEnable_status = "Enabled";
+            // VerticalFLip
+            long VerticalFlip = (register_value_hex >> 6) & 0x01;
+            string VerticalFlip_status = (VerticalFlip == 0) ? VerticalFlip_status = "Top-to-Bottom" : VerticalFlip_status = "Bottom-to-Top";
+            // HorizontalFlip
+            long HorizontalFlip = (register_value_hex >> 5) & 0x01;
+            string HorizontalFlip_status = (HorizontalFlip == 0) ? HorizontalFlip_status = "Left-to-Right" : HorizontalFlip_status = "Right-to_left";
+            // BitOrder
+            long BitOrder = (register_value_hex >> 4) & 0x01;
+            string BitOrder_status = (BitOrder == 0) ? BitOrder_status = "Normal" : BitOrder_status = "Swizzled";
+            // UpdateMode
+            long UpdateMode = (register_value_hex >> 2) & 0x01;
+            string UpdateMode_status = (UpdateMode == 0) ? UpdateMode_status = "External" : UpdateMode_status = "Serial";
+            // HDP Mode
+            long HDPMode = (register_value_hex >> 0) & 0x02;
+            string HDPMode_status = "";
+            if (HDPMode == 0) { HDPMode_status = "Sleep Mode";   };
+            if (HDPMode == 1) { HDPMode_status = "Standby Mode"; };
+            if (HDPMode == 2) { HDPMode_status = "Normal Mode"; };
+            if (HDPMode == 3) { HDPMode_status = "Test Mode"; };
+            // Pretty Print Results
+            Console.WriteLine("Mode Register: 0x"     + recv_bytes);
+            Console.WriteLine("  - Tiling:      " + TileEnable_status);
+            Console.WriteLine("  - Vert Flip:   " + VerticalFlip_status);
+            Console.WriteLine("  - Hor Flip:    " + HorizontalFlip_status);
+            Console.WriteLine("  - Bit-Order:   " + BitOrder_status);
+            Console.WriteLine("  - Update Mode: " + UpdateMode_status);
+            Console.WriteLine("  - HDP Mode:    " + HDPMode_status);
+            // Close the Serial port we opened
+            fpga_com_port.Close();
 
         }
 

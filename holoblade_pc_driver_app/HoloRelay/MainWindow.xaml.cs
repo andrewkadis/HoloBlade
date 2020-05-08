@@ -815,11 +815,11 @@ namespace HoloRelay
 
         }
 
-        private void enter_normal_mode_Click(object sender, RoutedEventArgs e)
+        private void startup_SLM_Click(object sender, RoutedEventArgs e)
         {
             // Code to read status of BufferA
             SLMImageLoader slm_image_loader = new SLMImageLoader();
-            slm_image_loader.SleepToNormal();
+            slm_image_loader.StartupSLM();
         }
 
         private void output_test_frameA_Click(object sender, RoutedEventArgs e)
@@ -836,11 +836,35 @@ namespace HoloRelay
             usb_data.Send_test_sequence(false);
         }
 
-        private void poll_status_Click(object sender, RoutedEventArgs e)
+
+        private void enter_standby_Click(object sender, RoutedEventArgs e)
         {
-            // Code to read status of BufferA
+
+        }
+
+        private void poll_hw_info_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void poll_mode_and_status_Click(object sender, RoutedEventArgs e)
+        {
+            // Read and print both key registers
             SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.PollModeRegister();
             slm_image_loader.PollStatusRegister();
+
+
+        }
+
+        private void enter_test_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void enter_normal_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

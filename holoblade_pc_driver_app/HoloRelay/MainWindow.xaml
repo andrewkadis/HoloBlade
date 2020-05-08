@@ -12,13 +12,13 @@
             <StackPanel x:Name="FPGADebugStackPanel" Margin="0" Orientation="Horizontal" HorizontalAlignment="Left" Width="594">
                 <Border x:Name="PacketDebugBorder_Copy" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
                     <StackPanel x:Name="PacketDebugStackPanel1" HorizontalAlignment="Left" Margin="5">
-                        <Label x:Name="PacketDebugLabel1" Content="SPI Commands" FontWeight="Bold"/>
-                        <Button x:Name="enter_normal_mode" Content="Enter Normal Mode" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Margin="10,5" Click="enter_normal_mode_Click"/>
-                        <Button x:Name="read_hwconfig_reg1" Content="Read HWConfig Reg" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_hwconfig_reg_Click" Margin="10,5"/>
-                        <Button x:Name="read_clkfreq_reg1" Content="Read ClkFreq Reg" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_clkfreq_reg_Click" Margin="10,5"/>
-                        <Button x:Name="send_complex_test_5" Content="Complex Test 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_1_Click" Margin="10,5"/>
-                        <Button x:Name="send_complex_test_6" Content="Complex Test 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_2_Click" Margin="10,5"/>
-                        <Button x:Name="poll_status" Content="Poll Status" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="poll_status_Click" Margin="10,5"/>
+                        <Label x:Name="PacketDebugLabel1" Content="Control (SPI)" FontWeight="Bold"/>
+                        <Button x:Name="startup_SLM1" Content="Startup SLM" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Margin="10,5" Click="startup_SLM_Click"/>
+                        <Button x:Name="enter_standby" Content="Enter Standby" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5" Click="enter_standby_Click"/>
+                        <Button x:Name="enter_normal" Content="Enter Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="enter_normal_Click" Margin="10,5"/>
+                        <Button x:Name="enter_test" Content="Enter Test" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="enter_test_Click" Margin="10,5"/>
+                        <Button x:Name="poll_mode_and_status" Content="Poll Mode + Status" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="poll_mode_and_status_Click" Margin="10,5"/>
+                        <Button x:Name="poll_hw_info" Content="Poll HWInfo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="poll_hw_info_Click" Margin="10,5"/>
                     </StackPanel>
                 </Border>
                 <Border x:Name="SPIBridgeBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
