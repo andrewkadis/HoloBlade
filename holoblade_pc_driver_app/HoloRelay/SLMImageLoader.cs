@@ -51,7 +51,8 @@ namespace HoloRelay
 
             // Set Clock
             m_send_me[0] = 0x09;
-            m_send_me[1] = 0x64;
+            //m_send_me[1] = 0x64; // 100 MHz
+            m_send_me[1] = 0x42; // 66 MHz
             m_serial_comms.Send_test_sequence(m_send_me);
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
             // Readback Clock
@@ -68,7 +69,62 @@ namespace HoloRelay
 
             // Wakeup + Set Enable Serial Command Updates
             m_send_me[0] = 0x01;
-            m_send_me[1] = 0x06; // Normal + Enable Serial Updates Commands
+            //m_send_me[1] = 0x06; // Normal + Enable Serial Updates Commands
+            m_send_me[1] = 0x04; // Normal + External Updates Commands
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            // Readback status
+            m_send_me[0] = 0x81;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
+
+        // Function to poll status register
+        public void PollStatusRegister()
+        {
+
+            // Read Status Register
+            m_send_me[0] = 0x83;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence_with_read_mask(m_send_me, 0x63);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+        }
+
+        // Function to move from Sleep State to Normal State
+        public void SleepToNormal()
+        {
+
+            // Send WHOAMI Register
+            m_send_me[0] = 0xF8;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+            // Set Clock
+            m_send_me[0] = 0x09;
+            //m_send_me[1] = 0x64; // 100 MHz
+            m_send_me[1] = 0x42; // 66 MHz
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+            // Readback Clock
+            m_send_me[0] = 0x89;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+            // Check status
+            m_send_me[0] = 0x81;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_test_sequence(m_send_me);
+            System.Threading.Thread.Sleep(m_wait_between_data_transfers);
+
+            // Wakeup + Set Enable Serial Command Updates
+            m_send_me[0] = 0x01;
+            m_send_me[1] = 0x02; // Normal + External Updates Commands
+            //m_send_me[1] = 0x06; // Normal + Serial Updates Commands
             m_serial_comms.Send_test_sequence(m_send_me);
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
             // Readback status

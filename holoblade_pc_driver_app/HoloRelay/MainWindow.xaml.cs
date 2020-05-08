@@ -814,5 +814,33 @@ namespace HoloRelay
             slm_image_loader.ReadTestData();
 
         }
+
+        private void enter_normal_mode_Click(object sender, RoutedEventArgs e)
+        {
+            // Code to read status of BufferA
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.SleepToNormal();
+        }
+
+        private void output_test_frameA_Click(object sender, RoutedEventArgs e)
+        {
+            // Send some Data on the USB3 interface
+            USB3Comms usb_data = new USB3Comms();
+            usb_data.Send_test_sequence(true);
+        }
+
+        private void output_test_frameB_Click(object sender, RoutedEventArgs e)
+        {
+            // Send an alternate frame on the USB3 interface
+            USB3Comms usb_data = new USB3Comms();
+            usb_data.Send_test_sequence(false);
+        }
+
+        private void poll_status_Click(object sender, RoutedEventArgs e)
+        {
+            // Code to read status of BufferA
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.PollStatusRegister();
+        }
     }
 }

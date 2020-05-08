@@ -10,37 +10,37 @@
     <TabControl HorizontalAlignment="Left" Margin="0" SelectionChanged="TabControl_SelectionChanged">
         <TabItem x:Name="___TabItem___FPGA_Debug_" Margin="0" Header="FPGA Debug">
             <StackPanel x:Name="FPGADebugStackPanel" Margin="0" Orientation="Horizontal" HorizontalAlignment="Left" Width="594">
-                <Border x:Name="UARTDebugBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
-                    <StackPanel x:Name="UARTDebugStackPanel" HorizontalAlignment="Left" Margin="5">
-                        <Label x:Name="UARTDebugLabel" Content="UART Debug" FontWeight="Bold"/>
-                        <Button x:Name="send_test_sequence" Content="Send Test Sequence" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Click="Send_test_sequence_Click" Margin="10,5"/>
-                        <Button x:Name="send_resync" Content="Resync" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_resync_Click" Margin="10,5"/>
-                        <Button x:Name="send_start_of_packet" Content="Start of Packet" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_start_of_packet_Click" Margin="10,5"/>
-                        <Button x:Name="send_complex_test_1" Content="Complex Test 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_1_Click" Margin="10,5"/>
-                        <Button x:Name="send_complex_test_2" Content="Complex Test 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_2_Click" Margin="10,5"/>
-                        <Button x:Name="send_raw_data" Content="Raw Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_raw_data_Click" Margin="10,5"/>
-                    </StackPanel>
-                </Border>
-                <Border x:Name="PacketDebugBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
-                    <StackPanel x:Name="PacketDebugStackPanel" HorizontalAlignment="Left" Margin="5">
-                        <Label x:Name="PacketDebugLabel" Content="Packet Debug" FontWeight="Bold"/>
-                        <Button x:Name="send_test_packet1" Content="Send Test Packet" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Margin="10,5"/>
-                        <Button x:Name="read_hwconfig_reg" Content="Read HWConfig Reg" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_hwconfig_reg_Click" Margin="10,5"/>
-                        <Button x:Name="read_clkfreq_reg" Content="Read ClkFreq Reg" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_clkfreq_reg_Click" Margin="10,5"/>
-                        <Button x:Name="send_complex_test_3" Content="Complex Test 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_1_Click" Margin="10,5"/>
-                        <Button x:Name="send_complex_test_4" Content="Complex Test 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_2_Click" Margin="10,5"/>
-                        <Button x:Name="send_raw_data1" Content="Raw Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_raw_data_Click" Margin="10,5"/>
+                <Border x:Name="PacketDebugBorder_Copy" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
+                    <StackPanel x:Name="PacketDebugStackPanel1" HorizontalAlignment="Left" Margin="5">
+                        <Label x:Name="PacketDebugLabel1" Content="SPI Commands" FontWeight="Bold"/>
+                        <Button x:Name="enter_normal_mode" Content="Enter Normal Mode" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Margin="10,5" Click="enter_normal_mode_Click"/>
+                        <Button x:Name="read_hwconfig_reg1" Content="Read HWConfig Reg" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_hwconfig_reg_Click" Margin="10,5"/>
+                        <Button x:Name="read_clkfreq_reg1" Content="Read ClkFreq Reg" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_clkfreq_reg_Click" Margin="10,5"/>
+                        <Button x:Name="send_complex_test_5" Content="Complex Test 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_1_Click" Margin="10,5"/>
+                        <Button x:Name="send_complex_test_6" Content="Complex Test 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_2_Click" Margin="10,5"/>
+                        <Button x:Name="poll_status" Content="Poll Status" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="poll_status_Click" Margin="10,5"/>
                     </StackPanel>
                 </Border>
                 <Border x:Name="SPIBridgeBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
                     <StackPanel x:Name="UARTDebugStackPanel1" HorizontalAlignment="Left" Margin="5">
-                        <Label x:Name="UARTDebugLabel1" Content="SPI Bridge" FontWeight="Bold"/>
+                        <Label x:Name="UARTDebugLabel1" Content="Command Sequences" FontWeight="Bold"/>
                         <Button x:Name="Startup" Content="Startup" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Click="SPI_startup" Margin="10,5"/>
                         <Button x:Name="LoadImageData" Content="Load Image Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_load_image_data" Margin="10,5"/>
                         <Button x:Name="ContinuousUpdate" Content="Continuous Update" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_continuous_update" Margin="10,5"/>
                         <Button x:Name="SingleUpdate" Content="SingleUpdate BufA" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_single_update_A" Margin="10,5"/>
                         <Button x:Name="SPIBridgeTBD5" Content="SingleUpdate Buf B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_single_update_B" Margin="10,5"/>
                         <Button x:Name="DisplaySequence" Content="Display Sequence" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="SPI_display_sequence" Margin="10,5"/>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="UARTDebugBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
+                    <StackPanel x:Name="UARTDebugStackPanel" HorizontalAlignment="Left" Margin="5">
+                        <Label x:Name="UARTDebugLabel" Content="USB3 Data Output" FontWeight="Bold"/>
+                        <Button x:Name="output_test_frameA" Content="Output Test Frame A" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Click="output_test_frameA_Click" Margin="10,5"/>
+                        <Button x:Name="output_test_frameB" Content="Output Test Frame B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="output_test_frameB_Click" Margin="10,5"/>
+                        <Button x:Name="send_start_of_packet" Content="Start of Packet" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_start_of_packet_Click" Margin="10,5"/>
+                        <Button x:Name="send_complex_test_1" Content="Complex Test 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_1_Click" Margin="10,5"/>
+                        <Button x:Name="send_complex_test_2" Content="Complex Test 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_complex_test_2_Click" Margin="10,5"/>
+                        <Button x:Name="send_raw_data" Content="Raw Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="Send_raw_data_Click" Margin="10,5"/>
                     </StackPanel>
                 </Border>
             </StackPanel>

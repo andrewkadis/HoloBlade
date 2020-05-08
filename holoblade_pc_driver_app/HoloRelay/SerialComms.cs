@@ -16,7 +16,7 @@ namespace HoloRelay
         {
             // Open a 8N1 Serial Port which is at COM3
             SerialPort test_com_port = new SerialPort();
-            test_com_port.PortName = "COM18";
+            test_com_port.PortName = "COM4";
             test_com_port.DataBits = 8;
             test_com_port.StopBits = StopBits.One;
             test_com_port.BaudRate = 115200;
@@ -122,21 +122,43 @@ namespace HoloRelay
 
         }
 
+        // Helper function to send an entire test sequence, printing what was tx + rx, masking the read data when outputting
+        public void Send_test_sequence_with_read_mask(byte[] tx_buf, UInt32 mask)
+        {
+            // Open Serial Port
+            SerialPort fpga_com_port = setup_serial_port();
+            // Send Data
+            string tx_string = Send_serial_data(tx_buf, fpga_com_port);
+            // Rx Reply
+            string rx_string = Read_serial_data(fpga_com_port);
+            // Mask
+            UInt32 rx_string_byte = Byte.Parse(rx_string, System.Globalization.NumberStyles.HexNumber);
+            UInt32 rx_masked = rx_string_byte & mask;
+            string rx_string_masked = rx_masked.ToString("X2");
+            // Print
+            Debug.WriteLine("Write: 0x" + tx_string);
+            Debug.WriteLine("Read: 0x" + rx_string_masked);
+            Debug.WriteLine("Data Equal: " + tx_string.Equals(rx_string_masked));
+            // Close Serial Port
+            close_serial_port(fpga_com_port);
+
+        }
+
         // Helper function to send an entire test sequence fast (no RX, no open/close of serial)
         //public void Send_test_sequence_fast(byte[] tx_buf, SerialPort fpga_com_port)
         //{
-            // Open Serial Port
-            //SerialPort fpga_com_port = setup_serial_port();
-            // Send Data
-            //Send_serial_data_turbo(tx_buf, fpga_com_port);
-            // Rx Reply
-            //string rx_string = Read_serial_data(fpga_com_port);
-            // Print
-            //Debug.WriteLine("Write: 0x" + tx_string);
-            //Debug.WriteLine("Read:  0x" + rx_string);
-            //Debug.WriteLine("Data Equal: " + tx_string.Equals(rx_string));
-            // Close Serial Port
-            //close_serial_port(fpga_com_port);
+        // Open Serial Port
+        //SerialPort fpga_com_port = setup_serial_port();
+        // Send Data
+        //Send_serial_data_turbo(tx_buf, fpga_com_port);
+        // Rx Reply
+        //string rx_string = Read_serial_data(fpga_com_port);
+        // Print
+        //Debug.WriteLine("Write: 0x" + tx_string);
+        //Debug.WriteLine("Read:  0x" + rx_string);
+        //Debug.WriteLine("Data Equal: " + tx_string.Equals(rx_string));
+        // Close Serial Port
+        //close_serial_port(fpga_com_port);
 
         //}
 
