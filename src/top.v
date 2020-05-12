@@ -359,7 +359,7 @@ assign SLM_CLK = fpga_clk;
 // assign DEBUG_2 = SOUT;
 // assign DEBUG_3 = SCK;
 // assign DEBUG_8 = SOUT;
-assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
+// assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
 // Debugging Lines
 // Keep clock at the top so we don't lose track of things
 // assign DEBUG_5 = fpga_clk;//bluejay_data_out[22];
@@ -370,19 +370,25 @@ assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this outp
 // assign DEBUG_6 = line_of_data_available;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // assign DEBUG_7 = valid_o;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
-
+// // Debug setup - doesnt work
 assign DEBUG_7 = fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+// assign DEBUG_1 = FR_RXF;//line_of_data_available;
+// assign DEBUG_2 = rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+// assign DEBUG_3 = bluejay_data_out[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+// assign DEBUG_4 = valid_o;//usb3_fifo_read_enable;
+// assign DEBUG_5 = line_of_data_available;//SEN;
+// assign DEBUG_6 = update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
+
+
+// // Needed to work
+assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
+// assign DEBUG_7 = FR_RXF;//fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 assign DEBUG_1 = UART_RX;//FR_RXF;//line_of_data_available;
 assign DEBUG_2 = SEN;//rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
 assign DEBUG_3 = UART_TX;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = SCK;//valid_o;//usb3_fifo_read_enable;
-// assign DEBUG_5 = line_of_data_available;//SEN;
 assign DEBUG_6 = SOUT;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
-
-
-
-
 
 
   // .empty_o(fifo_empty),
@@ -398,21 +404,21 @@ assign DEBUG_6 = SOUT;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22
 // Connect up USB3 Chip using our custom interface
 // Wire up our 32-bit data connection from the FT601 chip
 wire[31:0] usb3_data_in;
-assign usb3_data_in[31] = FIFO_D31;
-assign usb3_data_in[30] = FIFO_D30;
-assign usb3_data_in[29] = FIFO_D29;
-assign usb3_data_in[28] = FIFO_D28;
-assign usb3_data_in[27] = FIFO_D27;
-assign usb3_data_in[26] = FIFO_D26;
-assign usb3_data_in[25] = FIFO_D25;
-assign usb3_data_in[24] = FIFO_D24;
-assign usb3_data_in[23] = FIFO_D23;
-assign usb3_data_in[22] = FIFO_D22;
-assign usb3_data_in[21] = FIFO_D21;
-assign usb3_data_in[20] = FIFO_D20;
-assign usb3_data_in[19] = FIFO_D19;
-assign usb3_data_in[18] = FIFO_D18;
-assign usb3_data_in[17] = FIFO_D17;
+// assign usb3_data_in[31] = FIFO_D31;
+// assign usb3_data_in[30] = FIFO_D30;
+// assign usb3_data_in[29] = FIFO_D29;
+// assign usb3_data_in[28] = FIFO_D28;
+// assign usb3_data_in[27] = FIFO_D27;
+// assign usb3_data_in[26] = FIFO_D26;
+// assign usb3_data_in[25] = FIFO_D25;
+// assign usb3_data_in[24] = FIFO_D24;
+// assign usb3_data_in[23] = FIFO_D23;
+// assign usb3_data_in[22] = FIFO_D22;
+// assign usb3_data_in[21] = FIFO_D21;
+// assign usb3_data_in[20] = FIFO_D20;
+// assign usb3_data_in[19] = FIFO_D19;
+// assign usb3_data_in[18] = FIFO_D18;
+// assign usb3_data_in[17] = FIFO_D17;
 assign usb3_data_in[16] = FIFO_D16;
 assign usb3_data_in[15] = FIFO_D15;
 assign usb3_data_in[14] = FIFO_D14;
@@ -550,7 +556,6 @@ assign DATA1  = bluejay_data_out[1];
 assign DATA0  = bluejay_data_out[0];
 // Signals for Bluejay Data Module
 // SLM-Side
-wire[31:0] bluejay_data_o;
 wire       sync_o;
 wire       valid_o;
 wire       update_o;
@@ -567,7 +572,7 @@ bluejay_data bluejay_data_inst(
   .fifo_empty(fifo_empty),
   .get_next_word(get_next_word),
   // SLM-side
-  .data_o(bluejay_data_o),
+  .data_o(bluejay_data_out),
   .sync_o(sync_o),
   .valid_o(valid_o),
   .update_o(update_o),

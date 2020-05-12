@@ -6,9 +6,9 @@ DevicePower=
 NetlistFile=HoloBlade_Implmnt/HoloBlade.edf
 AdditionalEDIFFile=
 IPEDIFFile=
-DesignLib=
-DesignView=
-DesignCell=
+DesignLib=HoloBlade_Implmnt/sbt/netlist/oadb-top
+DesignView=_rt
+DesignCell=top
 SynthesisSDCFile=HoloBlade_Implmnt/HoloBlade.scf
 UserPinConstraintFile=
 UserSDCFile=
@@ -32,7 +32,7 @@ Version=Lattice Semiconductor Corporation iCEcube - Release: 2017.08.27940 - Bui
 ProjectName=HoloBlade
 Vendor=SiliconBlue
 Synthesis=lse
-ProjectVFiles=src/top.v=work,src/clock.v=work,src/uart_rx.v=work,src/uart_tx.v=work,src/spi.v=work,src/FIFO_Quad_Word_mod.v=work,src/bluejay_data.v=work,src/usb3_if.v,src/fifo_dc_32_lut_gen.v
+ProjectVFiles=src/top.v=work,src/clock.v=work,src/uart_rx.v=work,src/uart_tx.v=work,src/spi.v=work,src/FIFO_Quad_Word_mod.v=work,src/bluejay_data.v=work,src/usb3_if.v=work,src/fifo_dc_32_lut_gen.v=work,src/timing_controller.v=work
 ProjectCFiles=
 CurImplementation=HoloBlade_Implmnt
 Implementations=HoloBlade_Implmnt

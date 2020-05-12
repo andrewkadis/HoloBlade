@@ -231,7 +231,7 @@ end
 always @(spi_clk) begin
 
 	if(~CS)
-		if(state_reg==LOAD)
+		if( (state_reg==LOAD) || (state_reg==UNLOAD_LAST_BIT) )
 			SCLK <= 0;
 		else
 			SCLK <= spi_clk;

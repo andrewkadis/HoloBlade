@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 17:12:22
 
-* File Generated:     Apr 3 2020 17:14:27
+* File Generated:     May 12 2020 11:56:59
 
 * Purpose:            
 
@@ -37,71 +37,51 @@ W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D28, as i
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D30, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D19, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FT_TXE, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D16, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D2, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D25, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_BE0, as it is not connected to any PAD
+W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D22, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D29, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D6, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D18, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D8, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D11, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D26, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D3, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for ICE_SYSCLK, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D17, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D24, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D5, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D23, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D15, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D7, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_BE1, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D12, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D21, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D9, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_BE3, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D0, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D10, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D27, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D14, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D4, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_BE2, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_CLK, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D1, as it is not connected to any PAD
-W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D13, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D20, as it is not connected to any PAD
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D31, as it is not connected to any PAD
 
 Input Design Statistics
-    Number of LUTs      	:	429
-    Number of DFFs      	:	263
+    Number of LUTs      	:	2589
+    Number of DFFs      	:	1483
     Number of DFFs packed to IO	:	0
-    Number of Carrys    	:	74
+    Number of Carrys    	:	122
     Number of RAMs      	:	0
     Number of ROMs      	:	0
-    Number of IOs       	:	66
-    Number of GBIOs     	:	0
+    Number of IOs       	:	83
+    Number of GBIOs     	:	1
     Number of GBs       	:	1
     Number of WarmBoot  	:	0
-    Number of PLLs      	:	0
+    Number of PLLs      	:	1
 
 
 Phase 1
 I2077: Start design legalization
-W2751: Ignoring set_io_ff constraint on UART_RX, since it is conflicting with set_io constraint
-W2729: set_io_ff -in constraint specified on 'UART_RX' pin is infeasible. Ignoring the constraint
 
 Design Legalization Statistics
     Number of feedthru LUTs inserted to legalize input of DFFs     	:	6
     Number of feedthru LUTs inserted for LUTs driving multiple DFFs	:	0
     Number of LUTs replicated for LUTs driving multiple DFFs       	:	4
     Number of feedthru LUTs inserted to legalize output of CARRYs  	:	0
-    Number of feedthru LUTs inserted to legalize global signals    	:	1
+    Number of feedthru LUTs inserted to legalize global signals    	:	2
     Number of feedthru CARRYs inserted to legalize input of CARRYs 	:	0
     Number of inserted LUTs to Legalize IOs with PIN_TYPE= 01xxxx  	:	0
     Number of inserted LUTs to Legalize IOs with PIN_TYPE= 10xxxx  	:	0
     Number of inserted LUTs to Legalize IOs with PIN_TYPE= 11xxxx  	:	0
-    Total LUTs inserted                                            	:	11
+    Total LUTs inserted                                            	:	12
     Total CARRYs inserted                                          	:	0
 
 
@@ -110,24 +90,87 @@ I2088: Phase 1, elapsed time : 0.0 (sec)
 
 
 Phase 2
-I2088: Phase 2, elapsed time : 0.0 (sec)
+I2088: Phase 2, elapsed time : 0.1 (sec)
 
 Phase 3
-Warning-1034: Found non-unate timing arc, from pin "in3" to pin "lcout" of instance "GB_BUFFER_DEBUG_5_c_THRU_LUT4_0_LC_439", in the clock network. Converting the timing arc to positive-unate
-Warning-1035: Removing timing arc from pin "GB_BUFFER_DEBUG_5_c_THRU_LUT4_0_LC_439/in3" to pin "GB_BUFFER_DEBUG_5_c_THRU_LUT4_0_LC_439/lcout" to break the combinatorial loop
+Warning-1403: No clock is reaching the reference clock pin 'REFERENCECLK' of PLL instance 'clock_inst.pll_config'. So, no clocks will be inferred at output of this PLL
 
 Design Statistics after Packing
-    Number of LUTs      	:	441
-    Number of DFFs      	:	262
-    Number of DFFs packed to IO	:	1
-    Number of Carrys    	:	74
+    Number of LUTs      	:	2602
+    Number of DFFs      	:	1483
+    Number of DFFs packed to IO	:	0
+    Number of Carrys    	:	122
 
 Device Utilization Summary after Packing
     Sequential LogicCells
-        LUT and DFF      	:	208
-        LUT, DFF and CARRY	:	54
+        LUT and DFF      	:	1410
+        LUT, DFF and CARRY	:	73
     Combinational LogicCells
-        Only LUT         	:	159
-        CARRY Only       	:	0
-        LUT with CARRY   	:	20
-    LogicCells    
+        Only LUT         	:	1073
+        CARRY Only       	:	3
+        LUT with CARRY   	:	46
+    LogicCells                  :	2605/3520
+    PLBs                        :	343/440
+    BRAMs                       :	0/20
+    IOs and GBIOs               :	84/107
+    PLLs                        :	1/2
+
+
+I2088: Phase 3, elapsed time : 4.5 (sec)
+
+Phase 4
+W2714: Invalid pin location 65 for IO ICE_CDONE. Assignment will be ignored
+W2714: Invalid pin location 66 for IO ICE_CREST. Assignment will be ignored
+I2088: Phase 4, elapsed time : 0.2 (sec)
+
+Phase 5
+I2088: Phase 5, elapsed time : 7.1 (sec)
+
+Phase 6
+I2088: Phase 6, elapsed time : 50.2 (sec)
+
+Final Design Statistics
+    Number of LUTs      	:	2602
+    Number of DFFs      	:	1483
+    Number of DFFs packed to IO	:	0
+    Number of Carrys    	:	122
+    Number of RAMs      	:	0
+    Number of ROMs      	:	0
+    Number of IOs       	:	83
+    Number of GBIOs     	:	1
+    Number of GBs       	:	1
+    Number of WarmBoot  	:	0
+    Number of PLLs      	:	1
+
+Device Utilization Summary
+    LogicCells                  :	2605/3520
+    PLBs                        :	369/440
+    BRAMs                       :	0/20
+    IOs and GBIOs               :	84/107
+    PLLs                        :	1/2
+
+
+
+#####################################################################
+Placement Timing Summary
+
+The timing summary is based on estimated routing delays after
+placement. For final timing report, please carry out the timing
+analysis after routing.
+=====================================================================
+
+#####################################################################
+                     Clock Summary 
+=====================================================================
+Number of clocks: 2
+Clock: top|FIFO_CLK | Frequency: 49.26 MHz | Target: 1.00 MHz
+Clock: top|\spi0/spi_clk | Frequency: 137.78 MHz | Target: 1.00 MHz
+
+=====================================================================
+                     End of Clock Summary
+#####################################################################
+
+I2054: Placement of design completed successfully
+
+I2076: Placer run-time: 63.0 sec.
+

@@ -11,6 +11,7 @@ add_file -verilog -lib work "src/FIFO_Quad_Word_mod.v"
 add_file -verilog -lib work "src/bluejay_data.v" 
 add_file -verilog -lib work "src/usb3_if.v" 
 add_file -verilog -lib work "src/fifo_dc_32_lut_gen.v" 
+add_file -verilog -lib work "src/timing_controller.v" 
 #implementation: "HoloBlade_Implmnt"
 impl -add HoloBlade_Implmnt -type fpga
 

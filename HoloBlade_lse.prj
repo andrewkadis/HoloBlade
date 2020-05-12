@@ -37,6 +37,7 @@
 -ver "src/bluejay_data.v"
 -ver "src/usb3_if.v"
 -ver "src/fifo_dc_32_lut_gen.v"
+-ver "src/timing_controller.v"
 -p "D:/Dev/awesome-board-firmware"
 
 #set result format/file last
