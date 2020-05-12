@@ -1,8 +1,8 @@
 <top name = "top"  library = "work"  arch = ""  entry = "Verilog">
 
 <clocks>
-    <clockitem name = "SLM_CLK"  type = "net" />
     <clockitem name = "FIFO_CLK"  type = "port" />
+    <clockitem name = "SLM_CLK"  type = "net" />
     <clockitem name = "spi0/spi_clk"  type = "net" />
 </clocks>
 
@@ -6470,12 +6470,12 @@
         <pitem  name = "b[7]"  direction = "in"  />
         <pitem  name = "b[6]"  direction = "in"  />
         <pitem  name = "b[5]"  direction = "in"  />
-        <pitem  name = "b[4]"  direction = "in"  />
+        <pitem  name = "b[0]"  direction = "in"  />
         <pitem  name = "b[8]"  direction = "in"  />
+        <pitem  name = "b[4]"  direction = "in"  />
         <pitem  name = "b[3]"  direction = "in"  />
         <pitem  name = "b[2]"  direction = "in"  />
         <pitem  name = "b[1]"  direction = "in"  />
-        <pitem  name = "b[0]"  direction = "in"  />
         <pitem  name = "a[9]"  direction = "in"  />
         <pitem  name = "a[8]"  direction = "in"  />
         <pitem  name = "a[7]"  direction = "in"  />
@@ -7133,13 +7133,13 @@
         <pitem  name = "b[8]"  direction = "in"  />
         <pitem  name = "b[7]"  direction = "in"  />
         <pitem  name = "b[6]"  direction = "in"  />
-        <pitem  name = "b[5]"  direction = "in"  />
+        <pitem  name = "b[1]"  direction = "in"  />
         <pitem  name = "b[0]"  direction = "in"  />
         <pitem  name = "b[9]"  direction = "in"  />
+        <pitem  name = "b[5]"  direction = "in"  />
         <pitem  name = "b[4]"  direction = "in"  />
         <pitem  name = "b[3]"  direction = "in"  />
         <pitem  name = "b[2]"  direction = "in"  />
-        <pitem  name = "b[1]"  direction = "in"  />
         <pitem  name = "a[9]"  direction = "in"  />
         <pitem  name = "a[8]"  direction = "in"  />
         <pitem  name = "a[7]"  direction = "in"  />
@@ -8330,13 +8330,13 @@
         <pitem  name = "b[8]"  direction = "in"  />
         <pitem  name = "b[7]"  direction = "in"  />
         <pitem  name = "b[6]"  direction = "in"  />
-        <pitem  name = "b[5]"  direction = "in"  />
+        <pitem  name = "b[1]"  direction = "in"  />
         <pitem  name = "b[0]"  direction = "in"  />
         <pitem  name = "b[9]"  direction = "in"  />
+        <pitem  name = "b[5]"  direction = "in"  />
         <pitem  name = "b[4]"  direction = "in"  />
         <pitem  name = "b[3]"  direction = "in"  />
         <pitem  name = "b[2]"  direction = "in"  />
-        <pitem  name = "b[1]"  direction = "in"  />
         <pitem  name = "a[9]"  direction = "in"  />
         <pitem  name = "a[8]"  direction = "in"  />
         <pitem  name = "a[7]"  direction = "in"  />
@@ -9674,14 +9674,14 @@
 
     <instance  name = "spi0/spi_clk_counter_7__I_15"  library = "work"  arch = ""  type = "comb">
         <pins>
-        <pitem  name = "d1[5]"  direction = "in"  />
-        <pitem  name = "d1[4]"  direction = "in"  />
-        <pitem  name = "d1[2]"  direction = "in"  />
-        <pitem  name = "d1[1]"  direction = "in"  />
-        <pitem  name = "d1[0]"  direction = "in"  />
         <pitem  name = "d1[7]"  direction = "in"  />
         <pitem  name = "d1[6]"  direction = "in"  />
+        <pitem  name = "d1[4]"  direction = "in"  />
         <pitem  name = "d1[3]"  direction = "in"  />
+        <pitem  name = "d1[2]"  direction = "in"  />
+        <pitem  name = "d1[1]"  direction = "in"  />
+        <pitem  name = "d1[5]"  direction = "in"  />
+        <pitem  name = "d1[0]"  direction = "in"  />
         <pitem  name = "cond"  direction = "in"  />
         <pitem  name = "d0[7]"  direction = "in"  />
         <pitem  name = "d0[6]"  direction = "in"  />
@@ -10437,7 +10437,7 @@
         <nets>
         <nitem  name = "spi0/SCLK_N_751"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_738"  />
-        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
+        <nitem  name = "spi0/busy_N_746"  />
         </nets>
     </instance>
 
@@ -10709,18 +10709,18 @@
     <instance  name = "spi0/tx_shift_reg_14__N_738_I_0_112"  library = "work"  arch = ""  type = "comb">
         <pins>
         <pitem  name = "a[3]"  direction = "in"  />
-        <pitem  name = "a[0]"  direction = "in"  />
         <pitem  name = "o"  direction = "out"  />
         <pitem  name = "a[2]"  direction = "in"  />
         <pitem  name = "a[1]"  direction = "in"  />
+        <pitem  name = "a[0]"  direction = "in"  />
         </pins>
 
         <nets>
         <nitem  name = "spi0/tx_shift_reg_14__N_738"  />
-        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_742"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_739"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_740"  />
+        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         </nets>
     </instance>
 
@@ -10807,7 +10807,6 @@
         <pitem  name = "data[33]"  direction = "in"  />
         <pitem  name = "data[17]"  direction = "in"  />
         <pitem  name = "sel[4]"  direction = "in"  />
-        <pitem  name = "sel[1]"  direction = "in"  />
         <pitem  name = "sel[0]"  direction = "in"  />
         <pitem  name = "o[15]"  direction = "out"  />
         <pitem  name = "o[14]"  direction = "out"  />
@@ -10827,6 +10826,7 @@
         <pitem  name = "o[0]"  direction = "out"  />
         <pitem  name = "sel[3]"  direction = "in"  />
         <pitem  name = "sel[2]"  direction = "in"  />
+        <pitem  name = "sel[1]"  direction = "in"  />
         </pins>
 
         <nets>
@@ -10863,7 +10863,6 @@
         <nitem  name = "spi0/tx_shift_reg[1]"  />
         <nitem  name = "spi0/tx_shift_reg[0]"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_738"  />
-        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_742"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_656[15]"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_656[14]"  />
@@ -10883,6 +10882,7 @@
         <nitem  name = "spi0/tx_shift_reg_14__N_656[0]"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_739"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_740"  />
+        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         </nets>
     </instance>
 
@@ -11016,17 +11016,17 @@
 
     <instance  name = "spi0/tx_shift_reg_14__N_739_I_0_108"  library = "work"  arch = ""  type = "comb">
         <pins>
-        <pitem  name = "a[1]"  direction = "in"  />
         <pitem  name = "a[3]"  direction = "in"  />
         <pitem  name = "a[2]"  direction = "in"  />
+        <pitem  name = "a[1]"  direction = "in"  />
         <pitem  name = "a[0]"  direction = "in"  />
         <pitem  name = "o"  direction = "out"  />
         </pins>
 
         <nets>
-        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_739"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_740"  />
+        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         <nitem  name = "spi0/rx_shift_reg_15__N_743"  />
         <nitem  name = "spi0/rx_shift_reg_15__N_744"  />
         </nets>
@@ -11114,9 +11114,9 @@
         <pitem  name = "data[65]"  direction = "in"  />
         <pitem  name = "data[49]"  direction = "in"  />
         <pitem  name = "data[33]"  direction = "in"  />
-        <pitem  name = "sel[2]"  direction = "in"  />
         <pitem  name = "sel[4]"  direction = "in"  />
         <pitem  name = "sel[3]"  direction = "in"  />
+        <pitem  name = "sel[2]"  direction = "in"  />
         <pitem  name = "sel[1]"  direction = "in"  />
         <pitem  name = "sel[0]"  direction = "in"  />
         <pitem  name = "o[15]"  direction = "out"  />
@@ -11155,9 +11155,9 @@
         <nitem  name = "spi0/rx_shift_reg[2]"  />
         <nitem  name = "spi0/rx_shift_reg[1]"  />
         <nitem  name = "spi0/rx_shift_reg[0]"  />
-        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_739"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_740"  />
+        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         <nitem  name = "spi0/rx_shift_reg_15__N_743"  />
         <nitem  name = "spi0/rx_shift_reg_15__N_744"  />
         <nitem  name = "spi0/rx_shift_reg_15__N_676[15]"  />
@@ -11221,9 +11221,9 @@
         <pitem  name = "data[10]"  direction = "in"  />
         <pitem  name = "data[9]"  direction = "in"  />
         <pitem  name = "data[8]"  direction = "in"  />
-        <pitem  name = "sel[2]"  direction = "in"  />
         <pitem  name = "sel[4]"  direction = "in"  />
         <pitem  name = "sel[3]"  direction = "in"  />
+        <pitem  name = "sel[2]"  direction = "in"  />
         <pitem  name = "sel[1]"  direction = "in"  />
         <pitem  name = "sel[0]"  direction = "in"  />
         <pitem  name = "o[7]"  direction = "out"  />
@@ -11253,9 +11253,9 @@
         <nitem  name = "spi0/rx_shift_reg[10]"  />
         <nitem  name = "spi0/rx_shift_reg[9]"  />
         <nitem  name = "spi0/rx_shift_reg[8]"  />
-        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_739"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_740"  />
+        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         <nitem  name = "spi0/rx_shift_reg_15__N_743"  />
         <nitem  name = "spi0/rx_shift_reg_15__N_744"  />
         <nitem  name = "spi0/Rx_Upper_Byte_7__N_640[7]"  />
@@ -11311,9 +11311,9 @@
         <pitem  name = "data[10]"  direction = "in"  />
         <pitem  name = "data[9]"  direction = "in"  />
         <pitem  name = "data[8]"  direction = "in"  />
-        <pitem  name = "sel[2]"  direction = "in"  />
         <pitem  name = "sel[4]"  direction = "in"  />
         <pitem  name = "sel[3]"  direction = "in"  />
+        <pitem  name = "sel[2]"  direction = "in"  />
         <pitem  name = "sel[1]"  direction = "in"  />
         <pitem  name = "sel[0]"  direction = "in"  />
         <pitem  name = "o[7]"  direction = "out"  />
@@ -11343,9 +11343,9 @@
         <nitem  name = "spi0/rx_shift_reg[3]"  />
         <nitem  name = "spi0/rx_shift_reg[2]"  />
         <nitem  name = "spi0/rx_shift_reg[1]"  />
-        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_739"  />
         <nitem  name = "spi0/tx_shift_reg_14__N_740"  />
+        <nitem  name = "spi0/tx_shift_reg_14__N_741"  />
         <nitem  name = "spi0/rx_shift_reg_15__N_743"  />
         <nitem  name = "spi0/rx_shift_reg_15__N_744"  />
         <nitem  name = "spi0/Rx_Lower_Byte_7__N_648[7]"  />
@@ -16761,8 +16761,8 @@
         <view  name = "fifo_dc_32_lut_gen_ipgen_lscc_fifo_dc_renamed_due_excessive_length_1"  />
         <view  name = "spi"  />
         <view  name = "timing_controller"  />
-        <view  name = "uart_rx(CLKS_PER_BIT=543)"  />
-        <view  name = "uart_tx(CLKS_PER_BIT=543)"  />
+        <view  name = "uart_rx(CLKS_PER_BIT=573)"  />
+        <view  name = "uart_tx(CLKS_PER_BIT=573)"  />
         <view  name = "usb3_if"  />
     </views>
 

@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 17:12:22
 
-* File Generated:     May 12 2020 11:56:59
+* File Generated:     May 12 2020 12:48:49
 
 * Purpose:            
 
@@ -55,7 +55,7 @@ W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D20, as i
 W2715: Warning for set_io Constraint: Ignoring pin assignment for FIFO_D31, as it is not connected to any PAD
 
 Input Design Statistics
-    Number of LUTs      	:	2589
+    Number of LUTs      	:	2595
     Number of DFFs      	:	1483
     Number of DFFs packed to IO	:	0
     Number of Carrys    	:	122
@@ -96,7 +96,7 @@ Phase 3
 Warning-1403: No clock is reaching the reference clock pin 'REFERENCECLK' of PLL instance 'clock_inst.pll_config'. So, no clocks will be inferred at output of this PLL
 
 Design Statistics after Packing
-    Number of LUTs      	:	2602
+    Number of LUTs      	:	2608
     Number of DFFs      	:	1483
     Number of DFFs packed to IO	:	0
     Number of Carrys    	:	122
@@ -106,17 +106,17 @@ Device Utilization Summary after Packing
         LUT and DFF      	:	1410
         LUT, DFF and CARRY	:	73
     Combinational LogicCells
-        Only LUT         	:	1073
-        CARRY Only       	:	3
-        LUT with CARRY   	:	46
-    LogicCells                  :	2605/3520
-    PLBs                        :	343/440
+        Only LUT         	:	1078
+        CARRY Only       	:	2
+        LUT with CARRY   	:	47
+    LogicCells                  :	2610/3520
+    PLBs                        :	345/440
     BRAMs                       :	0/20
     IOs and GBIOs               :	84/107
     PLLs                        :	1/2
 
 
-I2088: Phase 3, elapsed time : 4.5 (sec)
+I2088: Phase 3, elapsed time : 4.3 (sec)
 
 Phase 4
 W2714: Invalid pin location 65 for IO ICE_CDONE. Assignment will be ignored
@@ -124,13 +124,13 @@ W2714: Invalid pin location 66 for IO ICE_CREST. Assignment will be ignored
 I2088: Phase 4, elapsed time : 0.2 (sec)
 
 Phase 5
-I2088: Phase 5, elapsed time : 7.1 (sec)
+I2088: Phase 5, elapsed time : 6.0 (sec)
 
 Phase 6
-I2088: Phase 6, elapsed time : 50.2 (sec)
+I2088: Phase 6, elapsed time : 53.2 (sec)
 
 Final Design Statistics
-    Number of LUTs      	:	2602
+    Number of LUTs      	:	2608
     Number of DFFs      	:	1483
     Number of DFFs packed to IO	:	0
     Number of Carrys    	:	122
@@ -143,8 +143,8 @@ Final Design Statistics
     Number of PLLs      	:	1
 
 Device Utilization Summary
-    LogicCells                  :	2605/3520
-    PLBs                        :	369/440
+    LogicCells                  :	2610/3520
+    PLBs                        :	367/440
     BRAMs                       :	0/20
     IOs and GBIOs               :	84/107
     PLLs                        :	1/2
@@ -163,8 +163,8 @@ analysis after routing.
                      Clock Summary 
 =====================================================================
 Number of clocks: 2
-Clock: top|FIFO_CLK | Frequency: 49.26 MHz | Target: 1.00 MHz
-Clock: top|\spi0/spi_clk | Frequency: 137.78 MHz | Target: 1.00 MHz
+Clock: top|FIFO_CLK | Frequency: 46.95 MHz | Target: 1.00 MHz
+Clock: top|\spi0/spi_clk | Frequency: 144.78 MHz | Target: 1.00 MHz
 
 =====================================================================
                      End of Clock Summary
@@ -172,5 +172,5 @@ Clock: top|\spi0/spi_clk | Frequency: 137.78 MHz | Target: 1.00 MHz
 
 I2054: Placement of design completed successfully
 
-I2076: Placer run-time: 63.0 sec.
+I2076: Placer run-time: 64.6 sec.
 

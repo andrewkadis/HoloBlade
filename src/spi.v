@@ -95,12 +95,13 @@ end
 // Module to step 50MHz System Clock down to 1Hz Clock for SPI
 reg spi_clk;
 reg[7:0] spi_clk_counter;
-parameter spi_countdown = 8'd200; // Count down from 100*2, ie: with a 100MHz clock we count down from 200M
+// parameter spi_countdown = 8'd200; // Count down from 100*2, ie: with a 100MHz clock we count down from 200M
+parameter spi_countdown = 8'd33; // Count down from 100*2, ie: with a 66MHz clock we count down from 66MHz
 always @ (posedge i_clock)
 	if(spi_clk_counter==0) begin
 		// Clock has expired, reset and toggle
 		spi_clk_counter <= spi_countdown;
-		spi_clk         <= ~spi_clk;
+		spi_clk <= ~spi_clk;
 	end else
 	spi_clk_counter <= spi_clk_counter - 1'b1;
 	
@@ -231,7 +232,8 @@ end
 always @(spi_clk) begin
 
 	if(~CS)
-		if( (state_reg==LOAD) || (state_reg==UNLOAD_LAST_BIT) )
+		// At the end of a transaction, need to check we are not in IDLE or we will get a runt pulse that confuses SLM
+		if( (state_reg==LOAD) || (state_reg==IDLE) )
 			SCLK <= 0;
 		else
 			SCLK <= spi_clk;
@@ -252,8 +254,8 @@ always @(posedge spi_clk) begin
 	// Controlled by state machine
    case (state_reg)
 		LOAD                : begin CS_w <= 0; end
-      UPPER_BYTE_TRANSFER : begin CS_w <= 0; end
-      LOWER_BYTE_TRANSFER : begin CS_w <= 0; end
+    	UPPER_BYTE_TRANSFER : begin CS_w <= 0; end
+    	LOWER_BYTE_TRANSFER : begin CS_w <= 0; end
     endcase
 		
 end

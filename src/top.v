@@ -627,8 +627,9 @@ wire rx_complete;
 assign debug_led3  = rx_complete;
 // Want to interface to 115200 baud UART
 // 100000000 / 115200 = 868 Clocks Per Bit.
+//  66000000 / 115200 = 573 Clocks Per Bit.
 //  62500000 / 115200 = 543 Clocks Per Bit.
-parameter c_CLKS_PER_BIT    = 543;
+parameter c_CLKS_PER_BIT    = 573;
 uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
    .i_Clock(fpga_clk),
    .i_Rx_Serial(UART_RX),
