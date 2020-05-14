@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:HoloRelay"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="HoloRelay.MainWindow"
         mc:Ignorable="d"
-        Title="HoloBlade" SizeToContent="WidthAndHeight" Topmost="True" d:DesignHeight="470" WindowStartupLocation="CenterScreen">
+        Title="HoloBlade" SizeToContent="WidthAndHeight" Topmost="True" d:DesignHeight="478" WindowStartupLocation="CenterScreen" Width="654">
     <TabControl HorizontalAlignment="Left" Margin="0" SelectionChanged="TabControl_SelectionChanged">
         <TabItem x:Name="___TabItem___FPGA_Debug_" Margin="0" Header="FPGA Debug">
-            <StackPanel x:Name="FPGADebugStackPanel" Margin="0" Orientation="Horizontal" HorizontalAlignment="Left" Width="594">
+            <StackPanel x:Name="FPGADebugStackPanel" Margin="0" Orientation="Horizontal" HorizontalAlignment="Left" Width="631">
                 <Border x:Name="PacketDebugBorder_Copy" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
                     <StackPanel x:Name="PacketDebugStackPanel1" HorizontalAlignment="Left" Margin="5">
                         <Label x:Name="PacketDebugLabel1" Content="Control (SPI)" FontWeight="Bold"/>
@@ -26,10 +26,21 @@
                         <Label x:Name="UARTDebugLabel1" Content="Test Mode" FontWeight="Bold"/>
                         <Button x:Name="display_buffer_A" Content="Display Buffer A" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Click="display_buffer_A_Click" Margin="10,5"/>
                         <Button x:Name="display_buffer_B" Content="Display Buffer B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="display_buffer_B_Click" Margin="10,5"/>
-                        <Button x:Name="load_blank" Content="Load Blank" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="load_blank_Click" Margin="10,5"/>
-                        <Button x:Name="load_checkerboard" Content="Load Checkerboard" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="load_checkerboard_Click" Margin="10,5"/>
-                        <Button x:Name="load_grating" Content="Load Grating" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="load_grating_Click" Margin="10,5"/>
-                        <Button x:Name="read_dest_buffer" Content="Read Dest Buffer" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_dest_buffer_Click" Margin="10,5"/>
+                        <Button x:Name="read_dest_buffer_a" Content="Read Dest Buffer A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_dest_buffer_a_Click" Margin="10,5"/>
+                        <Button x:Name="read_dest_buffer_b" Content="Read Dest Buffer B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_dest_buffer_b_Click" Margin="10,5"/>
+                        <Button x:Name="all_pixels_off" Content="All Pixels Off" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="all_pixels_off_Click" Margin="10,5"/>
+                        <Button x:Name="all_pixels_on" Content="All Pxels On" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="all_pixels_on_Click" Margin="10,5"/>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="SPIBridgeBorder_Copy" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
+                    <StackPanel x:Name="UARTDebugStackPanel2" HorizontalAlignment="Left" Margin="5">
+                        <Label x:Name="UARTDebugLabel2" Content="Test Patterns" FontWeight="Bold"/>
+                        <Button x:Name="halves" Content="Halves" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Click="halves_Click" Margin="10,5"/>
+                        <Button x:Name="vertical_line" Content="Vertical Line" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="vertical_line_Click" Margin="10,5"/>
+                        <Button x:Name="horizontal_lines" Content="Horizontal Lines" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="horizontal_lines_Click" Margin="10,5"/>
+                        <Button x:Name="checkerboard" Content="Checkerboard" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="checkerboard_Click" Margin="10,5"/>
+                        <Button x:Name="horizontal_grating" Content="Horizontal Grating" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="horizontal_grating_Click" Margin="10,5"/>
+                        <Button x:Name="vertical_grating" Content="Vertical Grating" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="vertical_grating_Click" Margin="10,5"/>
                     </StackPanel>
                 </Border>
                 <Border x:Name="UARTDebugBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">

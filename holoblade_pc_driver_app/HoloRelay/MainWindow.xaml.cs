@@ -809,9 +809,9 @@ namespace HoloRelay
         private void ReadBufA_Click(object sender, RoutedEventArgs e)
         {
             // Code to read status of BufferA
-            SLMImageLoader slm_image_loader = new SLMImageLoader();
-            slm_image_loader.InitSLM();
-            slm_image_loader.ReadTestData();
+            //SLMImageLoader slm_image_loader = new SLMImageLoader();
+            //slm_image_loader.InitSLM();
+            //slm_image_loader.ReadDestBufferData();
 
         }
 
@@ -887,7 +887,23 @@ namespace HoloRelay
             slm_image_loader.UpdateDisplayBufB();
         }
 
-        private void load_blank_Click(object sender, RoutedEventArgs e)
+        private void read_dest_buffer_b_Click(object sender, RoutedEventArgs e)
+        {
+            // Code to load image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterTestMode();
+            slm_image_loader.ReadDestBufferData(false);
+        }
+
+        private void read_dest_buffer_a_Click(object sender, RoutedEventArgs e)
+        {
+            // Code to load image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterTestMode();
+            slm_image_loader.ReadDestBufferData(true);
+        }
+
+        private void all_pixels_off_Click(object sender, RoutedEventArgs e)
         {
             // Code to load image
             SLMImageLoader slm_image_loader = new SLMImageLoader();
@@ -895,15 +911,39 @@ namespace HoloRelay
             slm_image_loader.loadBlankImage();
         }
 
-        private void load_checkerboard_Click(object sender, RoutedEventArgs e)
+        private void all_pixels_on_Click(object sender, RoutedEventArgs e)
         {
             // Code to load image
             SLMImageLoader slm_image_loader = new SLMImageLoader();
             slm_image_loader.EnterTestMode();
-            slm_image_loader.loadCheckboardTestImage();
+            slm_image_loader.loadFullImage();
         }
 
-        private void load_grating_Click(object sender, RoutedEventArgs e)
+        private void halves_Click(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterTestMode();
+            slm_image_loader.loadHalvesTestImage();
+        }
+
+        private void vertical_line_Click(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterTestMode();
+            slm_image_loader.loadSingleVerticalLineTestImage();
+        }
+
+        private void vertical_grating_Click(object sender, RoutedEventArgs e)
+        {
+            // Code to load image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterTestMode();
+            slm_image_loader.loadVerticalGratingTestImage();
+        }
+
+        private void horizontal_grating_Click(object sender, RoutedEventArgs e)
         {
             // Code to load image
             SLMImageLoader slm_image_loader = new SLMImageLoader();
@@ -911,9 +951,20 @@ namespace HoloRelay
             slm_image_loader.loadHorizontalGratingTestImage();
         }
 
-        private void read_dest_buffer_Click(object sender, RoutedEventArgs e)
+        private void checkerboard_Click(object sender, RoutedEventArgs e)
         {
+            // Code to load image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterTestMode();
+            slm_image_loader.loadCheckboardTestImage();
+        }
 
+        private void horizontal_lines_Click(object sender, RoutedEventArgs e)
+        {
+            // Code to load image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterTestMode();
+            slm_image_loader.loadHorizontalLinesImage();
         }
     }
 }

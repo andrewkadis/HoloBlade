@@ -33,17 +33,18 @@ namespace HoloRelay
             serial_port.Close();
         }
 
-        // Helper function to read all of the data recv on serial port into our byte buffer and formats as a nice string
-        public string Read_serial_data(SerialPort serial_port)
+        // Helper function to read a single byte recv on serial port into our byte buffer and formats as a nice string
+        public string Read_serial_data_single_byte(SerialPort serial_port)
         {
             // Rx Buffer
             const int RX_BUF_SIZE = 4096;
+            const int SINGLE_BYTE = 1;
             byte[] rx_buf = new byte[RX_BUF_SIZE];
             int num_bytes_read = 0;
             // Use a try-catch as we only want to read until timeout
             try
             {
-                num_bytes_read = serial_port.Read(rx_buf, 0, rx_buf.Length);
+                num_bytes_read = serial_port.Read(rx_buf, 0, SINGLE_BYTE);
             }
             catch (TimeoutException e)
             {
@@ -76,8 +77,8 @@ namespace HoloRelay
             Int32 offset = 0;
             serial_port.Write(tx_buf, offset, tx_buf.Length);
             // We wait 100ms here 
-            Int32 after_uart_wait_time_ms = 1;
-            System.Threading.Thread.Sleep(after_uart_wait_time_ms);
+            //Int32 after_uart_wait_time_ms = 1;
+            //System.Threading.Thread.Sleep(after_uart_wait_time_ms);
             // Get nice formatting for what we just sent
             string tx_string = BitConverter.ToString(tx_buf);
             tx_string = tx_string.Replace("-", "");
@@ -96,10 +97,13 @@ namespace HoloRelay
         // Helper function to tx data but return rx byte, good for reading
         public string Send_serial_data_with_return(byte[] tx_buf, SerialPort serial_port)
         {
+            // String
+            string tx_string = "";
+            string rx_string = "";
             // Send Data
-            string tx_string = Send_serial_data(tx_buf, serial_port);
+            tx_string = Send_serial_data(tx_buf, serial_port);
             // Rx Reply
-            string rx_string = Read_serial_data(serial_port);
+            rx_string = Read_serial_data_single_byte(serial_port);
             return rx_string;
 
         }
@@ -112,7 +116,7 @@ namespace HoloRelay
             // Send Data
             string tx_string = Send_serial_data(tx_buf, fpga_com_port);
             // Rx Reply
-            string rx_string = Read_serial_data(fpga_com_port);
+            string rx_string = Read_serial_data_single_byte(fpga_com_port);
             // Print
             Debug.WriteLine("Write: 0x" + tx_string);
             Debug.WriteLine("Read:  0x" + rx_string);
@@ -130,7 +134,7 @@ namespace HoloRelay
             // Send Data
             string tx_string = Send_serial_data(tx_buf, fpga_com_port);
             // Rx Reply
-            string rx_string = Read_serial_data(fpga_com_port);
+            string rx_string = Read_serial_data_single_byte(fpga_com_port);
             // Mask
             UInt32 rx_string_byte = Byte.Parse(rx_string, System.Globalization.NumberStyles.HexNumber);
             UInt32 rx_masked = rx_string_byte & mask;
