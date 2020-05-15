@@ -206,19 +206,15 @@ always @(state_reg) begin
         IDLE: begin
 				// Will only ever leave IDLE if SPI is enabled, else do nothing
 				if(enable) begin
-					// Start a transfer sequence if we receive appropriate command
 					if (start_transfer_edge) begin
+						// Start a mult-byte transfer if this was flagged, else regular operation is to perform a standard 2-byte SPI transaction
+						if (multi_byte_spi_trans_flag_edge) begin
+							state_next <= LOAD_MULTI;
+							// Also load-up how many bytes to send when we do this
+							multi_byte_trans_bytes_remaining <= 4'd2;//MULTI_BYTES_SPI_TRANSACTION_LEN;
+						end else
 						state_next <= LOAD;
 					end
-					// if (start_transfer_edge) begin
-					// 	// // Start a mult-byte transfer if this was flagged, else regular operation is to perform a standard 2-byte SPI transaction
-					// 	// if (multi_byte_spi_trans_flag_edge) begin
-					// 	// 	state_next <= LOAD_MULTI;
-					// 	// 	// Also load-up how many bytes to send when we do this
-					// 	// 	multi_byte_trans_bytes_remaining <= 4'd2;//MULTI_BYTES_SPI_TRANSACTION_LEN;
-					// 	// end else
-					// 	state_next <= LOAD;
-					// end
 				end
         end
 		  
@@ -292,10 +288,11 @@ always @(spi_clk) begin
 	if(~CS) begin
 		// Do not pipe through the clock signal in the following states as they will confuse the SPI Slave
 		case (state_reg)
-				LOAD       : begin SCLK <= 0;       end
-				LOAD_MULTI : begin SCLK <= 0;       end
-				UNLOAD_DATA: begin SCLK <= 0;       end
-				default    : begin SCLK <= spi_clk; end // All other states should pipe through clock
+				IDLE             : begin SCLK <= 0;       end
+				LOAD             : begin SCLK <= 0;       end
+				LOAD_MULTI       : begin SCLK <= 0;       end
+				UNLOAD_DATA      : begin SCLK <= 0;       end
+				default          : begin SCLK <= spi_clk; end // All other states should pipe through clock
 		endcase
 	end else
 		SCLK <= 0; // Clock is always 0 is cs is de-asserted
