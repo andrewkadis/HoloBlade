@@ -371,7 +371,7 @@ assign SLM_CLK = fpga_clk;
 // assign DEBUG_7 = valid_o;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 // // Debug setup - doesnt work
-assign DEBUG_7 = fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_7 = multi_byte_spi_trans_flag_w;//fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // assign DEBUG_1 = FR_RXF;//line_of_data_available;
 // assign DEBUG_2 = rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
 // assign DEBUG_3 = bluejay_data_out[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
@@ -386,7 +386,7 @@ assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this outp
 // assign DEBUG_7 = FR_RXF;//fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 assign DEBUG_1 = UART_RX;//FR_RXF;//line_of_data_available;
 assign DEBUG_2 = SEN;//rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = UART_TX;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_3 = spi_start_transfer_r;//UART_TX;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = SCK;//valid_o;//usb3_fifo_read_enable;
 assign DEBUG_6 = SOUT;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
@@ -724,6 +724,10 @@ wire spi_enable = 1;
 reg spi_start_transfer_r = 0;
 wire spi_start_transfer_w;
 assign spi_start_transfer_w = spi_start_transfer_r;
+// For multi-byte SPI transactions
+reg multi_byte_spi_trans_flag_r = 0;
+wire multi_byte_spi_trans_flag_w;
+assign multi_byte_spi_trans_flag_w = multi_byte_spi_trans_flag_r;
 // Commands
 // reg spi_enable_cmd;
 // reg spi_start_transfer_cmd;
@@ -767,6 +771,7 @@ spi spi0(
 	.i_reset(reset_all_w),                     // The PC is able to reset the entire FPGA
 	.enable(spi_enable),
 	.start_transfer(spi_start_transfer_w),
+  .multi_byte_spi_trans_flag(multi_byte_spi_trans_flag_w),
 	
 	// Status Flags
 	.busy(spi_busy),
@@ -984,9 +989,6 @@ assign UNUSED_64 = 1'bz;
 /// Application Level //
 ////////////////////////
 
-reg debug_check = 0;
-assign debug_led2 = debug_check;
-
 // Check if odd or even byte
 reg even_byte_flag = 1;
 
@@ -1006,9 +1008,9 @@ end
 always @ (posedge fpga_clk) begin
 
     // Set all potential commands to 0 as default
-    spi_start_transfer_r = 0;
-    reset_all_cmd_r = 0;
-    debug_check = 0;
+    spi_start_transfer_r        = 0;
+    reset_all_cmd_r             = 0;
+    multi_byte_spi_trans_flag_r = 0;
     // tx_addr_byte_r = tx_addr_byte_r;
     // tx_data_byte_r = tx_data_byte_r;
 
@@ -1016,13 +1018,12 @@ always @ (posedge fpga_clk) begin
     //   spi_start_transfer_r = 1;
 
   // If we get any data from the UART then do things
-   if(uart_rx_complete_rising_edge==1) begin
+    if(uart_rx_complete_rising_edge==1) begin
 
-    // // Explicit Commands
+    // Explicit Commands
     // if(pc_data_rx==8'h72) begin
-    //   // A 'r' means reset the system
-    //   reset_all_cmd_r = 1;
-    //   debug_check = 1;
+       // A '0xFC' means we are clocking out image test line data and need a multi-byte-SPI transaction
+      //  multi_byte_spi_trans_flag_r = 1;
     // end else if (pc_data_rx==8'h64) begin
     //   // A 'd' means send a WHOAMI command over P
     //   tx_addr_byte_r = 8'hF8;
@@ -1051,11 +1052,20 @@ always @ (posedge fpga_clk) begin
     even_byte_flag = even_byte_flag - 1; // Toggle for odd/even byte check
     // Have to check if odd or even byte as only send on even
     if(even_byte_flag==0) begin
+
+      // Check is any special actions to take FIRST (this is important as we are using sequential updates here)
+      if(tx_addr_byte_r==8'hBC) begin
+        // A '0xFC' means we are clocking out image test line data and need a multi-byte-SPI transaction
+        multi_byte_spi_trans_flag_r = 1;
+      end
+
       // even_byte_flag = 1;
       spi_start_transfer_r = 1;
-      debug_check = 1;
-    end
 
+
+
+    end
+  
   end
 end
 // assign spi_start_transfer_w = led_counter[24];
