@@ -81,7 +81,7 @@ always @(posedge i_clock) begin
 		multi_byte_spi_trans_flag_edge <= multi_byte_spi_trans_flag;
 	end
 	// Clear when we reach LOAD
-	else if( (state_reg==LOAD) || (state_reg==LOAD_MULTI) ) begin
+	else if( (state_reg==LOAD) || (state_reg==START_LOAD_MULTI) ) begin
 		start_transfer_edge            <= 0;
 		multi_byte_spi_trans_flag_edge <= 0;
 	end
@@ -139,9 +139,10 @@ localparam [3:0] // for 9 states
 	UPPER_BYTE_TRANSFER = 4,
 	LOWER_BYTE_TRANSFER = 5,
 	// Multi-Byte Versions
-	LOAD_MULTI                = 6,
-	UPPER_BYTE_TRANSFER_MULTI = 7,
-   	LOWER_BYTE_TRANSFER_MULTI = 8;
+	START_LOAD_MULTI          = 6,
+	CHAIN_LOAD_MULTI          = 7,
+	UPPER_BYTE_TRANSFER_MULTI = 8,
+   	LOWER_BYTE_TRANSFER_MULTI = 9;
 
 // Register Variable
 reg[3:0] state_reg  = IDLE;
@@ -158,8 +159,8 @@ localparam LOWER_BYTE_TRANSFER_T  = BITS_PER_BYTE-1; // 1 Byte of Data to Readba
 
 // Multi-Byte Transfer versions of these states use the same timings
 localparam UPPER_BYTE_TRANSFER_MULTI_T = UPPER_BYTE_TRANSFER_T;
-localparam LOWER_BYTE_TRANSFER_MULTI_T = LOWER_BYTE_TRANSFER_T;
-localparam LOAD_MULTI_T                = LOAD_T;
+localparam LOWER_BYTE_TRANSFER_MULTI_T = LOWER_BYTE_TRANSFER_T-1; // One less as we spent a cycle in the CHAIN_LOAD_MULTI step
+localparam START_LOAD_MULTI_T          = LOAD_T;
 
 // Timer able to count up to 16 
 reg [3:0] t;
@@ -209,9 +210,9 @@ always @(state_reg) begin
 					if (start_transfer_edge) begin
 						// Start a mult-byte transfer if this was flagged, else regular operation is to perform a standard 2-byte SPI transaction
 						if (multi_byte_spi_trans_flag_edge) begin
-							state_next <= LOAD_MULTI;
+							state_next <= START_LOAD_MULTI;
 							// Also load-up how many bytes to send when we do this
-							multi_byte_trans_bytes_remaining <= 4'd2;//MULTI_BYTES_SPI_TRANSACTION_LEN;
+							multi_byte_trans_bytes_remaining <= 4'd3;//MULTI_BYTES_SPI_TRANSACTION_LEN;
 						end else
 						state_next <= LOAD;
 					end
@@ -244,14 +245,19 @@ always @(state_reg) begin
         end
 
 		// Multi-Byte versions of the above states
-		LOAD_MULTI: begin 
-			if(t==LOAD_MULTI_T) // Clock in the first bit to write
+		START_LOAD_MULTI: begin 
+			if(t==START_LOAD_MULTI_T) // Clock in the first bit to write
 				state_next <= UPPER_BYTE_TRANSFER_MULTI;
 		end
 
         UPPER_BYTE_TRANSFER_MULTI: begin
             if (t==UPPER_BYTE_TRANSFER_MULTI_T)
-            	state_next <= LOWER_BYTE_TRANSFER_MULTI; 
+            	state_next <= CHAIN_LOAD_MULTI; 
+        end
+
+        CHAIN_LOAD_MULTI: begin
+			// Auto-transition to clocking out another lower_byte
+			state_next <= LOWER_BYTE_TRANSFER_MULTI; 
         end
 
         LOWER_BYTE_TRANSFER_MULTI: begin
@@ -259,8 +265,8 @@ always @(state_reg) begin
 				// Check if we have clocked out all our extra bytes
 				if(multi_byte_trans_bytes_remaining>0) begin
 					multi_byte_trans_bytes_remaining <= multi_byte_trans_bytes_remaining - 1;
-					// No, back to UPPER_BYTE_MULTI (we transfer in pairs)
-					state_next <= UPPER_BYTE_TRANSFER_MULTI; 
+					// No, keep Chain Loading extra bytes to clock out
+					state_next <= CHAIN_LOAD_MULTI; 
 				end else
 					state_next <= UNLOAD_LAST_BIT; 
 			end
@@ -288,11 +294,12 @@ always @(spi_clk) begin
 	if(~CS) begin
 		// Do not pipe through the clock signal in the following states as they will confuse the SPI Slave
 		case (state_reg)
-				IDLE             : begin SCLK <= 0;       end
-				LOAD             : begin SCLK <= 0;       end
-				LOAD_MULTI       : begin SCLK <= 0;       end
-				UNLOAD_DATA      : begin SCLK <= 0;       end
-				default          : begin SCLK <= spi_clk; end // All other states should pipe through clock
+				IDLE               : begin SCLK <= 0;       end
+				LOAD               : begin SCLK <= 0;       end
+				START_LOAD_MULTI   : begin SCLK <= 0;       end
+				// CHAIN_LOAD_MULTI   : begin SCLK <= 0;       end
+				UNLOAD_DATA        : begin SCLK <= 0;       end
+				default            : begin SCLK <= spi_clk; end // All other states should pipe through clock
 		endcase
 	end else
 		SCLK <= 0; // Clock is always 0 is cs is de-asserted
@@ -313,7 +320,8 @@ always @(spi_clk) begin
 		LOAD                      : begin CS_w <= 0; end
     	UPPER_BYTE_TRANSFER       : begin CS_w <= 0; end
     	LOWER_BYTE_TRANSFER       : begin CS_w <= 0; end
-		LOAD_MULTI                : begin CS_w <= 0; end
+		START_LOAD_MULTI          : begin CS_w <= 0; end
+		CHAIN_LOAD_MULTI          : begin CS_w <= 0; end
     	UPPER_BYTE_TRANSFER_MULTI : begin CS_w <= 0; end
     	LOWER_BYTE_TRANSFER_MULTI : begin CS_w <= 0; end
     endcase
@@ -346,7 +354,7 @@ always @(negedge spi_clk) begin
     	UPPER_BYTE_TRANSFER        : begin tx_shift_reg <= {tx_shift_reg[SHIFT_REG_WIDTH-2:0], 1'b0}; end
     	LOWER_BYTE_TRANSFER        : begin tx_shift_reg <= {tx_shift_reg[SHIFT_REG_WIDTH-2:0], 1'b0}; end
 		// Multi-Byte Transaction Versions
-    	LOAD_MULTI                 : begin tx_shift_reg <= {Tx_Upper_Byte, Tx_Lower_Byte};		    end
+    	START_LOAD_MULTI           : begin tx_shift_reg <= {Tx_Upper_Byte, Tx_Lower_Byte};		    end
     	UPPER_BYTE_TRANSFER_MULTI  : begin tx_shift_reg <= {tx_shift_reg[SHIFT_REG_WIDTH-2:0], 1'b0}; end
     	LOWER_BYTE_TRANSFER_MULTI  : begin tx_shift_reg <= {tx_shift_reg[SHIFT_REG_WIDTH-2:0], 1'b0}; end
 		// Need to clock out the last bit at the end
