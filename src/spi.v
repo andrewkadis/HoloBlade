@@ -77,16 +77,19 @@ always @(posedge i_clock) begin
 
 	// Set on an edge
 	if( (start_transfer_prev==0) && (start_transfer==1) ) begin
-		start_transfer_edge = 1;
-		multi_byte_spi_trans_flag_edge = multi_byte_spi_trans_flag;
+		start_transfer_edge            <= 1;
+		multi_byte_spi_trans_flag_edge <= multi_byte_spi_trans_flag;
 	end
 	// Clear when we reach LOAD
 	else if( (state_reg==LOAD) || (state_reg==LOAD_MULTI) ) begin
-		start_transfer_edge = 0;
-		multi_byte_spi_trans_flag_edge = 0;
+		start_transfer_edge            <= 0;
+		multi_byte_spi_trans_flag_edge <= 0;
 	end
+	// Update
+	start_transfer_prev <= start_transfer;
 
 end
+
 
 
 
@@ -103,7 +106,7 @@ end
 reg spi_clk;
 reg[7:0] spi_clk_counter;
 // parameter spi_countdown = 8'd200; // Count down from 100*2, ie: with a 100MHz clock we count down from 200M
-parameter spi_countdown = 8'd33; // Count down from 100*2, ie: with a 66MHz clock we count down from 66MHz
+parameter spi_countdown = 8'd33; // Count down from 66/2, ie: with a 66MHz clock we count down from 33MHz
 always @ (posedge i_clock)
 	if(spi_clk_counter==0) begin
 		// Clock has expired, reset and toggle
@@ -148,10 +151,10 @@ reg[3:0] state_next = IDLE;
 localparam LOAD_T   = 2; // Tsdsu >= 10ns setup time (pg. 21 datasheet), so hold for 2 spi cycles (2uS). Note that we have to wait 2 rather than 1 to avoid a synchronous rising edge/falling edge issue
 localparam UNLOAD_T = 1; // Need time to clock out the last bit which was read
 
-// Timeouts for states below
+// Timeouts for states below - remember we are only clocking on +ive edge
 localparam BITS_PER_BYTE          = 8;
-localparam UPPER_BYTE_TRANSFER_T  = 2*BITS_PER_BYTE-2; // 1 Byte to send Address, take an extra 1 off for the LOAD stage, minus 1 more because preparing on falling edge but sampling on rising edge
-localparam LOWER_BYTE_TRANSFER_T  = 2*BITS_PER_BYTE-1; // 1 Byte of Data to Readback, take an extra 1 off for the UNLOAD_LAST_BIT stage
+localparam UPPER_BYTE_TRANSFER_T  = BITS_PER_BYTE-2; // 1 Byte to send Address, take an extra 1 off for the LOAD stage, minus 1 more because preparing on falling edge but sampling on rising edge
+localparam LOWER_BYTE_TRANSFER_T  = BITS_PER_BYTE-1; // 1 Byte of Data to Readback, take an extra 1 off for the UNLOAD_LAST_BIT stage
 
 // Multi-Byte Transfer versions of these states use the same timings
 localparam UPPER_BYTE_TRANSFER_MULTI_T = UPPER_BYTE_TRANSFER_T;
@@ -205,14 +208,17 @@ always @(state_reg) begin
 				if(enable) begin
 					// Start a transfer sequence if we receive appropriate command
 					if (start_transfer_edge) begin
-						// // Start a mult-byte transfer if this was flagged, else regular operation is to perform a standard 2-byte SPI transaction
-						// if (multi_byte_spi_trans_flag_edge) begin
-						// 	state_next <= LOAD_MULTI;
-						// 	// Also load-up how many bytes to send when we do this
-						// 	multi_byte_trans_bytes_remaining <= 4'd2;//MULTI_BYTES_SPI_TRANSACTION_LEN;
-						// end else
-							state_next <= LOAD;
+						state_next <= LOAD;
 					end
+					// if (start_transfer_edge) begin
+					// 	// // Start a mult-byte transfer if this was flagged, else regular operation is to perform a standard 2-byte SPI transaction
+					// 	// if (multi_byte_spi_trans_flag_edge) begin
+					// 	// 	state_next <= LOAD_MULTI;
+					// 	// 	// Also load-up how many bytes to send when we do this
+					// 	// 	multi_byte_trans_bytes_remaining <= 4'd2;//MULTI_BYTES_SPI_TRANSACTION_LEN;
+					// 	// end else
+					// 	state_next <= LOAD;
+					// end
 				end
         end
 		  
