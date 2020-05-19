@@ -35,8 +35,8 @@ module spi
 	// SPI Outputs
 	output wire  MOSI,
 	input  wire  MISO,
-	output reg   CS,
-	output reg   SCLK,
+	output wire  CS,
+	output wire  SCLK,
 	
 	// Data Lines - Note that Bytes {1,2} correspond to {Upper, Lower} respectively
 	input  wire[WORD_WIDTH-1:0] Tx_Upper_Byte,  // Typically used for register address
@@ -59,8 +59,9 @@ module spi
 *******************************************************************/
 
 // Registers to latch output off to reduce glitches
-reg CS_w;
+reg r_CS = 0;
 reg r_transaction_complete;
+reg r_SCLK = 0;
 
 // Shift Registers - We support transfers of 2 bytes/16 bits
 parameter SHIFT_REG_WIDTH = 2*WORD_WIDTH; // Number of Words in our Shift Register
@@ -107,13 +108,15 @@ reg spi_clk;
 reg[7:0] spi_clk_counter;
 // parameter spi_countdown = 8'd200; // Count down from 100*2, ie: with a 100MHz clock we count down from 200M
 parameter spi_countdown = 8'd33; // Count down from 66/2, ie: with a 66MHz clock we count down from 33MHz
-always @ (posedge i_clock)
-	if(spi_clk_counter==0) begin
+always @ (posedge i_clock) begin
+	if(spi_clk_counter<=1) begin
 		// Clock has expired, reset and toggle
 		spi_clk_counter <= spi_countdown;
 		spi_clk <= ~spi_clk;
-	end else
-	spi_clk_counter <= spi_clk_counter - 1'b1;
+	end else begin
+		spi_clk_counter <= spi_clk_counter - 1'b1;
+	end
+end
 	
 	
 	
@@ -149,8 +152,8 @@ reg[3:0] state_reg  = IDLE;
 reg[3:0] state_next = IDLE;
 	 
 // timer
-localparam LOAD_T   = 2; // Tsdsu >= 10ns setup time (pg. 21 datasheet), so hold for 2 spi cycles (2uS). Note that we have to wait 2 rather than 1 to avoid a synchronous rising edge/falling edge issue
-localparam UNLOAD_T = 1; // Need time to clock out the last bit which was read
+localparam LOAD_T            = 2; // Tsdsu >= 10ns setup time (pg. 21 datasheet), so hold for 2 spi cycles (2uS). Note that we have to wait 2 rather than 1 to avoid a synchronous rising edge/falling edge issue
+localparam UNLOAD_LAST_BIT_T = 1;//1;//1; // Need time to clock out the last bit which was read
 
 // Timeouts for states below - remember we are only clocking on +ive edge
 localparam BITS_PER_BYTE          = 8;
@@ -175,25 +178,39 @@ localparam MULTI_BYTES_SPI_TRANSACTION_LEN = 2; // TODO: This is halved atm
 *******************************************************************/
 // Update State Change and Reset Logic
 always @(posedge spi_clk, posedge i_reset) begin
+
+	// First check if we need to reset
     if (i_reset) begin
         state_reg <= IDLE;
-    end
-    else begin
+        t <= 0;
+    end else begin
+
+		// Drive our timers
+		// Need to reset timer if state has changed
+        if (state_reg != state_next) begin
+			// State is changing - reset timers
+            t <= 0;
+		end else begin
+			// No state change, increment our timer
+            t <= t + 1;  
+		end 
+
+		// Now update states
         state_reg <= state_next;
     end
 end 
 
-// Timer 
-always @(posedge spi_clk, posedge i_reset) begin 
-    if (i_reset)
-        t <= 0;
-    else begin
-        if (state_reg != state_next) // State is changing
-            t <= 0;
-        else
-            t <= t + 1;  
-    end
-end
+// // Timer 
+// always @(posedge spi_clk, posedge i_reset) begin 
+//     if (i_reset)
+//         t <= 0;
+//     else begin
+//         if (state_reg != state_next) // State is changing
+//             t <= 0;
+//         else
+//             t <= t + 1;  
+//     end
+// end
 
 
 /*******************************************************************
@@ -225,8 +242,11 @@ always @(state_reg) begin
 		end
 		  
 		UNLOAD_LAST_BIT: begin
-				if(t==UNLOAD_T) // Clock out the last bit from the read - needs to be a seperate state so we can deassert CS in time
-					state_next <= UNLOAD_DATA;
+			// if(t==3)//UNLOAD_LAST_BIT_T) // Clock out the last bit from the read - needs to be a seperate state so we can deassert CS in time
+			// 	state_next <= UNLOAD_DATA;
+            // if (t==3) begin
+			state_next <= UNLOAD_DATA; 
+			// end
 		end 
 		  
 		UNLOAD_DATA: begin
@@ -239,9 +259,8 @@ always @(state_reg) begin
         end
 		  
         LOWER_BYTE_TRANSFER: begin
-            if (t==LOWER_BYTE_TRANSFER_T) begin
-				state_next <= UNLOAD_LAST_BIT; 
-			end
+            if (t==LOWER_BYTE_TRANSFER_T)
+				state_next <= UNLOAD_LAST_BIT;//UNLOAD_LAST_BIT; 
         end
 
 		// Multi-Byte versions of the above states
@@ -291,20 +310,23 @@ end
 // SPI Clock Control, Pipe the spi clock through to SCLK, but only when chip select is already low
 always @(spi_clk) begin
 
-	if(~CS) begin
-		// Do not pipe through the clock signal in the following states as they will confuse the SPI Slave
-		case (state_reg)
-				IDLE               : begin SCLK <= 0;       end
-				LOAD               : begin SCLK <= 0;       end
-				START_LOAD_MULTI   : begin SCLK <= 0;       end
-				// CHAIN_LOAD_MULTI   : begin SCLK <= 0;       end
-				UNLOAD_DATA        : begin SCLK <= 0;       end
-				default            : begin SCLK <= spi_clk; end // All other states should pipe through clock
+	// Clock is 0 by default
+	r_SCLK <= 0; 
+	// Only pipe through the clock in the following states - controlled by state machine
+	case (state_reg)
+		// LOAD                      : begin r_SCLK <= spi_clk; end
+    	UPPER_BYTE_TRANSFER       : begin r_SCLK <= spi_clk; end
+    	LOWER_BYTE_TRANSFER       : begin r_SCLK <= spi_clk; end
+		UNLOAD_LAST_BIT           : begin r_SCLK <= spi_clk; end
+		// START_LOAD_MULTI          : begin r_SCLK <= spi_clk; end
+		// CHAIN_LOAD_MULTI          : begin r_SCLK <= spi_clk; end
+    	// UPPER_BYTE_TRANSFER_MULTI : begin r_SCLK <= spi_clk; end
+    	// LOWER_BYTE_TRANSFER_MULTI : begin r_SCLK <= spi_clk; end
 		endcase
-	end else
-		SCLK <= 0; // Clock is always 0 is cs is de-asserted
 
 end
+// Route out register so we don't get any glitches
+assign SCLK = r_SCLK;
 
 
 /*******************************************************************
@@ -314,28 +336,32 @@ end
 always @(spi_clk) begin
 
 	// Chip Select is Active_Low and is only active during a Tx or Rx
-	CS_w <= 1;
+	r_CS <= 1;
 	// Controlled by state machine
    case (state_reg)
-		LOAD                      : begin CS_w <= 0; end
-    	UPPER_BYTE_TRANSFER       : begin CS_w <= 0; end
-    	LOWER_BYTE_TRANSFER       : begin CS_w <= 0; end
-		START_LOAD_MULTI          : begin CS_w <= 0; end
-		CHAIN_LOAD_MULTI          : begin CS_w <= 0; end
-    	UPPER_BYTE_TRANSFER_MULTI : begin CS_w <= 0; end
-    	LOWER_BYTE_TRANSFER_MULTI : begin CS_w <= 0; end
+		LOAD                      : begin r_CS <= 0; end
+    	UPPER_BYTE_TRANSFER       : begin r_CS <= 0; end
+    	LOWER_BYTE_TRANSFER       : begin r_CS <= 0; end
+		UNLOAD_LAST_BIT           : begin r_CS <= 0; end
+		START_LOAD_MULTI          : begin r_CS <= 0; end
+		CHAIN_LOAD_MULTI          : begin r_CS <= 0; end
+    	UPPER_BYTE_TRANSFER_MULTI : begin r_CS <= 0; end
+    	LOWER_BYTE_TRANSFER_MULTI : begin r_CS <= 0; end
     endcase
 		
 end
-// We give ChipSelect a Flip Flop to altch output and stop glitches (you get glitches without this)
-always @(posedge spi_clk, posedge i_reset) begin 
+// // We give ChipSelect a Flip Flop to altch output and stop glitches (you get glitches without this)
+// always @(posedge spi_clk, posedge i_reset) begin 
 
-    if (i_reset)
-		CS <= 1;
-    else
-		CS <= CS_w;	 
+//     if (i_reset)
+// 		r_CS <= 1;
+//     else
+// 		CS <= r_CS;	 
 		
-end 
+// end 
+// Route out r_CS to its corresponding wire
+assign CS = r_CS;
+
 
 
 /*******************************************************************
