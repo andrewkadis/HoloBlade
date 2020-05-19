@@ -90,7 +90,11 @@ def spi(
 
     # Constants for tracking our waveform output
     counter = Signal(intbv(1000)[10:]); # 10 bit ocunter to keep track of where we are
-
+    # We use shift registers to clock data in/out with MISO/MOSI respectively 
+    # We support transfers of 2 bytes/16 bits
+    SHIFT_REG_WIDTH = 2*BITS_PER_BYTE
+    tx_shift_reg = Signal(intbv(0)[16:0])
+    rx_shift_reg = Signal(intbv(0)[16:0])
     # Signals
     state   = Signal(t_state.IDLE)
 
@@ -103,9 +107,9 @@ def spi(
         MISO.next = i_clock
         # counter.next = counter - 1
 
-    @always(i_clock.negedge)
-    def test2():
-        MOSI.next = False
+    # @always(i_clock.negedge)
+    # def test2():
+    #     MOSI.next = False
         # CS.next = False
         # reset_i.next = True
         # SCLK.next = i_clock
@@ -121,7 +125,7 @@ def spi(
 
 
     @always(i_clock.posedge)
-    def update():
+    def fsm_update():
 
         # Default Outputs
         SCLK.next = False
@@ -163,6 +167,7 @@ def spi(
             counter.next = counter-1
 
             # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
+            # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
             if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
             # if( counter==400 ):
                 SCLK.next = True
@@ -182,7 +187,9 @@ def spi(
             counter.next = counter-1
 
             # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
-            if( (counter%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) >= FPGA_CLOCKS_PER_SPI_CLK_HALF ):
+            # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
+            if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
+            # if( counter==400 ):
                 SCLK.next = True
             else:
                 SCLK.next = False
@@ -275,7 +282,37 @@ def spi(
         #     # state.next     = t_state.IDLE
 
 
-    return update, test1, test2
+
+    # Sequential logic to drive clocking out is performed at the trailing edge
+    @always(SCLK.negedge, start_transfer.negedge)
+    def mosi_clocking():
+
+        # We clock the data to be transmitted out of the MOSI line on the negative edge of the appropriate states
+        # Shift Register is 0 unless we are clocking in/out
+        tx_shift_reg.next = 0x00
+
+        # After this, what we do is dependent on state
+
+        # In the load state we load the shift register with what we want to Tx
+        if( (state==t_state.LOAD) ):
+            tx_shift_reg.next = concat(Tx_Upper_Byte, Tx_Lower_Byte)
+        # In the UPPER_BYTE_TRANSFER and LOWER_BYTE_TRANSFER states, we are clocking out
+        elif( (state==t_state.UPPER_BYTE_TRANSFER) or (state==t_state.LOWER_BYTE_TRANSFER)  ):
+            tx_shift_reg.next = concat(tx_shift_reg[15:0], Signal(False))
+
+    # Drive the MOSI off the most significant bit of the shift register directly using combinational logic
+    @always_comb
+    def mosi_output():
+        MOSI.next = tx_shift_reg[15]
+
+        # Default Outputs
+        # SCLK.next = False
+        # valid_o.next = valid_o
+        # update_o.next = False
+        # end_of_image_reached.next = False
+
+
+    return fsm_update, mosi_clocking, mosi_output, test1
 
 
 
@@ -410,8 +447,8 @@ def spi_tb():
     def load_test_data():
 
         # Test Vector corresponds to a single 16-bit transaction
-        test_vector_upper = 0xF8
-        test_vector_lower = 0x00
+        test_vector_upper = 0xF5#0xF8
+        test_vector_lower = 0xEE#0x00
         Tx_Upper_Byte.next = test_vector_upper
         Tx_Lower_Byte.next = test_vector_lower
 
