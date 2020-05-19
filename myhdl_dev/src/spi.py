@@ -45,7 +45,7 @@ def spi(
     # Control Signals
     i_clock,
     enable,
-    reset_i,
+    i_reset,
     start_transfer,
     multi_byte_spi_trans_flag,
     # Status Flags
@@ -70,7 +70,7 @@ def spi(
     Control:
     i_clock                    : Clock to drive this module
     enable                     : Output reset line for all other modules
-    reset_i                    :
+    i_reset                    :
     start_transfer             :
     multi_byte_spi_trans_flag  :
     Status                     :
@@ -97,12 +97,15 @@ def spi(
     rx_shift_reg = Signal(intbv(0)[16:0])
     # Signals
     state   = Signal(t_state.IDLE)
+    blank_bit = Signal(False) # Used for shift-registers
+    ASSERT_ACTIVE_LOW = Signal(False)
+    CLEAR_ACTIVE_LOW  = Signal(True)
 
     # Basic tester function just pipes out clock signal
     @always(i_clock.posedge)
     def test1():
-        CS.next = True
-        reset_i.next = False
+        # CS.next = True
+        i_reset.next = False
         # SCLK.next = not i_clock
         MISO.next = i_clock
         # counter.next = counter - 1
@@ -111,7 +114,7 @@ def spi(
     # def test2():
     #     MOSI.next = False
         # CS.next = False
-        # reset_i.next = True
+        # i_reset.next = True
         # SCLK.next = i_clock
         # MISO.next = not i_clock
 
@@ -129,6 +132,7 @@ def spi(
 
         # Default Outputs
         SCLK.next = False
+        CS.next   = CLEAR_ACTIVE_LOW
         # valid_o.next = valid_o
         # update_o.next = False
         # end_of_image_reached.next = False
@@ -158,21 +162,26 @@ def spi(
             # Auto transition to start clocking out our Upper Byte
             counter.next = UPPER_BYTE_TRANSFER_T
             state.next = t_state.UPPER_BYTE_TRANSFER
+            # We shall be in UPPER_BYTE_TRANSFER next tick, assert the chip-select in preparation for this
+            CS.next      = ASSERT_ACTIVE_LOW
             # Note that we want SCLK to be high when we reach the next state, so assert now
             # SCLK.next = True
 
         elif state == t_state.UPPER_BYTE_TRANSFER: 
 
+            # We are transferring, assert chip-select
+            CS.next      = ASSERT_ACTIVE_LOW
             # Keep clocking out data until the appropriate time period has elapsed
             counter.next = counter-1
 
             # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
             # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
-            if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
+            if( ( (counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) < FPGA_CLOCKS_PER_SPI_CLK_HALF ):
+            # if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
             # if( counter==400 ):
-                SCLK.next = True
-            else:
                 SCLK.next = False
+            else:
+                SCLK.next = True
 
             # Are we at end of line?
             if counter == 0+1:
@@ -182,13 +191,16 @@ def spi(
                 state.next = t_state.LOWER_BYTE_TRANSFER
 
         elif state == t_state.LOWER_BYTE_TRANSFER:
-
+            
+            # We are transferring, assert chip-select
+            CS.next      = ASSERT_ACTIVE_LOW
             # Keep clocking out data until the appropriate time period has elapsed
             counter.next = counter-1
 
             # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
             # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
-            if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
+            # if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
+            if( ( (counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF ):
             # if( counter==400 ):
                 SCLK.next = True
             else:
@@ -199,6 +211,8 @@ def spi(
 
                 # Yes, advance state machine to unloading the last bit
                 state.next = t_state.UNLOAD_LAST_BIT
+                # Next tick we shall leave the part of the state machine where transfers are permitted, deassert chip-select to support this
+                CS.next      = CLEAR_ACTIVE_LOW
 
 
         elif state == t_state.UNLOAD_LAST_BIT:
@@ -271,7 +285,7 @@ def spi(
         # #     v_counter.next = num_lines
 
         # # Reset Check
-        # if( reset_i==True ):
+        # if( i_reset==True ):
         #     # Explicitly clear all outputs
         #     data_output_active_cmd.next = False
         #     # sync_o.next = False
@@ -298,7 +312,7 @@ def spi(
             tx_shift_reg.next = concat(Tx_Upper_Byte, Tx_Lower_Byte)
         # In the UPPER_BYTE_TRANSFER and LOWER_BYTE_TRANSFER states, we are clocking out
         elif( (state==t_state.UPPER_BYTE_TRANSFER) or (state==t_state.LOWER_BYTE_TRANSFER)  ):
-            tx_shift_reg.next = concat(tx_shift_reg[15:0], Signal(False))
+            tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
 
     # Drive the MOSI off the most significant bit of the shift register directly using combinational logic
     @always_comb
@@ -395,7 +409,7 @@ def spi_tb():
     # Control Signals
     i_clock                   = Signal(False)
     enable                    = Signal(True)
-    reset_i                   = Signal(False)
+    i_reset                   = Signal(False)
     start_transfer            = Signal(False)
     multi_byte_spi_trans_flag = Signal(False)
     # Status Flags
@@ -416,7 +430,7 @@ def spi_tb():
         # Control Signals
         i_clock,
         enable,
-        reset_i,
+        i_reset,
         start_transfer,
         multi_byte_spi_trans_flag,
         # Status Flags
@@ -505,7 +519,7 @@ def spi_gen_verilog():
     # Control Signals
     i_clock                   = Signal(False)
     enable                    = Signal(False)
-    reset_i                   = Signal(False)
+    i_reset                   = Signal(False)
     start_transfer            = Signal(False)
     multi_byte_spi_trans_flag = Signal(False)
     # Status Flags
@@ -526,7 +540,7 @@ def spi_gen_verilog():
         # Control Signals
         i_clock,
         enable,
-        reset_i,
+        i_reset,
         start_transfer,
         multi_byte_spi_trans_flag,
         # Status Flags
