@@ -150,6 +150,8 @@ def spi(
             # Stay in here forever until we receive a start_transfer signal whilst we are enabled
             if (enable==True) and (start_transfer==True):
                 state.next = t_state.LOAD
+                # Also load the shift register with what we want to Tx
+                tx_shift_reg.next = concat(Tx_Upper_Byte, Tx_Lower_Byte)
 
         elif state == t_state.LOAD:     
                    
@@ -183,6 +185,10 @@ def spi(
             else:
                 SCLK.next = True
 
+            # When the SCLK line goes from +ive to -ive, we clock out our MOSI
+            if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == (FPGA_CLOCKS_PER_SPI_CLK_HALF-1)):
+                tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
+
             # Are we at end of line?
             if counter == 0+1:
 
@@ -205,6 +211,10 @@ def spi(
                 SCLK.next = True
             else:
                 SCLK.next = False
+
+            # When the SCLK line goes from +ive to -ive, we clock out our MOSI
+            if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == (FPGA_CLOCKS_PER_SPI_CLK_HALF-1)):
+                tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
 
             # Are we at end of line?
             if counter == 0+1:
@@ -297,22 +307,22 @@ def spi(
 
 
 
-    # Sequential logic to drive clocking out is performed at the trailing edge
-    @always(SCLK.negedge, start_transfer.negedge)
-    def mosi_clocking():
+    # # Sequential logic to drive clocking out is performed at the trailing edge
+    # @always(SCLK.negedge, start_transfer.negedge)
+    # def mosi_clocking():
 
-        # We clock the data to be transmitted out of the MOSI line on the negative edge of the appropriate states
-        # Shift Register is 0 unless we are clocking in/out
-        tx_shift_reg.next = 0x00
+    #     # We clock the data to be transmitted out of the MOSI line on the negative edge of the appropriate states
+    #     # Shift Register is 0 unless we are clocking in/out
+    #     tx_shift_reg.next = 0x00
 
-        # After this, what we do is dependent on state
+    #     # After this, what we do is dependent on state
 
-        # In the load state we load the shift register with what we want to Tx
-        if( (state==t_state.LOAD) ):
-            tx_shift_reg.next = concat(Tx_Upper_Byte, Tx_Lower_Byte)
-        # In the UPPER_BYTE_TRANSFER and LOWER_BYTE_TRANSFER states, we are clocking out
-        elif( (state==t_state.UPPER_BYTE_TRANSFER) or (state==t_state.LOWER_BYTE_TRANSFER)  ):
-            tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
+    #     # In the load state we load the shift register with what we want to Tx
+    #     if( (state==t_state.LOAD) ):
+    #         tx_shift_reg.next = concat(Tx_Upper_Byte, Tx_Lower_Byte)
+    #     # In the UPPER_BYTE_TRANSFER and LOWER_BYTE_TRANSFER states, we are clocking out
+    #     elif( (state==t_state.UPPER_BYTE_TRANSFER) or (state==t_state.LOWER_BYTE_TRANSFER)  ):
+    #         tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
 
     # Drive the MOSI off the most significant bit of the shift register directly using combinational logic
     @always_comb
@@ -326,7 +336,7 @@ def spi(
         # end_of_image_reached.next = False
 
 
-    return fsm_update, mosi_clocking, mosi_output, test1
+    return fsm_update, mosi_output, test1
 
 
 
