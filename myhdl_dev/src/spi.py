@@ -134,9 +134,9 @@ def spi(
         if(i_reset==True):
             # Clear everything
             state.next        = t_state.IDLE
-            counter.next      = Signal(intbv(0)[10:])
-            tx_shift_reg.next = Signal(intbv(0)[16:0])
-            rx_shift_reg.next = Signal(intbv(0)[16:0])
+            counter.next      = 0
+            tx_shift_reg.next = 0
+            rx_shift_reg.next = 0
         
         else:
 
