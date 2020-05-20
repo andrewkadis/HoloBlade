@@ -29,8 +29,8 @@ t_state = enum(
     'LOAD',
     'UPPER_BYTE_TRANSFER',
     'LOWER_BYTE_TRANSFER',
-    'UNLOAD_LAST_BIT',
     'UNLOAD_DATA',
+    'TRANSACTION_COMPLETE',
     'START_LOAD_MULTI',
     'CHAIN_LOAD_MULTI',
     'UPPER_BYTE_TRANSFER_MULTI',
@@ -101,14 +101,14 @@ def spi(
     ASSERT_ACTIVE_LOW = Signal(False)
     CLEAR_ACTIVE_LOW  = Signal(True)
 
-    # Basic tester function just pipes out clock signal
-    @always(i_clock.posedge)
-    def test1():
-        # CS.next = True
-        i_reset.next = False
-        # SCLK.next = not i_clock
-        MISO.next = i_clock
-        # counter.next = counter - 1
+    # # Basic tester function just pipes out clock signal
+    # @always(i_clock.posedge)
+    # def test1():
+    #     # CS.next = True
+    #     i_reset.next = False
+    #     # SCLK.next = not i_clock
+    #     MISO.next = i_clock
+    #     # counter.next = counter - 1
 
     # @always(i_clock.negedge)
     # def test2():
@@ -131,8 +131,10 @@ def spi(
     def fsm_update():
 
         # Default Outputs
-        SCLK.next = False
-        CS.next   = CLEAR_ACTIVE_LOW
+        SCLK.next                   = False
+        CS.next                     = CLEAR_ACTIVE_LOW
+        busy.next                   = True
+        o_transaction_complete.next = False
         # valid_o.next = valid_o
         # update_o.next = False
         # end_of_image_reached.next = False
@@ -146,6 +148,9 @@ def spi(
         # Which state are we in?
 
         if state == t_state.IDLE:
+
+            # Only state we are not busy in
+            busy.next = False
 
             # Stay in here forever until we receive a start_transfer signal whilst we are enabled
             if (enable==True) and (start_transfer==True):
@@ -185,11 +190,17 @@ def spi(
             else:
                 SCLK.next = True
 
+            # When the SCLK line goes from +ive to -ive, we clock in our MISO
+            # Want to check when equal to -1 as want to sample synchronously with +ive clock edge and this is what Mod50-1 corresponds to
+            if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == FPGA_CLOCKS_PER_SPI_CLK_TOTAL-1 ):
+                rx_shift_reg.next = concat(rx_shift_reg[15:0], MISO)
+
+
             # When the SCLK line goes from +ive to -ive, we clock out our MOSI
             if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == (FPGA_CLOCKS_PER_SPI_CLK_HALF-1)):
                 tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
 
-            # Are we at end of line?
+            # Are we at end of byte?
             if counter == 0+1:
 
                 # Yes, advance state machine clocking out our Lower Byte
@@ -212,28 +223,43 @@ def spi(
             else:
                 SCLK.next = False
 
+            # When the SCLK line goes from +ive to -ive, we clock in our MISO
+            # Want to check when equal to -1 as want to sample synchronously with +ive clock edge and this is what Mod50-1 corresponds to
+            if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == FPGA_CLOCKS_PER_SPI_CLK_TOTAL-1 ):
+                rx_shift_reg.next = concat(rx_shift_reg[15:0], MISO)
+
             # When the SCLK line goes from +ive to -ive, we clock out our MOSI
             if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == (FPGA_CLOCKS_PER_SPI_CLK_HALF-1)):
                 tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
 
-            # Are we at end of line?
+            # Are we at end of byte?
             if counter == 0+1:
 
                 # Yes, advance state machine to unloading the last bit
-                state.next = t_state.UNLOAD_LAST_BIT
+                state.next = t_state.UNLOAD_DATA
                 # Next tick we shall leave the part of the state machine where transfers are permitted, deassert chip-select to support this
                 CS.next      = CLEAR_ACTIVE_LOW
 
 
-        elif state == t_state.UNLOAD_LAST_BIT:
-
-            # Auto transition to unloading our data
-            state.next = t_state.UNLOAD_DATA
-
         elif state == t_state.UNLOAD_DATA:
 
+            # Clock out our received data
+            Rx_Upper_Byte.next = rx_shift_reg[16:8]
+            Rx_Lower_Byte.next = rx_shift_reg[8:0]
+            # Auto transition back to TRANSACTION_COMPLETE
+            state.next = t_state.TRANSACTION_COMPLETE
+
+        elif state == t_state.TRANSACTION_COMPLETE:
+
+            # All done, can flag for single-cycle
+            o_transaction_complete.next = True
+            # Can also clear the busy flag (we are doing this because we want it to be cleared in time for the IDLE state)
+            busy.next = False
             # Auto transition back to IDLE
             state.next = t_state.IDLE
+
+        #     # Auto transition to unloading our data
+        #     state.next = t_state.UNLOAD_DATA
 
                 # # Yes, advance state machine to unloading the last bit
                 # state.next = t_state.UNLOAD_LAST_BIT
@@ -336,7 +362,7 @@ def spi(
         # end_of_image_reached.next = False
 
 
-    return fsm_update, mosi_output, test1
+    return fsm_update, mosi_output
 
 
 
