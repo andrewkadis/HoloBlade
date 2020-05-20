@@ -130,133 +130,143 @@ def spi(
     @always(i_clock.posedge)
     def fsm_update():
 
-        # Default Outputs
-        SCLK.next                   = False
-        CS.next                     = CLEAR_ACTIVE_LOW
-        busy.next                   = True
-        o_transaction_complete.next = False
-        # valid_o.next = valid_o
-        # update_o.next = False
-        # end_of_image_reached.next = False
+        # Perform reset check first
+        if(i_reset==True):
+            # Clear everything
+            state.next        = t_state.IDLE
+            counter.next      = Signal(intbv(0)[10:])
+            tx_shift_reg.next = Signal(intbv(0)[16:0])
+            rx_shift_reg.next = Signal(intbv(0)[16:0])
+        
+        else:
+
+            # Default Outputs
+            SCLK.next                   = False
+            CS.next                     = CLEAR_ACTIVE_LOW
+            busy.next                   = True
+            o_transaction_complete.next = False
+            # valid_o.next = valid_o
+            # update_o.next = False
+            # end_of_image_reached.next = False
 
 
 
-        ################################################
-        ################ STATE MACHINE #################
-        ################################################
+            ################################################
+            ################ STATE MACHINE #################
+            ################################################
 
-        # Which state are we in?
+            # Which state are we in?
 
-        if state == t_state.IDLE:
+            if state == t_state.IDLE:
 
-            # Only state we are not busy in
-            busy.next = False
+                # Only state we are not busy in
+                busy.next = False
 
-            # Stay in here forever until we receive a start_transfer signal whilst we are enabled
-            if (enable==True) and (start_transfer==True):
-                state.next = t_state.LOAD
-                # Also load the shift register with what we want to Tx
-                tx_shift_reg.next = concat(Tx_Upper_Byte, Tx_Lower_Byte)
+                # Stay in here forever until we receive a start_transfer signal whilst we are enabled
+                if (enable==True) and (start_transfer==True):
+                    state.next = t_state.LOAD
+                    # Also load the shift register with what we want to Tx
+                    tx_shift_reg.next = concat(Tx_Upper_Byte, Tx_Lower_Byte)
 
-        elif state == t_state.LOAD:     
-                   
-            # Need this wait state when entering a line as it will take 1 cycle to start getting data from FIFO
-            # Reset HCounter and Valid line so they will start in-sync with FIFO Data     
-            # h_counter.next = num_words_per_line             
-            # valid_o.next = True
-            # data_output_active_cmd.next = True
+            elif state == t_state.LOAD:     
+                    
+                # Need this wait state when entering a line as it will take 1 cycle to start getting data from FIFO
+                # Reset HCounter and Valid line so they will start in-sync with FIFO Data     
+                # h_counter.next = num_words_per_line             
+                # valid_o.next = True
+                # data_output_active_cmd.next = True
 
-            # Auto transition to start clocking out our Upper Byte
-            counter.next = UPPER_BYTE_TRANSFER_T
-            state.next = t_state.UPPER_BYTE_TRANSFER
-            # We shall be in UPPER_BYTE_TRANSFER next tick, assert the chip-select in preparation for this
-            CS.next      = ASSERT_ACTIVE_LOW
-            # Note that we want SCLK to be high when we reach the next state, so assert now
-            # SCLK.next = True
+                # Auto transition to start clocking out our Upper Byte
+                counter.next = UPPER_BYTE_TRANSFER_T
+                state.next = t_state.UPPER_BYTE_TRANSFER
+                # We shall be in UPPER_BYTE_TRANSFER next tick, assert the chip-select in preparation for this
+                CS.next      = ASSERT_ACTIVE_LOW
+                # Note that we want SCLK to be high when we reach the next state, so assert now
+                # SCLK.next = True
 
-        elif state == t_state.UPPER_BYTE_TRANSFER: 
+            elif state == t_state.UPPER_BYTE_TRANSFER: 
 
-            # We are transferring, assert chip-select
-            CS.next      = ASSERT_ACTIVE_LOW
-            # Keep clocking out data until the appropriate time period has elapsed
-            counter.next = counter-1
+                # We are transferring, assert chip-select
+                CS.next      = ASSERT_ACTIVE_LOW
+                # Keep clocking out data until the appropriate time period has elapsed
+                counter.next = counter-1
 
-            # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
-            # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
-            if( ( (counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) < FPGA_CLOCKS_PER_SPI_CLK_HALF ):
-            # if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
-            # if( counter==400 ):
-                SCLK.next = False
-            else:
-                SCLK.next = True
+                # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
+                # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
+                if( ( (counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) < FPGA_CLOCKS_PER_SPI_CLK_HALF ):
+                # if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
+                # if( counter==400 ):
+                    SCLK.next = False
+                else:
+                    SCLK.next = True
 
-            # When the SCLK line goes from +ive to -ive, we clock in our MISO
-            # Want to check when equal to -1 as want to sample synchronously with +ive clock edge and this is what Mod50-1 corresponds to
-            if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == FPGA_CLOCKS_PER_SPI_CLK_TOTAL-1 ):
-                rx_shift_reg.next = concat(rx_shift_reg[15:0], MISO)
-
-
-            # When the SCLK line goes from +ive to -ive, we clock out our MOSI
-            if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == (FPGA_CLOCKS_PER_SPI_CLK_HALF-1)):
-                tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
-
-            # Are we at end of byte?
-            if counter == 0+1:
-
-                # Yes, advance state machine clocking out our Lower Byte
-                counter.next = LOWER_BYTE_TRANSFER_T
-                state.next = t_state.LOWER_BYTE_TRANSFER
-
-        elif state == t_state.LOWER_BYTE_TRANSFER:
-            
-            # We are transferring, assert chip-select
-            CS.next      = ASSERT_ACTIVE_LOW
-            # Keep clocking out data until the appropriate time period has elapsed
-            counter.next = counter-1
-
-            # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
-            # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
-            # if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
-            if( ( (counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF ):
-            # if( counter==400 ):
-                SCLK.next = True
-            else:
-                SCLK.next = False
-
-            # When the SCLK line goes from +ive to -ive, we clock in our MISO
-            # Want to check when equal to -1 as want to sample synchronously with +ive clock edge and this is what Mod50-1 corresponds to
-            if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == FPGA_CLOCKS_PER_SPI_CLK_TOTAL-1 ):
-                rx_shift_reg.next = concat(rx_shift_reg[15:0], MISO)
-
-            # When the SCLK line goes from +ive to -ive, we clock out our MOSI
-            if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == (FPGA_CLOCKS_PER_SPI_CLK_HALF-1)):
-                tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
-
-            # Are we at end of byte?
-            if counter == 0+1:
-
-                # Yes, advance state machine to unloading the last bit
-                state.next = t_state.UNLOAD_DATA
-                # Next tick we shall leave the part of the state machine where transfers are permitted, deassert chip-select to support this
-                CS.next      = CLEAR_ACTIVE_LOW
+                # When the SCLK line goes from +ive to -ive, we clock in our MISO
+                # Want to check when equal to -1 as want to sample synchronously with +ive clock edge and this is what Mod50-1 corresponds to
+                if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == FPGA_CLOCKS_PER_SPI_CLK_TOTAL-1 ):
+                    rx_shift_reg.next = concat(rx_shift_reg[15:0], MISO)
 
 
-        elif state == t_state.UNLOAD_DATA:
+                # When the SCLK line goes from +ive to -ive, we clock out our MOSI
+                if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == (FPGA_CLOCKS_PER_SPI_CLK_HALF-1)):
+                    tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
 
-            # Clock out our received data
-            Rx_Upper_Byte.next = rx_shift_reg[16:8]
-            Rx_Lower_Byte.next = rx_shift_reg[8:0]
-            # Auto transition back to TRANSACTION_COMPLETE
-            state.next = t_state.TRANSACTION_COMPLETE
+                # Are we at end of byte?
+                if counter == 0+1:
 
-        elif state == t_state.TRANSACTION_COMPLETE:
+                    # Yes, advance state machine clocking out our Lower Byte
+                    counter.next = LOWER_BYTE_TRANSFER_T
+                    state.next = t_state.LOWER_BYTE_TRANSFER
 
-            # All done, can flag for single-cycle
-            o_transaction_complete.next = True
-            # Can also clear the busy flag (we are doing this because we want it to be cleared in time for the IDLE state)
-            busy.next = False
-            # Auto transition back to IDLE
-            state.next = t_state.IDLE
+            elif state == t_state.LOWER_BYTE_TRANSFER:
+                
+                # We are transferring, assert chip-select
+                CS.next      = ASSERT_ACTIVE_LOW
+                # Keep clocking out data until the appropriate time period has elapsed
+                counter.next = counter-1
+
+                # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
+                # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
+                # if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
+                if( ( (counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF ):
+                # if( counter==400 ):
+                    SCLK.next = True
+                else:
+                    SCLK.next = False
+
+                # When the SCLK line goes from +ive to -ive, we clock in our MISO
+                # Want to check when equal to -1 as want to sample synchronously with +ive clock edge and this is what Mod50-1 corresponds to
+                if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == FPGA_CLOCKS_PER_SPI_CLK_TOTAL-1 ):
+                    rx_shift_reg.next = concat(rx_shift_reg[15:0], MISO)
+
+                # When the SCLK line goes from +ive to -ive, we clock out our MOSI
+                if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == (FPGA_CLOCKS_PER_SPI_CLK_HALF-1)):
+                    tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
+
+                # Are we at end of byte?
+                if counter == 0+1:
+
+                    # Yes, advance state machine to unloading the last bit
+                    state.next = t_state.UNLOAD_DATA
+                    # Next tick we shall leave the part of the state machine where transfers are permitted, deassert chip-select to support this
+                    CS.next      = CLEAR_ACTIVE_LOW
+
+
+            elif state == t_state.UNLOAD_DATA:
+
+                # Clock out our received data
+                Rx_Upper_Byte.next = rx_shift_reg[16:8]
+                Rx_Lower_Byte.next = rx_shift_reg[8:0]
+                # Auto transition back to TRANSACTION_COMPLETE
+                state.next = t_state.TRANSACTION_COMPLETE
+
+            elif state == t_state.TRANSACTION_COMPLETE:
+
+                # All done, can flag for single-cycle
+                o_transaction_complete.next = True
+                # Can also clear the busy flag (we are doing this because we want it to be cleared in time for the IDLE state)
+                busy.next = False
+                # Auto transition back to IDLE
+                state.next = t_state.IDLE
 
         #     # Auto transition to unloading our data
         #     state.next = t_state.UNLOAD_DATA
@@ -316,20 +326,14 @@ def spi(
         # ############### CONTROL LINES  #################
         # ################################################
 
-        # # New Frame Check
-        # # if(next_frame_rdy==True):
-        # #     v_counter.next = num_lines
 
-        # # Reset Check
-        # if( i_reset==True ):
-        #     # Explicitly clear all outputs
-        #     data_output_active_cmd.next = False
-        #     # sync_o.next = False
-        #     # valid_o.next = False
-        #     # update_o.next = False
-        #     # h_counter.next = 0
-        #     # v_counter.next = num_lines
-        #     # state.next     = t_state.IDLE
+
+           # sync_o.next = False
+            # valid_o.next = False
+            # update_o.next = False
+            # h_counter.next = 0
+            # v_counter.next = num_lines
+            # state.next     = t_state.IDLE
 
 
 
@@ -501,12 +505,8 @@ def spi_tb():
         test_vector_lower = 0xEE#0x00
         Tx_Upper_Byte.next = test_vector_upper
         Tx_Lower_Byte.next = test_vector_lower
-
-        # Temp for testing
-        a = FPGA_CLK_PERIOD_USEC
-        # b = (1.0/a)
-        # c = b * 1000
-        # # FPGA_CLK_PERIOD_MSEC = (1/FPGA_CLK_FREQ_MHZ) * 1000 
+        # We just set MISO to be '1' so can see 0xFFFF eventually clocked in, can add mroe sophisticated here later if required
+        MISO.next = True
 
         # Wait an initial period
         # FULL_CLOCK_PERIOD = 2*MHz
@@ -515,9 +515,13 @@ def spi_tb():
         # Reset
         yield i_clock.negedge
         yield i_clock.posedge
+        i_reset.next = True
         yield i_clock.negedge
+        i_reset.next = False
         
         # Start a transfer, clearing afterwards
+        yield i_clock.posedge
+        yield i_clock.negedge
         start_transfer.next = True
         yield i_clock.posedge
         yield i_clock.negedge
