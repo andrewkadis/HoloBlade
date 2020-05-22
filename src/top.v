@@ -371,7 +371,8 @@ assign SLM_CLK = fpga_clk;
 // assign DEBUG_7 = valid_o;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 // // Debug setup - doesnt work
-assign DEBUG_7 = multi_byte_spi_trans_flag_w;//fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+wire fsm_change; 
+assign DEBUG_7 = spi_start_transfer_r;//fsm_change;//fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // assign DEBUG_1 = FR_RXF;//line_of_data_available;
 // assign DEBUG_2 = rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
 // assign DEBUG_3 = bluejay_data_out[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
@@ -386,7 +387,7 @@ assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this outp
 // assign DEBUG_7 = FR_RXF;//fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 assign DEBUG_1 = UART_RX;//FR_RXF;//line_of_data_available;
 assign DEBUG_2 = SEN;//rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = spi_start_transfer_r;//UART_TX;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_3 = UART_TX;//spi_start_transfer_r;//UART_TX;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = SCK;//valid_o;//usb3_fifo_read_enable;
 assign DEBUG_6 = SOUT;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
@@ -629,7 +630,9 @@ assign debug_led3  = rx_complete;
 // 100000000 / 115200 = 868 Clocks Per Bit.
 //  66000000 / 115200 = 573 Clocks Per Bit.
 //  62500000 / 115200 = 543 Clocks Per Bit.
-parameter c_CLKS_PER_BIT    = 573;
+// Turbo, 1Mbps baud
+//  62500000 / 1000000 = 62.5 ~ 62
+parameter c_CLKS_PER_BIT    = 62;
 uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
    .i_Clock(fpga_clk),
    .i_Rx_Serial(UART_RX),
@@ -768,7 +771,7 @@ spi spi0(
 	
 	// Control Signals
 	.i_clock(fpga_clk),
-	.i_reset(reset_all_w),                     // The PC is able to reset the entire FPGA
+	.i_reset(),//reset_all_w),                     // The PC is able to reset the entire FPGA
 	.enable(spi_enable),
 	.start_transfer(spi_start_transfer_w),
   .multi_byte_spi_trans_flag(multi_byte_spi_trans_flag_w),
@@ -777,9 +780,11 @@ spi spi0(
 	.busy(spi_busy),
 	.o_transaction_complete(), // DODGY, DO NOT USE, NEEDS A RETHINK IN SPI
 
+  // .FSM_debug(fsm_change),
+
 	// SPI Outputs
 	.MOSI(SDAT),//LEDG[3]),//GPIO[6]),
-	.MISO(SOUT),//LEDG[7]),//GPIO[8]),
+	.MISO(SOUT),//SOUT),//LEDG[7]),//GPIO[8]),
 	.CS(SEN),//LEDG[1]),//GPIO[2]),
 	.SCLK(SCK),//LEDG[2]),//GPIO[4]),
 	

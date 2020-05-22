@@ -39,37 +39,17 @@ wire pll_clk_unbuf;
 // );
 
 
-// /////////////////////////////////////////////////////////
-// /////////////////// 62.5 MHz Option /////////////////////
-// /////////////////////////////////////////////////////////
-// // Temp mod so use 62.25 MHz instead, slower is easier for development (also get good sampling on the saleae as is 1/4th of the sampling frequency)
-// // These values were originally obtained from the 'configure PLL option of iCEcube2 GUI'
-// SB_PLL40_CORE #(.FEEDBACK_PATH("SIMPLE"),
-// 	   .PLLOUT_SELECT("GENCLK"),
-//                 .DIVR(4'b0001),
-//                 .DIVF(7'b1010010),
-//                 .DIVQ(3'b100),
-//                 .FILTER_RANGE(3'b001)
-// ) pll_config (
-//                 .REFERENCECLK(i_xtal),
-//                 .PLLOUTGLOBAL(pll_clk_unbuf),
-//                 .LOCK(),
-//                 .RESETB(1'b1),
-//                 .BYPASS(1'b0)
-// );
-
 /////////////////////////////////////////////////////////
-/////////////////// 66.0 MHz Option /////////////////////
+/////////////////// 62.5 MHz Option /////////////////////
 /////////////////////////////////////////////////////////
-// Temp mod so use 66.0 MHz instead, slower is easier for development and these values suit the USB3 FIFO Chip
+// Temp mod so use 62.25 MHz instead, slower is easier for development (also get good sampling on the saleae as is 1/4th of the sampling frequency)
 // These values were originally obtained from the 'configure PLL option of iCEcube2 GUI'
-// Matches FIFO speed too
 SB_PLL40_CORE #(.FEEDBACK_PATH("SIMPLE"),
 	   .PLLOUT_SELECT("GENCLK"),
-                .DIVR(4'b0000),
-                .DIVF(7'b0101011),
+                .DIVR(4'b0001),
+                .DIVF(7'b1010010),
                 .DIVQ(3'b100),
-                .FILTER_RANGE(3'b010)
+                .FILTER_RANGE(3'b001)
 ) pll_config (
                 .REFERENCECLK(i_xtal),
                 .PLLOUTGLOBAL(pll_clk_unbuf),
@@ -77,6 +57,26 @@ SB_PLL40_CORE #(.FEEDBACK_PATH("SIMPLE"),
                 .RESETB(1'b1),
                 .BYPASS(1'b0)
 );
+
+// /////////////////////////////////////////////////////////
+// /////////////////// 66.0 MHz Option /////////////////////
+// /////////////////////////////////////////////////////////
+// // Temp mod so use 66.0 MHz instead, slower is easier for development and these values suit the USB3 FIFO Chip
+// // These values were originally obtained from the 'configure PLL option of iCEcube2 GUI'
+// // Matches FIFO speed too
+// SB_PLL40_CORE #(.FEEDBACK_PATH("SIMPLE"),
+// 	   .PLLOUT_SELECT("GENCLK"),
+//                 .DIVR(4'b0000),
+//                 .DIVF(7'b0101011),
+//                 .DIVQ(3'b100),
+//                 .FILTER_RANGE(3'b010)
+// ) pll_config (
+//                 .REFERENCECLK(i_xtal),
+//                 .PLLOUTGLOBAL(pll_clk_unbuf),
+//                 .LOCK(),
+//                 .RESETB(1'b1),
+//                 .BYPASS(1'b0)
+// );
 
 // Buffer the output so it doesn't sag
 SB_GB clk_gb ( .USER_SIGNAL_TO_GLOBAL_BUFFER(pll_clk_unbuf), .GLOBAL_BUFFER_OUTPUT(o_sys_clk) );
