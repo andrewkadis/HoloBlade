@@ -973,13 +973,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -1030,13 +1030,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -1117,13 +1117,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -1209,13 +1209,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -1297,13 +1297,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -1386,13 +1386,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -1477,13 +1477,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -1540,13 +1540,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -1603,13 +1603,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -1665,13 +1665,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -1952,13 +1952,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
@@ -2007,13 +2007,13 @@ namespace HoloRelay
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x07;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
                 m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 // Keep printing for feedback every X percent
                 run_loading_image_feedback(0.2, i, num_lines_to_write);
