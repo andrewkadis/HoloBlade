@@ -708,17 +708,30 @@ namespace HoloRelay
 
             // Readout X number of lines
             //int num_lines_to_write = 1280;
-            //int num_lines_to_write = 20; // Temp to just get first 20 lines
+            int num_lines_to_write = 20; // Temp to just get first 20 lines
             //int num_lines_to_write = 4; // Temp to just get first 4 lines
-            int num_lines_to_write = 128; // Temp to just get first 128 lines
+            //int num_lines_to_write = 128; // Temp to just get first 128 lines
             for (int i = 0; i < num_lines_to_write; i++)
             {
 
                 // Call the ReadData command to setup the read (pg. 23 of manual)
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x08;
-                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                //System.Threading.Thread.Sleep(1);
+
+                //System.Threading.Thread.Sleep(20);
+                //int tmp = fpga_com_port.ReadByte();
+
+
+                // We will have some extra bytes here in our Serial Port recv buffer here dur to SerialPorts.IO crapiness from the above transaction (and the one from prev loop)
+                // If we dont clean it out, they will messup our readback image data (verified on Saleae, theyre not actually there)
+                //while (fpga_com_port.BytesToRead != 0)
+                //{
+                //    fpga_com_port.ReadByte();
+                //}
+                //m_serial_comms.Read_serial_data_single_byte(fpga_com_port);
+                fpga_com_port.DiscardInBuffer();
 
 
                 // Buf A First
@@ -738,11 +751,19 @@ namespace HoloRelay
 
                 // Now clock out the buffer data by reading the Read Data Register
                 // We have 160 Bytes per Line so clock them all out
-                UInt32 BYTES_PER_LINE = 160;
-                //UInt32 BYTES_PER_LINE = 16; // Only do the first 1/10th initially as this is the test area
+                //UInt32 BYTES_PER_LINE = 160;
+                UInt32 BYTES_PER_LINE = 16; // Only do the first 1/10th initially as this is the test area
                 for (int j = 0; j < BYTES_PER_LINE; j++)
                 {
                     m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                    System.Threading.Thread.Sleep(1);
+
+
+                    //string recv_byte = "";
+                    //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_byte = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                    //recv_bytes += recv_byte;
+
+                    //Console.WriteLine("At: " + j + "RecvByte: " + recv_byte + "Total: " + recv_bytes);
                 }
 
 
@@ -781,10 +802,15 @@ namespace HoloRelay
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
-                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
                 System.Threading.Thread.Sleep(1);
 
+                //System.Threading.Thread.Sleep(20);
+                //tmp = fpga_com_port.ReadByte();
 
+                // We will have 1 extra byte here in our Serial Port recv buffer here dur to SerialPorts.IO crapiness from the above transaction
+                // If we dont clean it out, they will messup our readback iamge data (verified on Saleae, theyre not actually there)
+                //m_serial_comms.Read_serial_data_single_byte(fpga_com_port);
 
 
 
@@ -1471,6 +1497,195 @@ namespace HoloRelay
             Console.WriteLine("... Image Loading Complete");
 
         }
+
+
+
+        // Helper Function to send 'Byte Counter' Pattern Test Image - Here, every byte counts up from 0x00 in steps of 1
+        // Rationale:
+        //    - Keep a universal, wrapping counter to 255
+        //    - Just increment for every byte
+        public void loadByteCounterPatternTestImage()
+        {
+
+            // Iterate through X lines to load data
+            int num_lines_to_write = 1280;
+            // Global Counter Pattern
+            byte counter_global = 0x00;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
+
+                // Load Data using into Test Registers using SPI Commands
+                m_send_me[0] = 0x2C; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x2D; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x2E; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x2F; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x30; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x31; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x32; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x33; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x34; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x35; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x36; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x37; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x38; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x39; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x3A; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x3B; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+
+
+                // Load Line of Test Register Data into Buffer A
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x07;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Keep printing for feedback every X percent
+                run_loading_image_feedback(0.2, i, num_lines_to_write);
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print that we are done
+            Console.WriteLine("... Image Loading Complete");
+
+        }
+
+        // Helper Function to send 'Row Counter' Pattern Test Image - Here, every row counts up from 0x00 in steps of 1
+        // Rationale:
+        //    - Keep a universal, wrapping counter to 255
+        //    - Just increment for every row
+        public void loadRowCounterPatternTestImage()
+        {
+
+            // Iterate through X lines to load data
+            int num_lines_to_write = 1280;
+            // Global Counter Pattern
+            byte counter_global = 0x00;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
+
+                // Load Data using into Test Registers using SPI Commands
+                m_send_me[0] = 0x2C; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x2D; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x2E; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x2F; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x30; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x31; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x32; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x33; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x34; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x35; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x36; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x37; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x38; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x39; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x3A; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x3B; m_send_me[1] = counter_global; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                
+                // Increment at the row level
+                counter_global++;
+
+
+                // Load Line of Test Register Data into Buffer A
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x07;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Keep printing for feedback every X percent
+                run_loading_image_feedback(0.2, i, num_lines_to_write);
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print that we are done
+            Console.WriteLine("... Image Loading Complete");
+
+        }
+
+        // Helper Function to send 'Column Counter' Pattern Test Image - Here, every col counts up from 0x01 in steps of 1
+        // Rationale:
+        //    - Just increment for every col from 0x01
+        //    - Only write 16 bytes so don't go very far
+        public void loadColCounterPatternTestImage()
+        {
+
+            // Iterate through X lines to load data
+            int num_lines_to_write = 1280;
+            // Global Counter Pattern
+            byte counter_global = 0x01;
+            // We do all this with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
+
+                // Load Data using into Test Registers using SPI Commands
+                m_send_me[0] = 0x2C; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x2D; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x2E; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x2F; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x30; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x31; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x32; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x33; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x34; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x35; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x36; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x37; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x38; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x39; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x3A; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_send_me[0] = 0x3B; m_send_me[1] = counter_global++; m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                // Increment at the row level
+                counter_global = 0;
+
+                // Load Line of Test Register Data into Buffer A
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x07;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                System.Threading.Thread.Sleep(1);
+
+                // Keep printing for feedback every X percent
+                run_loading_image_feedback(0.2, i, num_lines_to_write);
+
+            }
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print that we are done
+            Console.WriteLine("... Image Loading Complete");
+
+        }
+
 
         //// Helper Function to send 'Smiley Faces' Test Image
         //// DOESNT WORK YET

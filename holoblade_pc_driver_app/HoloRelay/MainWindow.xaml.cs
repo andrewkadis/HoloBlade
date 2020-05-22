@@ -966,5 +966,14 @@ namespace HoloRelay
             slm_image_loader.EnterTestMode();
             slm_image_loader.loadHorizontalLinesImage();
         }
+
+        private void counter_pattern_Click(object sender, RoutedEventArgs e)
+        {
+            // Runs through full sequence with appropriate Test Image
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterTestMode();
+            //slm_image_loader.loadRowCounterPatternTestImage();
+            slm_image_loader.loadColCounterPatternTestImage();
+        }
     }
 }

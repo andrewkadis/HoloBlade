@@ -19,7 +19,7 @@ namespace HoloRelay
             test_com_port.PortName = "COM4";
             test_com_port.DataBits = 8;
             test_com_port.StopBits = StopBits.One;
-            test_com_port.BaudRate = 115200;
+            test_com_port.BaudRate = 1000000;//115200;
             test_com_port.Parity = Parity.None;
             test_com_port.Open();
             // Timeout after 100ms read
@@ -71,11 +71,11 @@ namespace HoloRelay
 
 
         // Helper function to handle tx of a buffer and returns a nice string of what was sent
-        public string Send_serial_data(byte[] tx_buf, SerialPort serial_port)
+        public string Send_serial_data_pair(byte[] tx_buf, SerialPort serial_port)
         {
             // Send over Serial Port
             Int32 offset = 0;
-            serial_port.Write(tx_buf, offset, tx_buf.Length);
+            serial_port.Write(tx_buf, offset, 2);
             // We wait 100ms here 
             //Int32 after_uart_wait_time_ms = 1;
             //System.Threading.Thread.Sleep(after_uart_wait_time_ms);
@@ -94,14 +94,14 @@ namespace HoloRelay
             serial_port.Write(tx_buf, offset, tx_buf.Length);
         }
 
-        // Helper function to tx data but return rx byte, good for reading
+        // Helper function to tx 2 bytes data but return single rx byte, good for reading
         public string Send_serial_data_with_return(byte[] tx_buf, SerialPort serial_port)
         {
             // String
             string tx_string = "";
             string rx_string = "";
             // Send Data
-            tx_string = Send_serial_data(tx_buf, serial_port);
+            tx_string = Send_serial_data_pair(tx_buf, serial_port);
             // Rx Reply
             rx_string = Read_serial_data_single_byte(serial_port);
             return rx_string;
@@ -114,7 +114,7 @@ namespace HoloRelay
             // Open Serial Port
             SerialPort fpga_com_port = setup_serial_port();
             // Send Data
-            string tx_string = Send_serial_data(tx_buf, fpga_com_port);
+            string tx_string = Send_serial_data_with_return(tx_buf, fpga_com_port);
             // Rx Reply
             string rx_string = Read_serial_data_single_byte(fpga_com_port);
             // Print
@@ -132,7 +132,7 @@ namespace HoloRelay
             // Open Serial Port
             SerialPort fpga_com_port = setup_serial_port();
             // Send Data
-            string tx_string = Send_serial_data(tx_buf, fpga_com_port);
+            string tx_string = Send_serial_data_with_return(tx_buf, fpga_com_port);
             // Rx Reply
             string rx_string = Read_serial_data_single_byte(fpga_com_port);
             // Mask
