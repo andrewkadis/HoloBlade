@@ -771,16 +771,14 @@ spi spi0(
 	
 	// Control Signals
 	.i_clock(fpga_clk),
+  .enable(spi_enable),
 	.i_reset(),//reset_all_w),                     // The PC is able to reset the entire FPGA
-	.enable(spi_enable),
 	.start_transfer(spi_start_transfer_w),
   .multi_byte_spi_trans_flag(multi_byte_spi_trans_flag_w),
 	
 	// Status Flags
 	.busy(spi_busy),
-	.o_transaction_complete(), // DODGY, DO NOT USE, NEEDS A RETHINK IN SPI
-
-  // .FSM_debug(fsm_change),
+	.byte_recv(), // DODGY, DO NOT USE, NEEDS A RETHINK IN SPI
 
 	// SPI Outputs
 	.MOSI(SDAT),//LEDG[3]),//GPIO[6]),
@@ -791,7 +789,7 @@ spi spi0(
 	// Data Lines
 	.Tx_Upper_Byte(tx_addr_byte),
 	.Tx_Lower_Byte(tx_data_byte),
-	.Rx_Lower_Byte(rx_buf_byte)
+	.Rx_Recv_Byte(rx_buf_byte)
 	
 );
 
