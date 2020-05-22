@@ -30,18 +30,20 @@ LOWER_BYTE_TRANSFER_MULTI_T = LOWER_BYTE_TRANSFER_T
 NUMBER_BYTES_PER_LINE       = 3#160
 
 t_state = enum(
+    # States common to both standard two-byte and multi-byte transaction sequences
     'IDLE',
     'LOAD',
     # Sequence for standard two-byte transaction
     'UPPER_BYTE_TRANSFER',
     'LOWER_BYTE_TRANSFER',
-    'UNLOAD_DATA',
-    'TRANSACTION_COMPLETE',
+    'UNLOAD_RECV_BYTE',
+    'BYTE_READ_READY',
     # Sequence for multi-bye transaction
     'START_LOAD_MULTI',
-    'CHAIN_LOAD_MULTI',
     'UPPER_BYTE_TRANSFER_MULTI',
-    'LOWER_BYTE_TRANSFER_MULTI'
+    'LOWER_BYTE_TRANSFER_MULTI',
+    'UNLOAD_RECV_BYTE_MULTI',
+    'BYTE_READ_READY_MULTI'
     )
 
     
@@ -57,7 +59,7 @@ def spi(
     multi_byte_spi_trans_flag,
     # Status Flags
     busy,
-    o_transaction_complete,
+    byte_recv,
     # SPI Outputs
     MOSI,
     MISO,
@@ -66,8 +68,7 @@ def spi(
     # Data Lines
     Tx_Upper_Byte,
     Tx_Lower_Byte,
-    Rx_Upper_Byte,
-    Rx_Lower_Byte
+    Rx_Recv_Byte
     ):
     
     """ MyHDL implementation of our SPI Module
@@ -82,7 +83,7 @@ def spi(
     multi_byte_spi_trans_flag  :
     Status                     :
     busy                       :
-    o_transaction_complete     : Goes high for 1 cycle when a SPI transfer is complete
+    byte_recv                  : Goes high for 1 cycle when a SPI transfer is complete and a byte is ready to be read. Shall go high multiple times for a multi-byte read
     SPI Outputs:
     MOSI                       :
     MISO                       :
@@ -91,8 +92,7 @@ def spi(
     Data Lines:
 	Tx_Upper_Byte              : Typically used for register address
 	Tx_Lower_Byte              : Typically used to set data to a register
-	Rx_Upper_Byte              : Not typically used
-	Rx_Lower_Byte              : Typically used to read data from a register
+	Rx_Recv_Byte               : Received Data Byte from SPI Transaction
     """
 
     # Constants for tracking our waveform output
@@ -108,23 +108,6 @@ def spi(
     blank_bit = Signal(False) # Used for shift-registers
     ASSERT_ACTIVE_LOW = Signal(False)
     CLEAR_ACTIVE_LOW  = Signal(True)
-
-    # # Basic tester function just pipes out clock signal
-    # @always(i_clock.posedge)
-    # def test1():
-    #     # CS.next = True
-    #     i_reset.next = False
-    #     # SCLK.next = not i_clock
-    #     MISO.next = i_clock
-    #     # counter.next = counter - 1
-
-    # @always(i_clock.negedge)
-    # def test2():
-    #     MOSI.next = False
-        # CS.next = False
-        # i_reset.next = True
-        # SCLK.next = i_clock
-        # MISO.next = not i_clock
 
 
 
@@ -152,7 +135,7 @@ def spi(
             SCLK.next                   = False
             CS.next                     = CLEAR_ACTIVE_LOW
             busy.next                   = True
-            o_transaction_complete.next = False
+            byte_recv.next              = False
 
 
 
@@ -161,6 +144,11 @@ def spi(
             ################################################
 
             # Which state are we in?
+
+            ################################################
+            ################ COMMON STATES #################
+            ################################################
+
             if state == t_state.IDLE:
 
                 # Only state we are not busy in
@@ -180,8 +168,6 @@ def spi(
                         # Multi-byte transaction
                         state.next = t_state.START_LOAD_MULTI
 
-
-
             elif state == t_state.LOAD:     
                     
                 # Auto transition to start clocking out our Upper Byte
@@ -193,6 +179,10 @@ def spi(
                 # SCLK.next = True
 
 
+
+            ################################################
+            ############## TWO-BYTE SEQEUNCE ###############
+            ################################################
 
             elif state == t_state.UPPER_BYTE_TRANSFER: 
 
@@ -225,8 +215,6 @@ def spi(
                     counter.next = LOWER_BYTE_TRANSFER_T
                     state.next = t_state.LOWER_BYTE_TRANSFER
 
-
-
             elif state == t_state.LOWER_BYTE_TRANSFER:
                 
                 # We are transferring, assert chip-select
@@ -250,36 +238,35 @@ def spi(
                 if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == (FPGA_CLOCKS_PER_SPI_CLK_HALF-1)):
                     tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
 
-                # Are we at end of byte?
+                # Are we at end of the byte?
                 if counter == 0+1:
 
                     # Yes, advance state machine to unloading the last bit
-                    state.next = t_state.UNLOAD_DATA
+                    state.next = t_state.UNLOAD_RECV_BYTE
                     # Next tick we shall leave the part of the state machine where transfers are permitted, deassert chip-select to support this
                     CS.next      = CLEAR_ACTIVE_LOW
 
+            elif state == t_state.UNLOAD_RECV_BYTE:
 
-
-            elif state == t_state.UNLOAD_DATA:
-
-                # Clock out our received data
-                Rx_Upper_Byte.next = rx_shift_reg[16:8]
-                Rx_Lower_Byte.next = rx_shift_reg[8:0]
+                # Clock out our received byte
+                Rx_Recv_Byte.next = rx_shift_reg[8:0]
                 # Auto transition back to TRANSACTION_COMPLETE
-                state.next = t_state.TRANSACTION_COMPLETE
+                state.next = t_state.BYTE_READ_READY
 
-
-
-            elif state == t_state.TRANSACTION_COMPLETE:
+            elif state == t_state.BYTE_READ_READY:
 
                 # All done, can flag for single-cycle
-                o_transaction_complete.next = True
+                byte_recv.next = True
                 # Can also clear the busy flag (we are doing this because we want it to be cleared in time for the IDLE state)
                 busy.next = False
                 # Auto transition back to IDLE
                 state.next = t_state.IDLE
 
 
+
+            ################################################
+            ############# MULTI-BYTE SEQEUNCE ##############
+            ################################################
 
             elif state == t_state.START_LOAD_MULTI:     
                     
@@ -288,8 +275,6 @@ def spi(
                 state.next = t_state.UPPER_BYTE_TRANSFER_MULTI
                 # We shall be in UPPER_BYTE_TRANSFER next tick, assert the chip-select in preparation for this
                 CS.next      = ASSERT_ACTIVE_LOW
-
-
 
             elif state == t_state.UPPER_BYTE_TRANSFER_MULTI: 
 
@@ -324,8 +309,6 @@ def spi(
                     # Also load the number of bytes we shall be reading in our multi-byte read operation
                     multi_byte_counter.next = NUMBER_BYTES_PER_LINE
 
-
-
             elif state == t_state.LOWER_BYTE_TRANSFER_MULTI:
                 
                 # We are transferring, assert chip-select
@@ -351,22 +334,43 @@ def spi(
                 if( ((counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL) == (FPGA_CLOCKS_PER_SPI_CLK_HALF-1)):
                     tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
 
-                # Are we at end of byte?
+                # Are we at end of the byte?
                 if counter == 0+1:
 
-                    # Have we clocked out all of our byte?
-                    if( multi_byte_counter==0+1 ):
-                        # Yes, advance state machine to unloading the last bit
-                        state.next = t_state.UNLOAD_DATA
-                        # Next tick we shall leave the part of the state machine where transfers are permitted, deassert chip-select to support this
-                        CS.next      = CLEAR_ACTIVE_LOW
+                    # Yes, advance state machine to unloading the last bit for a multi-byte transaction
+                    state.next = t_state.UNLOAD_RECV_BYTE_MULTI
 
-                    else:
-                        # No, keep clocking out bytes, simply reset counter and stay in this state
-                        counter.next = LOWER_BYTE_TRANSFER_MULTI_T
-                        # Decrement the byte that we just read
-                        multi_byte_counter.next = multi_byte_counter - 1
+            elif state == t_state.UNLOAD_RECV_BYTE_MULTI:
 
+                # Clock out our received byte
+                Rx_Recv_Byte.next = rx_shift_reg[8:0]
+                # CS needs to stay asserted until all bytes have been read out
+                CS.next          = ASSERT_ACTIVE_LOW
+                # Auto transition back to BYTE_READ_READY_MULTI
+                state.next = t_state.BYTE_READ_READY_MULTI
+
+            elif state == t_state.BYTE_READ_READY_MULTI:
+
+                # All done, can flag for single-cycle
+                byte_recv.next = True
+                # CS needs to stay asserted until all bytes have been read out
+                CS.next        = ASSERT_ACTIVE_LOW
+
+                # Have we clocked out all of our byte?
+                if( multi_byte_counter==0+1 ):
+                    # Yes, advance state machine back to IDLE
+                    state.next = t_state.IDLE
+                    # Can also clear the busy flag (we are doing this because we want it to be cleared in time for the IDLE state)
+                    busy.next = False
+                    # Next tick we shall leave the part of the state machine where transfers are permitted, deassert chip-select to support this
+                    CS.next   = CLEAR_ACTIVE_LOW
+
+                else:
+                    # No, keep clocking out bytes, back to LOWER_BYTE_TRANSFER_MULTI
+                    state.next = t_state.LOWER_BYTE_TRANSFER_MULTI
+                    counter.next = LOWER_BYTE_TRANSFER_MULTI_T
+                    # Decrement the byte that we just read
+                    multi_byte_counter.next = multi_byte_counter - 1
 
 
 
@@ -476,7 +480,7 @@ def spi_tb():
     multi_byte_spi_trans_flag = Signal(False)
     # Status Flags
     busy                      = Signal(False)
-    o_transaction_complete    = Signal(False)
+    rx_byte_recv              = Signal(False)
     # SPI Outputs
     MOSI                      = Signal(False)
     MISO                      = Signal(False)
@@ -485,8 +489,7 @@ def spi_tb():
     # Data Lines
     Tx_Upper_Byte             = Signal(intbv(0)[8:])
     Tx_Lower_Byte             = Signal(intbv(0)[8:])
-    Rx_Upper_Byte             = Signal(intbv(0)[8:])
-    Rx_Lower_Byte             = Signal(intbv(0)[8:])
+    Rx_Byte_Recv              = Signal(intbv(0)[8:])
     # Inst our SPI Module
     spi_inst = spi(
         # Control Signals
@@ -497,7 +500,7 @@ def spi_tb():
         multi_byte_spi_trans_flag,
         # Status Flags
         busy,
-        o_transaction_complete,
+        rx_byte_recv,
         # SPI Outputs
         MOSI,
         MISO,
@@ -506,8 +509,7 @@ def spi_tb():
         # Data Lines
         Tx_Upper_Byte,
         Tx_Lower_Byte,
-        Rx_Upper_Byte,
-        Rx_Lower_Byte,
+        Rx_Byte_Recv,
     )
 
     # Clock
@@ -608,7 +610,7 @@ def spi_gen_verilog():
     multi_byte_spi_trans_flag = Signal(False)
     # Status Flags
     busy                      = Signal(False)
-    o_transaction_complete    = Signal(False)
+    rx_byte_recv              = Signal(False)
     # SPI Outputs
     MOSI                      = Signal(False)
     MISO                      = Signal(False)
@@ -617,8 +619,7 @@ def spi_gen_verilog():
     # Data Lines
     Tx_Upper_Byte             = Signal(intbv(0)[8:])
     Tx_Lower_Byte             = Signal(intbv(0)[8:])
-    Rx_Upper_Byte             = Signal(intbv(0)[8:])
-    Rx_Lower_Byte             = Signal(intbv(0)[8:])
+    Rx_Recv_Byte              = Signal(intbv(0)[8:])
     # Inst our SPI Module
     spi_inst = spi(
         # Control Signals
@@ -629,7 +630,7 @@ def spi_gen_verilog():
         multi_byte_spi_trans_flag,
         # Status Flags
         busy,
-        o_transaction_complete,
+        rx_byte_recv,
         # SPI Outputs
         MOSI,
         MISO,
@@ -638,8 +639,7 @@ def spi_gen_verilog():
         # Data Lines
         Tx_Upper_Byte,
         Tx_Lower_Byte,
-        Rx_Upper_Byte,
-        Rx_Lower_Byte,
+        Rx_Recv_Byte
     )
 
     # Convert
