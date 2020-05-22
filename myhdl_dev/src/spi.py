@@ -26,6 +26,8 @@ LOWER_BYTE_TRANSFER_T       = BITS_PER_BYTE * FPGA_CLOCKS_PER_SPI_CLK_TOTAL
 # Multi-byte timeouts are the same as their standard two-byte equivalents
 UPPER_BYTE_TRANSFER_MULTI_T = UPPER_BYTE_TRANSFER_T
 LOWER_BYTE_TRANSFER_MULTI_T = LOWER_BYTE_TRANSFER_T
+# As well as a standard two-byte transaction, for reading the Test Read Data Register, we need to read multiple byte to clock out an entire line at a time
+NUMBER_BYTES_PER_LINE       = 3#160
 
 t_state = enum(
     'IDLE',
@@ -94,7 +96,8 @@ def spi(
     """
 
     # Constants for tracking our waveform output
-    counter = Signal(intbv(1000)[10:]); # 10 bit ocunter to keep track of where we are
+    counter            = Signal(intbv(1000)[10:]); # 10 bit counter to keep track of where we are in our output state waveform
+    multi_byte_counter = Signal(intbv(1000)[8:]); # Also need to keep track of how many bytes we've read for multi-byte transfers
     # We use shift registers to clock data in/out with MISO/MOSI respectively 
     # We support transfers of 2 bytes/16 bits
     SHIFT_REG_WIDTH = 2*BITS_PER_BYTE
@@ -150,9 +153,6 @@ def spi(
             CS.next                     = CLEAR_ACTIVE_LOW
             busy.next                   = True
             o_transaction_complete.next = False
-            # valid_o.next = valid_o
-            # update_o.next = False
-            # end_of_image_reached.next = False
 
 
 
@@ -204,8 +204,6 @@ def spi(
                 # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
                 # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
                 if( ( (counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) < FPGA_CLOCKS_PER_SPI_CLK_HALF ):
-                # if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
-                # if( counter==400 ):
                     SCLK.next = False
                 else:
                     SCLK.next = True
@@ -238,9 +236,7 @@ def spi(
 
                 # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
                 # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
-                # if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
                 if( ( (counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF ):
-                # if( counter==400 ):
                     SCLK.next = True
                 else:
                     SCLK.next = False
@@ -295,16 +291,6 @@ def spi(
 
 
 
-            elif state == t_state.CHAIN_LOAD_MULTI:     
-                    
-                # Auto transition to start clocking out our Upper Byte
-                counter.next = UPPER_BYTE_TRANSFER_MULTI_T
-                state.next = t_state.UPPER_BYTE_TRANSFER_MULTI
-                # We shall be in UPPER_BYTE_TRANSFER next tick, assert the chip-select in preparation for this
-                CS.next      = ASSERT_ACTIVE_LOW
-
-
-
             elif state == t_state.UPPER_BYTE_TRANSFER_MULTI: 
 
                 # We are transferring, assert chip-select
@@ -315,8 +301,6 @@ def spi(
                 # Generate clock waveform - first half of the bit is High, second is Low - use modulo to test for this
                 # Note that we use the '-1' to rotate our values by 1, eg: we want mod(400) to be a high clock so rotate answer by 1
                 if( ( (counter)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) < FPGA_CLOCKS_PER_SPI_CLK_HALF ):
-                # if( ( (counter-1)%FPGA_CLOCKS_PER_SPI_CLK_TOTAL ) > FPGA_CLOCKS_PER_SPI_CLK_HALF-1 ):
-                # if( counter==400 ):
                     SCLK.next = False
                 else:
                     SCLK.next = True
@@ -337,6 +321,8 @@ def spi(
                     # Yes, advance state machine clocking out our Lower Byte
                     counter.next = LOWER_BYTE_TRANSFER_MULTI_T
                     state.next = t_state.LOWER_BYTE_TRANSFER_MULTI
+                    # Also load the number of bytes we shall be reading in our multi-byte read operation
+                    multi_byte_counter.next = NUMBER_BYTES_PER_LINE
 
 
 
@@ -368,101 +354,27 @@ def spi(
                 # Are we at end of byte?
                 if counter == 0+1:
 
-                    # Yes, advance state machine to unloading the last bit
-                    state.next = t_state.UNLOAD_DATA
-                    # Next tick we shall leave the part of the state machine where transfers are permitted, deassert chip-select to support this
-                    CS.next      = CLEAR_ACTIVE_LOW
+                    # Have we clocked out all of our byte?
+                    if( multi_byte_counter==0+1 ):
+                        # Yes, advance state machine to unloading the last bit
+                        state.next = t_state.UNLOAD_DATA
+                        # Next tick we shall leave the part of the state machine where transfers are permitted, deassert chip-select to support this
+                        CS.next      = CLEAR_ACTIVE_LOW
 
-        #     # Auto transition to unloading our data
-        #     state.next = t_state.UNLOAD_DATA
-
-    #         'START_LOAD_MULTI',
-    # 'CHAIN_LOAD_MULTI',
-    # 'UPPER_BYTE_TRANSFER_MULTI',
-    # 'LOWER_BYTE_TRANSFER_MULTI'
-
-                # # Yes, advance state machine to unloading the last bit
-                # state.next = t_state.UNLOAD_LAST_BIT
-
-        #         # Need to blank appropriate number of cycles between lines
-        #         state_timeout_counter.next = state_timeout_counter - 1
-
-        #         # End of Blank period for end of line?
-        #         if state_timeout_counter == 1:
-        #             # Reset our line_end counter
-        #             state_timeout_counter.next = 0
-        #             # Decrement our row count as we have just finished clocking out a line
-        #             v_counter.next = v_counter - 1
-
-        #             # Have we clocked out the entire image?
-        #             if v_counter == 1:
-
-        #                 # Row counter is now 0, reset for subsequent frame
-        #                 v_counter.next = num_lines
-        #                 # Yes, advance to FRAME_END_BLANK state and start the counter again
-        #                 state.next = t_state.FRAME_END_BLANK
-        #                 state_timeout_counter.next = end_of_frame_blank_cycles
-
-        #             else:
-
-        #                 # No, go back to IDLE while we await more lines
-        #                 state.next = t_state.IDLE
-
-        # elif state == t_state.UNLOAD_LAST_BIT:
-
-        #         # Need to blank extra cycles if we're at an end of frame
-        #         state_timeout_counter.next = state_timeout_counter - 1
-        #         # Have we reached the End of Blank period for end of frame?
-        #         if state_timeout_counter == 0+1:
-        #             # Move to FRAME_END_UPDATE_HIGH state and start counter appropriately
-        #             state_timeout_counter.next = update_high_cycles
-        #             state.next = t_state.FRAME_END_UPDATE_HIGH
-
-        # elif state == t_state.UNLOAD_DATA:
-
-        #         # Here we are asserting the UPDATE signal to perform a buffer swap
-        #         update_o.next = True
-        #         # Decrement cycle count
-        #         state_timeout_counter.next = state_timeout_counter - 1
-        #         # Have we reached the End of Blank period for end of frame?
-        #         if state_timeout_counter == 0+1:
-        #             # Reset and move back to IDLE
-        #             state_timeout_counter.next = 0
-        #             state.next = t_state.IDLE
+                    else:
+                        # No, keep clocking out bytes, simply reset counter and stay in this state
+                        counter.next = LOWER_BYTE_TRANSFER_MULTI_T
+                        # Decrement the byte that we just read
+                        multi_byte_counter.next = multi_byte_counter - 1
 
 
 
-        # ################################################
-        # ############### CONTROL LINES  #################
-        # ################################################
 
 
 
-           # sync_o.next = False
-            # valid_o.next = False
-            # update_o.next = False
-            # h_counter.next = 0
-            # v_counter.next = num_lines
-            # state.next     = t_state.IDLE
 
 
 
-    # # Sequential logic to drive clocking out is performed at the trailing edge
-    # @always(SCLK.negedge, start_transfer.negedge)
-    # def mosi_clocking():
-
-    #     # We clock the data to be transmitted out of the MOSI line on the negative edge of the appropriate states
-    #     # Shift Register is 0 unless we are clocking in/out
-    #     tx_shift_reg.next = 0x00
-
-    #     # After this, what we do is dependent on state
-
-    #     # In the load state we load the shift register with what we want to Tx
-    #     if( (state==t_state.LOAD) ):
-    #         tx_shift_reg.next = concat(Tx_Upper_Byte, Tx_Lower_Byte)
-    #     # In the UPPER_BYTE_TRANSFER and LOWER_BYTE_TRANSFER states, we are clocking out
-    #     elif( (state==t_state.UPPER_BYTE_TRANSFER) or (state==t_state.LOWER_BYTE_TRANSFER)  ):
-    #         tx_shift_reg.next = concat(tx_shift_reg[15:0], blank_bit)
 
     # Drive the MOSI off the most significant bit of the shift register directly using combinational logic
     @always_comb
@@ -611,8 +523,8 @@ def spi_tb():
     def load_test_data():
 
         # Test Vector corresponds to a single 16-bit transaction
-        test_vector_upper = 0xF5#0xF8
-        test_vector_lower = 0xEE#0x00
+        test_vector_upper = 0xF5
+        test_vector_lower = 0xEE
         Tx_Upper_Byte.next = test_vector_upper
         Tx_Lower_Byte.next = test_vector_lower
         # We just set MISO to be '1' so can see 0xFFFF eventually clocked in, can add mroe sophisticated here later if required
@@ -638,9 +550,16 @@ def spi_tb():
         yield i_clock.negedge
 
         # Wait for a bit
-        yield(delay (50000))
+        yield(delay (40000))
 
         # Start a multi-byte transfer
+        # Use new test vectors
+        test_vector_upper = 0xDD
+        test_vector_lower = 0xAA
+        Tx_Upper_Byte.next = test_vector_upper
+        Tx_Lower_Byte.next = test_vector_lower
+        # We just set MISO to be '0' so can see 0x0000 eventually clocked in, can add mroe sophisticated here later if required
+        MISO.next = False
         yield i_clock.posedge
         yield i_clock.negedge
         start_transfer.next            = True
