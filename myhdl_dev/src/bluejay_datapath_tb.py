@@ -237,7 +237,7 @@ def bluejay_datapath_tb():
         # Wait 1us and then load another line
         yield delay(1000)
 
-        for i in range(0, 1305):
+        for i in range(0, 64): # Note that this does not execute the maximum
 
             # Load line
             yield simulate_load_fifo_data(test_line)
@@ -259,7 +259,7 @@ def bluejay_datapath_tb():
         # yield delay(1000)
 
         # Wait another 500ns then end simulation
-        yield delay(500)
+        yield delay(2000)
         # End Simulation
         raise StopSimulation()
 
