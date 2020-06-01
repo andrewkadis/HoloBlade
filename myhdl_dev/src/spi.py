@@ -15,7 +15,7 @@ class Error(Exception):
 FPGA_CLK_SPEED_MHZ   = 62.5
 FPGA_CLK_PERIOD_USEC = int( 1/FPGA_CLK_SPEED_MHZ * 1000)
 # We stop our SPI down to 1/50th speed, gives us a SPI of 1.25MHz which is plenty fast for us 
-FPGA_CLOCKS_PER_SPI_CLK_TOTAL = 50
+FPGA_CLOCKS_PER_SPI_CLK_TOTAL = 32
 FPGA_CLOCKS_PER_SPI_CLK_HALF  = int(FPGA_CLOCKS_PER_SPI_CLK_TOTAL/2)
 # Timing Numbers
 SPI_CLOCK_RATE_MHZ   = 1   # SCLK speed
@@ -27,7 +27,7 @@ LOWER_BYTE_TRANSFER_T       = BITS_PER_BYTE * FPGA_CLOCKS_PER_SPI_CLK_TOTAL
 UPPER_BYTE_TRANSFER_MULTI_T = UPPER_BYTE_TRANSFER_T
 LOWER_BYTE_TRANSFER_MULTI_T = LOWER_BYTE_TRANSFER_T
 # As well as a standard two-byte transaction, for reading the Test Read Data Register, we need to read multiple byte to clock out an entire line at a time
-NUMBER_BYTES_PER_LINE       = 3#160
+NUMBER_BYTES_PER_LINE       = 160
 
 t_state = enum(
     # States common to both standard two-byte and multi-byte transaction sequences
@@ -105,9 +105,9 @@ def spi(
     rx_shift_reg = Signal(intbv(0)[16:0])
     # Signals
     state   = Signal(t_state.IDLE)
-    blank_bit = Signal(False) # Used for shift-registers
-    ASSERT_ACTIVE_LOW = Signal(False)
-    CLEAR_ACTIVE_LOW  = Signal(True)
+    blank_bit = False # Used for shift-registers
+    ASSERT_ACTIVE_LOW = False
+    CLEAR_ACTIVE_LOW  = True
 
 
 
