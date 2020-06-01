@@ -19,7 +19,7 @@ namespace HoloRelay
             test_com_port.PortName = "COM4";
             test_com_port.DataBits = 8;
             test_com_port.StopBits = StopBits.One;
-            test_com_port.BaudRate = 1000000;//115200;
+            test_com_port.BaudRate = 1250000;//1000000;//115200;
             test_com_port.Parity = Parity.None;
             test_com_port.Open();
             // Timeout after 100ms read
@@ -45,6 +45,42 @@ namespace HoloRelay
             try
             {
                 num_bytes_read = serial_port.Read(rx_buf, 0, SINGLE_BYTE);
+            }
+            catch (TimeoutException e)
+            {
+                // This is simply to catch a timeout when reading, part of normal operation so do nothing with it
+                e.ToString();
+            }
+            // If received no bytes than simply return a null string
+            if (num_bytes_read == 0)
+            {
+                return "";
+            }
+            else
+            {
+                // Trim rx buffer to be only what we read
+                byte[] rx_bytes = new byte[num_bytes_read];
+                Array.Copy(rx_buf, rx_bytes, num_bytes_read);
+                // Convert to a nicely formatted string and return
+                string rx_string = BitConverter.ToString(rx_bytes);
+                rx_string = rx_string.Replace("-", "");
+                return rx_string;
+            }
+
+        }
+
+        // Helper function to read a full line of data back (160 bytes) into our byte buffer and formats as a nice string
+        public string Read_serial_data_full_line(SerialPort serial_port)
+        {
+            // Rx Buffer
+            const int RX_BUF_SIZE = 256;
+            const int WHOLE_LINE_BYTES = 160;
+            byte[] rx_buf = new byte[RX_BUF_SIZE];
+            int num_bytes_read = 0;
+            // Use a try-catch as we only want to read until timeout
+            try
+            {
+                num_bytes_read = serial_port.Read(rx_buf, 0, WHOLE_LINE_BYTES);
             }
             catch (TimeoutException e)
             {
@@ -104,6 +140,23 @@ namespace HoloRelay
             tx_string = Send_serial_data_pair(tx_buf, serial_port);
             // Rx Reply
             rx_string = Read_serial_data_single_byte(serial_port);
+            return rx_string;
+
+        }
+
+        // Helper function to tx 2 bytes and then return 160 bytes, used when reading back data from the SLM in special multi-byte read poll
+        public string Send_serial_data_multi_byte_poll_with_return(byte[] tx_buf, SerialPort serial_port)
+        {
+            // String
+            string tx_string = "";
+            string rx_string = "";
+            // Send Data
+            tx_string = Send_serial_data_pair(tx_buf, serial_port);
+            // From the Saleae, we know that the time from sending packet to end of reply is approx 1.06ms, hence wait appropriately
+            // However, because window's serial drivers are terrible, they can't deal with these short windows, hence we found anecdotally that we have to wait 18ms (15ms still sees dropped pixels)
+            System.Threading.Thread.Sleep(18);
+            // Rx Reply
+            rx_string = Read_serial_data_full_line(serial_port);
             return rx_string;
 
         }

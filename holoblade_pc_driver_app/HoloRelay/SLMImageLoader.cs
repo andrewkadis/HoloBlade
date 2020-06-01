@@ -707,8 +707,8 @@ namespace HoloRelay
             //System.Threading.Thread.Sleep(1);
 
             // Readout X number of lines
-            //int num_lines_to_write = 1280;
-            int num_lines_to_write = 20; // Temp to just get first 20 lines
+            int num_lines_to_write = 1280;
+            //int num_lines_to_write = 20; // Temp to just get first 20 lines
             //int num_lines_to_write = 4; // Temp to just get first 4 lines
             //int num_lines_to_write = 128; // Temp to just get first 128 lines
             for (int i = 0; i < num_lines_to_write; i++)
@@ -725,181 +725,149 @@ namespace HoloRelay
 
 
                 // We will have some extra bytes here in our Serial Port recv buffer here dur to SerialPorts.IO crapiness from the above transaction (and the one from prev loop)
-                // If we dont clean it out, they will messup our readback image data (verified on Saleae, theyre not actually there)
-                //while (fpga_com_port.BytesToRead != 0)
-                //{
-                //    fpga_com_port.ReadByte();
-                //}
-                //m_serial_comms.Read_serial_data_single_byte(fpga_com_port);
+                // If we dont clean it out, they will messup our readback image data (verified on Saleae, theyre not actually there - it is literally just Windows having shit serial port drivers)
                 fpga_com_port.DiscardInBuffer();
 
 
-                // Buf A First
-
-                //// Select Buffer A using SetDestBuffer
-                //m_send_me[0] = 0x08;
-                //m_send_me[1] = 0x01;
-                //m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                //System.Threading.Thread.Sleep(1);
-                //fpga_com_port.Close();
-                //UpdateDisplayBufA();
-                //fpga_com_port.Open();
 
 
                 // Keep track of data Read
                 string recv_bytes = "";
 
-                // Now clock out the buffer data by reading the Read Data Register
-                // We have 160 Bytes per Line so clock them all out
-                //UInt32 BYTES_PER_LINE = 160;
-                UInt32 BYTES_PER_LINE = 16; // Only do the first 1/10th initially as this is the test area
-                for (int j = 0; j < BYTES_PER_LINE; j++)
-                {
-                    m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                    System.Threading.Thread.Sleep(1);
-
-
-                    //string recv_byte = "";
-                    //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_byte = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                    //recv_bytes += recv_byte;
-
-                    //Console.WriteLine("At: " + j + "RecvByte: " + recv_byte + "Total: " + recv_bytes);
-                }
-
+                // Read all the byte in one-line using the multi-poll read
+                // FPGA is hard-programmed to reply with 160 bytes when it receives a '0xBC' byte as the address byte
+                m_send_me[0] = 0xBC;
+                m_send_me[1] = 0x00;
+                recv_bytes += m_serial_comms.Send_serial_data_multi_byte_poll_with_return(m_send_me, fpga_com_port);
 
                 // Print
-                Console.WriteLine("Line Data A: 0x" + recv_bytes);
-
-                //// Clear afterwards
-                //m_send_me[0] = 0x2C; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x2D; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x2E; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x2F; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x30; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x31; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x32; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x33; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x34; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x35; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x36; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x37; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x38; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x39; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x3A; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0x3B; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-
-
-
-                //// Temp readback for checking
-                //// TODO: Delete
-                //System.Threading.Thread.Sleep(50);
-                //fpga_com_port.Close();
-                //PollStatusRegister();
-                //PollModeRegister();
-                //fpga_com_port.Open();
-                //System.Threading.Thread.Sleep(50);
+                Console.WriteLine("Line " + i + ": 0x" + recv_bytes);
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                //System.Threading.Thread.Sleep(1);
+
+            }
+
+            // TODO: readback for checking
+            // Lower Register
+            m_send_me[0] = 0x8C;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+            System.Threading.Thread.Sleep(1);
+            // Load the value in the Serial_Row_Address register using the SetCurAddr command (from pg. 23 of manual)
+            m_send_me[0] = 0x8D;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+            System.Threading.Thread.Sleep(1);
+
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+            // Print that we are done
+            Console.WriteLine("... Buffer Read Complete");
+
+        }
+
+
+
+
+        public void ReadDestBufferDataSuperSpeed(bool read_buffer_A_flag)
+        {
+
+
+            // We do all this read/write with a single serial port open to keep it fast
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+
+            // First we set the row we are reading from using the SetCurAddr command (pg. 23 of datasheet)
+            // Need to load registers 0x06-0x07 first
+            // Upper Register
+            m_send_me[0] = 0x06;
+            m_send_me[1] = 0x00;// 0x02;
+            m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+            System.Threading.Thread.Sleep(1);
+            // Lower Register
+            m_send_me[0] = 0x07;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+            System.Threading.Thread.Sleep(1);
+            // Load the value in the Serial_Row_Address register using the SetCurAddr command (from pg. 23 of manual)
+            m_send_me[0] = 0x08;
+            m_send_me[1] = 0x04;
+            m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+            System.Threading.Thread.Sleep(1);
+
+            // Then, we set which Buffer we want to read from using the SetDestBuffer command (pg. 23 of datasheet)
+            // Use the passed in flag to determine if we should read Buffer A or Buffer B
+            // The SetDestBuffer is sued to select this
+            if (read_buffer_A_flag)
+            {
+                // Read Buffer A Contents - Call SetDestBuffer appropriately
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x01;
+            }
+            else
+            {
+                // Read Buffer B Contents - Call SetDestBuffer appropriately
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x11;
+            }
+            // Transfer
+            m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+            System.Threading.Thread.Sleep(1);
+
+            // Now, we do something a bit different. Basically the Windows Serial Drivers are terrible and cannot process the data as fast as the FPGA is processing it
+            // Hence, we do the following:
+            //   - Open a serial port with a BIG buffer, big enough for an entire image. Clear the whole buffer.
+            //   - Send the sequence of commands to clock out an entire frame. For each line, we send the following sequence: read_data, multi_byte_poll of entire line, incr_row
+            //   - Once we have iterated through all rows, we go back and copy across the entire frame data. Note that we need to ignore all the non-frame data such as replies from read_data and incr_row commands
+            // Close the Serial Port when we are done
+            // We use special 'tx_only' versions of our existing functions to achieve this
+
+            // Readout X number of lines
+            int num_lines_to_write = 1280;
+            //int num_lines_to_write = 20; // Temp to just get first 20 lines
+            //int num_lines_to_write = 4; // Temp to just get first 4 lines
+            //int num_lines_to_write = 128; // Temp to just get first 128 lines
+            for (int i = 0; i < num_lines_to_write; i++)
+            {
+
+                // Call the ReadData command to setup the read (pg. 23 of manual)
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x08;
                 m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                System.Threading.Thread.Sleep(1);
+                //System.Threading.Thread.Sleep(1);
 
                 //System.Threading.Thread.Sleep(20);
-                //tmp = fpga_com_port.ReadByte();
-
-                // We will have 1 extra byte here in our Serial Port recv buffer here dur to SerialPorts.IO crapiness from the above transaction
-                // If we dont clean it out, they will messup our readback iamge data (verified on Saleae, theyre not actually there)
-                //m_serial_comms.Read_serial_data_single_byte(fpga_com_port);
+                //int tmp = fpga_com_port.ReadByte();
 
 
+                // We will have some extra bytes here in our Serial Port recv buffer here dur to SerialPorts.IO crapiness from the above transaction (and the one from prev loop)
+                // If we dont clean it out, they will messup our readback image data (verified on Saleae, theyre not actually there - it is literally just Windows having shit serial port drivers)
+                fpga_com_port.DiscardInBuffer();
 
-                //// Buf B Next
 
-                //// Select Buffer B using SetDestBuffer
-                ////m_send_me[0] = 0x08;
-                ////m_send_me[1] = 0x11;
-                ////m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                ////System.Threading.Thread.Sleep(1);
-                //fpga_com_port.Close();
-                //UpdateDisplayBufB();
-                //fpga_com_port.Open();
 
-                //// Read Next Line of Buffer B into Test Register Data
-                //m_send_me[0] = 0x08;
-                //m_send_me[1] = 0x08;
-                //m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+
+                // Keep track of data Read
+                string recv_bytes = "";
+
+                // Read all the byte in one-line using the multi-poll read
+                // FPGA is hard-programmed to reply with 160 bytes when it receives a '0xBC' byte as the address byte
+                m_send_me[0] = 0xBC;
+                m_send_me[1] = 0x00;
+                recv_bytes += m_serial_comms.Send_serial_data_multi_byte_poll_with_return(m_send_me, fpga_com_port);
+
+                // Print
+                Console.WriteLine("Line " + i + ": 0x" + recv_bytes);
+
+                // Increment Row
+                m_send_me[0] = 0x08;
+                m_send_me[1] = 0x05;
+                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
                 //System.Threading.Thread.Sleep(1);
-
-                //// Keep track of data Read
-                //recv_bytes = "";
-
-                //// Load Data using into Test Registers using SPI Commands
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                //m_send_me[0] = 0xBC; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-
-                //// Print
-                //Console.WriteLine("Line Data B: 0x" + recv_bytes);
-
-                ////// Clear afterwards
-                ////m_send_me[0] = 0x2C; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x2D; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x2E; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x2F; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x30; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x31; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x32; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x33; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x34; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x35; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x36; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x37; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x38; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x39; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x3A; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-                ////m_send_me[0] = 0x3B; m_send_me[1] = 0x00; recv_bytes += m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
-
-
-
-
-
-
-
-                //// Temp readback for checking
-                //// TODO: Delete
-                //System.Threading.Thread.Sleep(50);
-                //fpga_com_port.Close();
-                //PollStatusRegister();
-                //PollModeRegister();
-                //fpga_com_port.Open();
-                //System.Threading.Thread.Sleep(50);
-
-
-
-                //// Increment Row
-                //m_send_me[0] = 0x08;
-                //m_send_me[1] = 0x05;
-                //m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-                //System.Threading.Thread.Sleep(1);
-
-
-
-                // Keep printing for feedback every X percent
-                //run_loading_image_feedback(0.2, i, num_lines_to_write);
 
             }
 
@@ -930,18 +898,17 @@ namespace HoloRelay
 
 
 
+        //////////////////////////////////////
+        //////////// Test Images /////////////
+        //////////////////////////////////////
 
-            //////////////////////////////////////
-            //////////// Test Images /////////////
-            //////////////////////////////////////
-
-            // Helper Function to send 'Horizontal Lines' Test Image
-            // Rationale:
-            //    - A horizontal scan line is formed of 1280 pixels
-            //    - When we used the Test Mode, we set the first 128 pixels. This pattern is then duplicated 10 times for the remaining pixels
-            //    - Here, we are setting the first 64 pixels to be '0' and the following 64 pixels to be '1'.
-            //    - These are then multiplied by 10 times and we see a grating of 10 lines on the screen
-            public void loadHorizontalLinesImage()
+        // Helper Function to send 'Horizontal Lines' Test Image
+        // Rationale:
+        //    - A horizontal scan line is formed of 1280 pixels
+        //    - When we used the Test Mode, we set the first 128 pixels. This pattern is then duplicated 10 times for the remaining pixels
+        //    - Here, we are setting the first 64 pixels to be '0' and the following 64 pixels to be '1'.
+        //    - These are then multiplied by 10 times and we see a grating of 10 lines on the screen
+        public void loadHorizontalLinesImage()
         {
 
             // Iterate through X lines to load data
