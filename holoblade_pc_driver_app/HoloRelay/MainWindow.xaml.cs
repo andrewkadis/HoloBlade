@@ -900,7 +900,7 @@ namespace HoloRelay
             // Code to load image
             SLMImageLoader slm_image_loader = new SLMImageLoader();
             slm_image_loader.EnterTestMode();
-            slm_image_loader.ReadDestBufferData(true);
+            slm_image_loader.ReadDestBufferDataSuperSpeed(true);
         }
 
         private void all_pixels_off_Click(object sender, RoutedEventArgs e)
