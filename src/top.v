@@ -630,9 +630,11 @@ assign debug_led3  = rx_complete;
 // 100000000 / 115200 = 868 Clocks Per Bit.
 //  66000000 / 115200 = 573 Clocks Per Bit.
 //  62500000 / 115200 = 543 Clocks Per Bit.
-// Turbo, 1Mbps baud
-//  62500000 / 1000000 = 62.5 ~ 62
-parameter c_CLKS_PER_BIT    = 62;
+// Turbo, 1.25Mbps or 1.953125Mbps baud to match the SPI Clk and divide exactly
+//  62500000 / 1250000 = 50
+//  62500000 / 1953125 = 32
+//  62500000 / 3125000 = 20
+parameter c_CLKS_PER_BIT    = 20;
 uart_rx #(.CLKS_PER_BIT(c_CLKS_PER_BIT)) pc_rx(
    .i_Clock(fpga_clk),
    .i_Rx_Serial(UART_RX),
@@ -739,7 +741,7 @@ assign multi_byte_spi_trans_flag_w = multi_byte_spi_trans_flag_r;
 // spi_enable_cmd = 1;
 //reg spi_reset    = 0;
 //reg read_start   = 0;
-wire spi_busy;
+// wire spi_busy;
 wire transaction_complete;
 wire[7:0] tx_addr_byte; // Test the WHOAMI register
 //reg[7:0] tx_addr_byte = 8'hF8; // Test the Mode Register
@@ -777,8 +779,8 @@ spi spi0(
   .multi_byte_spi_trans_flag(multi_byte_spi_trans_flag_w),
 	
 	// Status Flags
-	.busy(spi_busy),
-	.byte_recv(), // DODGY, DO NOT USE, NEEDS A RETHINK IN SPI
+	.busy(),
+	.byte_recv(spi_rx_byte_ready), // DODGY, DO NOT USE, NEEDS A RETHINK IN SPI
 
 	// SPI Outputs
 	.MOSI(SDAT),//LEDG[3]),//GPIO[6]),
@@ -813,22 +815,22 @@ wire is_tx_fifo_full_flag;
 reg fifo_write_cmd = 0;
 // We want to put data in the FIFO when we go from an active-to-inactive edge
 // This is implemented via a falling edge detector
-reg spi_busy_falling_edge;
-reg spi_busy_prev = 0;
-always @(posedge fpga_clk) begin
-	if( (spi_busy_prev==1) && (spi_busy==0) )
-		spi_busy_falling_edge = 1;
-	else
-		spi_busy_falling_edge = 0;
-	spi_busy_prev = spi_busy;
-end
+wire spi_rx_byte_ready;
+// reg spi_busy_prev = 0;
+// always @(posedge fpga_clk) begin
+// 	if( (spi_busy_prev==1) && (spi_busy==0) )
+// 		spi_busy_falling_edge = 1;
+// 	else
+// 		spi_busy_falling_edge = 0;
+// 	spi_busy_prev = spi_busy;
+// end
 // Logic to handle writing data
 always @ (posedge fpga_clk) begin
 
   fifo_write_cmd = 0;
   // Write a new word into the FIFO if a SPI transaction has just completed
   // Only write if FIFO is not full
-  if( (spi_busy_falling_edge==1) && (is_tx_fifo_full_flag==0) ) begin
+  if( (spi_rx_byte_ready==1) && (is_tx_fifo_full_flag==0) ) begin
     fifo_write_cmd = 1;
   end
 
