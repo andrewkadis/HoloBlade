@@ -817,6 +817,8 @@ namespace HoloRelay
             // Transfer
             m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
             System.Threading.Thread.Sleep(1);
+            // Close this erial port, we're done with it now
+            m_serial_comms.close_serial_port(fpga_com_port);
 
             // Now, we do something a bit different. Basically the Windows Serial Drivers are terrible and cannot process the data as fast as the FPGA is processing it
             // Hence, we do the following:
@@ -825,19 +827,22 @@ namespace HoloRelay
             //   - Once we have iterated through all rows, we go back and copy across the entire frame data. Note that we need to ignore all the non-frame data such as replies from read_data and incr_row commands
             // Close the Serial Port when we are done
             // We use special 'tx_only' versions of our existing functions to achieve this
+            // Reopen the serial port to facilitate these operations
+            fpga_com_port = m_serial_comms.setup_serial_port();
 
             // Readout X number of lines
-            int num_lines_to_write = 1280;
+            const int NUM_LINES_TO_READ = 1280;
             //int num_lines_to_write = 20; // Temp to just get first 20 lines
             //int num_lines_to_write = 4; // Temp to just get first 4 lines
             //int num_lines_to_write = 128; // Temp to just get first 128 lines
-            for (int i = 0; i < num_lines_to_write; i++)
+            for (int i = 0; i < NUM_LINES_TO_READ; i++)
             {
 
                 // Call the ReadData command to setup the read (pg. 23 of manual)
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x08;
-                m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                //m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+                m_serial_comms.Send_serial_data_tx_only(m_send_me, fpga_com_port);
                 //System.Threading.Thread.Sleep(1);
 
                 //System.Threading.Thread.Sleep(20);
@@ -846,42 +851,90 @@ namespace HoloRelay
 
                 // We will have some extra bytes here in our Serial Port recv buffer here dur to SerialPorts.IO crapiness from the above transaction (and the one from prev loop)
                 // If we dont clean it out, they will messup our readback image data (verified on Saleae, theyre not actually there - it is literally just Windows having shit serial port drivers)
-                fpga_com_port.DiscardInBuffer();
+                //fpga_com_port.DiscardInBuffer();
+                //System.Threading.Thread.Sleep(2);
 
 
 
 
                 // Keep track of data Read
-                string recv_bytes = "";
+                //string recv_bytes = "";
 
                 // Read all the byte in one-line using the multi-poll read
                 // FPGA is hard-programmed to reply with 160 bytes when it receives a '0xBC' byte as the address byte
                 m_send_me[0] = 0xBC;
                 m_send_me[1] = 0x00;
-                recv_bytes += m_serial_comms.Send_serial_data_multi_byte_poll_with_return(m_send_me, fpga_com_port);
+                m_serial_comms.Send_serial_data_tx_only(m_send_me, fpga_com_port);
 
                 // Print
-                Console.WriteLine("Line " + i + ": 0x" + recv_bytes);
+                //Console.WriteLine("Line " + i + ": 0x" + recv_bytes);
+
+                // Custom-Jobby spin-lock sleep (lets us get micro-second resolution at cost of CPU performance)
+                //m_serial_comms.high_resolution_sleep_us(1300);
+                m_serial_comms.high_resolution_sleep_us(650);
+
 
                 // Increment Row
                 m_send_me[0] = 0x08;
                 m_send_me[1] = 0x05;
-                m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+                m_serial_comms.Send_serial_data_tx_only(m_send_me, fpga_com_port);
                 //System.Threading.Thread.Sleep(1);
 
             }
 
-            // TODO: readback for checking
-            // Lower Register
-            m_send_me[0] = 0x8C;
-            m_send_me[1] = 0x00;
-            m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-            System.Threading.Thread.Sleep(1);
-            // Load the value in the Serial_Row_Address register using the SetCurAddr command (from pg. 23 of manual)
-            m_send_me[0] = 0x8D;
-            m_send_me[1] = 0x00;
-            m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-            System.Threading.Thread.Sleep(1);
+            //// TODO: readback for checking
+            //// Lower Register
+            //m_send_me[0] = 0x8C;
+            //m_send_me[1] = 0x00;
+            //m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+            //System.Threading.Thread.Sleep(1);
+            //// Load the value in the Serial_Row_Address register using the SetCurAddr command (from pg. 23 of manual)
+            //m_send_me[0] = 0x8D;
+            //m_send_me[1] = 0x00;
+            //m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+            //System.Threading.Thread.Sleep(1);
+
+            // Clock out our data
+
+            //m_serial_comms.high_resolution_sleep_us(50000);
+            System.Threading.Thread.Sleep(20);
+
+            // Now read out our data from RX
+            // The data in the buffer shall have the following structure. For each individual line:
+            // 1xByte from ReadData Command | 160xBytes of Data from FrameBuffer | 1x Byte from IncrRow Command
+            // We iterate through and pull the FrameBuffer Data out
+            const Int32 NUMBER_BYTES_PER_LINE_FRAME_BUFFER = 160;// 128;// 160 - Shoulbe be 160 but there is a FPGA Code bug atm so only get 128 bytes
+            const Int32 NUMBER_BYTES_PER_LINE_RX_BUFFER = 1 + NUMBER_BYTES_PER_LINE_FRAME_BUFFER + 1;
+            const Int32 NUMBER_BYTES_RX_BUFFER = NUMBER_BYTES_PER_LINE_RX_BUFFER * NUM_LINES_TO_READ;
+            // Now read all of the data out of our serial port directly
+            byte[] rx_buf = new byte[NUMBER_BYTES_RX_BUFFER];
+            int num_bytes_read = 0;
+            num_bytes_read = fpga_com_port.Read(rx_buf, 0, NUMBER_BYTES_RX_BUFFER);
+            // Iterate through, printing the parts of the buffer we actually care about
+            Int32 curr_addr_in_rx_buf = 0;
+            byte[] line_of_frame_data = new byte[NUMBER_BYTES_PER_LINE_FRAME_BUFFER];
+            for (int i = 0; i < NUM_LINES_TO_READ; i++)
+            {
+                // Update where we are up to
+                curr_addr_in_rx_buf = i * NUMBER_BYTES_PER_LINE_RX_BUFFER;
+                // Care about the middle 160 bytes
+                int src_offset = curr_addr_in_rx_buf + 1;
+                int dst_offset = 0;
+                Array.Copy(rx_buf, src_offset, line_of_frame_data, dst_offset, NUMBER_BYTES_PER_LINE_FRAME_BUFFER);
+                // Convert to a nicely formatted string and print it for now
+                string rx_string = BitConverter.ToString(line_of_frame_data).Replace("-", string.Empty);
+                Console.WriteLine("Line " + i + ": 0x" + rx_string);
+            }
+
+
+            // If received no bytes than simply return a null string
+            // Trim rx buffer to be only what we read
+                //byte[] rx_bytes = new byte[num_bytes_read];
+                //Array.Copy(rx_buf, rx_bytes, num_bytes_read);
+                //// Convert to a nicely formatted string and return
+                //string rx_string = BitConverter.ToString(rx_bytes);
+                //rx_string = rx_string.Replace("-", "");
+
 
             // Close the Serial port we opened
             fpga_com_port.Close();
@@ -890,8 +943,6 @@ namespace HoloRelay
             Console.WriteLine("... Buffer Read Complete");
 
         }
-
-
 
 
 
