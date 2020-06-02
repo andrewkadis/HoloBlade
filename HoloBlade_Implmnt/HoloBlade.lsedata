@@ -1,8 +1,8 @@
 <top name = "top"  library = "work"  arch = ""  entry = "Verilog">
 
 <clocks>
-    <clockitem name = "SLM_CLK"  type = "net" />
     <clockitem name = "FIFO_CLK"  type = "port" />
+    <clockitem name = "SLM_CLK"  type = "net" />
 </clocks>
 
 <!--
@@ -792,7 +792,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "start_tx_N_67"  />
+        <nitem  name = "start_tx_N_64"  />
         <nitem  name = "SLM_CLK"  />
         <nitem  name = "n280"  />
         <nitem  name = "fifo_read_cmd"  />
@@ -871,7 +871,7 @@
         <nets>
         <nitem  name = "n280"  />
         <nitem  name = "is_fifo_empty_flag"  />
-        <nitem  name = "start_tx_N_68"  />
+        <nitem  name = "start_tx_N_65"  />
         </nets>
     </instance>
 
@@ -947,11 +947,11 @@
         <nets>
         <nitem  name = "n280"  />
         <nitem  name = "tx_uart_active_flag"  />
-        <nitem  name = "start_tx_N_69"  />
+        <nitem  name = "start_tx_N_66"  />
         </nets>
     </instance>
 
-    <instance  name = "start_tx_I_2"  library = "work"  arch = ""  type = "comb">
+    <instance  name = "start_tx_I_1"  library = "work"  arch = ""  type = "comb">
         <pins>
         <pitem  name = "a0"  direction = "in"  />
         <pitem  name = "a1"  direction = "in"  />
@@ -959,9 +959,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "start_tx_N_68"  />
-        <nitem  name = "start_tx_N_69"  />
-        <nitem  name = "start_tx_N_67"  />
+        <nitem  name = "start_tx_N_65"  />
+        <nitem  name = "start_tx_N_66"  />
+        <nitem  name = "start_tx_N_64"  />
         </nets>
     </instance>
 
@@ -1038,7 +1038,7 @@
         <nitem  name = "n280"  />
         <nitem  name = "fifo_read_cmd"  />
         <nitem  name = "pwr"  />
-        <nitem  name = "start_tx_N_66"  />
+        <nitem  name = "start_tx_N_63"  />
         </nets>
     </instance>
 
@@ -1051,10 +1051,10 @@
         </pins>
 
         <nets>
-        <nitem  name = "start_tx_N_66"  />
+        <nitem  name = "start_tx_N_63"  />
         <nitem  name = "start_tx"  />
-        <nitem  name = "start_tx_N_67"  />
-        <nitem  name = "start_tx_N_65"  />
+        <nitem  name = "start_tx_N_64"  />
+        <nitem  name = "start_tx_N_62"  />
         </nets>
     </instance>
 
@@ -1068,7 +1068,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "start_tx_N_65"  />
+        <nitem  name = "start_tx_N_62"  />
         <nitem  name = "SLM_CLK"  />
         <nitem  name = "n280"  />
         <nitem  name = "start_tx"  />
@@ -1615,10 +1615,10 @@
         </pins>
 
         <nets>
-        <nitem  name = "DEBUG_8_N_62"  />
+        <nitem  name = "spi_start_transfer_r_N_67"  />
         <nitem  name = "SLM_CLK"  />
         <nitem  name = "n280"  />
-        <nitem  name = "DEBUG_8"  />
+        <nitem  name = "spi_start_transfer_r"  />
         </nets>
     </instance>
 
@@ -1712,11 +1712,11 @@
         <nitem  name = "n280"  />
         <nitem  name = "even_byte_flag"  />
         <nitem  name = "pwr"  />
-        <nitem  name = "DEBUG_8_N_64[0]"  />
+        <nitem  name = "spi_start_transfer_r_N_69[0]"  />
         </nets>
     </instance>
 
-    <instance  name = "DEBUG_8_I_1"  library = "work"  arch = ""  type = "comb">
+    <instance  name = "spi_start_transfer_r_I_2"  library = "work"  arch = ""  type = "comb">
         <pins>
         <pitem  name = "a[31]"  direction = "in"  />
         <pitem  name = "a[30]"  direction = "in"  />
@@ -1787,8 +1787,8 @@
 
         <nets>
         <nitem  name = "n280"  />
-        <nitem  name = "DEBUG_8_N_64[0]"  />
-        <nitem  name = "DEBUG_8_N_63"  />
+        <nitem  name = "spi_start_transfer_r_N_69[0]"  />
+        <nitem  name = "spi_start_transfer_r_N_68"  />
         </nets>
     </instance>
 
@@ -1839,7 +1839,7 @@
         <nets>
         <nitem  name = "n280"  />
         <nitem  name = "multi_byte_spi_trans_flag_r_N_72"  />
-        <nitem  name = "DEBUG_8_N_63"  />
+        <nitem  name = "spi_start_transfer_r_N_68"  />
         <nitem  name = "multi_byte_spi_trans_flag_r_N_71"  />
         </nets>
     </instance>
@@ -1970,7 +1970,7 @@
 
         <nets>
         <nitem  name = "even_byte_flag"  />
-        <nitem  name = "DEBUG_8_N_64[0]"  />
+        <nitem  name = "spi_start_transfer_r_N_69[0]"  />
         <nitem  name = "tx_addr_byte_7__N_58"  />
         <nitem  name = "even_byte_flag_N_76"  />
         </nets>
@@ -1992,7 +1992,7 @@
         </nets>
     </instance>
 
-    <instance  name = "DEBUG_8_I_0"  library = "work"  arch = ""  type = "comb">
+    <instance  name = "spi_start_transfer_r_I_0"  library = "work"  arch = ""  type = "comb">
         <pins>
         <pitem  name = "a0"  direction = "in"  />
         <pitem  name = "a1"  direction = "in"  />
@@ -2002,9 +2002,9 @@
 
         <nets>
         <nitem  name = "n280"  />
-        <nitem  name = "DEBUG_8_N_63"  />
+        <nitem  name = "spi_start_transfer_r_N_68"  />
         <nitem  name = "tx_addr_byte_7__N_58"  />
-        <nitem  name = "DEBUG_8_N_62"  />
+        <nitem  name = "spi_start_transfer_r_N_67"  />
         </nets>
     </instance>
 
@@ -3658,7 +3658,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "line_of_data_available"  />
         <nitem  name = "bluejay_data_inst/state[2]"  />
@@ -3717,7 +3717,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/h_counter[7]"  />
         <nitem  name = "bluejay_data_inst/h_counter[6]"  />
@@ -3808,7 +3808,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/h_counter[7]"  />
         <nitem  name = "bluejay_data_inst/h_counter[6]"  />
@@ -3837,7 +3837,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/valid_o_N_495"  />
         <nitem  name = "bluejay_data_inst/n20"  />
@@ -3888,7 +3888,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/n10"  />
         <nitem  name = "bluejay_data_inst/n11"  />
         <nitem  name = "bluejay_data_inst/n12"  />
@@ -3918,7 +3918,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/data_output_active_cmd"  />
         <nitem  name = "bluejay_data_inst/valid_o_N_495"  />
         <nitem  name = "bluejay_data_inst/data_output_active_cmd_N_504"  />
@@ -3955,7 +3955,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter[7]"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter[6]"  />
@@ -4008,7 +4008,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter[7]"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter[6]"  />
@@ -4099,7 +4099,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter[7]"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter[6]"  />
@@ -4153,7 +4153,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/v_counter[10]"  />
         <nitem  name = "bluejay_data_inst/v_counter[9]"  />
@@ -4250,7 +4250,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/v_counter[10]"  />
         <nitem  name = "bluejay_data_inst/v_counter[9]"  />
@@ -4269,17 +4269,17 @@
 
     <instance  name = "bluejay_data_inst/mux_18"  library = "work"  arch = ""  type = "comb">
         <pins>
+        <pitem  name = "d1[10]"  direction = "in"  />
         <pitem  name = "d1[9]"  direction = "in"  />
+        <pitem  name = "d1[8]"  direction = "in"  />
         <pitem  name = "d1[7]"  direction = "in"  />
-        <pitem  name = "d1[6]"  direction = "in"  />
-        <pitem  name = "d1[5]"  direction = "in"  />
         <pitem  name = "d1[4]"  direction = "in"  />
         <pitem  name = "d1[3]"  direction = "in"  />
-        <pitem  name = "d1[2]"  direction = "in"  />
         <pitem  name = "d1[1]"  direction = "in"  />
         <pitem  name = "d1[0]"  direction = "in"  />
-        <pitem  name = "d1[10]"  direction = "in"  />
-        <pitem  name = "d1[8]"  direction = "in"  />
+        <pitem  name = "d1[6]"  direction = "in"  />
+        <pitem  name = "d1[5]"  direction = "in"  />
+        <pitem  name = "d1[2]"  direction = "in"  />
         <pitem  name = "d0[10]"  direction = "in"  />
         <pitem  name = "d0[9]"  direction = "in"  />
         <pitem  name = "d0[8]"  direction = "in"  />
@@ -4306,7 +4306,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/n57"  />
         <nitem  name = "bluejay_data_inst/n58"  />
@@ -4349,7 +4349,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/n68"  />
         <nitem  name = "bluejay_data_inst/n82"  />
@@ -4388,7 +4388,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/n68"  />
         <nitem  name = "bluejay_data_inst/n86"  />
@@ -4594,7 +4594,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/n46"  />
         <nitem  name = "bluejay_data_inst/n47"  />
@@ -4631,7 +4631,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/state[2]"  />
         <nitem  name = "bluejay_data_inst/state[1]"  />
@@ -4673,7 +4673,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/n46"  />
         <nitem  name = "bluejay_data_inst/n47"  />
         <nitem  name = "bluejay_data_inst/n48"  />
@@ -4709,7 +4709,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/state[2]"  />
         <nitem  name = "bluejay_data_inst/state[1]"  />
         <nitem  name = "bluejay_data_inst/state[0]"  />
@@ -4732,7 +4732,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/state[2]"  />
         <nitem  name = "bluejay_data_inst/state[1]"  />
@@ -4753,7 +4753,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/state[2]"  />
         <nitem  name = "bluejay_data_inst/state[1]"  />
@@ -4774,7 +4774,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/state[2]"  />
         <nitem  name = "bluejay_data_inst/state[1]"  />
@@ -5057,7 +5057,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/state[2]"  />
         <nitem  name = "bluejay_data_inst/state[1]"  />
         <nitem  name = "bluejay_data_inst/state[0]"  />
@@ -5077,7 +5077,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/state[2]"  />
         <nitem  name = "bluejay_data_inst/state[1]"  />
@@ -5098,7 +5098,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/state[2]"  />
         <nitem  name = "bluejay_data_inst/state[1]"  />
@@ -5147,7 +5147,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/n4"  />
         <nitem  name = "bluejay_data_inst/n5"  />
@@ -5253,7 +5253,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "bluejay_data_inst/h_counter[7]"  />
         <nitem  name = "bluejay_data_inst/h_counter[6]"  />
@@ -5313,7 +5313,7 @@
 
         <nets>
         <nitem  name = "bluejay_data_inst/pwr"  />
-        <nitem  name = "bluejay_data_inst/valid_o"  />
+        <nitem  name = "VALID"  />
         <nitem  name = "bluejay_data_inst/valid_o_N_494"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_448"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_449"  />
@@ -5545,7 +5545,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/update_o_N_498"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter_7__N_450"  />
         <nitem  name = "bluejay_data_inst/update_o_N_497"  />
@@ -5561,7 +5561,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "reset_all"  />
         <nitem  name = "bluejay_data_inst/data_output_active_cmd_N_503"  />
         <nitem  name = "bluejay_data_inst/data_output_active_cmd_N_502"  />
@@ -5577,7 +5577,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "reset_all"  />
         <nitem  name = "bluejay_data_inst/valid_o_N_492"  />
         <nitem  name = "bluejay_data_inst/valid_o_N_491"  />
@@ -5593,7 +5593,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "reset_all"  />
         <nitem  name = "bluejay_data_inst/update_o_N_497"  />
         <nitem  name = "bluejay_data_inst/update_o_N_496"  />
@@ -5630,7 +5630,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "reset_all"  />
         <nitem  name = "bluejay_data_inst/h_counter_7__N_467[7]"  />
         <nitem  name = "bluejay_data_inst/h_counter_7__N_467[6]"  />
@@ -5653,17 +5653,17 @@
 
     <instance  name = "bluejay_data_inst/v_counter_10__I_0"  library = "work"  arch = ""  type = "comb">
         <pins>
+        <pitem  name = "d1[10]"  direction = "in"  />
         <pitem  name = "d1[9]"  direction = "in"  />
+        <pitem  name = "d1[8]"  direction = "in"  />
         <pitem  name = "d1[7]"  direction = "in"  />
-        <pitem  name = "d1[6]"  direction = "in"  />
-        <pitem  name = "d1[5]"  direction = "in"  />
         <pitem  name = "d1[4]"  direction = "in"  />
         <pitem  name = "d1[3]"  direction = "in"  />
-        <pitem  name = "d1[2]"  direction = "in"  />
         <pitem  name = "d1[1]"  direction = "in"  />
         <pitem  name = "d1[0]"  direction = "in"  />
-        <pitem  name = "d1[10]"  direction = "in"  />
-        <pitem  name = "d1[8]"  direction = "in"  />
+        <pitem  name = "d1[6]"  direction = "in"  />
+        <pitem  name = "d1[5]"  direction = "in"  />
+        <pitem  name = "d1[2]"  direction = "in"  />
         <pitem  name = "cond"  direction = "in"  />
         <pitem  name = "d0[10]"  direction = "in"  />
         <pitem  name = "d0[9]"  direction = "in"  />
@@ -5690,7 +5690,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "bluejay_data_inst/pwr"  />
         <nitem  name = "reset_all"  />
         <nitem  name = "bluejay_data_inst/v_counter_10__N_475[10]"  />
@@ -5733,7 +5733,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "reset_all"  />
         <nitem  name = "bluejay_data_inst/state_2__N_486[2]"  />
         <nitem  name = "bluejay_data_inst/state_2__N_486[1]"  />
@@ -5754,9 +5754,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "SLM_CLK"  />
-        <nitem  name = "bluejay_data_inst/valid_o"  />
+        <nitem  name = "VALID"  />
         <nitem  name = "bluejay_data_inst/valid_o_N_491"  />
         </nets>
     </instance>
@@ -5771,9 +5771,9 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "SLM_CLK"  />
-        <nitem  name = "bluejay_data_inst/update_o"  />
+        <nitem  name = "UPDATE"  />
         <nitem  name = "bluejay_data_inst/update_o_N_496"  />
         </nets>
     </instance>
@@ -5796,7 +5796,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "SLM_CLK"  />
         <nitem  name = "bluejay_data_inst/state[2]"  />
         <nitem  name = "bluejay_data_inst/state[1]"  />
@@ -5817,7 +5817,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "SLM_CLK"  />
         <nitem  name = "bluejay_data_inst/get_next_word_cmd"  />
         <nitem  name = "bluejay_data_inst/get_next_word_cmd_N_499"  />
@@ -5862,7 +5862,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "SLM_CLK"  />
         <nitem  name = "bluejay_data_inst/h_counter[7]"  />
         <nitem  name = "bluejay_data_inst/h_counter[6]"  />
@@ -5893,7 +5893,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "SLM_CLK"  />
         <nitem  name = "bluejay_data_inst/data_output_active_cmd"  />
         <nitem  name = "bluejay_data_inst/data_output_active_cmd_N_502"  />
@@ -5938,7 +5938,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "SLM_CLK"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter[7]"  />
         <nitem  name = "bluejay_data_inst/state_timeout_counter[6]"  />
@@ -6009,7 +6009,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "SLM_CLK"  />
         <nitem  name = "bluejay_data_inst/v_counter[10]"  />
         <nitem  name = "bluejay_data_inst/v_counter[9]"  />
@@ -6164,7 +6164,7 @@
         </pins>
 
         <nets>
-        <nitem  name = "bluejay_data_inst/gnd"  />
+        <nitem  name = "SYNC"  />
         <nitem  name = "fifo_data_out[31]"  />
         <nitem  name = "fifo_data_out[30]"  />
         <nitem  name = "fifo_data_out[29]"  />
@@ -9156,7 +9156,7 @@
 
         <nets>
         <nitem  name = "pwr"  />
-        <nitem  name = "DEBUG_8"  />
+        <nitem  name = "spi_start_transfer_r"  />
         <nitem  name = "spi0/n5"  />
         </nets>
     </instance>

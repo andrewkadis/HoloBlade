@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 16:52:36
 
-* File Generated:     Jun 1 2020 19:52:51
+* File Generated:     Jun 2 2020 02:24:24
 
 * Purpose:            Detailed IO and package pin info
 
@@ -93,7 +93,7 @@ Pin Number, Pin Type Name, Signal Name, Direction, Global Buffer, IO Standard, P
 77, TRST_B, not used, , , , , , rightBank
 78, PIO, RST, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
 79, PIO, UART_TX, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
-80, PIO, UART_RX, Input, , SB_LVCMOS, No Pull Up, Simple Input, rightBank
+80, PIO, UART_RX, Input, , SB_LVCMOS, No Pull Up, Input Registered, rightBank
 81, PIO, DEBUG_5, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
 82, PIO, DEBUG_6, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
 83, PIO, DEBUG_0, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
@@ -151,10 +151,10 @@ Pin Number, Pin Type Name, Signal Name, Direction, Global Buffer, IO Standard, P
 136, PIO, DATA30, Output, , SB_LVCMOS, No Pull Up, Simple Output, topBank
 137, PIO, DATA31, Output, , SB_LVCMOS, No Pull Up, Simple Output, topBank
 138, PIO, DATA0, Output, , SB_LVCMOS, No Pull Up, Simple Output, topBank
-139, PIO, SOUT, Input, , SB_LVCMOS, No Pull Up, Simple Input, topBank
+139, PIO, SOUT, Input, , SB_LVCMOS, No Pull Up, Input Registered, topBank
 140, GND, not used, , , , , , UnknownBank
-141, PIO, SEN, Output, , SB_LVCMOS, No Pull Up, Simple Output, topBank
+141, PIO, SEN, Output, , SB_LVCMOS, No Pull Up, Output Registered, topBank
 142, PIO, RESET, Output, , SB_LVCMOS, No Pull Up, Simple Output, topBank
-143, PIO, SDAT, Output, , SB_LVCMOS, No Pull Up, Simple Output, topBank
-144, PIO, SCK, Output, , SB_LVCMOS, No Pull Up, Simple Output, topBank
+143, PIO, SDAT, Output, , SB_LVCMOS, No Pull Up, Output Registered, topBank
+144, PIO, SCK, Output, , SB_LVCMOS, No Pull Up, Output Registered, topBank
 Total Number of Used Pins, 84

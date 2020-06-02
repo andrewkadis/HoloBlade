@@ -298,8 +298,8 @@ assign SLM_CLK = fpga_clk;
 // Following lines are not used
 // All of these input lines have pull up/downs on them, so simply tri-state
 // assign UPDATE = 1'bx;
-// assign INVERT = 1'bx;
-// assign SYNC   = 1'bx;
+// assign INVERT = 0'bx;
+// assign SYNC   = 0'bx;
 // assign VALID  = 1'bx;
 // Data Lines
 // assign DATA31 = 1'b1;
@@ -372,24 +372,24 @@ assign SLM_CLK = fpga_clk;
 
 // // Debug setup - doesnt work
 wire fsm_change; 
-assign DEBUG_7 = spi_start_transfer_r;//fsm_change;//fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-// assign DEBUG_1 = FR_RXF;//line_of_data_available;
-// assign DEBUG_2 = rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-// assign DEBUG_3 = bluejay_data_out[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-// assign DEBUG_4 = valid_o;//usb3_fifo_read_enable;
-// assign DEBUG_5 = line_of_data_available;//SEN;
-// assign DEBUG_6 = update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_1 = FR_RXF;//line_of_data_available;
+assign DEBUG_2 = UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = SYNC;//UART_RX;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = VALID;//usb3_fifo_read_enable;
+assign DEBUG_5 = DATA0;//SEN;
+assign DEBUG_7 = UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_6 = SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 
 
-// // Needed to work
-assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
-// assign DEBUG_7 = FR_RXF;//fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_1 = UART_RX;//FR_RXF;//line_of_data_available;
-assign DEBUG_2 = SEN;//rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = UART_TX;//spi_start_transfer_r;//UART_TX;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = SCK;//valid_o;//usb3_fifo_read_enable;
-assign DEBUG_6 = SOUT;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+// // // Needed to work
+// assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
+// // assign DEBUG_7 = FR_RXF;//fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+// assign DEBUG_1 = UART_RX;//FR_RXF;//line_of_data_available;
+// assign DEBUG_2 = SEN;//rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+// assign DEBUG_3 = UART_TX;//spi_start_transfer_r;//UART_TX;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+// assign DEBUG_4 = SCK;//valid_o;//usb3_fifo_read_enable;
+// assign DEBUG_6 = SOUT;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 
   // .empty_o(fifo_empty),
@@ -557,9 +557,9 @@ assign DATA1  = bluejay_data_out[1];
 assign DATA0  = bluejay_data_out[0];
 // Signals for Bluejay Data Module
 // SLM-Side
-wire       sync_o;
-wire       valid_o;
-wire       update_o;
+// wire       sync_o;
+// wire       valid_o;
+// wire       update_o;
 wire       invert_o;
 // Inst our Bluejay Data Interface
 bluejay_data bluejay_data_inst(
@@ -574,9 +574,9 @@ bluejay_data bluejay_data_inst(
   .get_next_word(get_next_word),
   // SLM-side
   .data_o(bluejay_data_out),
-  .sync_o(sync_o),
-  .valid_o(valid_o),
-  .update_o(update_o),
+  .sync_o(SYNC),
+  .valid_o(VALID),
+  .update_o(UPDATE),
   .invert_o(invert_o)
 );
 

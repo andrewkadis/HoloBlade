@@ -3,7 +3,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2015 Lattice Semiconductor Corporation,  All rights reserved.
-Mon Jun 01 19:51:37 2020
+Tue Jun 02 02:23:08 2020
 
 
 Command Line:  D:\ProgramFiles\Lattice\LSE\bin\nt\synthesis.exe -f HoloBlade_lse.prj 
@@ -90,7 +90,6 @@ WARNING - synthesis: src/top.v(818): spi_rx_byte_ready is already implicitly dec
 WARNING - synthesis: src/top.v(846): pc_data_tx is already implicitly declared earlier. VERI-1362
 WARNING - synthesis: src/top.v(202): identifier fpga_clk is used before its declaration. VERI-1875
 WARNING - synthesis: src/top.v(242): identifier reset_countdown is used before its declaration. VERI-1875
-WARNING - synthesis: src/top.v(375): identifier spi_start_transfer_r is used before its declaration. VERI-1875
 Analyzing Verilog file src/clock.v. VERI-1482
 Analyzing Verilog file src/uart_rx.v. VERI-1482
 WARNING - synthesis: src/uart_rx.v(23): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
@@ -182,10 +181,7 @@ WARNING - synthesis: src/top.v(563): net invert_o does not have a driver. VDB-10
 WARNING - synthesis: src/top.v(796): input port i_reset is not connected on this instance. VDB-1013
 WARNING - synthesis: src/clock.v(59): input port EXTFEEDBACK is not connected on this instance. VDB-1013
 WARNING - synthesis: src/spi.v(49): net \spi0/i_reset does not have a driver. VDB-1002
-######## Missing driver on net UPDATE. Patching with GND.
 ######## Missing driver on net INVERT. Patching with GND.
-######## Missing driver on net SYNC. Patching with GND.
-######## Missing driver on net VALID. Patching with GND.
 ######## Missing driver on net usb3_data_in[31]. Patching with GND.
 ######## Missing driver on net usb3_data_in[30]. Patching with GND.
 ######## Missing driver on net usb3_data_in[29]. Patching with GND.
@@ -206,12 +202,12 @@ WARNING - synthesis: src/spi.v(49): net \spi0/i_reset does not have a driver. VD
 
 
 
-WARNING - synthesis: src/fifo_dc_32_lut_gen.v(876): Register \i893/i212_213 is stuck at Zero. VDB-5013
-WARNING - synthesis: src/fifo_quad_word_mod.v(448): Register \i894/i62_63 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/fifo_dc_32_lut_gen.v(876): Register \i908/i218_219 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/fifo_quad_word_mod.v(448): Register \i909/i62_63 is stuck at Zero. VDB-5013
 WARNING - synthesis: Bit 0 of Register \tx_fifo/lscc_fifo_inst/mem_LUT.data_raw_r_ is stuck at Zero
 WARNING - synthesis: Bit 0 of Register \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/REG.out_raw_ is stuck at Zero
 WARNING - synthesis: src/fifo_dc_32_lut_gen.v(931): Register \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/REG.out_buffer__i31 is stuck at Zero. VDB-5013
-Duplicate register/latch removal. \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r__i6 is a one-to-one match with \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_grey_sync_r__i6.
+Duplicate register/latch removal. \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_grey_sync_r__i6 is a one-to-one match with \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r__i6.
 Duplicate register/latch removal. \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r__i6 is a one-to-one match with \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_grey_sync_r__i6.
 Applying 1.000000 MHz constraint to all clocks
 
@@ -220,19 +216,19 @@ Writing scf file : HoloBlade_Implmnt/HoloBlade.scf
 Results of NGD DRC are available in top_drc.log.
 
 ################### Begin Area Report (top)######################
-Number of register bits => 1473 of 3520 (41 % )
+Number of register bits => 1475 of 3520 (41 % )
 SB_CARRY => 131
-SB_DFF => 1259
-SB_DFFE => 96
+SB_DFF => 1258
+SB_DFFE => 97
 SB_DFFESR => 64
 SB_DFFESS => 3
 SB_DFFNE => 2
-SB_DFFSR => 37
-SB_DFFSS => 12
+SB_DFFSR => 38
+SB_DFFSS => 13
 SB_GB => 1
 SB_GB_IO => 1
 SB_IO => 83
-SB_LUT4 => 2612
+SB_LUT4 => 2627
 SB_PLL40_CORE => 1
 ################### End Area Report ##################
 
@@ -240,18 +236,18 @@ SB_PLL40_CORE => 1
 Clock Nets
 Number of Clocks: 2
   Net : FIFO_CLK_c, loads : 1118
-  Net : SLM_CLK_c, loads : 356
+  Net : DEBUG_6_c, loads : 359
 Clock Enable Nets
 Number of Clock Enables: 0
 Top 0 highest fanout Clock Enables:
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r_5, loads : 772
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_1, loads : 422
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_0, loads : 362
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_2, loads : 154
-  Net : timing_controller_inst/reset_all, loads : 96
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_3, loads : 91
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r_5, loads : 804
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_1, loads : 425
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_0, loads : 360
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_2, loads : 153
+  Net : timing_controller_inst/reset_all, loads : 98
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_3, loads : 90
   Net : FIFO_D16_c_16, loads : 64
   Net : FIFO_D15_c_15, loads : 64
   Net : FIFO_D14_c_14, loads : 64
@@ -265,10 +261,10 @@ Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
-clk1 [get_nets FIFO_CLK_c]              |    1.000 MHz|   46.198 MHz|     6  
+clk1 [get_nets FIFO_CLK_c]              |    1.000 MHz|   46.091 MHz|     6  
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
-clk0 [get_nets SLM_CLK_c]               |    1.000 MHz|   19.352 MHz|    33  
+clk0 [get_nets DEBUG_6_c]               |    1.000 MHz|   19.352 MHz|    33  
                                         |             |             |
 --------------------------------------------------------------------------------
 
@@ -276,8 +272,8 @@ clk0 [get_nets SLM_CLK_c]               |    1.000 MHz|   19.352 MHz|    33
 All constraints were met.
 
 
-Peak Memory Usage: 55.953  MB
+Peak Memory Usage: 55.945  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 3.016  secs
+Elapsed CPU time for LSE flow : 3.000  secs
 --------------------------------------------------------------

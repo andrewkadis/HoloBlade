@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 16:52:36
 
-* File Generated:     Jun 1 2020 19:52:52
+* File Generated:     Jun 2 2020 02:24:26
 
 * Purpose:            General info of design implementation
 
@@ -27,8 +27,8 @@ Device Info:
 
 Design statistics:
 ------------------
-    FFs:                  1473
-    LUTs:                 2619
+    FFs:                  1470
+    LUTs:                 2633
     RAMs:                 0
     IOBs:                 84
     GBs:                  2
@@ -37,13 +37,13 @@ Design statistics:
 
 Logic Resource Utilization:
 ---------------------------
-    Total Logic Cells: 2621/3520
-        Combinational Logic Cells: 1148     out of   3520      32.6136%
-        Sequential Logic Cells:    1473     out of   3520      41.8466%
-        Logic Tiles:               362      out of   440       82.2727%
+    Total Logic Cells: 2635/3520
+        Combinational Logic Cells: 1165     out of   3520      33.0966%
+        Sequential Logic Cells:    1470     out of   3520      41.7614%
+        Logic Tiles:               377      out of   440       85.6818%
     Registers: 
-        Logic Registers:           1473     out of   3520      41.8466%
-        IO Registers:              0        out of   880       0
+        Logic Registers:           1470     out of   3520      41.7614%
+        IO Registers:              5        out of   880       0.568182
     Block RAMs:                    0        out of   20        0%
     Warm Boots:                    0        out of   1         0%
     Pins:
@@ -84,9 +84,9 @@ Detailed I/O Info:
     60          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D2     
     61          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D1     
     62          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D0     
-    80          Input      SB_LVCMOS    No       1        Simple Input                  UART_RX     
+    80          Input      SB_LVCMOS    No       1        Input Registered              UART_RX     
     93          Input      SB_LVCMOS    No       1        Simple Input                  ICE_SYSCLK  
-    139         Input      SB_LVCMOS    No       0        Simple Input                  SOUT        
+    139         Input      SB_LVCMOS    No       0        Input Registered              SOUT        
 
     Output Pins: 
     Pin Number  Direction  IO Standard  Pull Up  IO Bank  IO Function                   Signal Name 
@@ -149,30 +149,30 @@ Detailed I/O Info:
     136         Output     SB_LVCMOS    No       0        Simple Output                 DATA30      
     137         Output     SB_LVCMOS    No       0        Simple Output                 DATA31      
     138         Output     SB_LVCMOS    No       0        Simple Output                 DATA0       
-    141         Output     SB_LVCMOS    No       0        Simple Output                 SEN         
+    141         Output     SB_LVCMOS    No       0        Output Registered             SEN         
     142         Output     SB_LVCMOS    No       0        Simple Output                 RESET       
-    143         Output     SB_LVCMOS    No       0        Simple Output                 SDAT        
-    144         Output     SB_LVCMOS    No       0        Simple Output                 SCK         
+    143         Output     SB_LVCMOS    No       0        Output Registered             SDAT        
+    144         Output     SB_LVCMOS    No       0        Output Registered             SCK         
 
 Detailed Global Buffer Info:
 ----------------------------
     Buffer Number  IO Bank  Driven By  Fanout  Signal Name 
     -------------  -------  ---------  ------  ----------- 
     1              3        IO         1117    FIFO_CLK_c  
-    3              3                   356     SLM_CLK_c   
+    3              3                   358     DEBUG_6_c   
 
 
 Router Summary:
 ---------------
     Status:  Successful
-    Runtime: 26 seconds
+    Runtime: 27 seconds
 
 Routing Resource Utilization:
 -----------------------------
-              Local line of tile    20152 out of 146184      13.7854%
-                          Span 4     4284 out of  29696      14.4262%
-                         Span 12      670 out of   5632      11.8963%
+              Local line of tile    20516 out of 146184      14.0344%
+                          Span 4     4609 out of  29696      15.5206%
+                         Span 12      771 out of   5632      13.6896%
                   Global network        3 out of      8      37.5%
-      Vertical Inter-LUT Connect      353 out of   6720      5.25298%
+      Vertical Inter-LUT Connect      354 out of   6720      5.26786%
 
 
