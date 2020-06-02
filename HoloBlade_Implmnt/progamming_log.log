@@ -14,7 +14,7 @@ Frequency setting= 15000000 Hz
 Check configuration setup: Start.
 Check configuration setup: Successful (Ignored JTAG Connection Checking).
 Device1 iCE40HX4K: Fast Program
-Execution time: 00 min : 01 sec
+Execution time: 00 min : 02 sec
 Operation Done. No errors.
 Elapsed time: 00 min : 02 sec
 Operation: successful.

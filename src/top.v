@@ -298,8 +298,8 @@ assign SLM_CLK = fpga_clk;
 // Following lines are not used
 // All of these input lines have pull up/downs on them, so simply tri-state
 // assign UPDATE = 1'bx;
-// assign INVERT = 0'bx;
-// assign SYNC   = 0'bx;
+assign INVERT = 0'bx;
+assign SYNC   = 0'bx;
 // assign VALID  = 1'bx;
 // Data Lines
 // assign DATA31 = 1'b1;
@@ -374,7 +374,7 @@ assign SLM_CLK = fpga_clk;
 wire fsm_change; 
 assign DEBUG_1 = FR_RXF;//line_of_data_available;
 assign DEBUG_2 = UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = SYNC;//UART_RX;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_3 = SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = VALID;//usb3_fifo_read_enable;
 assign DEBUG_5 = DATA0;//SEN;
 assign DEBUG_7 = UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
@@ -557,7 +557,7 @@ assign DATA1  = bluejay_data_out[1];
 assign DATA0  = bluejay_data_out[0];
 // Signals for Bluejay Data Module
 // SLM-Side
-// wire       sync_o;
+wire       sync_o;
 // wire       valid_o;
 // wire       update_o;
 wire       invert_o;
@@ -574,11 +574,14 @@ bluejay_data bluejay_data_inst(
   .get_next_word(get_next_word),
   // SLM-side
   .data_o(bluejay_data_out),
-  .sync_o(SYNC),
+  .sync_o(sync_o),
   .valid_o(VALID),
   .update_o(UPDATE),
   .invert_o(invert_o)
 );
+// Buffer VALID and OUTPUT before outputting to SLM so they don't sag
+// SB_GB update_gb ( .USER_SIGNAL_TO_GLOBAL_BUFFER(update_o), .GLOBAL_BUFFER_OUTPUT(UPDATE) );
+// SB_GB valid_gb  ( .USER_SIGNAL_TO_GLOBAL_BUFFER(valid_o),  .GLOBAL_BUFFER_OUTPUT(VALID)  );
 
 
 
