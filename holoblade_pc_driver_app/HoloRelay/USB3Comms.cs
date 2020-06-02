@@ -226,7 +226,7 @@ namespace HoloRelay
 
             //uint lines_per_frame = 1280;
             // Just use 50 lines for now (less than 8kb, 1 buffer, until get to the bottom of the USB FIFO issue)
-            uint lines_per_frame = 1280;// 1304;// 66;// 1304;// 1280;
+            uint lines_per_frame = 256+2+3;// 1280;// 1304;// 66;// 1304;// 1280;
             uint bytes_per_line = words_per_line * 4;
             uint total_bytes_per_frame = lines_per_frame * bytes_per_line;
             byte[] Frame1 = new byte[total_bytes_per_frame];

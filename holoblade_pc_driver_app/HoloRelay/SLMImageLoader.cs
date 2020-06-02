@@ -52,7 +52,7 @@ namespace HoloRelay
             m_send_me[0] = 0x09;
             //m_send_me[1] = 0x64; // 100 MHz
             //m_send_me[1] = 0x42; // 66 MHz
-            m_send_me[1] = 0x3E; // 62 MHz
+            m_send_me[1] = 0x3F; // 62 MHz
             m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
             // Readback Clock
