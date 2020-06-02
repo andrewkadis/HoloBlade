@@ -51,7 +51,7 @@ def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_dat
 
     # Timing constants
     num_words_per_line = 40
-    num_lines          = 1280
+    num_lines          = 256#1280
     end_of_line_blank_cycles  = 4  # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
     end_of_frame_blank_cycles = 12 # Need to blank for 16 cycles before asseting UPDATE (tDUV from pg. 18 datasheet), already waited 4 hence wait 12
     update_high_cycles        = 48 # Need to hold high for 48 cycles (tUPLS from datasheet, use Typ rather than Min)
