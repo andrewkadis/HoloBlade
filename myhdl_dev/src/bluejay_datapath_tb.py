@@ -141,12 +141,15 @@ def bluejay_datapath_tb():
     )
 
 
+
     # Instantiate our timing controller
     # Block to control timing of display updates, controls reset, frame-rate, next-line_of_data_available-rdy, next-frame-rdy
     # Signals
     # Bluejay Display
-    line_of_data_available = Signal(False)
-    next_frame_rdy         = Signal(False)
+    line_of_data_available        = Signal(False)
+    start_clocking_frame_data_cmd = Signal(False)
+    update_o                      = Signal(False)
+    invert_o                      = Signal(False)
     # Instantiate
     timing_controller_inst = timing_controller.timing_controller(
         # Control
@@ -156,7 +159,9 @@ def bluejay_datapath_tb():
         num_words_in_buffer,
         # Bluejay Display
         line_of_data_available,
-        next_frame_rdy
+        start_clocking_frame_data_cmd,
+        update_o,
+        invert_o
     )
 
 
@@ -166,15 +171,15 @@ def bluejay_datapath_tb():
     bluejay_data_o   = Signal(intbv(0)[32:])
     sync_o           = Signal(False)
     valid_o          = Signal(False)
-    update_o         = Signal(False)
-    invert_o         = Signal(False)
+    # update_o         = Signal(False)
+    # invert_o         = Signal(False)
     # Inst our Bluejay Data Interface
     bluejay_data_inst = bluejay_data.bluejay_data(
         # Control
         fpga_clk,
         reset_all,
         # FPGA-side
-        next_frame_rdy,
+        start_clocking_frame_data_cmd,
         fifo_data_out,
         line_of_data_available,
         fifo_empty,
@@ -182,9 +187,9 @@ def bluejay_datapath_tb():
         # SLM-side
         bluejay_data_o,
         sync_o,
-        valid_o,
-        update_o,
-        invert_o
+        valid_o
+        # update_o,
+        # invert_o
     )
 
 

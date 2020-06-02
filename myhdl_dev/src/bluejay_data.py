@@ -23,7 +23,7 @@ t_state = enum(
 
 
 @block
-def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, data_o, sync_o, valid_o, update_o, invert_o):
+def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_data_available, fifo_empty, get_next_word, data_o, sync_o, valid_o):
 
 
     """ Peripheral to clock data out to a Bluejay SLM's Data Interface
@@ -43,15 +43,13 @@ def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_dat
     data_o                  : 32-bit output line to data interface on Bluejay SLM
     sync_o                  : Synchronisation line on Bluejay SLM, used to control which address we are writing to
     valid_o                 : Hold high while writing out a line
-    update_o                : Used to assert when a Buffer Switch shall take place
-    invert_o                : Used to enable DC_Balancing
 
     """
 
 
     # Timing constants
     num_words_per_line = 40
-    num_lines          = 512#1280
+    num_lines          = 32#1280
     end_of_line_blank_cycles  = 4  # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
     end_of_frame_blank_cycles = 12 # Need to blank for 16 cycles before asseting UPDATE (tDUV from pg. 18 datasheet), already waited 4 hence wait 12
     update_high_cycles        = 48 # Need to hold high for 48 cycles (tUPLS from datasheet, use Typ rather than Min)
@@ -97,7 +95,6 @@ def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_dat
         # Default Outputs
         sync_o.next = False
         valid_o.next = valid_o
-        update_o.next = False
         # end_of_image_reached.next = False
 
 
@@ -190,7 +187,7 @@ def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_dat
         elif state == t_state.FRAME_END_UPDATE_HIGH:
 
                 # Here we are asserting the UPDATE signal to perform a buffer swap
-                update_o.next = True
+                # update_o.next = True
                 # Decrement cycle count
                 state_timeout_counter.next = state_timeout_counter - 1
                 # Have we reached the End of Blank period for end of frame?
@@ -215,7 +212,7 @@ def bluejay_data(fpga_clk, reset_all, next_frame_rdy, fifo_data_out, line_of_dat
             data_output_active_cmd.next = False
             sync_o.next = False
             valid_o.next = False
-            update_o.next = False
+            # update_o.next = False
             h_counter.next = 0
             v_counter.next = num_lines
             state.next     = t_state.IDLE
