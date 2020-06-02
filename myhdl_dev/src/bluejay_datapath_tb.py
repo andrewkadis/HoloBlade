@@ -148,8 +148,8 @@ def bluejay_datapath_tb():
     # Bluejay Display
     line_of_data_available        = Signal(False)
     start_clocking_frame_data_cmd = Signal(False)
-    update_o                      = Signal(False)
-    invert_o                      = Signal(False)
+    update                        = Signal(False)
+    invert                        = Signal(False)
     # Instantiate
     timing_controller_inst = timing_controller.timing_controller(
         # Control
@@ -160,8 +160,8 @@ def bluejay_datapath_tb():
         # Bluejay Display
         line_of_data_available,
         start_clocking_frame_data_cmd,
-        update_o,
-        invert_o
+        update,
+        invert
     )
 
 
@@ -169,27 +169,24 @@ def bluejay_datapath_tb():
     # Signals for Bluejay Data Module
     # SLM-Side
     bluejay_data_o   = Signal(intbv(0)[32:])
-    sync_o           = Signal(False)
-    valid_o          = Signal(False)
+    sync             = Signal(False)
+    valid            = Signal(False)
     # update_o         = Signal(False)
     # invert_o         = Signal(False)
     # Inst our Bluejay Data Interface
     bluejay_data_inst = bluejay_data.bluejay_data(
         # Control
         fpga_clk,
-        reset_all,
-        # FPGA-side
         start_clocking_frame_data_cmd,
+        # FPGA-side
         fifo_data_out,
         line_of_data_available,
         fifo_empty,
         get_next_word,
         # SLM-side
         bluejay_data_o,
-        sync_o,
-        valid_o
-        # update_o,
-        # invert_o
+        sync,
+        valid,
     )
 
 
@@ -240,13 +237,13 @@ def bluejay_datapath_tb():
 
 
         # Wait 1us and then load another line
-        yield delay(1000)
+        yield delay(100000)
 
         for i in range(0, 64): # Note that this does not execute the maximum
 
             # Load line
             yield simulate_load_fifo_data(test_line)
-            yield delay(800)
+            yield delay(500)
             # For debug
             print(total_lines)
             total_lines = total_lines + 1

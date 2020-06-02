@@ -8,7 +8,7 @@ class Error(Exception):
     pass
 
 # Constants
-FIFO_DEPTH = 64
+FIFO_DEPTH = 256000
 
 # Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
 @block

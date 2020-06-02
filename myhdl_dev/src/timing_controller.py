@@ -70,8 +70,8 @@ def timing_controller(
 
     # Timing constants to handle our UPDATE + INVERT + Blanking Timing
     # Values below are for 1Hz update at 62.5 MHz # TODO: Make this programmatic
-    bufswitch_to_invert_blanking_cycles = 31249928 # Equvalent to ( 62500000 - (48+48+24+24) )/2
-    invert_to_bufswitch_blanking_cycles = 31249927 # Equvalent to ( 62500000 - (48+48+24+24) )/2 - 1, -1 is from update_bufswitch_post_cycles
+    bufswitch_to_invert_blanking_cycles = 10000#31249928 # Equvalent to ( 62500000 - (48+48+24+24) )/2
+    invert_to_bufswitch_blanking_cycles = 10000#31249927 # Equvalent to ( 62500000 - (48+48+24+24) )/2 - 1, -1 is from update_bufswitch_post_cycles
     update_bufswitch_asserted_cycles    = 48 # t_upls typical pg 18.
     update_bufswitch_post_cycles        = 1  # not a timing requirement, but makes logic for bluejay_data easier, takes 1-cycle out of update_to_bufswitch_blanking_cycles to keep things even
     update_invert_pre_cycles            = 24 # t_isu typical pg. 18
