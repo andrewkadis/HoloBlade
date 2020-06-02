@@ -1383,7 +1383,7 @@ namespace HoloRelay
         public void rezero_curr_address()
         {
             SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
-            //rezero_curr_address(fpga_com_port);
+            rezero_curr_address(fpga_com_port);
             // Printout Current Row Address
             m_send_me[0] = 0x8C;
             m_send_me[1] = 0x00;
