@@ -156,7 +156,8 @@ namespace HoloRelay
             //PipeTimeout.Disable(d3xxDevice, 0x82);
 
             // Disable tiomeouts on our output pipe
-            d3xxDevice.SetPipeTimeout(0x02, 0);
+            //d3xxDevice.SetPipeTimeout(0x02, 0);
+            d3xxDevice.SetPipeTimeout(0x02, 500);
 
             // We drive the entire FPGA design off of the FIFO's 100MHz vlock, therefore we want clock to run all the time
             // Set a timeout of 0 to achieve this, without this, clock will only be on for 10 seconds
@@ -225,7 +226,7 @@ namespace HoloRelay
 
             //uint lines_per_frame = 1280;
             // Just use 50 lines for now (less than 8kb, 1 buffer, until get to the bottom of the USB FIFO issue)
-            uint lines_per_frame = 1304;// 66;// 1304;// 1280;
+            uint lines_per_frame = 1280;// 1304;// 66;// 1304;// 1280;
             uint bytes_per_line = words_per_line * 4;
             uint total_bytes_per_frame = lines_per_frame * bytes_per_line;
             byte[] Frame1 = new byte[total_bytes_per_frame];
@@ -236,50 +237,50 @@ namespace HoloRelay
 
                 if (altOn)
                 {
-                    //// Pattern on even 32-bit words
-                    //Frame1[curr_byte + 0] = 0xAA;
-                    //Frame1[curr_byte + 1] = 0xAA;
-                    //Frame1[curr_byte + 2] = 0xAA;
-                    //Frame1[curr_byte + 3] = 0xAA;
-                    //// Pattern on odd 32-bit words
-                    //Frame1[curr_byte + 4] = 0x55;
-                    //Frame1[curr_byte + 5] = 0x55;
-                    //Frame1[curr_byte + 6] = 0x55;
-                    //Frame1[curr_byte + 7] = 0x55;
+                    // Pattern on even 32-bit words
+                    Frame1[curr_byte + 0] = 0xAA;
+                    Frame1[curr_byte + 1] = 0xAA;
+                    Frame1[curr_byte + 2] = 0xAA;
+                    Frame1[curr_byte + 3] = 0xAA;
+                    // Pattern on odd 32-bit words
+                    Frame1[curr_byte + 4] = 0x55;
+                    Frame1[curr_byte + 5] = 0x55;
+                    Frame1[curr_byte + 6] = 0x55;
+                    Frame1[curr_byte + 7] = 0x55;
 
-                    // All Off
-                    Frame1[curr_byte + 0] = 0x00;
-                    Frame1[curr_byte + 1] = 0x00;
-                    Frame1[curr_byte + 2] = 0x00;
-                    Frame1[curr_byte + 3] = 0x00;
-                    Frame1[curr_byte + 4] = 0x00;
-                    Frame1[curr_byte + 5] = 0x00;
-                    Frame1[curr_byte + 6] = 0x00;
-                    Frame1[curr_byte + 7] = 0x00;
+                    //// All Off
+                    //Frame1[curr_byte + 0] = 0x00;
+                    //Frame1[curr_byte + 1] = 0x00;
+                    //Frame1[curr_byte + 2] = 0x00;
+                    //Frame1[curr_byte + 3] = 0x00;
+                    //Frame1[curr_byte + 4] = 0x00;
+                    //Frame1[curr_byte + 5] = 0x00;
+                    //Frame1[curr_byte + 6] = 0x00;
+                    //Frame1[curr_byte + 7] = 0x00;
                 }
                 else
                 {
 
-                    //// Pattern on even 32-bit words
-                    //Frame1[curr_byte + 0] = 0x55;
-                    //Frame1[curr_byte + 1] = 0x55;
-                    //Frame1[curr_byte + 2] = 0x55;
-                    //Frame1[curr_byte + 3] = 0x55;
-                    //// Pattern on odd 32-bit words
-                    //Frame1[curr_byte + 4] = 0xAA;
-                    //Frame1[curr_byte + 5] = 0xAA;
-                    //Frame1[curr_byte + 6] = 0xAA;
-                    //Frame1[curr_byte + 7] = 0xAA;
+                    // Pattern on even 32-bit words
+                    Frame1[curr_byte + 0] = 0x55;
+                    Frame1[curr_byte + 1] = 0x55;
+                    Frame1[curr_byte + 2] = 0x55;
+                    Frame1[curr_byte + 3] = 0x55;
+                    // Pattern on odd 32-bit words
+                    Frame1[curr_byte + 4] = 0xAA;
+                    Frame1[curr_byte + 5] = 0xAA;
+                    Frame1[curr_byte + 6] = 0xAA;
+                    Frame1[curr_byte + 7] = 0xAA;
 
-                    // All On
-                    Frame1[curr_byte + 0] = 0xFF;
-                    Frame1[curr_byte + 1] = 0xFF;
-                    Frame1[curr_byte + 2] = 0xFF;
-                    Frame1[curr_byte + 3] = 0xFF;
-                    Frame1[curr_byte + 4] = 0xFF;
-                    Frame1[curr_byte + 5] = 0xFF;
-                    Frame1[curr_byte + 6] = 0xFF;
-                    Frame1[curr_byte + 7] = 0xFF;
+                    //// All On
+                    //Frame1[curr_byte + 0] = 0xFF;
+                    //Frame1[curr_byte + 1] = 0xFF;
+                    //Frame1[curr_byte + 2] = 0xFF;
+                    //Frame1[curr_byte + 3] = 0xFF;
+                    //Frame1[curr_byte + 4] = 0xFF;
+                    //Frame1[curr_byte + 5] = 0xFF;
+                    //Frame1[curr_byte + 6] = 0xFF;
+                    //Frame1[curr_byte + 7] = 0xFF;
                 }
 
             }
@@ -301,12 +302,12 @@ namespace HoloRelay
             //for (int i = 0; i < 1280; i++)
             //{
 
-            //ftStatus = d3xxDevice.WritePipe(0x02, Frame1, (UInt32)total_bytes_per_frame, ref bytesWritten);
-            //Thread.Sleep(10);
+            ftStatus = d3xxDevice.WritePipe(0x02, Frame1, (UInt32)total_bytes_per_frame, ref bytesWritten);
+            Thread.Sleep(10);
             // Write
-            ftStatus = d3xxDevice.WritePipeAsync(0x02, Frame1, (UInt32)total_bytes_per_frame, ref bytesWritten, ref pOverlapped);
+            //ftStatus = d3xxDevice.WritePipeAsync(0x02, Frame1, (UInt32)total_bytes_per_frame, ref bytesWritten, ref pOverlapped);
             // Async wait
-            ftStatus = d3xxDevice.WaitAsync(ref pOverlapped, ref bytesWritten, true);
+            //ftStatus = d3xxDevice.WaitAsync(ref pOverlapped, ref bytesWritten, true);
             //Thread.Sleep(1);
             if ((ftStatus != FTDI.FT_STATUS.FT_OK) || (bytesWritten != total_bytes_per_frame))
             {

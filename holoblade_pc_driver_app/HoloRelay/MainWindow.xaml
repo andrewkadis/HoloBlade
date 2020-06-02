@@ -15,8 +15,8 @@
                         <Label x:Name="PacketDebugLabel1" Content="Control (SPI)" FontWeight="Bold"/>
                         <Button x:Name="startup_SLM1" Content="Startup SLM" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Margin="10,5" Click="startup_SLM_Click"/>
                         <Button x:Name="enter_standby" Content="Enter Standby" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5" Click="enter_standby_Click"/>
-                        <Button x:Name="enter_normal" Content="Enter Normal" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="enter_normal_Click" Margin="10,5"/>
-                        <Button x:Name="enter_test" Content="Enter Test" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="enter_test_Click" Margin="10,5"/>
+                        <Button x:Name="enter_normal_spi" Content="Enter Normal (SPI)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="enter_normal_spi_Click" Margin="10,5"/>
+                        <Button x:Name="enter_normal_ext" Content="Enter Normal (Ext)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="enter_normal_ext_Click" Margin="10,5"/>
                         <Button x:Name="poll_mode_and_status" Content="Poll Mode + Status" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="poll_mode_and_status_Click" Margin="10,5"/>
                         <Button x:Name="poll_hw_info" Content="Poll HWInfo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="poll_hw_info_Click" Margin="10,5"/>
                     </StackPanel>
@@ -46,8 +46,8 @@
                 <Border x:Name="UARTDebugBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
                     <StackPanel x:Name="UARTDebugStackPanel" HorizontalAlignment="Left" Margin="5">
                         <Label x:Name="UARTDebugLabel" Content="USB3 Data Output" FontWeight="Bold"/>
-                        <Button x:Name="output_test_frameA" Content="Output Test Frame A" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Margin="10,5"/>
-                        <Button x:Name="output_test_frameB" Content="Output Test Frame B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5"/>
+                        <Button x:Name="output_test_frameA" Content="Output Test Frame A" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Margin="10,5" Click="output_test_frameA_Click"/>
+                        <Button x:Name="output_test_frameB" Content="Output Test Frame B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5" Click="output_test_frameB_Click"/>
                         <Button x:Name="send_start_of_packet" Content="Start of Packet" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5"/>
                         <Button x:Name="send_complex_test_1" Content="Complex Test 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5"/>
                         <Button x:Name="send_complex_test_2" Content="Complex Test 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5"/>

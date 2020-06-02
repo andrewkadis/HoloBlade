@@ -51,8 +51,8 @@ namespace HoloRelay
             // Sets clocks and readback if they were set correctly
             m_send_me[0] = 0x09;
             //m_send_me[1] = 0x64; // 100 MHz
-            m_send_me[1] = 0x42; // 66 MHz
-            //m_send_me[1] = 0x3F; // 63 MHz
+            //m_send_me[1] = 0x42; // 66 MHz
+            m_send_me[1] = 0x3E; // 62 MHz
             m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
             // Readback Clock
@@ -81,7 +81,7 @@ namespace HoloRelay
             // Set Clock
             m_send_me[0] = 0x09;
             //m_send_me[1] = 0x64; // 100 MHz
-            m_send_me[1] = 0x42; // 66 MHz
+            m_send_me[1] = 0x40; // 62 MHz
             m_serial_comms.Send_test_sequence(m_send_me);
             System.Threading.Thread.Sleep(m_wait_between_data_transfers);
             // Readback Clock
@@ -245,15 +245,14 @@ namespace HoloRelay
 
         }
 
-        // Function to enter Normal Mode
-        public void EnterNormalMode()
+        // Function to enter Normal Mode with SPI update signals
+        public void EnterNormalModeSPI()
         {
             // Define Serial port and keep track of data read
             SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
             string recv_bytes = "";
             // Wakeup + Set Enable Serial Command Updates
             m_send_me[0] = 0x01;
-            //m_send_me[1] = 0x02; // Normal + External Updates Commands
             m_send_me[1] = 0x06; // Normal + Serial Updates Commands
             recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
             // Close the Serial port we opened
@@ -261,6 +260,20 @@ namespace HoloRelay
 
         }
 
+        // Function to enter Normal Mode with External update signals
+        public void EnterNormalModeExt()
+        {
+            // Define Serial port and keep track of data read
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            string recv_bytes = "";
+            // Wakeup + Set Enable Serial Command Updates
+            m_send_me[0] = 0x01;
+            m_send_me[1] = 0x02; // Normal + External Updates Commands
+            recv_bytes = m_serial_comms.Send_serial_data_with_return(m_send_me, fpga_com_port);
+            // Close the Serial port we opened
+            fpga_com_port.Close();
+
+        }
 
         // Only update the SLM once so we can see the image we just loaded
         // Works, but we get artifacts when switching, better to run fast
@@ -1343,6 +1356,7 @@ namespace HoloRelay
             }
         }
 
+        // Internal version where you supply an already open Serial Port
         private void rezero_curr_address(SerialPort fpga_com_port)
         {
             // Start writing at 0x00
@@ -1363,7 +1377,22 @@ namespace HoloRelay
             m_send_me[0] = 0x8D;
             m_send_me[1] = 0x00;
             m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
-            //m_serial_comms.high_resolution_sleep_us(20000);
+        }
+
+        // External version which handles the serial port for you
+        public void rezero_curr_address()
+        {
+            SerialPort fpga_com_port = m_serial_comms.setup_serial_port();
+            //rezero_curr_address(fpga_com_port);
+            // Printout Current Row Address
+            m_send_me[0] = 0x8C;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+            m_send_me[0] = 0x8D;
+            m_send_me[1] = 0x00;
+            m_serial_comms.Send_serial_data_turbo(m_send_me, fpga_com_port);
+            fpga_com_port.Close();
+
         }
     }
 }

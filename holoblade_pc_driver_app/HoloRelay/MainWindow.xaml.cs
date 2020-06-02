@@ -42,6 +42,9 @@ namespace HoloRelay
 
         private void output_test_frameA_Click(object sender, RoutedEventArgs e)
         {
+            // Reset Row Address First
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.rezero_curr_address();
             // Send some Data on the USB3 interface
             USB3Comms usb_data = new USB3Comms();
             usb_data.Send_test_sequence(true);
@@ -49,6 +52,9 @@ namespace HoloRelay
 
         private void output_test_frameB_Click(object sender, RoutedEventArgs e)
         {
+            // Reset Row Address First
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.rezero_curr_address();
             // Send an alternate frame on the USB3 interface
             USB3Comms usb_data = new USB3Comms();
             usb_data.Send_test_sequence(false);
@@ -77,31 +83,31 @@ namespace HoloRelay
             slm_image_loader.EnterStandbyMode();
         }
 
-        private void enter_test_Click(object sender, RoutedEventArgs e)
-        { 
-            // Enter Mode
-            SLMImageLoader slm_image_loader = new SLMImageLoader();
-            slm_image_loader.EnterTestMode();
-        }
-
-        private void enter_normal_Click(object sender, RoutedEventArgs e)
+        private void enter_normal_spi_Click(object sender, RoutedEventArgs e)
         {
             // Enter Mode
             SLMImageLoader slm_image_loader = new SLMImageLoader();
-            slm_image_loader.EnterNormalMode();
+            slm_image_loader.EnterNormalModeSPI();
+        }
+
+        private void enter_normal_ext_Click(object sender, RoutedEventArgs e)
+        {
+            // Enter Mode
+            SLMImageLoader slm_image_loader = new SLMImageLoader();
+            slm_image_loader.EnterNormalModeExt();
         }
 
         private void display_buffer_A_Click(object sender, RoutedEventArgs e)
         {
             SLMImageLoader slm_image_loader = new SLMImageLoader();
-            slm_image_loader.EnterNormalMode();
+            slm_image_loader.EnterNormalModeSPI();
             slm_image_loader.UpdateDisplayBufA();
         }
 
         private void display_buffer_B_Click(object sender, RoutedEventArgs e)
         {
             SLMImageLoader slm_image_loader = new SLMImageLoader();
-            slm_image_loader.EnterNormalMode();
+            slm_image_loader.EnterNormalModeSPI();
             slm_image_loader.UpdateDisplayBufB();
         }
 
@@ -192,5 +198,6 @@ namespace HoloRelay
             slm_image_loader.EnterTestMode();
             slm_image_loader.loadColCounterPatternTestImage();
         }
+
     }
 }
