@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 16:52:36
 
-* File Generated:     Jun 2 2020 04:13:06
+* File Generated:     Jun 2 2020 04:44:27
 
 * Purpose:            General info of design implementation
 
@@ -27,27 +27,27 @@ Device Info:
 
 Design statistics:
 ------------------
-    FFs:                  1470
-    LUTs:                 2646
+    FFs:                  1404
+    LUTs:                 2523
     RAMs:                 0
-    IOBs:                 84
+    IOBs:                 83
     GBs:                  2
     PLLs:                 1
     Warm Boots:           0
 
 Logic Resource Utilization:
 ---------------------------
-    Total Logic Cells: 2648/3520
-        Combinational Logic Cells: 1178     out of   3520      33.4659%
-        Sequential Logic Cells:    1470     out of   3520      41.7614%
-        Logic Tiles:               377      out of   440       85.6818%
+    Total Logic Cells: 2525/3520
+        Combinational Logic Cells: 1121     out of   3520      31.8466%
+        Sequential Logic Cells:    1404     out of   3520      39.8864%
+        Logic Tiles:               346      out of   440       78.6364%
     Registers: 
-        Logic Registers:           1470     out of   3520      41.7614%
+        Logic Registers:           1404     out of   3520      39.8864%
         IO Registers:              5        out of   880       0.568182
     Block RAMs:                    0        out of   20        0%
     Warm Boots:                    0        out of   1         0%
     Pins:
-        Input Pins:                22       out of   107       20.5607%
+        Input Pins:                21       out of   107       19.6262%
         Output Pins:               62       out of   107       57.9439%
         InOut Pins:                0        out of   107       0%
     Global Buffers:                2        out of   8         25%
@@ -55,7 +55,7 @@ Logic Resource Utilization:
 
 IO Bank Utilization:
 --------------------
-    Bank 3: 9        out of   28        32.1429%
+    Bank 3: 8        out of   28        28.5714%
     Bank 1: 29       out of   29        100%
     Bank 0: 27       out of   27        100%
     Bank 2: 19       out of   23        82.6087%
@@ -67,7 +67,6 @@ Detailed I/O Info:
     ----------  ---------  -----------  -------  -------  -----------                   ----------- 
     8           Input      SB_LVCMOS    No       3        Simple Input                  FR_RXF      
     21          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_CLK    
-    34          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D16    
     37          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D15    
     38          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D14    
     39          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D13    
@@ -96,7 +95,7 @@ Detailed I/O Info:
     4           Output     SB_LVCMOS    No       3        Simple Output                 FT_WR       
     7           Output     SB_LVCMOS    No       3        Simple Output                 FT_SIWU     
     23          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CREST   
-    33          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CDONE   
+    34          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CDONE   
     52          Output     SB_LVCMOS    No       2        Output Tristatable by Enable  ICE_CLK     
     63          Output     SB_LVCMOS    No       2        Simple Output                 DEBUG_8     
     64          Output     SB_LVCMOS    No       2        Simple Output                 DEBUG_9     
@@ -158,5 +157,5 @@ Detailed Global Buffer Info:
 ----------------------------
     Buffer Number  IO Bank  Driven By  Fanout  Signal Name 
     -------------  -------  ---------  ------  ----------- 
-    1              3        IO         1117    FIFO_CLK_c  
-    3              3                   358     DEBUG_6_c   
+    1              3        IO         1053    FIFO_CLK_c  
+    3              3                   356     DEBUG_6_c   

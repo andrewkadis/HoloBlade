@@ -3,7 +3,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2015 Lattice Semiconductor Corporation,  All rights reserved.
-Tue Jun 02 04:11:51 2020
+Tue Jun 02 04:43:19 2020
 
 
 Command Line:  D:\ProgramFiles\Lattice\LSE\bin\nt\synthesis.exe -f HoloBlade_lse.prj 
@@ -87,9 +87,9 @@ Compile Design Begin
 Analyzing Verilog file src/top.v. VERI-1482
 WARNING - synthesis: src/top.v(301): invalid size of integer constant literal. VERI-1864
 WARNING - synthesis: src/top.v(302): invalid size of integer constant literal. VERI-1864
-WARNING - synthesis: src/top.v(501): reset_all is already implicitly declared earlier. VERI-1362
-WARNING - synthesis: src/top.v(821): spi_rx_byte_ready is already implicitly declared earlier. VERI-1362
-WARNING - synthesis: src/top.v(849): pc_data_tx is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(502): reset_all is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(839): spi_rx_byte_ready is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(867): pc_data_tx is already implicitly declared earlier. VERI-1362
 WARNING - synthesis: src/top.v(202): identifier fpga_clk is used before its declaration. VERI-1875
 WARNING - synthesis: src/top.v(242): identifier reset_countdown is used before its declaration. VERI-1875
 Analyzing Verilog file src/clock.v. VERI-1482
@@ -162,13 +162,13 @@ WARNING - synthesis: src/spi.v(183): expression size 32 truncated to fit in targ
 WARNING - synthesis: src/spi.v(216): expression size 32 truncated to fit in target size 8. VERI-1209
 INFO - synthesis: src/fifo_quad_word_mod.v(10): compiling module FIFO_Quad_Word. VERI-1018
 INFO - synthesis: src/fifo_quad_word_mod.v(25): compiling module FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_2. VERI-1018
-WARNING - synthesis: src/top.v(882): actual bit length 8 differs from formal bit length 32 for port wr_data_i. VERI-1330
-WARNING - synthesis: src/top.v(1060): expression size 32 truncated to fit in target size 1. VERI-1209
-WARNING - synthesis: src/top.v(1078): Register reset_all_cmd_r_83 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/top.v(900): actual bit length 8 differs from formal bit length 32 for port wr_data_i. VERI-1330
+WARNING - synthesis: src/top.v(1078): expression size 32 truncated to fit in target size 1. VERI-1209
+WARNING - synthesis: src/top.v(1096): Register reset_all_cmd_r_83 is stuck at Zero. VDB-5013
 WARNING - synthesis: src/top.v(407): net usb3_data_in[31] does not have a driver. VDB-1002
-WARNING - synthesis: src/top.v(468): net reset_ptr does not have a driver. VDB-1002
-WARNING - synthesis: src/top.v(563): net invert_o does not have a driver. VDB-1002
-WARNING - synthesis: src/top.v(799): input port i_reset is not connected on this instance. VDB-1013
+WARNING - synthesis: src/top.v(469): net reset_ptr does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(581): net invert_o does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(817): input port i_reset is not connected on this instance. VDB-1013
 Loading NGL library 'D:/ProgramFiles/Lattice/LSE/xo2c00/data/xo2clib.ngl'...
 Loading NGL library 'D:/ProgramFiles/Lattice/LSE/or5g00/data/orc5glib.ngl'...
 Top-level module name = top.
@@ -180,9 +180,9 @@ WARNING - synthesis: Initial value found on net rd_addr_nxt_r[2] will be ignored
 WARNING - synthesis: Initial value found on net rd_addr_nxt_r[1] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net rd_addr_nxt_r[0] will be ignored due to unrecognized driver type
 WARNING - synthesis: src/top.v(407): net usb3_data_in[31] does not have a driver. VDB-1002
-WARNING - synthesis: src/top.v(468): net reset_ptr does not have a driver. VDB-1002
-WARNING - synthesis: src/top.v(563): net invert_o does not have a driver. VDB-1002
-WARNING - synthesis: src/top.v(799): input port i_reset is not connected on this instance. VDB-1013
+WARNING - synthesis: src/top.v(469): net reset_ptr does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(581): net invert_o does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(817): input port i_reset is not connected on this instance. VDB-1013
 WARNING - synthesis: src/clock.v(59): input port EXTFEEDBACK is not connected on this instance. VDB-1013
 WARNING - synthesis: src/spi.v(49): net \spi0/i_reset does not have a driver. VDB-1002
 ######## Missing driver on net usb3_data_in[31]. Patching with GND.
@@ -200,16 +200,16 @@ WARNING - synthesis: src/spi.v(49): net \spi0/i_reset does not have a driver. VD
 ######## Missing driver on net usb3_data_in[19]. Patching with GND.
 ######## Missing driver on net usb3_data_in[18]. Patching with GND.
 ######## Missing driver on net usb3_data_in[17]. Patching with GND.
+######## Missing driver on net usb3_data_in[16]. Patching with GND.
 ######## Missing driver on net reset_ptr. Patching with GND.
 ######## Missing driver on net \spi0/i_reset. Patching with GND.
 
 
 
-WARNING - synthesis: src/fifo_dc_32_lut_gen.v(876): Register \i900/i218_219 is stuck at Zero. VDB-5013
-WARNING - synthesis: src/fifo_quad_word_mod.v(448): Register \i901/i62_63 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/fifo_dc_32_lut_gen.v(876): Register \i901/i218_219 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/fifo_quad_word_mod.v(448): Register \i902/i62_63 is stuck at Zero. VDB-5013
 WARNING - synthesis: Bit 0 of Register \tx_fifo/lscc_fifo_inst/mem_LUT.data_raw_r_ is stuck at Zero
 WARNING - synthesis: Bit 0 of Register \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/REG.out_raw_ is stuck at Zero
-WARNING - synthesis: src/fifo_dc_32_lut_gen.v(931): Register \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/REG.out_buffer__i31 is stuck at Zero. VDB-5013
 Duplicate register/latch removal. \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_grey_sync_r__i6 is a one-to-one match with \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r__i6.
 Duplicate register/latch removal. \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r__i6 is a one-to-one match with \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_grey_sync_r__i6.
 Applying 1.000000 MHz constraint to all clocks
@@ -219,10 +219,10 @@ Writing scf file : HoloBlade_Implmnt/HoloBlade.scf
 Results of NGD DRC are available in top_drc.log.
 
 ################### Begin Area Report (top)######################
-Number of register bits => 1475 of 3520 (41 % )
+Number of register bits => 1409 of 3520 (40 % )
 SB_CARRY => 131
-SB_DFF => 1258
-SB_DFFE => 97
+SB_DFF => 1195
+SB_DFFE => 94
 SB_DFFESR => 64
 SB_DFFESS => 3
 SB_DFFNE => 2
@@ -230,31 +230,31 @@ SB_DFFSR => 40
 SB_DFFSS => 11
 SB_GB => 1
 SB_GB_IO => 1
-SB_IO => 83
-SB_LUT4 => 2640
+SB_IO => 82
+SB_LUT4 => 2517
 SB_PLL40_CORE => 1
 ################### End Area Report ##################
 
 ################### Begin Clock Report ######################
 Clock Nets
 Number of Clocks: 2
-  Net : FIFO_CLK_c, loads : 1118
-  Net : DEBUG_6_c, loads : 359
+  Net : FIFO_CLK_c, loads : 1054
+  Net : DEBUG_6_c, loads : 357
 Clock Enable Nets
 Number of Clock Enables: 0
 Top 0 highest fanout Clock Enables:
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r_5, loads : 644
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_1, loads : 420
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_0, loads : 364
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_2, loads : 162
-  Net : timing_controller_inst/reset_all, loads : 98
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_3, loads : 81
-  Net : FIFO_D16_c_16, loads : 64
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r_5, loads : 608
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_1, loads : 415
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_0, loads : 330
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_2, loads : 141
+  Net : timing_controller_inst/reset_all, loads : 97
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_3, loads : 82
   Net : FIFO_D15_c_15, loads : 64
   Net : FIFO_D14_c_14, loads : 64
   Net : FIFO_D13_c_13, loads : 64
+  Net : FIFO_D12_c_12, loads : 64
 ################### End Clock Report ##################
 
 Timing Report Summary
@@ -264,7 +264,7 @@ Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
-clk1 [get_nets FIFO_CLK_c]              |    1.000 MHz|   46.087 MHz|     6  
+clk1 [get_nets FIFO_CLK_c]              |    1.000 MHz|   45.935 MHz|     6  
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
 clk0 [get_nets DEBUG_6_c]               |    1.000 MHz|   19.352 MHz|    33  
@@ -275,7 +275,7 @@ clk0 [get_nets DEBUG_6_c]               |    1.000 MHz|   19.352 MHz|    33
 All constraints were met.
 
 
-Peak Memory Usage: 56.207  MB
+Peak Memory Usage: 55.457  MB
 
 --------------------------------------------------------------
 Elapsed CPU time for LSE flow : 2.984  secs

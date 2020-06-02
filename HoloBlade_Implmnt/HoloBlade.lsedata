@@ -4270,7 +4270,7 @@
     <instance  name = "bluejay_data_inst/mux_18"  library = "work"  arch = ""  type = "comb">
         <pins>
         <pitem  name = "d1[10]"  direction = "in"  />
-        <pitem  name = "d1[9]"  direction = "in"  />
+        <pitem  name = "d1[8]"  direction = "in"  />
         <pitem  name = "d1[7]"  direction = "in"  />
         <pitem  name = "d1[6]"  direction = "in"  />
         <pitem  name = "d1[5]"  direction = "in"  />
@@ -4279,7 +4279,7 @@
         <pitem  name = "d1[2]"  direction = "in"  />
         <pitem  name = "d1[1]"  direction = "in"  />
         <pitem  name = "d1[0]"  direction = "in"  />
-        <pitem  name = "d1[8]"  direction = "in"  />
+        <pitem  name = "d1[9]"  direction = "in"  />
         <pitem  name = "d0[10]"  direction = "in"  />
         <pitem  name = "d0[9]"  direction = "in"  />
         <pitem  name = "d0[8]"  direction = "in"  />
@@ -5654,7 +5654,7 @@
     <instance  name = "bluejay_data_inst/v_counter_10__I_0"  library = "work"  arch = ""  type = "comb">
         <pins>
         <pitem  name = "d1[10]"  direction = "in"  />
-        <pitem  name = "d1[9]"  direction = "in"  />
+        <pitem  name = "d1[8]"  direction = "in"  />
         <pitem  name = "d1[7]"  direction = "in"  />
         <pitem  name = "d1[6]"  direction = "in"  />
         <pitem  name = "d1[5]"  direction = "in"  />
@@ -5663,7 +5663,7 @@
         <pitem  name = "d1[2]"  direction = "in"  />
         <pitem  name = "d1[1]"  direction = "in"  />
         <pitem  name = "d1[0]"  direction = "in"  />
-        <pitem  name = "d1[8]"  direction = "in"  />
+        <pitem  name = "d1[9]"  direction = "in"  />
         <pitem  name = "cond"  direction = "in"  />
         <pitem  name = "d0[10]"  direction = "in"  />
         <pitem  name = "d0[9]"  direction = "in"  />
@@ -6197,6 +6197,22 @@
         <nitem  name = "fifo_data_out[2]"  />
         <nitem  name = "fifo_data_out[1]"  />
         <nitem  name = "fifo_data_out[0]"  />
+        <nitem  name = "bluejay_data_inst/data_o[31]"  />
+        <nitem  name = "bluejay_data_inst/data_o[30]"  />
+        <nitem  name = "bluejay_data_inst/data_o[29]"  />
+        <nitem  name = "bluejay_data_inst/data_o[28]"  />
+        <nitem  name = "bluejay_data_inst/data_o[27]"  />
+        <nitem  name = "bluejay_data_inst/data_o[26]"  />
+        <nitem  name = "bluejay_data_inst/data_o[25]"  />
+        <nitem  name = "bluejay_data_inst/data_o[24]"  />
+        <nitem  name = "bluejay_data_inst/data_o[23]"  />
+        <nitem  name = "bluejay_data_inst/data_o[22]"  />
+        <nitem  name = "bluejay_data_inst/data_o[21]"  />
+        <nitem  name = "bluejay_data_inst/data_o[20]"  />
+        <nitem  name = "bluejay_data_inst/data_o[19]"  />
+        <nitem  name = "bluejay_data_inst/data_o[18]"  />
+        <nitem  name = "bluejay_data_inst/data_o[17]"  />
+        <nitem  name = "bluejay_data_inst/data_o[16]"  />
         <nitem  name = "DATA31"  />
         <nitem  name = "DATA30"  />
         <nitem  name = "DATA29"  />
@@ -6208,22 +6224,6 @@
         <nitem  name = "DATA23"  />
         <nitem  name = "DATA22"  />
         <nitem  name = "DATA21"  />
-        <nitem  name = "DATA20"  />
-        <nitem  name = "DATA19"  />
-        <nitem  name = "DATA18"  />
-        <nitem  name = "DATA17"  />
-        <nitem  name = "DATA16"  />
-        <nitem  name = "DATA15"  />
-        <nitem  name = "DATA14"  />
-        <nitem  name = "DATA13"  />
-        <nitem  name = "DATA12"  />
-        <nitem  name = "DATA11"  />
-        <nitem  name = "DATA10"  />
-        <nitem  name = "DATA9"  />
-        <nitem  name = "DATA8"  />
-        <nitem  name = "DATA7"  />
-        <nitem  name = "DATA6"  />
-        <nitem  name = "DATA5"  />
         <nitem  name = "DATA4"  />
         <nitem  name = "DATA3"  />
         <nitem  name = "DATA2"  />
@@ -16880,7 +16880,7 @@
         <nitem  name = "usb3_data_in[19]"  />
         <nitem  name = "usb3_data_in[18]"  />
         <nitem  name = "usb3_data_in[17]"  />
-        <nitem  name = "FIFO_D16"  />
+        <nitem  name = "usb3_data_in[16]"  />
         <nitem  name = "FIFO_D15"  />
         <nitem  name = "FIFO_D14"  />
         <nitem  name = "FIFO_D13"  />

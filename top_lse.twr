@@ -1,6 +1,6 @@
 --------------------------------------------------------------------------------
 Lattice Synthesis Timing Report, Version  
-Tue Jun 02 04:11:54 2020
+Tue Jun 02 04:43:23 2020
 
 Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
 Copyright (c) 1995 AT&T Corp.   All rights reserved.
@@ -23,108 +23,108 @@ Constraint: create_clock -period 1000.000000 -name clk1 [get_nets FIFO_CLK_c]
 --------------------------------------------------------------------------------
 
 
-Passed:  The following path meets requirements by 489.151ns
+Passed:  The following path meets requirements by 489.115ns
 
  Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
 
    Source:         SB_DFFNE   C              \usb3_if_inst/OE_N_36  (from FIFO_CLK_c +)
-   Destination:    SB_DFF     D              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i5942_5943  (to FIFO_CLK_c +)
+   Destination:    SB_DFF     D              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i260_261  (to FIFO_CLK_c +)
 
-   Delay:                  10.716ns  (22.5% logic, 77.5% route), 6 logic levels.
+   Delay:                  10.752ns  (22.4% logic, 77.6% route), 6 logic levels.
 
  Constraint Details:
 
-     10.716ns data_path \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i5942_5943 meets
+     10.752ns data_path \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i260_261 meets
     500.000ns delay constraint less
-      0.133ns L_S requirement (totaling 499.867ns) by 489.151ns
+      0.133ns L_S requirement (totaling 499.867ns) by 489.115ns
 
- Path Details: \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i5942_5943
+ Path Details: \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i260_261
 
    Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
 L_CO        ---     0.367              C to Q              \usb3_if_inst/OE_N_36 (from FIFO_CLK_c)
 Route         3   e 1.339                                  \usb3_if_inst/OE_N
-LUT4        ---     0.408             I3 to O              \usb3_if_inst/i2_4_lut
-Route        19   e 1.608                                  write_to_dc32_fifo
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i12_2_lut_3_lut
-Route         6   e 1.378                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n12
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i31_2_lut_3_lut
-Route         3   e 1.239                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n31
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i63_2_lut
-Route        34   e 1.725                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n63
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i4000_3_lut_4_lut
-Route         1   e 1.020                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n4826
+LUT4        ---     0.408             I2 to O              \usb3_if_inst/i1_3_lut
+Route         4   e 1.297                                  n4_adj_993
+LUT4        ---     0.408             I1 to O              \usb3_if_inst/i2_2_lut
+Route        18   e 1.598                                  write_to_dc32_fifo
+LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i18_2_lut_3_lut_4_lut
+Route         6   e 1.378                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n18
+LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i42_2_lut_3_lut
+Route        32   e 1.713                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n42
+LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i2882_3_lut_4_lut
+Route         1   e 1.020                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n3723
                   --------
-                   10.716  (22.5% logic, 77.5% route), 6 logic levels.
+                   10.752  (22.4% logic, 77.6% route), 6 logic levels.
 
 
-Passed:  The following path meets requirements by 489.151ns
+Passed:  The following path meets requirements by 489.115ns
 
  Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
 
    Source:         SB_DFFNE   C              \usb3_if_inst/OE_N_36  (from FIFO_CLK_c +)
-   Destination:    SB_DFF     D              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i5939_5940  (to FIFO_CLK_c +)
+   Destination:    SB_DFF     D              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i269_270  (to FIFO_CLK_c +)
 
-   Delay:                  10.716ns  (22.5% logic, 77.5% route), 6 logic levels.
+   Delay:                  10.752ns  (22.4% logic, 77.6% route), 6 logic levels.
 
  Constraint Details:
 
-     10.716ns data_path \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i5939_5940 meets
+     10.752ns data_path \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i269_270 meets
     500.000ns delay constraint less
-      0.133ns L_S requirement (totaling 499.867ns) by 489.151ns
+      0.133ns L_S requirement (totaling 499.867ns) by 489.115ns
 
- Path Details: \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i5939_5940
+ Path Details: \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i269_270
 
    Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
 L_CO        ---     0.367              C to Q              \usb3_if_inst/OE_N_36 (from FIFO_CLK_c)
 Route         3   e 1.339                                  \usb3_if_inst/OE_N
-LUT4        ---     0.408             I3 to O              \usb3_if_inst/i2_4_lut
-Route        19   e 1.608                                  write_to_dc32_fifo
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i12_2_lut_3_lut
-Route         6   e 1.378                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n12
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i31_2_lut_3_lut
-Route         3   e 1.239                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n31
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i63_2_lut
-Route        34   e 1.725                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n63
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i3999_3_lut_4_lut
-Route         1   e 1.020                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n4825
+LUT4        ---     0.408             I2 to O              \usb3_if_inst/i1_3_lut
+Route         4   e 1.297                                  n4_adj_993
+LUT4        ---     0.408             I1 to O              \usb3_if_inst/i2_2_lut
+Route        18   e 1.598                                  write_to_dc32_fifo
+LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i18_2_lut_3_lut_4_lut
+Route         6   e 1.378                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n18
+LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i42_2_lut_3_lut
+Route        32   e 1.713                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n42
+LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i2881_3_lut_4_lut
+Route         1   e 1.020                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n3722
                   --------
-                   10.716  (22.5% logic, 77.5% route), 6 logic levels.
+                   10.752  (22.4% logic, 77.6% route), 6 logic levels.
 
 
-Passed:  The following path meets requirements by 489.151ns
+Passed:  The following path meets requirements by 489.115ns
 
  Logical Details:  Cell type  Pin type       Cell name  (clock net +/-)
 
    Source:         SB_DFFNE   C              \usb3_if_inst/OE_N_36  (from FIFO_CLK_c +)
-   Destination:    SB_DFF     D              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i5936_5937  (to FIFO_CLK_c +)
+   Destination:    SB_DFF     D              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i272_273  (to FIFO_CLK_c +)
 
-   Delay:                  10.716ns  (22.5% logic, 77.5% route), 6 logic levels.
+   Delay:                  10.752ns  (22.4% logic, 77.6% route), 6 logic levels.
 
  Constraint Details:
 
-     10.716ns data_path \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i5936_5937 meets
+     10.752ns data_path \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i272_273 meets
     500.000ns delay constraint less
-      0.133ns L_S requirement (totaling 499.867ns) by 489.151ns
+      0.133ns L_S requirement (totaling 499.867ns) by 489.115ns
 
- Path Details: \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i5936_5937
+ Path Details: \usb3_if_inst/OE_N_36 to \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i272_273
 
    Name    Fanout   Delay (ns)          Pins               Resource(Cell.Net)
 L_CO        ---     0.367              C to Q              \usb3_if_inst/OE_N_36 (from FIFO_CLK_c)
 Route         3   e 1.339                                  \usb3_if_inst/OE_N
-LUT4        ---     0.408             I3 to O              \usb3_if_inst/i2_4_lut
-Route        19   e 1.608                                  write_to_dc32_fifo
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i12_2_lut_3_lut
-Route         6   e 1.378                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n12
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i31_2_lut_3_lut
-Route         3   e 1.239                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n31
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i63_2_lut
-Route        34   e 1.725                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n63
-LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i3998_3_lut_4_lut
-Route         1   e 1.020                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n4824
+LUT4        ---     0.408             I2 to O              \usb3_if_inst/i1_3_lut
+Route         4   e 1.297                                  n4_adj_993
+LUT4        ---     0.408             I1 to O              \usb3_if_inst/i2_2_lut
+Route        18   e 1.598                                  write_to_dc32_fifo
+LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i18_2_lut_3_lut_4_lut
+Route         6   e 1.378                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n18
+LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/EnabledDecoder_2_i42_2_lut_3_lut
+Route        32   e 1.713                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n42
+LUT4        ---     0.408             I0 to O              \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/i2880_3_lut_4_lut
+Route         1   e 1.020                                  \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/n3721
                   --------
-                   10.716  (22.5% logic, 77.5% route), 6 logic levels.
+                   10.752  (22.4% logic, 77.6% route), 6 logic levels.
 
-Report: 10.849 ns is the maximum delay for this constraint.
+Report: 10.885 ns is the maximum delay for this constraint.
 
 
 
@@ -155,67 +155,67 @@ Passed:  The following path meets requirements by 948.325ns
 L_CO        ---     0.367              C to Q              \timing_controller_inst/state_timeout_counter_i0 (from DEBUG_6_c)
 Route         3   e 1.339                                  \timing_controller_inst/state_timeout_counter[0]
 LUT4        ---     0.408             I0 to CO             \timing_controller_inst/sub_7_add_2_2
-Route         2   e 1.158                                  \timing_controller_inst/n9269
+Route         2   e 1.158                                  \timing_controller_inst/n9101
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_3
-Route         2   e 1.158                                  \timing_controller_inst/n9270
+Route         2   e 1.158                                  \timing_controller_inst/n9102
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_4
-Route         2   e 1.158                                  \timing_controller_inst/n9271
+Route         2   e 1.158                                  \timing_controller_inst/n9103
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_5
-Route         2   e 1.158                                  \timing_controller_inst/n9272
+Route         2   e 1.158                                  \timing_controller_inst/n9104
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_6
-Route         2   e 1.158                                  \timing_controller_inst/n9273
+Route         2   e 1.158                                  \timing_controller_inst/n9105
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_7
-Route         2   e 1.158                                  \timing_controller_inst/n9274
+Route         2   e 1.158                                  \timing_controller_inst/n9106
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_8
-Route         2   e 1.158                                  \timing_controller_inst/n9275
+Route         2   e 1.158                                  \timing_controller_inst/n9107
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_9
-Route         2   e 1.158                                  \timing_controller_inst/n9276
+Route         2   e 1.158                                  \timing_controller_inst/n9108
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_10
-Route         2   e 1.158                                  \timing_controller_inst/n9277
+Route         2   e 1.158                                  \timing_controller_inst/n9109
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_11
-Route         2   e 1.158                                  \timing_controller_inst/n9278
+Route         2   e 1.158                                  \timing_controller_inst/n9110
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_12
-Route         2   e 1.158                                  \timing_controller_inst/n9279
+Route         2   e 1.158                                  \timing_controller_inst/n9111
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_13
-Route         2   e 1.158                                  \timing_controller_inst/n9280
+Route         2   e 1.158                                  \timing_controller_inst/n9112
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_14
-Route         2   e 1.158                                  \timing_controller_inst/n9281
+Route         2   e 1.158                                  \timing_controller_inst/n9113
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_15
-Route         2   e 1.158                                  \timing_controller_inst/n9282
+Route         2   e 1.158                                  \timing_controller_inst/n9114
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_16
-Route         2   e 1.158                                  \timing_controller_inst/n9283
+Route         2   e 1.158                                  \timing_controller_inst/n9115
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_17
-Route         2   e 1.158                                  \timing_controller_inst/n9284
+Route         2   e 1.158                                  \timing_controller_inst/n9116
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_18
-Route         2   e 1.158                                  \timing_controller_inst/n9285
+Route         2   e 1.158                                  \timing_controller_inst/n9117
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_19
-Route         2   e 1.158                                  \timing_controller_inst/n9286
+Route         2   e 1.158                                  \timing_controller_inst/n9118
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_20
-Route         2   e 1.158                                  \timing_controller_inst/n9287
+Route         2   e 1.158                                  \timing_controller_inst/n9119
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_21
-Route         2   e 1.158                                  \timing_controller_inst/n9288
+Route         2   e 1.158                                  \timing_controller_inst/n9120
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_22
-Route         2   e 1.158                                  \timing_controller_inst/n9289
+Route         2   e 1.158                                  \timing_controller_inst/n9121
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_23
-Route         2   e 1.158                                  \timing_controller_inst/n9290
+Route         2   e 1.158                                  \timing_controller_inst/n9122
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_24
-Route         2   e 1.158                                  \timing_controller_inst/n9291
+Route         2   e 1.158                                  \timing_controller_inst/n9123
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_25
-Route         2   e 1.158                                  \timing_controller_inst/n9292
+Route         2   e 1.158                                  \timing_controller_inst/n9124
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_26
-Route         2   e 1.158                                  \timing_controller_inst/n9293
+Route         2   e 1.158                                  \timing_controller_inst/n9125
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_27
-Route         2   e 1.158                                  \timing_controller_inst/n9294
+Route         2   e 1.158                                  \timing_controller_inst/n9126
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_28
-Route         2   e 1.158                                  \timing_controller_inst/n9295
+Route         2   e 1.158                                  \timing_controller_inst/n9127
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_29
-Route         2   e 1.158                                  \timing_controller_inst/n9296
+Route         2   e 1.158                                  \timing_controller_inst/n9128
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_30
-Route         2   e 1.158                                  \timing_controller_inst/n9297
+Route         2   e 1.158                                  \timing_controller_inst/n9129
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_31
-Route         2   e 1.158                                  \timing_controller_inst/n9298
+Route         2   e 1.158                                  \timing_controller_inst/n9130
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_32
-Route         1   e 1.020                                  \timing_controller_inst/n9299
+Route         1   e 1.020                                  \timing_controller_inst/n9131
 LUT4        ---     0.408             I3 to O              \timing_controller_inst/sub_7_add_2_33_lut
 Route         1   e 1.020                                  \timing_controller_inst/state_timeout_counter_31__N_379[31]
                   --------
@@ -243,65 +243,65 @@ Passed:  The following path meets requirements by 949.753ns
 L_CO        ---     0.367              C to Q              \timing_controller_inst/state_timeout_counter_i0 (from DEBUG_6_c)
 Route         3   e 1.339                                  \timing_controller_inst/state_timeout_counter[0]
 LUT4        ---     0.408             I0 to CO             \timing_controller_inst/sub_7_add_2_2
-Route         2   e 1.158                                  \timing_controller_inst/n9269
+Route         2   e 1.158                                  \timing_controller_inst/n9101
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_3
-Route         2   e 1.158                                  \timing_controller_inst/n9270
+Route         2   e 1.158                                  \timing_controller_inst/n9102
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_4
-Route         2   e 1.158                                  \timing_controller_inst/n9271
+Route         2   e 1.158                                  \timing_controller_inst/n9103
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_5
-Route         2   e 1.158                                  \timing_controller_inst/n9272
+Route         2   e 1.158                                  \timing_controller_inst/n9104
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_6
-Route         2   e 1.158                                  \timing_controller_inst/n9273
+Route         2   e 1.158                                  \timing_controller_inst/n9105
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_7
-Route         2   e 1.158                                  \timing_controller_inst/n9274
+Route         2   e 1.158                                  \timing_controller_inst/n9106
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_8
-Route         2   e 1.158                                  \timing_controller_inst/n9275
+Route         2   e 1.158                                  \timing_controller_inst/n9107
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_9
-Route         2   e 1.158                                  \timing_controller_inst/n9276
+Route         2   e 1.158                                  \timing_controller_inst/n9108
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_10
-Route         2   e 1.158                                  \timing_controller_inst/n9277
+Route         2   e 1.158                                  \timing_controller_inst/n9109
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_11
-Route         2   e 1.158                                  \timing_controller_inst/n9278
+Route         2   e 1.158                                  \timing_controller_inst/n9110
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_12
-Route         2   e 1.158                                  \timing_controller_inst/n9279
+Route         2   e 1.158                                  \timing_controller_inst/n9111
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_13
-Route         2   e 1.158                                  \timing_controller_inst/n9280
+Route         2   e 1.158                                  \timing_controller_inst/n9112
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_14
-Route         2   e 1.158                                  \timing_controller_inst/n9281
+Route         2   e 1.158                                  \timing_controller_inst/n9113
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_15
-Route         2   e 1.158                                  \timing_controller_inst/n9282
+Route         2   e 1.158                                  \timing_controller_inst/n9114
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_16
-Route         2   e 1.158                                  \timing_controller_inst/n9283
+Route         2   e 1.158                                  \timing_controller_inst/n9115
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_17
-Route         2   e 1.158                                  \timing_controller_inst/n9284
+Route         2   e 1.158                                  \timing_controller_inst/n9116
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_18
-Route         2   e 1.158                                  \timing_controller_inst/n9285
+Route         2   e 1.158                                  \timing_controller_inst/n9117
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_19
-Route         2   e 1.158                                  \timing_controller_inst/n9286
+Route         2   e 1.158                                  \timing_controller_inst/n9118
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_20
-Route         2   e 1.158                                  \timing_controller_inst/n9287
+Route         2   e 1.158                                  \timing_controller_inst/n9119
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_21
-Route         2   e 1.158                                  \timing_controller_inst/n9288
+Route         2   e 1.158                                  \timing_controller_inst/n9120
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_22
-Route         2   e 1.158                                  \timing_controller_inst/n9289
+Route         2   e 1.158                                  \timing_controller_inst/n9121
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_23
-Route         2   e 1.158                                  \timing_controller_inst/n9290
+Route         2   e 1.158                                  \timing_controller_inst/n9122
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_24
-Route         2   e 1.158                                  \timing_controller_inst/n9291
+Route         2   e 1.158                                  \timing_controller_inst/n9123
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_25
-Route         2   e 1.158                                  \timing_controller_inst/n9292
+Route         2   e 1.158                                  \timing_controller_inst/n9124
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_26
-Route         2   e 1.158                                  \timing_controller_inst/n9293
+Route         2   e 1.158                                  \timing_controller_inst/n9125
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_27
-Route         2   e 1.158                                  \timing_controller_inst/n9294
+Route         2   e 1.158                                  \timing_controller_inst/n9126
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_28
-Route         2   e 1.158                                  \timing_controller_inst/n9295
+Route         2   e 1.158                                  \timing_controller_inst/n9127
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_29
-Route         2   e 1.158                                  \timing_controller_inst/n9296
+Route         2   e 1.158                                  \timing_controller_inst/n9128
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_30
-Route         2   e 1.158                                  \timing_controller_inst/n9297
+Route         2   e 1.158                                  \timing_controller_inst/n9129
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_31
-Route         2   e 1.158                                  \timing_controller_inst/n9298
+Route         2   e 1.158                                  \timing_controller_inst/n9130
 LUT4        ---     0.408             I3 to O              \timing_controller_inst/sub_7_add_2_32_lut
 Route         1   e 1.020                                  \timing_controller_inst/state_timeout_counter_31__N_379[30]
                   --------
@@ -329,65 +329,65 @@ Passed:  The following path meets requirements by 949.833ns
 L_CO        ---     0.367              C to Q              \timing_controller_inst/state_timeout_counter_i1 (from DEBUG_6_c)
 Route         4   e 1.397                                  \timing_controller_inst/state_timeout_counter[1]
 LUT4        ---     0.408             I0 to CO             \timing_controller_inst/sub_7_add_2_3
-Route         2   e 1.158                                  \timing_controller_inst/n9270
+Route         2   e 1.158                                  \timing_controller_inst/n9102
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_4
-Route         2   e 1.158                                  \timing_controller_inst/n9271
+Route         2   e 1.158                                  \timing_controller_inst/n9103
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_5
-Route         2   e 1.158                                  \timing_controller_inst/n9272
+Route         2   e 1.158                                  \timing_controller_inst/n9104
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_6
-Route         2   e 1.158                                  \timing_controller_inst/n9273
+Route         2   e 1.158                                  \timing_controller_inst/n9105
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_7
-Route         2   e 1.158                                  \timing_controller_inst/n9274
+Route         2   e 1.158                                  \timing_controller_inst/n9106
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_8
-Route         2   e 1.158                                  \timing_controller_inst/n9275
+Route         2   e 1.158                                  \timing_controller_inst/n9107
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_9
-Route         2   e 1.158                                  \timing_controller_inst/n9276
+Route         2   e 1.158                                  \timing_controller_inst/n9108
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_10
-Route         2   e 1.158                                  \timing_controller_inst/n9277
+Route         2   e 1.158                                  \timing_controller_inst/n9109
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_11
-Route         2   e 1.158                                  \timing_controller_inst/n9278
+Route         2   e 1.158                                  \timing_controller_inst/n9110
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_12
-Route         2   e 1.158                                  \timing_controller_inst/n9279
+Route         2   e 1.158                                  \timing_controller_inst/n9111
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_13
-Route         2   e 1.158                                  \timing_controller_inst/n9280
+Route         2   e 1.158                                  \timing_controller_inst/n9112
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_14
-Route         2   e 1.158                                  \timing_controller_inst/n9281
+Route         2   e 1.158                                  \timing_controller_inst/n9113
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_15
-Route         2   e 1.158                                  \timing_controller_inst/n9282
+Route         2   e 1.158                                  \timing_controller_inst/n9114
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_16
-Route         2   e 1.158                                  \timing_controller_inst/n9283
+Route         2   e 1.158                                  \timing_controller_inst/n9115
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_17
-Route         2   e 1.158                                  \timing_controller_inst/n9284
+Route         2   e 1.158                                  \timing_controller_inst/n9116
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_18
-Route         2   e 1.158                                  \timing_controller_inst/n9285
+Route         2   e 1.158                                  \timing_controller_inst/n9117
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_19
-Route         2   e 1.158                                  \timing_controller_inst/n9286
+Route         2   e 1.158                                  \timing_controller_inst/n9118
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_20
-Route         2   e 1.158                                  \timing_controller_inst/n9287
+Route         2   e 1.158                                  \timing_controller_inst/n9119
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_21
-Route         2   e 1.158                                  \timing_controller_inst/n9288
+Route         2   e 1.158                                  \timing_controller_inst/n9120
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_22
-Route         2   e 1.158                                  \timing_controller_inst/n9289
+Route         2   e 1.158                                  \timing_controller_inst/n9121
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_23
-Route         2   e 1.158                                  \timing_controller_inst/n9290
+Route         2   e 1.158                                  \timing_controller_inst/n9122
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_24
-Route         2   e 1.158                                  \timing_controller_inst/n9291
+Route         2   e 1.158                                  \timing_controller_inst/n9123
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_25
-Route         2   e 1.158                                  \timing_controller_inst/n9292
+Route         2   e 1.158                                  \timing_controller_inst/n9124
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_26
-Route         2   e 1.158                                  \timing_controller_inst/n9293
+Route         2   e 1.158                                  \timing_controller_inst/n9125
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_27
-Route         2   e 1.158                                  \timing_controller_inst/n9294
+Route         2   e 1.158                                  \timing_controller_inst/n9126
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_28
-Route         2   e 1.158                                  \timing_controller_inst/n9295
+Route         2   e 1.158                                  \timing_controller_inst/n9127
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_29
-Route         2   e 1.158                                  \timing_controller_inst/n9296
+Route         2   e 1.158                                  \timing_controller_inst/n9128
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_30
-Route         2   e 1.158                                  \timing_controller_inst/n9297
+Route         2   e 1.158                                  \timing_controller_inst/n9129
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_31
-Route         2   e 1.158                                  \timing_controller_inst/n9298
+Route         2   e 1.158                                  \timing_controller_inst/n9130
 LUT4        ---     0.408             CI to CO             \timing_controller_inst/sub_7_add_2_32
-Route         1   e 1.020                                  \timing_controller_inst/n9299
+Route         1   e 1.020                                  \timing_controller_inst/n9131
 LUT4        ---     0.408             I3 to O              \timing_controller_inst/sub_7_add_2_33_lut
 Route         1   e 1.020                                  \timing_controller_inst/state_timeout_counter_31__N_379[31]
                   --------
@@ -403,7 +403,7 @@ Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
-clk1 [get_nets FIFO_CLK_c]              |  1000.000 ns|    21.698 ns|     6  
+clk1 [get_nets FIFO_CLK_c]              |  1000.000 ns|    21.770 ns|     6  
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
 clk0 [get_nets DEBUG_6_c]               |  1000.000 ns|    51.675 ns|    33  
@@ -420,8 +420,8 @@ Timing summary:
 
 Timing errors: 0  Score: 0
 
-Constraints cover  19669 paths, 4204 nets, and 10317 connections (81.8% coverage)
+Constraints cover  18873 paths, 4016 nets, and 9903 connections (81.9% coverage)
 
 
-Peak memory: 58646528 bytes, TRCE: 8900608 bytes, DLYMAN: 647168 bytes
+Peak memory: 58064896 bytes, TRCE: 8114176 bytes, DLYMAN: 638976 bytes
 CPU_TIME_REPORT: 0 secs 
