@@ -50,7 +50,7 @@ def bluejay_data(fpga_clk, start_clocking_frame_data, fifo_data_out, line_of_dat
 
     # Timing constants
     num_words_per_line = 40
-    num_lines          = 128
+    num_lines          = 1280
     end_of_sync_blank_cycles  = 3  # Need to blank for 3 cycles between Sync Low and Valid high (tSD from pg. 14 datasheet)
     end_of_line_blank_cycles  = 4  # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
 
@@ -58,34 +58,61 @@ def bluejay_data(fpga_clk, start_clocking_frame_data, fifo_data_out, line_of_dat
     end_of_image_reached    = Signal(False, delay=10)
     v_counter               = Signal(intbv(0)[11:])
     state_timeout_counter   = Signal(intbv(0)[8:])
-    get_next_word_cmd       = Signal(False)
-    data_output_active_cmd  = Signal(False)
+    # get_next_word_cmd       = Signal(False)
+    # data_output_active_cmd  = Signal(False)
     state                   = Signal(t_state.IDLE)
 
     # Combinational Logic to ensure that we only ever get data from FIFO when not empty
-    @always_comb
-    def check_fifo_not_empty():
-        if (get_next_word_cmd==True) and (fifo_empty==False):
-            get_next_word.next = True
-        else:
-            get_next_word.next = False
+    # @always_comb
+    # def check_fifo_not_empty():
+    #     if (get_next_word_cmd==True) and (fifo_empty==False):
+    #         get_next_word.next = True
+    #     else:
+    #         get_next_word.next = False
 
     # Combinational Logic to ensure that we simply output data straight from FIFO input and don't ahve to deal with 1-cycle delays
-    @always_comb
-    def output_connect():
-        if(data_output_active_cmd):
-            data_o.next = fifo_data_out
-        elif(sync):
-            data_o.next = 0x00000000 # We're always syncing to 0, first line in a frame
-        else:
-            data_o.next = 0x00000000
+    # @always_comb
+    # def output_connect():
+    #     if(data_output_active_cmd):
+    #         data_o.next = fifo_data_out
+    #     elif(sync):
+    #         data_o.next = 0x00000000 # We're always syncing to 0, first line in a frame
+    #     else:
+    #         data_o.next = 0x00000000
+
+
+    @always(fpga_clk.negedge)
+    def falling_edge_outputs():
+
+        # DATA, VALID and SYNC must conform to the timing requirements outlined in pg. 15.
+        # To meet these requirements, we clock the values out on the preceeding negedge using the appropriate state
+
+        # Default is that these values are all False
+        data_o.next        = 0x00000000
+        valid.next         = False
+        get_next_word.next = False
+        sync.next          = False
+
+        # Set outputs in appropriate states
+        if state == t_state.SYNC_PULSE:     
+            sync.next = True
+        elif state == t_state.LINE_OUT_ENTER:  
+            valid.next         = True   
+            data_o.next        = fifo_data_out
+            get_next_word.next = True
+        elif state == t_state.LINE_OUT_DATA: 
+            valid.next         = True   
+            data_o.next        = fifo_data_out
+            get_next_word.next = True
+
+
 
     @always(fpga_clk.posedge)
     def update():
 
         # Default Outputs
-        sync.next  = False
-        valid.next = False
+        # sync.next  = False
+        # valid.next = False
 
         # Before we run our state machine, we check start_clocking_frame_data
         # This line is generated directly from the UPDATE line being de-asserted and shall be high for 1 clock cycle only
@@ -95,9 +122,9 @@ def bluejay_data(fpga_clk, start_clocking_frame_data, fifo_data_out, line_of_dat
             # Move to reset state
             state.next = t_state.RESET
             # Explicitly reset all state and values
-            data_output_active_cmd.next = False
-            sync.next                   = False
-            valid.next                  = False
+            # data_output_active_cmd.next = False
+            # sync.next                   = False
+            # valid.next                  = False
             v_counter.next              = num_lines
 
         else:
@@ -113,13 +140,13 @@ def bluejay_data(fpga_clk, start_clocking_frame_data, fifo_data_out, line_of_dat
                     # We have data, go to SYNC_PULSE state, asserting SYNC to be read next cycle
                     # Note that we don't need to expliclty set the DATA lines for SYNC as the combinational logic for output_connect above shall handle this
                     state.next = t_state.SYNC_PULSE
-                    sync.next = True
+                    # sync.next = True
                 else:
                     # Just wait in IDLE for the next buffer switch
                     state.next = t_state.IDLE
 
             # We sit in IDLE until we get a start_clocking_frame_data command while simulataneously having lines of data to-read available
-            if state == t_state.IDLE:
+            elif state == t_state.IDLE:
                 # Just sit in here doing nothing and waiting
                 state.next = t_state.IDLE
 
@@ -128,7 +155,7 @@ def bluejay_data(fpga_clk, start_clocking_frame_data, fifo_data_out, line_of_dat
             ###########################################
             elif state == t_state.SYNC_PULSE:     
                 # SYNC line is high for a single cycle while clocking out address data, this state is just to make sure it is pulled low
-                sync.next = False
+                # sync.next = False
                 # Auto transition to blanking post-pulse
                 state_timeout_counter.next = end_of_sync_blank_cycles
                 state.next = t_state.SYNC_BLANK
@@ -139,8 +166,6 @@ def bluejay_data(fpga_clk, start_clocking_frame_data, fifo_data_out, line_of_dat
                 if state_timeout_counter == 1:
                     # Move onto clocking out data in LINE_OUT_ENTER
                     state.next = t_state.LINE_OUT_ENTER
-                    # Start getting the next word out of the FIFO now as there shall be a 1-cycle clock delay from getting it from FIFO
-                    get_next_word_cmd.next = True
 
             ###########################################
             #### Clocking out Lines of Data States ####
@@ -149,28 +174,30 @@ def bluejay_data(fpga_clk, start_clocking_frame_data, fifo_data_out, line_of_dat
                 # Need this wait state when entering a line as it will take 1 cycle to start getting data from FIFO
                 # Reset counter and Valid line so they will start in-sync with FIFO Data - we clock out 1 word per clock cycle so simply set timeout_counter to words_per_line
                 state_timeout_counter.next = num_words_per_line        
-                valid.next = True
+                # valid.next = True
+                # Command to get next word out of FIFO also has to happen 1-cycle earlier (makes sense as synched with VALID)
+                # get_next_word.next = True
                 # Need to flag to combinational logic that we are clocking out data
-                data_output_active_cmd.next = True
+                # data_output_active_cmd.next = True
                 # Auto transition to main Data Out State
                 state.next = t_state.LINE_OUT_DATA
 
             elif state == t_state.LINE_OUT_DATA: 
                 # Keep reading from FIFO and maintain state
-                get_next_word_cmd.next = True
+                # get_next_word.next = True
                 #  Keep timing how many words clocked out and keep Valid high
                 state_timeout_counter.next = state_timeout_counter - 1
-                valid.next = True
+                # valid.next = True
                 # Are we at end of line?
                 if state_timeout_counter == 1:
                     # Yes, advance state machine to end of line with appropriate blanking timing
                     state_timeout_counter.next = end_of_line_blank_cycles
                     state.next = t_state.LINE_OUT_BLANK
                     # Not getting any more data from FIFO
-                    get_next_word_cmd.next = False
+                    # get_next_word.next = False
                     # End of line so pull Valid Low and no longer outputting data
-                    valid.next = False
-                    data_output_active_cmd.next = False
+                    # valid.next = False
+                    # data_output_active_cmd.next = False
 
             elif state == t_state.LINE_OUT_BLANK:
                 # Need to blank appropriate number of cycles between lines
@@ -193,10 +220,8 @@ def bluejay_data(fpga_clk, start_clocking_frame_data, fifo_data_out, line_of_dat
                 if line_of_data_available==True:
                     # Move onto clocking out data in LINE_OUT_ENTER
                     state.next = t_state.LINE_OUT_ENTER
-                    # Start getting the next word out of the FIFO now as there shall be a 1-cycle clock delay from getting it from FIFO
-                    get_next_word_cmd.next = True
 
-    return update, check_fifo_not_empty, output_connect
+    return update, falling_edge_outputs
 
 
 
