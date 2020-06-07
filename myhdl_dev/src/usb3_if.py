@@ -135,10 +135,13 @@ def usb3_if(
 
         elif state == t_state.READING_DATA:
             # We always assert the DC_FIFO write line, even if we have to stop in this instance of the state machine, this is because it is 1-cycle behind dc32_fifo_data_in
-            write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
+            # write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
+            # dc32_fifo_data_in.next  = usb3_data_in
             # If our FIFO has got 40 words in it, we have succesfully read a whole line, stop reading and go to WAITING_FOR_FIFO_LINE_TO_BE_READ
             if dc32_fifo_almost_full==ACTIVE_HIGH_TRUE:
                 state.next = t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ
+                # dc32_fifo_data_in.next  = usb3_data_in
+                # write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
             # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
             elif FR_RXF==ACTIVE_LOW_FALSE:
                 state.next = t_state.WAITING_FOR_DATA
@@ -147,6 +150,8 @@ def usb3_if(
                 FT_OE.next = ACTIVE_LOW_TRUE
                 FT_RD.next = ACTIVE_LOW_TRUE
                 dc32_fifo_data_in.next  = usb3_data_in
+                write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
+
 
         # elif state == t_state.WAITING_FIFO_IS_FULL:
         #     # Stay here with FT_OE, FT_RD in default positions until there is room in the FIFO, then return to WAITING_FOR_DATA
