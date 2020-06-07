@@ -15,7 +15,7 @@ ACTIVE_HIGH_FALSE = False
 
 t_state = enum(
     'WAITING_FOR_DATA',
-    'WAITING_FIFO_IS_FULL',
+    'WAITING_FOR_FIFO_LINE_TO_BE_READ',
     'DATA_AVAILABLE',
     'READ_ENABLE',
     'READING_DATA',
@@ -41,7 +41,8 @@ def usb3_if(
     # FIFO-side
     write_to_dc32_fifo,
     dc32_fifo_data_in,
-    dc32_fifo_is_full
+    dc32_fifo_almost_full,
+    dc32_fifo_is_empty,
 
     ):
     
@@ -57,9 +58,10 @@ def usb3_if(
     FT_RD                   : RD_N is an active low output signal to tell that USB3 Chip that data is being read (ie: it is the RD signal for the USB3 FIFO)
     usb3_data_in            : 32-bit wide Data lines from the FT601
     FIFO-side:
-    write_to_dc32_fifo      : Signal to write to the interfacing FIFO
-    dc32_fifo_data_in       : Data which shall go into 32-bit 
-    dc_32_fifo_is_full      : Goes high when there are at least 40 lines of data available in the internal FIFO
+    write_to_dc32_fifo        : Signal to write to the interfacing FIFO
+    dc32_fifo_data_in         : Data which shall go into 32-bit 
+    dc32_fifo_almost_full     : Goes high when therea are 40 items in FIFO and then clears at 1
+    dc32_fifo_is_empty        : Goes high when the FIFO is empty
 
     """
 
@@ -84,6 +86,7 @@ def usb3_if(
     # RD_N_r = Signal(False)
     # FSM state
     state  = Signal(t_state.WAITING_FOR_DATA)
+    state_timeout_counter = Signal(intbv(0)[4:]) 
     # Route these registers to their wires
     # @always_comb
     # def usb3_readout_comb_logic():
@@ -93,11 +96,15 @@ def usb3_if(
     @always(ftdi_clk.negedge)
     def usb3_readout_logic_state():
 
-        # Outputs are off by default
+        # Reading from the USB3 FIFO is off by default
         FT_OE.next               = ACTIVE_LOW_FALSE
         FT_RD.next               = ACTIVE_LOW_FALSE   
-        # write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
-        # dc32_fifo_data_in.next  = 0x00000000
+
+        # Signals to route USB3 output to DC_FIFO
+        # Need to store 1-cycle of FIFO data in memory as writing to the DC-FIFO is delayed by 1 cycle and FR_RXF can go high of FIFO can be full at any point so need to store this 1-cycle
+        # dc32_fifo_data_in.next   = 0x00000000#dc32_fifo_data_in#0x00000000
+        # Line to tell the DC_FIFO to clock next line of data
+        write_to_dc32_fifo.next  = ACTIVE_HIGH_FALSE
 
         #######################################################
         ##################### Init + Reset ####################
@@ -105,62 +112,80 @@ def usb3_if(
         # Which state are we in?
         if state == t_state.WAITING_FOR_DATA:
             # Sit here until we receive some data and there is room in the FIFO to read it
-            if( (FR_RXF==ACTIVE_LOW_TRUE) and (dc32_fifo_is_full==ACTIVE_HIGH_FALSE) ):
+            if( (FR_RXF==ACTIVE_LOW_TRUE) and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE) ):# (dc32_fifo_is_empty_n==ACTIVE_HIGH_TRUE) ):#(dc32_fifo_is_full==ACTIVE_HIGH_FALSE) ):
                 # Got some new data, start clocking it out
                 state.next = t_state.DATA_AVAILABLE
+                state_timeout_counter.next = 3
 
         elif state == t_state.DATA_AVAILABLE:
-            # Assert OE_N and then transition to next state
-            FT_OE.next = ACTIVE_LOW_TRUE
-            state.next = t_state.READ_ENABLE
+            # Stay here for a couple of cycles so we get the timing shown on pg. 18 of datasheet
+            state_timeout_counter.next = state_timeout_counter - 1
+            if state_timeout_counter == 1:
+                # Assert OE_N and then transition to next state
+                FT_OE.next = ACTIVE_LOW_TRUE
+                state.next = t_state.READ_ENABLE
 
         elif state == t_state.READ_ENABLE:
             # Assert FT_OE, FT_RD and then transition to next state
             FT_OE.next = ACTIVE_LOW_TRUE
             FT_RD.next = ACTIVE_LOW_TRUE
+            # Clock next line of data to USB3 Fifo output, but do not assert DC_FIFO-write line yet as we have to handle the 1-cycle delay
+            dc32_fifo_data_in.next  = usb3_data_in
             state.next = t_state.READING_DATA
 
         elif state == t_state.READING_DATA:
-            # If our FIFO has filled up, stop reading and go to WAITING_FIFO_IS_FULL
-            if dc32_fifo_is_full==ACTIVE_HIGH_TRUE:
-                FT_OE.next = ACTIVE_LOW_FALSE
-                FT_RD.next = ACTIVE_LOW_FALSE
-                state.next = t_state.WAITING_FIFO_IS_FULL
-            # If we have read all our data, stop reading and go back to WAITING_FOR_DATA
+            # We always assert the DC_FIFO write line, even if we have to stop in this instance of the state machine, this is because it is 1-cycle behind dc32_fifo_data_in
+            write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
+            # If our FIFO has got 40 words in it, we have succesfully read a whole line, stop reading and go to WAITING_FOR_FIFO_LINE_TO_BE_READ
+            if dc32_fifo_almost_full==ACTIVE_HIGH_TRUE:
+                state.next = t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ
+            # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
             elif FR_RXF==ACTIVE_LOW_FALSE:
-                FT_OE.next = ACTIVE_LOW_FALSE
-                FT_RD.next = ACTIVE_LOW_FALSE
                 state.next = t_state.WAITING_FOR_DATA
             else:
-                # Keep reading Data
+                # No change, keep clocking data out of the USB3 chip and into the FIFO
                 FT_OE.next = ACTIVE_LOW_TRUE
                 FT_RD.next = ACTIVE_LOW_TRUE
+                dc32_fifo_data_in.next  = usb3_data_in
 
-        elif state == t_state.WAITING_FIFO_IS_FULL:
-            # Stay here with FT_OE, FT_RD in default positions until there is room in the FIFO, then return to WAITING_FOR_DATA
-            if dc32_fifo_is_full==ACTIVE_HIGH_FALSE:
-                # Don't mind the extra cycles this route takes as gives the FIFO some time to clear out a bit
+        # elif state == t_state.WAITING_FIFO_IS_FULL:
+        #     # Stay here with FT_OE, FT_RD in default positions until there is room in the FIFO, then return to WAITING_FOR_DATA
+        #     if dc32_fifo_is_full==ACTIVE_HIGH_FALSE:
+        #         # Don't mind the extra cycles this route takes as gives the FIFO some time to clear out a bit
+        #         state.next = t_state.WAITING_FOR_DATA
+
+        elif state == t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ:
+            # Just wait here until our FIFO is empty
+            if dc32_fifo_is_empty==ACTIVE_HIGH_TRUE:
+                # Right, all of the line data has been clocked out, keep waiting for next line of data
                 state.next = t_state.WAITING_FOR_DATA
             
-    # We clock data into our FIFO on the positive edge, based on state
-    @always(ftdi_clk.posedge)
-    def usb3_readout_logic_output():
+    # # We clock data into our FIFO on the negative edge so it is ready for the FIFO's +ive edge, based on state
+    # @always(ftdi_clk.posedge)
+    # def usb3_readout_logic_output():
 
-        # Outputs are off by default
-        write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
-        dc32_fifo_data_in.next  = 0x00000000
+    #     # Outputs are off by default
+    #     FT_OE.next               = ACTIVE_LOW_FALSE
+    #     FT_RD.next               = ACTIVE_LOW_FALSE   
+    #     # Outputs are off by default
+    #     write_to_dc32_fifo.next  = ACTIVE_HIGH_FALSE
+    #     dc32_fifo_data_in.next   = 0x00000000
 
-        # Output Data if we are in approrpiate state, note that this matches when FT_RD is set above
-        # If our FIFO has filled up, stop reading and go to WAITING_FIFO_IS_FULL
-        if state==t_state.READ_ENABLE:
-            write_to_dc32_fifo.next = ACTIVE_LOW_FALSE
-            dc32_fifo_data_in.next  = usb3_data_in
-        # If we have read all our data, stop reading and go back to WAITING_FOR_DATA
-        elif state==t_state.READING_DATA:
-            write_to_dc32_fifo.next = ACTIVE_LOW_FALSE
-            dc32_fifo_data_in.next  = usb3_data_in
+    #     # Output Data if we are in approrpiate state
+    #     if state==t_state.        DATA_AVAILABLE:
+    #         FT_OE.next              = ACTIVE_LOW_TRUE
+    #     elif state==t_state.READ_ENABLE:
+    #         FT_OE.next              = ACTIVE_LOW_TRUE
+    #         FT_RD.next              = ACTIVE_LOW_TRUE   
+    #         write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
+    #         dc32_fifo_data_in.next  = usb3_data_in
+    #     elif state==t_state.READING_DATA:
+    #         FT_OE.next              = ACTIVE_LOW_TRUE
+    #         FT_RD.next              = ACTIVE_LOW_TRUE   
+    #         write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
+    #         dc32_fifo_data_in.next  = usb3_data_in
 
-    return usb3_readout_logic_state, usb3_readout_logic_output
+    return usb3_readout_logic_state#, usb3_readout_logic_output
 
 
 
@@ -175,9 +200,10 @@ def usb3_if_gen_verilog():
     FT_OE       = Signal(True)
     usb_data_o  = Signal(intbv(0)[32:])
     # FPGA side
-    write_to_dc32_fifo = Signal(False)
-    dc32_fifo_data_in  = Signal(intbv(0)[32:])
-    dc32_fifo_is_full  = Signal(False)
+    write_to_dc32_fifo        = Signal(False)
+    dc32_fifo_data_in         = Signal(intbv(0)[32:])
+    dc32_fifo_almost_full     = Signal(False)
+    dc32_fifo_is_empty        = Signal(False)
 
     # Instantiate
     usb3_if_inst = usb3_if(
@@ -190,7 +216,8 @@ def usb3_if_gen_verilog():
         # FPGA side
         write_to_dc32_fifo,
         dc32_fifo_data_in,
-        dc32_fifo_is_full
+        dc32_fifo_almost_full,
+        dc32_fifo_is_empty
     )
 
     # Convert

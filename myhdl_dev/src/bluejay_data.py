@@ -20,6 +20,7 @@ t_state = enum(
     'LINE_OUT_IDLE',
     'LINE_OUT_ENTER',
     'LINE_OUT_DATA',
+    'LINE_OUT_DATA_EXIT',
     'LINE_OUT_BLANK'
     )
 
@@ -97,13 +98,16 @@ def bluejay_data(fpga_clk, start_clocking_frame_data, fifo_data_out, line_of_dat
         if state == t_state.SYNC_PULSE:     
             sync.next = True
         elif state == t_state.LINE_OUT_ENTER:  
-            valid.next         = True   
-            data_o.next        = fifo_data_out
+            # 1-cycle lag for clocking data out of FIFO - need to assert get_next_word 1-cycle in advance
             get_next_word.next = True
         elif state == t_state.LINE_OUT_DATA: 
             valid.next         = True   
             data_o.next        = fifo_data_out
             get_next_word.next = True
+        elif state == t_state.LINE_OUT_DATA_EXIT:
+            # 1-cycle lag for clocking data out of FIFO - output data with 1-cycle lag
+            valid.next         = True   
+            data_o.next        = fifo_data_out
 
 
 
@@ -186,18 +190,23 @@ def bluejay_data(fpga_clk, start_clocking_frame_data, fifo_data_out, line_of_dat
                 # Keep reading from FIFO and maintain state
                 # get_next_word.next = True
                 #  Keep timing how many words clocked out and keep Valid high
-                state_timeout_counter.next = state_timeout_counter - 1
+                # state_timeout_counter.next = state_timeout_counter - 1
                 # valid.next = True
                 # Are we at end of line?
-                if state_timeout_counter == 1:
+                if (fifo_empty==True) and (line_of_data_available==False):#state_timeout_counter == 1:
                     # Yes, advance state machine to end of line with appropriate blanking timing
-                    state_timeout_counter.next = end_of_line_blank_cycles
-                    state.next = t_state.LINE_OUT_BLANK
+                    # state_timeout_counter.next = end_of_line_blank_cycles
+                    state.next = t_state.LINE_OUT_DATA_EXIT
                     # Not getting any more data from FIFO
                     # get_next_word.next = False
                     # End of line so pull Valid Low and no longer outputting data
                     # valid.next = False
                     # data_output_active_cmd.next = False
+
+            elif state == t_state.LINE_OUT_DATA_EXIT:
+                # Single-cycle at the end to handle the 1-cycle delay from clocking out of FIFO
+                state_timeout_counter.next = end_of_line_blank_cycles
+                state.next = t_state.LINE_OUT_BLANK
 
             elif state == t_state.LINE_OUT_BLANK:
                 # Need to blank appropriate number of cycles between lines

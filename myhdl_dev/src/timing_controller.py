@@ -33,13 +33,14 @@ def timing_controller(
     reset_all,
     
     # DC32-FIFO
-    num_words_in_buffer,
+    # dc32_fifo_almost_full,
+    # next_line_clock_into_fifo,
     
     # Bluejay Data Interface
-    line_of_data_available,
     start_clocking_frame_data_cmd,
     update,
     invert
+    # dc32_fifo_is_empty
 
     ):
     
@@ -49,23 +50,33 @@ def timing_controller(
     --------
     Control:
     fpga_clk                       : clock to drive this module
+    ftdi_clk                       : clock that drives usb_fifo, need it to sync signal across clock domains
     reset_all                      : Output reset line for all other modules
     DC32-FIFO Side
-    num_words_in_buffer            : How many words of data are in the DC32-FIFO, used to determine whether or not there is an entire line of data available
+    next_line_clock_into_fifo      : Line to tell the usb3_if.py that it is okay to clock next line into the FIFO
     Bluejay Data Interface:
     line_of_data_available         : Flag to indicate to the bluejay FSM that there is at least a line of data available in the FIFO currently (ie: more than 40 words)
     start_clocking_frame_data_cmd  : Line which goes high for 1-cycle to tell the bluejay_data object that it should start loading next frame. Goes high for 1-cycle straight after a buffer-swap to give us maximum time to swap without tearing
     update                         : Used to assert when a Buffer Switch shall take place
     invert                         : Used to enable DC_Balancing
+    dc32_fifo_is_empty             : Used as an input so the timing_controller can inform the usb3_if that it can clock next line into the dc_fifo
     """
 
-    # If there are sufficient words available in the DC-FIFO, then flag this
-    @always_comb
-    def check_line_available():
-        if(num_words_in_buffer>=NUMBER_OF_WORDS_IN_SINGLE_LINE):
-            line_of_data_available.next = True
-        else:
-            line_of_data_available.next = False
+    # # If there are sufficient words available in the DC-FIFO, then flag this
+    # @always_comb
+    # def check_line_available():
+    #     if(dc32_fifo_almost_full==True):
+    #         line_of_data_available.next = True
+    #     else:
+    #         line_of_data_available.next = False
+
+    # If the bluejay_data object is not currently clocking out a line, then tell the usb3_if that it is okay to clock the subsequent line into the FIFO, use VALID line to determine this
+    # @always_comb
+    # def check_usb_can_clock_nextline_into_fifo():
+    #     if(dc32_fifo_is_empty==True):
+    #         next_line_clock_into_fifo.next = True
+    #     else:
+    #         next_line_clock_into_fifo.next = False
 
 
     # Timing constants to handle our UPDATE + INVERT + Blanking Timing
@@ -170,7 +181,7 @@ def timing_controller(
                 state_timeout_counter.next = invert_to_bufswitch_blanking_cycles
                 state.next = t_state.INVERT_TO_BUFSWITCH_BLANKING
 
-    return check_line_available, run_timing
+    return run_timing
 
 
 
@@ -182,12 +193,14 @@ def timing_controller_gen_verilog():
     fpga_clk                = Signal(False)
     reset_all               = Signal(False)
     # DC32 FIFO
-    num_words_in_buffer     = Signal(intbv(0)[7:]) # FIFO Depth is 64
+    # dc32_fifo_almost_full       = Signal(False)
+    next_line_clock_into_fifo = Signal(False)
     # Bluejay Display
     line_of_data_available        = Signal(False)
     start_clocking_frame_data_cmd = Signal(False)
     update                        = Signal(False)
     invert                        = Signal(False)
+    # dc32_fifo_is_empty            = Signal(False)
     
     # Control Logic between SLM and simulated USB-FIFO
     timing_controller_inst = timing_controller(
@@ -195,12 +208,14 @@ def timing_controller_gen_verilog():
         fpga_clk,
         reset_all,
         # DC32 FIFO
-        num_words_in_buffer,
+        # dc32_fifo_almost_full,
+        # next_line_clock_into_fifo,
         # Bluejay Display
-        line_of_data_available,
+        # line_of_data_available,
         start_clocking_frame_data_cmd,
         update,
-        invert
+        invert,
+        # dc32_fifo_is_empty
     )
 
     # Convert
