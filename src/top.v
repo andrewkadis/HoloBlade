@@ -298,8 +298,8 @@ assign SLM_CLK = fpga_clk;
 // Following lines are not used
 // All of these input lines have pull up/downs on them, so simply tri-state
 // assign UPDATE = 1'bx;
-assign INVERT = 0'bx;
-assign SYNC   = 0'bx;
+// assign INVERT = 0'bx;
+// assign SYNC   = 0'bx;
 // assign VALID  = 1'bx;
 // Data Lines
 // assign DATA31 = 1'b1;
@@ -345,51 +345,55 @@ assign SYNC   = 0'bx;
 
 
 
-
-
 ////////////////////////
-///////// USB3 /////////
+///////// USB3 /////////1
 ////////////////////////
-// assign debug_ch1 = FT_OE;
-// assign debug_ch2 = FIFO_D0;
-// assign debug_ch3 = FT_RD;
-// assign debug_ch4 = FIFO_D0;
-// assign DEBUG_1 = UART_RX;
-// assign DEBUG_2 = UART_TX;//next_frame_rdy_w;
-// assign DEBUG_2 = SOUT;
-// assign DEBUG_3 = SCK;
-// assign DEBUG_8 = SOUT;
-// assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
-// Debugging Lines
-// Keep clock at the top so we don't lose track of things
-// assign DEBUG_5 = fpga_clk;//bluejay_data_out[22];
-// assign DEBUG_1 = FR_RXF;//line_of_data_available;
-// assign DEBUG_2 = get_next_word;//get_next_word;//FT_OE;//next_frame_rdy_w;
-// assign DEBUG_3 = fifo_data_out[22];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-// assign DEBUG_4 = bluejay_data_o[22];//usb3_fifo_read_enable;
-// assign DEBUG_6 = line_of_data_available;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
-// assign DEBUG_7 = valid_o;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-
 // // Debug setup - doesnt work
 wire fsm_change; 
-assign DEBUG_1 = FR_RXF;//line_of_data_available;
-assign DEBUG_2 = UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = VALID;//usb3_fifo_read_enable;
-assign DEBUG_5 = DATA0;//SEN;
-assign DEBUG_7 = UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_6 = SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
+// START
+assign DEBUG_1 = FIFO_D0;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
+assign DEBUG_2 = FT_RD;//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = write_to_dc32_fifo;//dc32_fifo_is_empty;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = get_next_word;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
+assign DEBUG_5 = DATA0;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+assign DEBUG_7 = VALID;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_6 = FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
+// // Debugging Values for usb3 interfacing logic and fifo
+// assign DEBUG_1 = FIFO_D0;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
+// assign DEBUG_2 = dc32_fifo_is_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+// assign DEBUG_3 = FT_RD;//dc32_fifo_is_empty;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+// assign DEBUG_4 = write_to_dc32_fifo;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
+// assign DEBUG_5 = dc32_fifo_almost_full;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+// assign DEBUG_7 = DATA0;//dc32_fifo_is_empty;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+// assign DEBUG_6 = FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
+// assign DEBUG_1 = FR_RXF;
+// assign DEBUG_2 = write_to_dc32_fifo;
+// assign DEBUG_3 = DATA0;//next_line_clock_into_fifo;
+// assign DEBUG_4 = dc32_fifo_almost_full;
+// assign DEBUG_5 = VALID;
+// assign DEBUG_7 = line_of_data_available;//DATA0;
+// assign DEBUG_6 = SLM_CLK;
 
 
+// assign DEBUG_1 = FR_RXF;
+// assign DEBUG_2 = write_to_dc32_fifo;
+// assign DEBUG_3 = DATA0;//next_line_clock_into_fifo;
+// assign DEBUG_4 = dc32_fifo_almost_full;
+// assign DEBUG_5 = FT_OE;
+// assign DEBUG_7 = line_of_data_available;//DATA0;
+// assign DEBUG_6 = FTDI_CLK;;
 
-// // // Needed to work
-// assign DEBUG_5 = SDAT;  // TODO: No idea why SPI comms don't work when this output is not routed out to debug, but do so for now
-// // assign DEBUG_7 = FR_RXF;//fpga_clk;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-// assign DEBUG_1 = UART_RX;//FR_RXF;//line_of_data_available;
-// assign DEBUG_2 = SEN;//rx_complete;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-// assign DEBUG_3 = UART_TX;//spi_start_transfer_r;//UART_TX;//bluejay_data_o[0];//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-// assign DEBUG_4 = SCK;//valid_o;//usb3_fifo_read_enable;
-// assign DEBUG_6 = SOUT;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+// assign DEBUG_1 = FR_RXF;
+// assign DEBUG_2 = FT_OE;
+// assign DEBUG_3 = FT_RD;
+// assign DEBUG_4 = FIFO_D0;//dc32_fifo_is_empty;
+// assign DEBUG_5 = dc32_fifo_almost_full;
+// assign DEBUG_7 = write_to_dc32_fifo;
+// assign DEBUG_6 = FIFO_CLK;//DATA0;;
+
 
 
   // .empty_o(fifo_empty),
@@ -442,7 +446,7 @@ assign usb3_data_in[0]  = FIFO_D0;
 // FPGA side
 wire        write_to_dc32_fifo;
 wire[31:0]  dc32_fifo_data_in;
-wire        dc32_fifo_is_full;
+wire        next_line_clock_into_fifo;
 // Instantiate
 usb3_if usb3_if_inst(
   // FTDI USB3 Chip
@@ -454,7 +458,8 @@ usb3_if usb3_if_inst(
   // FPGA side
   .write_to_dc32_fifo(write_to_dc32_fifo),
   .dc32_fifo_data_in(dc32_fifo_data_in),
-  .dc32_fifo_is_full(dc32_fifo_is_full)
+  .dc32_fifo_almost_full(dc32_fifo_almost_full),
+  .dc32_fifo_is_empty(dc32_fifo_is_empty)
  );
 
 
@@ -468,12 +473,12 @@ usb3_if usb3_if_inst(
 // Signals
 wire reset_ptr; // Never changes, unused only here because generated FIFO from Lattice tools includes it
 // FPGA-side
-wire       fifo_empty;
+wire       dc32_fifo_is_empty;
 wire       get_next_word;
 wire[31:0] fifo_data_out;
-wire[6:0]  num_words_in_buffer;
+wire       dc32_fifo_almost_full;
 // Instantiate FIFO
-fifo_dc_32_lut_gen fifo_dc_32_lut_gen_inst(
+fifo_dc_32_lut_gen2 fifo_dc_32_lut_gen_inst(
   // Signals
   .rst_i(reset_all),
   .rp_rst_i(reset_ptr),
@@ -483,8 +488,9 @@ fifo_dc_32_lut_gen fifo_dc_32_lut_gen_inst(
   .wr_en_i(write_to_dc32_fifo),
   .wr_data_i(dc32_fifo_data_in),
   .full_o(dc32_fifo_is_full),
+  .almost_full_o(dc32_fifo_almost_full),
   // FPGA-side
-  .empty_o(fifo_empty),
+  .empty_o(dc32_fifo_is_empty),
   .rd_en_i(get_next_word),
   .rd_data_o(fifo_data_out), 
   .rd_data_cnt_o(num_words_in_buffer)
@@ -501,20 +507,20 @@ fifo_dc_32_lut_gen fifo_dc_32_lut_gen_inst(
 // Control
 wire reset_all;
 // Bluejay Display
-wire line_of_data_available;
-wire next_frame_rdy;
+// wire line_of_data_available;
+wire buffer_switch_done;
 // Control Logic between SLM and simulated USB-FIFO
 timing_controller timing_controller_inst(
   // Control
   .fpga_clk(fpga_clk),
   .reset_all(reset_all),
   // DC32 FIFO
-  .num_words_in_buffer(num_words_in_buffer),
+  // .next_line_clock_into_fifo(),
   // Bluejay Display
-  .line_of_data_available(line_of_data_available),
-  .next_frame_rdy(next_frame_rdy)
+  .start_clocking_frame_data_cmd(buffer_switch_done),
+  .update(UPDATE),
+  .invert(INVERT)
 );
-
 
 
 
@@ -575,27 +581,24 @@ assign DATA1  = bluejay_data_out[1];
 assign DATA0  = bluejay_data_out[0];
 // Signals for Bluejay Data Module
 // SLM-Side
-wire       sync_o;
+// wire       sync_o;
 // wire       valid_o;
 // wire       update_o;
-wire       invert_o;
+// wire       invert_o;
 // Inst our Bluejay Data Interface
 bluejay_data bluejay_data_inst(
   // Control
   .fpga_clk(fpga_clk),
-  .reset_all(reset_all),
+  .start_clocking_frame_data(buffer_switch_done),
   // FPGA-side
-  .next_frame_rdy(next_frame_rdy),
   .fifo_data_out(fifo_data_out),
-  .line_of_data_available(line_of_data_available),
-  .fifo_empty(fifo_empty),
+  .line_of_data_available(dc32_fifo_almost_full),
+  .fifo_empty(dc32_fifo_is_empty),
   .get_next_word(get_next_word),
   // SLM-side
   .data_o(bluejay_data_out),
-  .sync_o(sync_o),
-  .valid_o(VALID),
-  .update_o(UPDATE),
-  .invert_o(invert_o)
+  .sync(SYNC),
+  .valid(VALID)
 );
 // Buffer VALID and OUTPUT before outputting to SLM so they don't sag
 // SB_GB update_gb ( .USER_SIGNAL_TO_GLOBAL_BUFFER(update_o), .GLOBAL_BUFFER_OUTPUT(UPDATE) );
@@ -1081,7 +1084,12 @@ always @ (posedge fpga_clk) begin
 
       // Check is any special actions to take FIRST (this is important as we are using sequential updates here)
       if(tx_addr_byte_r==8'hBC) begin
-        // A '0xFC' means we are clocking out image test line data and need a multi-byte-SPI transaction
+        // A '0xBC' means we are clocking out image test line data and need a multi-byte-SPI transaction
+        multi_byte_spi_trans_flag_r = 1;
+      end
+
+      if(tx_addr_byte_r==8'hBC) begin
+        // We use a '0xBD' to doi a hard reset
         multi_byte_spi_trans_flag_r = 1;
       end
 
