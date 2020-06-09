@@ -126,7 +126,7 @@ def bluejay_datapath_tb():
     # Implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
     # FPGA side
     write_to_dc32_fifo     = Signal(False)
-    dc32_fifo_data_in      = Signal(intbv(0)[32:])
+    dc32_fifo_data_in      = Signal(0)
     dc32_fifo_empty        = Signal(False)
     # Instantiate
     usb3_if_inst = usb3_if.usb3_if(
@@ -154,7 +154,7 @@ def bluejay_datapath_tb():
     # FPGA-side
     dc32_fifo_almost_empty  = Signal(False)
     get_next_word           = Signal(False)
-    dc32_fifo_data_out      = Signal(intbv(0)[32:])
+    dc32_fifo_data_out      = Signal(0)
     # DUTs
     mock_dc32_fifo_inst = mock_dc32_fifo.mock_dc32_fifo(
         # Signals
@@ -234,7 +234,7 @@ def bluejay_datapath_tb():
         # Put some data in the mocked FT601 chip ready to be clocked out when we get a buffer switch
         # Temp for debug
         total_lines = 0
-        for i in range(0, 4): # Note that this does not execute the maximum
+        for i in range(0, 16): # Note that this does not execute the maximum
 
             # Load line
             yield simulate_load_fifo_data(test_line)
