@@ -404,6 +404,39 @@ assign DEBUG_6 = FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo
 
 
 ///////////////////////////////////////////////////////////////////////////
+///////////////////////// Timing Controller ///////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// Block to control timing of display updates, controls reset, frame-rate, next-line_of_data_available-rdy, next-frame-rdy
+// Note that it also lets us cross clock domains fom the FTDI CLock domain to the main FPGA clock
+// Signals
+// Control
+wire reset_all;
+wire reset_per_frame;
+wire buffer_switch_done;
+// DC32 FIFO
+wire dc32_fifo_almost_full;
+// Bluejay Display
+wire line_of_data_available;
+wire update;
+wire invert;
+// Control Logic between SLM and simulated USB-FIFO
+timing_controller timing_controller_inst(
+  // Control
+  .fpga_clk(fpga_clk),
+  .reset_all(reset_all),
+  .reset_per_frame(reset_per_frame),
+  .buffer_switch_done(buffer_switch_done),
+  // DC32 FIFO
+  .dc32_fifo_almost_full(dc32_fifo_almost_full),
+  // Bluejay Display
+  .line_of_data_available(line_of_data_available),
+  .update(UPDATE),
+  .invert(INVERT)
+);
+
+
+
+///////////////////////////////////////////////////////////////////////////
 ///////////////////// USB3 Chip Interfacing ///////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // Connect up USB3 Chip using our custom interface
@@ -446,9 +479,12 @@ assign usb3_data_in[0]  = FIFO_D0;
 // FPGA side
 wire        write_to_dc32_fifo;
 wire[31:0]  dc32_fifo_data_in;
-wire        next_line_clock_into_fifo;
+wire        dc32_fifo_empty;
 // Instantiate
 usb3_if usb3_if_inst(
+  // Control
+  .reset_per_frame(reset_per_frame),
+  .buffer_switch_done(buffer_switch_done),
   // FTDI USB3 Chip
   .ftdi_clk(FIFO_CLK),
   .FR_RXF(FR_RXF),
@@ -459,7 +495,7 @@ usb3_if usb3_if_inst(
   .write_to_dc32_fifo(write_to_dc32_fifo),
   .dc32_fifo_data_in(dc32_fifo_data_in),
   .dc32_fifo_almost_full(dc32_fifo_almost_full),
-  .dc32_fifo_is_empty(dc32_fifo_is_empty)
+  .dc32_fifo_empty(dc32_fifo_empty)
  );
 
 
@@ -473,10 +509,9 @@ usb3_if usb3_if_inst(
 // Signals
 wire reset_ptr; // Never changes, unused only here because generated FIFO from Lattice tools includes it
 // FPGA-side
-wire       dc32_fifo_is_empty;
+wire       dc32_fifo_almost_empty;
 wire       get_next_word;
 wire[31:0] fifo_data_out;
-wire       dc32_fifo_almost_full;
 // Instantiate FIFO
 fifo_dc_32_lut_gen2 fifo_dc_32_lut_gen_inst(
   // Signals
@@ -487,38 +522,17 @@ fifo_dc_32_lut_gen2 fifo_dc_32_lut_gen_inst(
   // FT601-side
   .wr_en_i(write_to_dc32_fifo),
   .wr_data_i(dc32_fifo_data_in),
-  .full_o(),
   .almost_full_o(dc32_fifo_almost_full),
   // FPGA-side
-  .empty_o(dc32_fifo_is_empty),
+  .empty_o(dc32_fifo_empty),
+  .almost_empty_o(dc32_fifo_almost_empty),
   .rd_en_i(get_next_word),
   .rd_data_o(fifo_data_out)
 );
 
 
-///////////////////////////////////////////////////////////////////////////
-///////////////////////// Timing Controller ///////////////////////////////
-///////////////////////////////////////////////////////////////////////////
-// Block to control timing of display updates, controls reset, frame-rate, next-line_of_data_available-rdy, next-frame-rdy
-// Note that it also lets us cross clock domains fom the FTDI CLock domain to the main FPGA clock
-// Signals
-// Control
-wire reset_all;
-// Bluejay Display
-// wire line_of_data_available;
-wire buffer_switch_done;
-// Control Logic between SLM and simulated USB-FIFO
-timing_controller timing_controller_inst(
-  // Control
-  .fpga_clk(fpga_clk),
-  .reset_all(reset_all),
-  // DC32 FIFO
-  // .next_line_clock_into_fifo(),
-  // Bluejay Display
-  .start_clocking_frame_data_cmd(buffer_switch_done),
-  .update(UPDATE),
-  .invert(INVERT)
-);
+
+
 
 
 
@@ -578,23 +592,17 @@ assign DATA2  = bluejay_data_out[2];
 assign DATA1  = bluejay_data_out[1];
 assign DATA0  = bluejay_data_out[0];
 // Signals for Bluejay Data Module
-// SLM-Side
-// wire       sync_o;
-// wire       valid_o;
-// wire       update_o;
-// wire       invert_o;
-// Inst our Bluejay Data Interface
 bluejay_data bluejay_data_inst(
   // Control
   .fpga_clk(fpga_clk),
-  .start_clocking_frame_data(buffer_switch_done),
+  .buffer_switch_done(buffer_switch_done),
   // FPGA-side
   .fifo_data_out(fifo_data_out),
   .line_of_data_available(dc32_fifo_almost_full),
-  .fifo_empty(dc32_fifo_is_empty),
+  .dc32_fifo_almost_empty(dc32_fifo_almost_empty),
   .get_next_word(get_next_word),
   // SLM-side
-  .data_o(bluejay_data_out),
+  .bluejay_data_out(bluejay_data_out),
   .sync(SYNC),
   .valid(VALID)
 );
