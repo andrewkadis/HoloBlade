@@ -66,25 +66,25 @@ def bluejay_datapath_tb():
     fpga_clk = Signal(False)
     bluejay_datapath_clkGen_inst = bluejay_datapath_clkGen(ftdi_clk, fpga_clk)
 
-    # Our Simulated USB-FIFO
-    usb_data_o  = Signal(0)
-    TXE_N       = Signal(True)
-    FR_RXF      = Signal(True)
-    WR_N        = Signal(True)
-    FT_RD       = Signal(True)
-    FT_OE       = Signal(True)
-    RESET_N     = Signal(True)
+    # Our Simulated FT601 USB3 Chip
+    usb3_data_in = Signal(0)
+    TXE_N        = Signal(True)
+    FR_RXF       = Signal(True)
+    WR_N         = Signal(True)
+    FT_RD        = Signal(True)
+    FT_OE        = Signal(True)
+    RESET_N      = Signal(True)
     # Simulated Signals for loading Test Data
-    usb3_data_in    = Signal(0)
-    SIM_DATA_IN_WR = Signal(False)
+    mock_ft601_fifo_data = Signal(0)
+    SIM_DATA_IN_WR       = Signal(False)
     # Inst our simulate USB FIFO
-    mock_ft601_inst = mock_ft601.mock_ft601(ftdi_clk, usb_data_o, TXE_N, FR_RXF, WR_N, FT_RD, FT_OE, RESET_N, usb3_data_in, SIM_DATA_IN_WR)
+    mock_ft601_inst = mock_ft601.mock_ft601(ftdi_clk, usb3_data_in, TXE_N, FR_RXF, WR_N, FT_RD, FT_OE, RESET_N, mock_ft601_fifo_data, SIM_DATA_IN_WR, maxFilling=sys.maxsize)
     # Function to simulate loading data into FIFO with USB3 Drivers on the PC
     def simulate_load_fifo_data(data_to_load):
         # Load all our data into internal fifo
         for data_word in data_to_load:
             yield ftdi_clk.negedge
-            usb3_data_in.next = data_word
+            mock_ft601_fifo_data.next = data_word
             SIM_DATA_IN_WR.next = True
             yield ftdi_clk.posedge
         # De-assert once all data clocked in
@@ -95,9 +95,10 @@ def bluejay_datapath_tb():
 
     # Implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
     # FPGA side
-    write_to_dc32_fifo = Signal(False)
-    dc32_fifo_data_in  = Signal(intbv(0)[32:])
-    dc32_fifo_is_full  = Signal(False)
+    write_to_dc32_fifo     = Signal(False)
+    dc32_fifo_data_in      = Signal(intbv(0)[32:])
+    dc32_fifo_almost_full  = Signal(False)
+    dc32_fifo_is_empty     = Signal(False)
     # Instantiate
     usb3_if_inst = usb3_if.usb3_if(
         # FTDI USB3 Chip
@@ -105,14 +106,13 @@ def bluejay_datapath_tb():
         FR_RXF,
         FT_OE,
         FT_RD,
-        usb_data_o,
+        usb3_data_in,
         # FPGA side
         write_to_dc32_fifo,
         dc32_fifo_data_in,
-        dc32_fifo_is_full
+        dc32_fifo_almost_full,
+        dc32_fifo_is_empty,
     )
-
-
 
     # Inst our simulated 32-bitDC FIFO and its signals
     # Signals
@@ -132,7 +132,7 @@ def bluejay_datapath_tb():
         # FT601-side
         write_to_dc32_fifo,
         dc32_fifo_data_in,
-        dc32_fifo_is_full,
+        dc32_fifo_almost_full,
         # FPGA-side
         fifo_empty,
         get_next_word,
@@ -156,9 +156,9 @@ def bluejay_datapath_tb():
         fpga_clk,
         reset_all,
         # DC32 FIFO
-        num_words_in_buffer,
+        # num_words_in_buffer,
         # Bluejay Display
-        line_of_data_available,
+        # line_of_data_available,
         start_clocking_frame_data_cmd,
         update,
         invert
