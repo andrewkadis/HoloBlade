@@ -31,16 +31,16 @@ def timing_controller(
     # Control
     fpga_clk,
     reset_all,
+    reset_per_frame,
+    buffer_switch_done,
     
     # DC32-FIFO
-    # dc32_fifo_almost_full,
-    # next_line_clock_into_fifo,
+    dc32_fifo_almost_full,
     
     # Bluejay Data Interface
-    start_clocking_frame_data_cmd,
+    line_of_data_available,
     update,
     invert
-    # dc32_fifo_is_empty
 
     ):
     
@@ -50,25 +50,24 @@ def timing_controller(
     --------
     Control:
     fpga_clk                       : clock to drive this module
-    ftdi_clk                       : clock that drives usb_fifo, need it to sync signal across clock domains
     reset_all                      : Output reset line for all other modules
+    reset_per_frame                : Output line to reset relevant components ready for a new frame
+    buffer_switch_done             : Line which goes high for 1-cycle to tell modules that a buffer switch has just completed, this timing drives several modules - usb3_if and bluejay_data
     DC32-FIFO Side
-    next_line_clock_into_fifo      : Line to tell the usb3_if.py that it is okay to clock next line into the FIFO
+    dc32_fifo_almost_full          : Line out of the FIFO which shall go high when there is at least 40 words in it (ie: one line)
     Bluejay Data Interface:
     line_of_data_available         : Flag to indicate to the bluejay FSM that there is at least a line of data available in the FIFO currently (ie: more than 40 words)
-    start_clocking_frame_data_cmd  : Line which goes high for 1-cycle to tell the bluejay_data object that it should start loading next frame. Goes high for 1-cycle straight after a buffer-swap to give us maximum time to swap without tearing
     update                         : Used to assert when a Buffer Switch shall take place
     invert                         : Used to enable DC_Balancing
-    dc32_fifo_is_empty             : Used as an input so the timing_controller can inform the usb3_if that it can clock next line into the dc_fifo
     """
 
-    # # If there are sufficient words available in the DC-FIFO, then flag this
-    # @always_comb
-    # def check_line_available():
-    #     if(dc32_fifo_almost_full==True):
-    #         line_of_data_available.next = True
-    #     else:
-    #         line_of_data_available.next = False
+    # If there are sufficient words available in the DC-FIFO, then flag this
+    @always_comb
+    def check_line_available():
+        if(dc32_fifo_almost_full==True):
+            line_of_data_available.next = True
+        else:
+            line_of_data_available.next = False
 
     # If the bluejay_data object is not currently clocking out a line, then tell the usb3_if that it is okay to clock the subsequent line into the FIFO, use VALID line to determine this
     # @always_comb
@@ -81,8 +80,12 @@ def timing_controller(
 
     # Timing constants to handle our UPDATE + INVERT + Blanking Timing
     # Values below are for 1Hz update at 62.5 MHz # TODO: Make this programmatic
-    bufswitch_to_invert_blanking_cycles = 31249928 # Equvalent to ( 62500000 - (48+48+24+24) )/2
-    invert_to_bufswitch_blanking_cycles = 31249927 # Equvalent to ( 62500000 - (48+48+24+24) )/2 - 1, -1 is from update_bufswitch_post_cycles
+    # 1 Hz Option
+    # bufswitch_to_invert_blanking_cycles = 31249928 # Equvalent to ( 62500000 - (48+48+24+24) )/2
+    # invert_to_bufswitch_blanking_cycles = 31249927 # Equvalent to ( 62500000 - (48+48+24+24) )/2 - 1, -1 is from update_bufswitch_post_cycles
+    # 10 kHz Option - makes simulation 10000 times faster
+    bufswitch_to_invert_blanking_cycles = 3053 # Equvalent to ( 62500000*0.0001 - (48+48+24+24) )/2
+    invert_to_bufswitch_blanking_cycles = 3052 # Equvalent to ( 62500000*0.0001 - (48+48+24+24) )/2 - 1, -1 is from update_bufswitch_post_cycles
     update_bufswitch_asserted_cycles    = 48 # t_upls typical pg 18.
     update_bufswitch_post_cycles        = 1  # not a timing requirement, but makes logic for bluejay_data easier, takes 1-cycle out of update_to_bufswitch_blanking_cycles to keep things even
     update_invert_pre_cycles            = 24 # t_isu typical pg. 18
@@ -97,10 +100,11 @@ def timing_controller(
     def run_timing():
 
         # Off by default
-        reset_all.next                     = False
-        start_clocking_frame_data_cmd.next = False   
-        update.next                        = False
-        invert.next                        = False
+        reset_all.next          = False
+        reset_per_frame.next    = False
+        buffer_switch_done.next = False   
+        update.next             = False
+        invert.next             = False
 
         #######################################################
         ##################### Init + Reset ####################
@@ -136,6 +140,8 @@ def timing_controller(
             if state_timeout_counter == 1:
                 state_timeout_counter.next = update_bufswitch_asserted_cycles
                 state.next = t_state.UPDATE_BUFSWITCH_ASSERTED
+                # Also assert the per-frame reset, gives modules a chance to be reset before the subsequent buffer_switch_done
+                reset_per_frame.next = True
 
         #######################################################
         ############### Signal Waveform Timings ###############
@@ -149,7 +155,7 @@ def timing_controller(
                 state.next = t_state.UPDATE_BUFSWITCH_POST
 
         elif state == t_state.UPDATE_BUFSWITCH_POST:
-            start_clocking_frame_data_cmd.next = True
+            buffer_switch_done.next = True
             # Next state?
             state_timeout_counter.next = state_timeout_counter - 1
             if state_timeout_counter == 1:
@@ -181,41 +187,26 @@ def timing_controller(
                 state_timeout_counter.next = invert_to_bufswitch_blanking_cycles
                 state.next = t_state.INVERT_TO_BUFSWITCH_BLANKING
 
-    return run_timing
+    return run_timing, check_line_available
 
 
 
 # Generated Verilog
 def timing_controller_gen_verilog():
-
-    # Signals for Bluejay Data Module
-    # Control
-    fpga_clk                = Signal(False)
-    reset_all               = Signal(False)
-    # DC32 FIFO
-    # dc32_fifo_almost_full       = Signal(False)
-    next_line_clock_into_fifo = Signal(False)
-    # Bluejay Display
-    line_of_data_available        = Signal(False)
-    start_clocking_frame_data_cmd = Signal(False)
-    update                        = Signal(False)
-    invert                        = Signal(False)
-    # dc32_fifo_is_empty            = Signal(False)
     
     # Control Logic between SLM and simulated USB-FIFO
     timing_controller_inst = timing_controller(
         # Control
         fpga_clk,
         reset_all,
-        # DC32 FIFO
-        # dc32_fifo_almost_full,
-        # next_line_clock_into_fifo,
-        # Bluejay Display
-        # line_of_data_available,
-        start_clocking_frame_data_cmd,
+        reset_per_frame,
+        buffer_switch_done,
+        # DC32-FIFO
+        dc32_fifo_almost_full,
+        # Bluejay Data Interface
+        line_of_data_available,
         update,
-        invert,
-        # dc32_fifo_is_empty
+        invert
     )
 
     # Convert

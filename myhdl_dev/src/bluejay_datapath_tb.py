@@ -60,7 +60,8 @@ def bluejay_datapath_clkGen(ftdi_clk, fpga_clk):
 def bluejay_datapath_tb():
     
     # Active-High Reset for entire design
-    reset_all = Signal(False)
+    reset_all        = Signal(False)
+    reset_per_frame  = Signal(False) # Reset line to reset certain data structures for each frame after a buffer switch
     # Clocks
     ftdi_clk = Signal(False)
     fpga_clk = Signal(False)
@@ -93,14 +94,45 @@ def bluejay_datapath_tb():
         yield(ftdi_clk.posedge)
 
 
+
+    # Instantiate our timing controller
+    # Block to control timing of display updates, blujay updats and clocking data out of FT601 chip
+    # Signals
+    # Control
+    buffer_switch_done     = Signal(False)
+    # DC32 FIFO
+    dc32_fifo_almost_full  = Signal(False)
+    # Bluejay Display
+    line_of_data_available        = Signal(False)
+    update                        = Signal(False)
+    invert                        = Signal(False)
+    # Instantiate
+    timing_controller_inst = timing_controller.timing_controller(
+        # Control
+        fpga_clk,
+        reset_all,
+        reset_per_frame,
+        buffer_switch_done,
+        # DC32 FIFO
+        dc32_fifo_almost_full,
+        # Bluejay Display
+        line_of_data_available,
+        update,
+        invert
+    )
+
+
+
     # Implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
     # FPGA side
     write_to_dc32_fifo     = Signal(False)
     dc32_fifo_data_in      = Signal(intbv(0)[32:])
-    dc32_fifo_almost_full  = Signal(False)
     dc32_fifo_is_empty     = Signal(False)
     # Instantiate
     usb3_if_inst = usb3_if.usb3_if(
+        # Control
+        reset_per_frame,
+        buffer_switch_done,
         # FTDI USB3 Chip
         ftdi_clk,
         FR_RXF,
@@ -116,53 +148,31 @@ def bluejay_datapath_tb():
 
     # Inst our simulated 32-bitDC FIFO and its signals
     # Signals
-    reset_ptr  = Signal(0) # Never changes, unused only here because generated FIFO from Lattice tools includes it
+    reset_ptr = Signal(0) # Never changes, unused only here because generated FIFO from Lattice tools includes it
     # FPGA-side
     fifo_empty              = Signal(False)
     get_next_word           = Signal(False)
     fifo_data_out           = Signal(0)
-    num_words_in_buffer     = Signal(0)
     # DUTs
     mock_dc32_fifo_inst = mock_dc32_fifo.mock_dc32_fifo(
         # Signals
-        reset_all,
+        reset_per_frame,
         reset_ptr,
         ftdi_clk,
         fpga_clk,
-        # FT601-side
+        # FT601-side:
         write_to_dc32_fifo,
         dc32_fifo_data_in,
         dc32_fifo_almost_full,
         # FPGA-side
         fifo_empty,
         get_next_word,
-        fifo_data_out, 
-        num_words_in_buffer
+        fifo_data_out
     )
 
 
 
-    # Instantiate our timing controller
-    # Block to control timing of display updates, controls reset, frame-rate, next-line_of_data_available-rdy, next-frame-rdy
-    # Signals
-    # Bluejay Display
-    line_of_data_available        = Signal(False)
-    start_clocking_frame_data_cmd = Signal(False)
-    update                        = Signal(False)
-    invert                        = Signal(False)
-    # Instantiate
-    timing_controller_inst = timing_controller.timing_controller(
-        # Control
-        fpga_clk,
-        reset_all,
-        # DC32 FIFO
-        # num_words_in_buffer,
-        # Bluejay Display
-        # line_of_data_available,
-        start_clocking_frame_data_cmd,
-        update,
-        invert
-    )
+
 
 
 
@@ -177,7 +187,7 @@ def bluejay_datapath_tb():
     bluejay_data_inst = bluejay_data.bluejay_data(
         # Control
         fpga_clk,
-        start_clocking_frame_data_cmd,
+        buffer_switch_done,
         # FPGA-side
         fifo_data_out,
         line_of_data_available,
