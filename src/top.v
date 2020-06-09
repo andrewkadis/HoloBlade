@@ -487,15 +487,13 @@ fifo_dc_32_lut_gen2 fifo_dc_32_lut_gen_inst(
   // FT601-side
   .wr_en_i(write_to_dc32_fifo),
   .wr_data_i(dc32_fifo_data_in),
-  .full_o(dc32_fifo_is_full),
+  .full_o(),
   .almost_full_o(dc32_fifo_almost_full),
   // FPGA-side
   .empty_o(dc32_fifo_is_empty),
   .rd_en_i(get_next_word),
-  .rd_data_o(fifo_data_out), 
-  .rd_data_cnt_o(num_words_in_buffer)
+  .rd_data_o(fifo_data_out)
 );
-
 
 
 ///////////////////////////////////////////////////////////////////////////
