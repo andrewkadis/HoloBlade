@@ -116,12 +116,12 @@ def usb3_if(
     # Reset logic
     @always(reset_per_frame)
     def reset():
-        if(reset_per_frame==ACTIVE_LOW_TRUE):
+        if(reset_per_frame==ACTIVE_HIGH_TRUE):
             # Reset to WAITING_FOR_BUFFER_SWITCH, state
             # state = t_state.WAITING_FOR_BUFFER_SWITCH
             # Reset variables
-            usb3_data_in_latched  = Signal(intbv(0)[31:]) 
-            state_timeout_counter = Signal(intbv(0)[4:]) 
+            usb3_data_in_latched  = 0x00000000
+            state_timeout_counter = 0
 
     # State machine to handle reading data out of FTDI USB3 Chip, note we do this on falling-edge as matches timing diagram from datasheet (pg. 16)
     @always(ftdi_clk.negedge)
@@ -145,7 +145,7 @@ def usb3_if(
         # Which state are we in?
         if state == t_state.WAITING_FOR_BUFFER_SWITCH:
             # Sit here until waiting for a buffer swithch, note that this means that we shall not be clocking data out of USB3 FIFO until the next Buffer Switch
-            if(buffer_switch_done==ACTIVE_LOW_TRUE):
+            if(buffer_switch_done==ACTIVE_HIGH_TRUE):
                 # We have received a Buffer Switch, now we can wait for FR_RXF to go low and start processing data, will start processing data if any is there
                 state.next = t_state.WAITING_FOR_DATA
         elif state == t_state.WAITING_FOR_DATA:
@@ -254,12 +254,14 @@ def usb3_if(
 def usb3_if_gen_verilog():
 
     # Implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
+    reset_per_frame    = Signal(False)
+    buffer_switch_done = Signal(True)
     # FTDI USB3 Chip
-    ftdi_clk    = Signal(False)
-    FR_RXF      = Signal(True)
-    FT_RD       = Signal(True)
-    FT_OE       = Signal(True)
-    usb_data_o  = Signal(intbv(0)[32:])
+    ftdi_clk      = Signal(False)
+    FR_RXF        = Signal(True)
+    FT_RD         = Signal(True)
+    FT_OE         = Signal(True)
+    usb3_data_in  = Signal(intbv(0)[32:])
     # FPGA side
     write_to_dc32_fifo        = Signal(False)
     dc32_fifo_data_in         = Signal(intbv(0)[32:])
@@ -268,17 +270,20 @@ def usb3_if_gen_verilog():
 
     # Instantiate
     usb3_if_inst = usb3_if(
+        # Control
+        reset_per_frame,
+        buffer_switch_done,
         # FTDI USB3 Chip
         ftdi_clk,
         FR_RXF,
         FT_OE,
         FT_RD,
-        usb_data_o,
+        usb3_data_in,
         # FPGA side
         write_to_dc32_fifo,
         dc32_fifo_data_in,
         dc32_fifo_almost_full,
-        dc32_fifo_is_empty
+        dc32_fifo_is_empty,
     )
 
     # Convert
