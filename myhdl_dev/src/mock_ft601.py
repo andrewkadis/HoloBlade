@@ -29,17 +29,19 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
     Optional parameter:
     maxFilling -- maximum fifo filling, "infinite" by default
     """
-    
+
+    # This is a simulation, so have a simulated memory block
+    memory = []
+
+    # Skip every 41st byte counter
+    skip_every_41st_byte = Signal(0)
+
     # Clock is always outputting at 100 MHz
     @instance
     def gen_clk():
         while True:
             yield delay(5)
             CLK.next = not CLK
-
-
-    # This is a simulation, so have a simulated memory block
-    memory = []
 
     # Read Data from the mock_ft601 with the FPGA
     @always(CLK.negedge)
@@ -58,13 +60,22 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
             memory.insert(0, SIM_DATA_IN.val)
 
         # Only read Data if OE_N is Asserted
+        # Note that we do a massive hack here, but it works well enough for our purposes
+        # Every time we assert RD_N, we assert OE_N 1-cycle before. The datasheet shows that OE_N and the data appearing are at the same time.
+        # So we dont have to deal with combinational logic (which messes up pythons popping of lists), we just pump out data off OE_N. Gives us the same behaviour as datasheet in the way we're using
+        # We also use a counter to make sure that after 40 bytes output, we don't output the 41st, this stops the last byte at the end being output
         if OE_N==ACTIVE_LOW_TRUE:
-            # Command to read next word of Data
-            if RD_N==ACTIVE_LOW_TRUE:
+            # Only output if not at 41st byte - note that we actually check for 40 as 1-cycle delay due to sequential logic
+            if(skip_every_41st_byte!=40):
                 try:
                     DATA.next = memory.pop()
+                    skip_every_41st_byte.next = skip_every_41st_byte+1
                 except IndexError:
                     DATA.next = 0x00000000 # Should stricly be 0xFFFFFFFF from datasheet but this is easier to read on simulator
+
+        else:
+            # Special counter is just 0
+            skip_every_41st_byte.next = 0
 
 
 

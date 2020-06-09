@@ -93,7 +93,7 @@ def usb3_if(
 
 
     # Internal Signals to allow us to latch the USB3 Chip FIFO values to handle DC_FIFO timing requirements
-    usb3_data_in_latched        = Signal(intbv(0)[31:]) 
+    usb3_data_in_latched        = Signal(intbv(0)[32:]) 
     # write_to_dc32_fifo_latched  = Signal(ACTIVE_HIGH_FALSE) 
 
 
@@ -172,7 +172,7 @@ def usb3_if(
             state.next = t_state.READING_DATA
         elif state == t_state.READING_DATA:
             # We always assert the DC_FIFO write line, even if we have to stop in this instance of the state machine, this is because it is 1-cycle behind dc32_fifo_data_in
-            # write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
+            write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
             # If our FIFO has got 40 words in it, we have succesfully read a whole line, stop reading and go to WAITING_FOR_FIFO_LINE_TO_BE_READ
             if dc32_fifo_almost_full==ACTIVE_HIGH_TRUE:
                 state.next = t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ
@@ -184,7 +184,7 @@ def usb3_if(
                 # No change, keep clocking data out of the USB3 chip and into the FIFO
                 FT_OE.next = ACTIVE_LOW_TRUE
                 FT_RD.next = ACTIVE_LOW_TRUE
-                write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
+                # write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
                 #FT_RD_internal.next = ACTIVE_LOW_TRUE   
                 # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE
                 # usb3_data_in_latched.next  = usb3_data_in

@@ -8,12 +8,27 @@ class Error(Exception):
     pass
 
 # Constants - We flag the the FIFO is almost full after 40 words, matches 1-line for our SLM
-FIFO_ALMOST_FULL_LEVEL = 40
+FIFO_ALMOST_FULL_LEVEL = 40-1 # Need to take 2 off here, 1 for the 1-cycle register update delay, 1 for the fact that our output is p[ipelined by 1 stage
 FIFO_DEPTH             = 64
 
 # Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
 @block
-def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32_fifo_data_in, dc32_fifo_almost_full, fifo_empty, get_next_word, fifo_data_out):
+def mock_dc32_fifo(
+        # Signals
+        reset,
+        reset_rp,
+        ftdi_clk,
+        fpga_clk,
+        # FT601-side:
+        write_to_dc32_fifo,
+        dc32_fifo_data_in,
+        dc32_fifo_almost_full,
+        dc32_fifo_empty,
+        # FPGA-side
+        dc32_fifo_almost_empty,
+        get_next_word,
+        dc32_fifo_data_out
+    ):
     
     """ Synchronous fifo model based on a list.
     
@@ -26,18 +41,22 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
     write_to_dc32_fifo      : Signal to write to the interfacing FIFO
     dc32_fifo_data_in       : Data which shall go into 32-bit dc fifo
     dc32_fifo_almost_full   : Goes high when there are at least 40 lines of data available in the internal FIFO
+    dc32_fifo_empty         : Is our fifo empty? Need this for usb3_if.py
     # FPGA-side
-    fifo_empty              : Is our fifo empty?
+    dc32_fifo_almost_empty  : Is our fifo almost empty? Goes high when 1 word in FIFO, need this so bluejay_data knows 1-cycle in advance and doesn't read from emtpy FIFO
     get_next_word           : Line to pull data from FIFO
-    fifo_data_out           : 32-bit Data Out from internal 32-wide, 64-deep FIFO
+    dc32_fifo_data_out      : 32-bit Data Out from internal 32-wide, 64-deep FIFO
 
     """
 
     # Register to give us 1-cyle delay for write_to_dc_fifo so it is sync'd with the data going in
-    write_to_dc32_fifo_r = Signal(False)
+    # write_to_dc32_fifo_r = Signal(False)
 
     # This is a simulation, so have a simulated memory block
     memory  = []
+
+    # Number of words in buffer is super-useful for simulation debugging
+    num_words_in_buffer = Signal(0)
 
     # Reset functionality
     @always(reset.posedge)
@@ -49,10 +68,11 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
     @always(ftdi_clk.posedge)
     def update_write_side():
         # Latch the write word register so they are synchronised, our data going into the fifo will have a 1-cycle delay and need to support this
-        write_to_dc32_fifo_r.next = write_to_dc32_fifo
+        # write_to_dc32_fifo_r.next = write_to_dc32_fifo
         # Write to memory
-        if write_to_dc32_fifo_r==True:
+        if write_to_dc32_fifo==True:
             memory.insert(0, dc32_fifo_data_in.val)
+            num_words_in_buffer.next = num_words_in_buffer + 1
         # Update if we are almost-full
         filling = len(memory)
         if filling>=FIFO_ALMOST_FULL_LEVEL:
@@ -69,15 +89,22 @@ def mock_dc32_fifo(reset, reset_rp, ftdi_clk, fpga_clk, write_to_dc32_fifo, dc32
         if get_next_word:
             try:
                 popMe = memory.pop()
-                fifo_data_out.next = popMe
+                dc32_fifo_data_out.next = popMe
+                num_words_in_buffer.next = num_words_in_buffer - 1
             except IndexError:
                 raise Exception("Underflow -- Read from empty fifo")
-        # Update if we are empty
+        # Update if we are empty or almost empty
         filling = len(memory)
-        if filling==0:
-            fifo_empty.next = True
+        # Almost-Empty is asserted at 1
+        if filling<=1:
+            dc32_fifo_almost_empty.next = True
         else:
-            fifo_empty.next = False
+            dc32_fifo_almost_empty.next = False
+        # Empty is asserted at 0
+        if filling==0:
+            dc32_fifo_empty.next = True
+        else:
+            dc32_fifo_empty.next = False
 
     return update_write_side, update_read_side, reset#, wrClkGen, rdClkGen
 
@@ -95,11 +122,11 @@ def mock_dc32_fifo_tb():
     write_to_dc32_fifo      = Signal(False)
     dc32_fifo_data_in       = Signal(0)
     dc32_fifo_almost_full   = Signal(False)
+    dc32_fifo_empty         = Signal(False)
     # FPGA-side
-    fifo_empty              = Signal(False)
+    dc32_fifo_almost_empty  = Signal(False)
     get_next_word           = Signal(False)
-    fifo_data_out           = Signal(0)
-    num_words_in_buffer     = Signal(0)
+    dc32_fifo_data_out      = Signal(0)
     # DUTs
     dut = mock_dc32_fifo(
         # Signals
@@ -111,10 +138,11 @@ def mock_dc32_fifo_tb():
         write_to_dc32_fifo,
         dc32_fifo_data_in,
         dc32_fifo_almost_full,
+        dc32_fifo_empty,
         # FPGA-side
-        fifo_empty,
+        dc32_fifo_almost_empty,
         get_next_word,
-        fifo_data_out
+        dc32_fifo_data_out
     )
 
     @instance
@@ -128,7 +156,7 @@ def mock_dc32_fifo_tb():
         yield ftdi_clk.posedge
         yield delay(1)
         write_to_dc32_fifo.next = 0
-        print("dout: %s empty: %s full: %s" % (hex(fifo_data_out), fifo_empty, dc32_fifo_almost_full))
+        print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Write
         yield delay(100)
@@ -138,7 +166,7 @@ def mock_dc32_fifo_tb():
         yield ftdi_clk.posedge
         yield delay(1)
         write_to_dc32_fifo.next = 0
-        print("dout: %s empty: %s full: %s" % (hex(fifo_data_out), fifo_empty, dc32_fifo_almost_full))
+        print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Write
         yield delay(100)
@@ -148,7 +176,7 @@ def mock_dc32_fifo_tb():
         yield ftdi_clk.posedge
         yield delay(1)
         write_to_dc32_fifo.next = 0
-        print("dout: %s empty: %s full: %s" % (hex(fifo_data_out), fifo_empty, dc32_fifo_almost_full))
+        print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Read
         yield delay(100)
@@ -158,7 +186,7 @@ def mock_dc32_fifo_tb():
         yield delay(1)
         get_next_word.next = 0
         fpga_clk.next = 0
-        print("dout: %s empty: %s full: %s" % (hex(fifo_data_out), fifo_empty, dc32_fifo_almost_full))
+        print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Write
         yield delay(100)
@@ -168,7 +196,7 @@ def mock_dc32_fifo_tb():
         yield ftdi_clk.posedge
         yield delay(1)
         write_to_dc32_fifo.next = 0
-        print("dout: %s empty: %s full: %s" % (hex(fifo_data_out), fifo_empty, dc32_fifo_almost_full))
+        print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Write
         yield delay(100)
@@ -178,7 +206,7 @@ def mock_dc32_fifo_tb():
         yield ftdi_clk.posedge
         yield delay(1)
         write_to_dc32_fifo.next = 0
-        print("dout: %s empty: %s full: %s" % (hex(fifo_data_out), fifo_empty, dc32_fifo_almost_full))
+        print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Read
         yield delay(100)
@@ -188,7 +216,7 @@ def mock_dc32_fifo_tb():
         yield delay(1)
         get_next_word.next = 0
         fpga_clk.next = 0
-        print("dout: %s empty: %s full: %s" % (hex(fifo_data_out), fifo_empty, dc32_fifo_almost_full))
+        print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Read
         yield delay(100)
@@ -198,7 +226,7 @@ def mock_dc32_fifo_tb():
         yield delay(1)
         get_next_word.next = 0
         fpga_clk.next = 0
-        print("dout: %s empty: %s full: %s" % (hex(fifo_data_out), fifo_empty, dc32_fifo_almost_full))
+        print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Read
         yield delay(100)
@@ -208,7 +236,7 @@ def mock_dc32_fifo_tb():
         yield delay(1)
         get_next_word.next = 0
         fpga_clk.next = 0
-        print("dout: %s empty: %s full: %s" % (hex(fifo_data_out), fifo_empty, dc32_fifo_almost_full))
+        print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Read
         yield delay(100)
@@ -218,7 +246,7 @@ def mock_dc32_fifo_tb():
         yield delay(1)
         get_next_word.next = 0
         fpga_clk.next = 0
-        print("dout: %s empty: %s full: %s" % (hex(fifo_data_out), fifo_empty, dc32_fifo_almost_full))
+        print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
     
     return test_protocol, dut

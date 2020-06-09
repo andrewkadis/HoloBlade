@@ -127,7 +127,7 @@ def bluejay_datapath_tb():
     # FPGA side
     write_to_dc32_fifo     = Signal(False)
     dc32_fifo_data_in      = Signal(intbv(0)[32:])
-    dc32_fifo_is_empty     = Signal(False)
+    dc32_fifo_empty        = Signal(False)
     # Instantiate
     usb3_if_inst = usb3_if.usb3_if(
         # Control
@@ -143,16 +143,18 @@ def bluejay_datapath_tb():
         write_to_dc32_fifo,
         dc32_fifo_data_in,
         dc32_fifo_almost_full,
-        dc32_fifo_is_empty,
+        dc32_fifo_empty,
     )
+
+
 
     # Inst our simulated 32-bitDC FIFO and its signals
     # Signals
     reset_ptr = Signal(0) # Never changes, unused only here because generated FIFO from Lattice tools includes it
     # FPGA-side
-    fifo_empty              = Signal(False)
+    dc32_fifo_almost_empty  = Signal(False)
     get_next_word           = Signal(False)
-    fifo_data_out           = Signal(0)
+    dc32_fifo_data_out      = Signal(intbv(0)[32:])
     # DUTs
     mock_dc32_fifo_inst = mock_dc32_fifo.mock_dc32_fifo(
         # Signals
@@ -164,10 +166,11 @@ def bluejay_datapath_tb():
         write_to_dc32_fifo,
         dc32_fifo_data_in,
         dc32_fifo_almost_full,
+        dc32_fifo_empty,
         # FPGA-side
-        fifo_empty,
+        dc32_fifo_almost_empty,
         get_next_word,
-        fifo_data_out
+        dc32_fifo_data_out
     )
 
 
@@ -189,9 +192,9 @@ def bluejay_datapath_tb():
         fpga_clk,
         buffer_switch_done,
         # FPGA-side
-        fifo_data_out,
+        dc32_fifo_data_out,
         line_of_data_available,
-        fifo_empty,
+        dc32_fifo_almost_empty,
         get_next_word,
         # SLM-side
         bluejay_data_o,
@@ -221,18 +224,34 @@ def bluejay_datapath_tb():
 
         ]
 
+        # Startup
         # Wait an initial period
         FULL_CLOCK_PERIOD = 2*PERIOD
         yield delay(FULL_CLOCK_PERIOD)
-        # Reset
-        yield ftdi_clk.negedge
-        # yield clk_i.negedge
-        reset_all.next = True
-        yield ftdi_clk.posedge
-        # yield clk_i.posedge
-        reset_all.next = False
-        # Signal to indicate we are doing a new frame
         yield delay(FULL_CLOCK_PERIOD)
+        yield delay(FULL_CLOCK_PERIOD)
+
+        # Put some data in the mocked FT601 chip ready to be clocked out when we get a buffer switch
+        # Temp for debug
+        total_lines = 0
+        for i in range(0, 4): # Note that this does not execute the maximum
+
+            # Load line
+            yield simulate_load_fifo_data(test_line)
+            yield delay(500)
+            # For debug
+            print(total_lines)
+            total_lines = total_lines + 1
+
+        # Wait until we have a buffer switch
+        yield buffer_switch_done.posedge
+
+        # Execute until subsequent buffer switch
+        yield buffer_switch_done.posedge
+
+
+        raise StopSimulation()
+
         # new_frame_i.next = True
         # yield clk_i.negedge
         # new_frame_i.next = False
@@ -242,21 +261,13 @@ def bluejay_datapath_tb():
         # for i in range(1280):
         # for i in range(1):
 
-        # Temp for debug
-        total_lines = 0
+
 
 
         # Wait 1us and then load another line
         yield delay(100000)
 
-        for i in range(0, 64): # Note that this does not execute the maximum
 
-            # Load line
-            yield simulate_load_fifo_data(test_line)
-            yield delay(500)
-            # For debug
-            print(total_lines)
-            total_lines = total_lines + 1
 
         # # Load line
         # yield simulate_load_fifo_data(test_line)
