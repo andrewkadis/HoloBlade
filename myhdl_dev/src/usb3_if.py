@@ -47,7 +47,7 @@ def usb3_if(
     write_to_dc32_fifo,
     dc32_fifo_data_in,
     dc32_fifo_almost_full,
-    dc32_fifo_is_empty,
+    dc32_fifo_empty,
 
     ):
     
@@ -69,7 +69,7 @@ def usb3_if(
     write_to_dc32_fifo        : Signal to write to the interfacing FIFO
     dc32_fifo_data_in         : Data which shall go into 32-bit 
     dc32_fifo_almost_full     : Goes high when therea are 40 items in FIFO and then clears at 1
-    dc32_fifo_is_empty        : Goes high when the FIFO is empty
+    dc32_fifo_empty           : Goes high when the FIFO is empty
 
     """
 
@@ -150,7 +150,7 @@ def usb3_if(
                 state.next = t_state.WAITING_FOR_DATA
         elif state == t_state.WAITING_FOR_DATA:
             # Sit here until we receive some data and there is room in the FIFO to read it
-            if( (FR_RXF==ACTIVE_LOW_TRUE) and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE) ):# (dc32_fifo_is_empty_n==ACTIVE_HIGH_TRUE) ):#(dc32_fifo_is_full==ACTIVE_HIGH_FALSE) ):
+            if( (FR_RXF==ACTIVE_LOW_TRUE) and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE) ):# (dc32_fifo_empty_n==ACTIVE_HIGH_TRUE) ):#(dc32_fifo_is_full==ACTIVE_HIGH_FALSE) ):
                 # Got some new data, start clocking it out
                 state.next = t_state.DATA_AVAILABLE
                 state_timeout_counter.next = 3
@@ -195,7 +195,7 @@ def usb3_if(
         #         state.next = t_state.WAITING_FOR_DATA
         elif state == t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ:
             # Just wait here until our FIFO is empty
-            if dc32_fifo_is_empty==ACTIVE_HIGH_TRUE:
+            if dc32_fifo_empty==ACTIVE_HIGH_TRUE:
                 # Right, all of the line data has been clocked out, keep waiting for next line of data
                 state.next = t_state.WAITING_FOR_DATA
 
@@ -266,7 +266,7 @@ def usb3_if_gen_verilog():
     write_to_dc32_fifo        = Signal(False)
     dc32_fifo_data_in         = Signal(intbv(0)[32:])
     dc32_fifo_almost_full     = Signal(False)
-    dc32_fifo_is_empty        = Signal(False)
+    dc32_fifo_empty           = Signal(False)
 
     # Instantiate
     usb3_if_inst = usb3_if(
@@ -283,7 +283,7 @@ def usb3_if_gen_verilog():
         write_to_dc32_fifo,
         dc32_fifo_data_in,
         dc32_fifo_almost_full,
-        dc32_fifo_is_empty,
+        dc32_fifo_empty,
     )
 
     # Convert

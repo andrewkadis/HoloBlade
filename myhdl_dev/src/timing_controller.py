@@ -193,7 +193,21 @@ def timing_controller(
 
 # Generated Verilog
 def timing_controller_gen_verilog():
-    
+
+
+    # Signals for Bluejay Data Module
+    # Control
+    fpga_clk                = Signal(False)
+    reset_all               = Signal(False)
+    reset_per_frame         = Signal(False)
+    buffer_switch_done      = Signal(False)
+    # DC32 FIFO
+    dc32_fifo_almost_full   = Signal(False)
+    # Bluejay Display
+    line_of_data_available  = Signal(False)
+    update                  = Signal(False)
+    invert                  = Signal(False)
+    # dc32_fifo_is_empty            = Signal(False)
     # Control Logic between SLM and simulated USB-FIFO
     timing_controller_inst = timing_controller(
         # Control

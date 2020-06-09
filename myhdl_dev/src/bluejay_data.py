@@ -40,7 +40,7 @@ def bluejay_data(
         get_next_word,
 
         # SLM-side
-        bluejay_data_o,
+        bluejay_data_out,
         sync,
         valid,
 
@@ -60,7 +60,7 @@ def bluejay_data(
     dc32_fifo_almost_empty     : flag to indicate whether or not the FIFO is empty
     get_next_word              : line to pull next data word out of fifo 
     Write-Side:
-    bluejay_data_o             : 32-bit output line to data interface on Bluejay SLM
+    bluejay_data_out           : 32-bit output line to data interface on Bluejay SLM
     sync                       : Synchronisation line on Bluejay SLM, used to control which address we are writing to
     valid                      : Hold high while writing out a line
 
@@ -108,10 +108,10 @@ def bluejay_data(
         # To meet these requirements, we clock the values out on the preceeding negedge using the appropriate state
 
         # Default is that these values are all False
-        bluejay_data_o.next        = 0x00000000
-        valid.next         = False
-        get_next_word.next = False
-        sync.next          = False
+        bluejay_data_out.next  = 0x00000000
+        valid.next             = False
+        get_next_word.next     = False
+        sync.next              = False
 
         # Set outputs in appropriate states
         if state == t_state.SYNC_PULSE:     
@@ -120,13 +120,13 @@ def bluejay_data(
             # 1-cycle lag for clocking data out of FIFO - need to assert get_next_word 1-cycle in advance
             get_next_word.next = True
         elif state == t_state.LINE_OUT_DATA: 
-            valid.next         = True   
-            bluejay_data_o.next        = fifo_data_out
+            valid.next            = True   
+            bluejay_data_out.next = fifo_data_out
             get_next_word.next = True
         elif state == t_state.LINE_OUT_DATA_EXIT:
             # 1-cycle lag for clocking data out of FIFO - output data with 1-cycle lag
-            valid.next         = True   
-            bluejay_data_o.next        = fifo_data_out
+            valid.next            = True   
+            bluejay_data_out.next = fifo_data_out
 
 
 
@@ -383,7 +383,7 @@ def bluejay_gen_verilog():
     dc32_fifo_almost_empty    = Signal(False)
     get_next_word             = Signal(False)
     # SLM-Side
-    bluejay_data_o   = Signal(intbv(0)[32:])
+    bluejay_data_out = Signal(intbv(0)[32:])
     sync             = Signal(False)
     valid            = Signal(False)
     # Inst our Bluejay Data Interface
@@ -397,7 +397,7 @@ def bluejay_gen_verilog():
         dc32_fifo_almost_empty,
         get_next_word,
         # SLM-side
-        bluejay_data_o,
+        bluejay_data_out,
         sync,
         valid,
     )

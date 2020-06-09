@@ -181,7 +181,7 @@ def bluejay_datapath_tb():
 
     # Signals for Bluejay Data Module
     # SLM-Side
-    bluejay_data_o   = Signal(intbv(0)[32:])
+    bluejay_data_out = Signal(intbv(0)[32:])
     sync             = Signal(False)
     valid            = Signal(False)
     # update_o         = Signal(False)
@@ -197,7 +197,7 @@ def bluejay_datapath_tb():
         dc32_fifo_almost_empty,
         get_next_word,
         # SLM-side
-        bluejay_data_o,
+        bluejay_data_out,
         sync,
         valid,
     )
