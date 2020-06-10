@@ -34,22 +34,22 @@ PERIOD = 10 # clk frequency = 50 MHz
 def bluejay_datapath_clkGen(ftdi_clk, fpga_clk):
 
     # Global Control signals
-    # FT601 part of the design has its own 100 MHz oscialltor
+    # FT601 part of the design has its own 66 MHz oscialltor
     ftdi_clk  = Signal(False)
-    # FTDI Clock
+    # FTDI Clock - runs at 66MHz so comes out at 15.15ns. Here we run at 14ns so we can look for weirdness between this and main clock
     @instance
     def wrClkGen():
         while 1:
-            yield delay(5)
+            yield delay(7)
             ftdi_clk.next = not ftdi_clk
 
-    # Main clock is 100.5MHz clock signal derived from PLL on external XTAL oscillator
-    # FPGA Clock - give it a little bit of jitter compared to the FTDI to be more realistic
+    # Main clock is 62.5MHz clock signal derived from PLL on external XTAL oscillator
+    # Comes out at 16nS exactly
     @instance
     def rdClkGen():
         # yield delay(3)
         while 1:
-            yield delay(5)
+            yield delay(8)
             fpga_clk.next = not fpga_clk 
 
     return wrClkGen, rdClkGen
@@ -128,6 +128,9 @@ def bluejay_datapath_tb():
     write_to_dc32_fifo     = Signal(False)
     dc32_fifo_data_in      = Signal(0)
     dc32_fifo_empty        = Signal(False)
+
+    STATE_DEBUG_B0 =  Signal(0)
+
     # Instantiate
     usb3_if_inst = usb3_if.usb3_if(
         # Control
@@ -145,6 +148,7 @@ def bluejay_datapath_tb():
         dc32_fifo_data_in,
         dc32_fifo_almost_full,
         dc32_fifo_empty,
+        STATE_DEBUG_B0
     )
 
 
