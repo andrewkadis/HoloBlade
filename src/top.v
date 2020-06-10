@@ -368,23 +368,24 @@ wire fsm_change;
 // assign DEBUG_7 = VALID;//VALID;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // assign DEBUG_6 = FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
-// // Debugging Values for usb3 interfacing logic and fifo
-// assign DEBUG_1 = FIFO_D0;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
-// assign DEBUG_2 = FR_RXF;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-// assign DEBUG_3 = FT_RD;//dc32_fifo_is_empty;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-// assign DEBUG_4 = dc32_fifo_almost_full;//write_to_dc32_fifo;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
-// assign DEBUG_5 = dc32_ficfo_empty;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
-// assign DEBUG_7 = reset_per_frame;//DATA0;//dc32_fifo_is_empty;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-// assign DEBUG_6 = FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
-
 // Debugging Values for usb3 interfacing logic and fifo
-assign DEBUG_1 = FR_RXF;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
-assign DEBUG_2 = FT_RD;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = dc32_fifo_almost_full;//dc32_fifo_is_empty;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = STATE_DEBUG_B0[2];//write_to_dc32_fifo;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
-assign DEBUG_5 = STATE_DEBUG_B0[1];//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
-assign DEBUG_7 = STATE_DEBUG_B0[0];//DATA0;//dc32_fifo_is_empty;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_6 = FT_OE;//FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_1 = FIFO_D0;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
+assign DEBUG_2 = FR_RXF;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = FT_RD;//dc32_fifo_is_empty;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = dc32_fifo_almost_full;//write_to_dc32_fifo;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
+assign DEBUG_5 = dc32_fifo_empty;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+assign DEBUG_7 = write_to_dc32_fifo;//DATA0;//dc32_fifo_is_empty;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_6 = FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
+// // Debugging Values for usb3 states
+// assign DEBUG_1 = FR_RXF;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
+// assign DEBUG_2 = FT_RD;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+// assign DEBUG_3 = write_to_dc32_fifo;//dc32_fifo_is_empty;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+// assign DEBUG_4 = STATE_DEBUG_B0[2];//write_to_dc32_fifo;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
+// assign DEBUG_5 = STATE_DEBUG_B0[1];//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+// assign DEBUG_7 = STATE_DEBUG_B0[0];//DATA0;//dc32_fifo_is_empty;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+// assign DEBUG_6 = FIFO_CLK;//FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
 
 
 // assign DEBUG_1 = FR_RXF;
