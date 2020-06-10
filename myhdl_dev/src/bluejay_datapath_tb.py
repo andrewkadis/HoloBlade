@@ -131,6 +131,7 @@ def bluejay_datapath_tb():
     # Instantiate
     usb3_if_inst = usb3_if.usb3_if(
         # Control
+        fpga_clk,
         reset_per_frame,
         buffer_switch_done,
         # FTDI USB3 Chip
@@ -234,22 +235,53 @@ def bluejay_datapath_tb():
         # Put some data in the mocked FT601 chip ready to be clocked out when we get a buffer switch
         # Temp for debug
         total_lines = 0
-        for i in range(0, 16): # Note that this does not execute the maximum
-
+        lines_per_frame = 16 # Note that this does not execute the maximum
+        for i in range(0, lines_per_frame): 
             # Load line
             yield simulate_load_fifo_data(test_line)
             yield delay(500)
             # For debug
             print(total_lines)
             total_lines = total_lines + 1
-
         # Wait until we have a buffer switch
         yield buffer_switch_done.posedge
 
-        # Execute until subsequent buffer switch
+        # Wait for our lines to be clocked out
+        for i in range(0, lines_per_frame):
+            yield valid.negedge
+
+        # Prep another frame of data
+        yield delay(6000)
+        for i in range(0, lines_per_frame): 
+            # Load line
+            yield simulate_load_fifo_data(test_line)
+            yield delay(500)
+        # Wait until we have a buffer switch
+        yield buffer_switch_done.posedge
+        # Wait for our lines to be clocked out
+        for i in range(0, lines_per_frame):
+            yield valid.negedge
+
+        # Wait for another buffer switch
         yield buffer_switch_done.posedge
 
+        # Wait for another buffer switch
+        yield buffer_switch_done.posedge
 
+        # Prep another frame of data
+        yield delay(6000)
+        for i in range(0, lines_per_frame): 
+            # Load line
+            yield simulate_load_fifo_data(test_line)
+            yield delay(500)
+        # Wait until we have a buffer switch
+        yield buffer_switch_done.posedge
+        # Wait for our lines to be clocked out
+        for i in range(0, lines_per_frame):
+            yield valid.negedge
+
+        # Wait a bit and then terminate
+        yield delay(5000)
         raise StopSimulation()
 
         # new_frame_i.next = True
@@ -260,8 +292,6 @@ def bluejay_datapath_tb():
  # Iterate through test vector
         # for i in range(1280):
         # for i in range(1):
-
-
 
 
         # Wait 1us and then load another line
