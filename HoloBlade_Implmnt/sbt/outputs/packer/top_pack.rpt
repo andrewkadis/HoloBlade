@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 16:52:36
 
-* File Generated:     Jun 2 2020 04:44:27
+* File Generated:     Jun 15 2020 23:04:10
 
 * Purpose:            General info of design implementation
 
@@ -17,7 +17,7 @@
 Synthesis/Placement Summary:
 ----------------------------
     Status:  Successful
-    Runtime: 2 seconds
+    Runtime: 1 seconds
 
 Device Info:
 ------------
@@ -27,8 +27,8 @@ Device Info:
 
 Design statistics:
 ------------------
-    FFs:                  1404
-    LUTs:                 2523
+    FFs:                  1473
+    LUTs:                 2606
     RAMs:                 0
     IOBs:                 83
     GBs:                  2
@@ -37,13 +37,13 @@ Design statistics:
 
 Logic Resource Utilization:
 ---------------------------
-    Total Logic Cells: 2525/3520
-        Combinational Logic Cells: 1121     out of   3520      31.8466%
-        Sequential Logic Cells:    1404     out of   3520      39.8864%
-        Logic Tiles:               346      out of   440       78.6364%
+    Total Logic Cells: 2632/3520
+        Combinational Logic Cells: 1159     out of   3520      32.9261%
+        Sequential Logic Cells:    1473     out of   3520      41.8466%
+        Logic Tiles:               368      out of   440       83.6364%
     Registers: 
-        Logic Registers:           1404     out of   3520      39.8864%
-        IO Registers:              5        out of   880       0.568182
+        Logic Registers:           1473     out of   3520      41.8466%
+        IO Registers:              8        out of   880       0.909091
     Block RAMs:                    0        out of   20        0%
     Warm Boots:                    0        out of   1         0%
     Pins:
@@ -112,9 +112,9 @@ Detailed I/O Info:
     85          Output     SB_LVCMOS    No       1        Simple Output                 DEBUG_2     
     87          Output     SB_LVCMOS    No       1        Simple Output                 DEBUG_3     
     88          Output     SB_LVCMOS    No       1        Simple Output                 UPDATE      
-    90          Output     SB_LVCMOS    No       1        Simple Output                 SYNC        
-    91          Output     SB_LVCMOS    No       1        Simple Output                 INVERT      
-    94          Output     SB_LVCMOS    No       1        Simple Output                 VALID       
+    90          Output     SB_LVCMOS    No       1        Output Registered             SYNC        
+    91          Output     SB_LVCMOS    No       1        Output Registered             INVERT      
+    94          Output     SB_LVCMOS    No       1        Output Registered             VALID       
     95          Output     SB_LVCMOS    No       1        Simple Output                 SLM_CLK     
     96          Output     SB_LVCMOS    No       1        Simple Output                 DATA10      
     97          Output     SB_LVCMOS    No       1        Simple Output                 DATA11      
@@ -155,7 +155,7 @@ Detailed I/O Info:
 
 Detailed Global Buffer Info:
 ----------------------------
-    Buffer Number  IO Bank  Driven By  Fanout  Signal Name 
-    -------------  -------  ---------  ------  ----------- 
-    1              3        IO         1053    FIFO_CLK_c  
-    3              3                   356     DEBUG_6_c   
+    Buffer Number  IO Bank  Driven By  Fanout  Signal Name  
+    -------------  -------  ---------  ------  -----------  
+    1              3        IO         1083    DEBUG_6_c_c  
+    3              3                   360     SLM_CLK_c    
