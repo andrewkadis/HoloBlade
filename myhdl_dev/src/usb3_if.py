@@ -319,8 +319,8 @@ def usb3_if(
 
     # TODO: Comment properly
     # Need to do combinational here coz FPGAs are properly fucked up
-    @always_comb
-    # @always(ftdi_clk.posedge)
+    # @always_comb
+    @always(ftdi_clk.negedge)
     def write_to_dc_fifo_logic():
         # Route out outputs
         FT_RD.next = FT_RD_internal
