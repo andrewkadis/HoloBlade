@@ -69,7 +69,7 @@ def bluejay_data(
 
     # Timing constants
     num_words_per_line = 40
-    num_lines          = 16#40#1280
+    num_lines          = 256#16#40#1280
     end_of_sync_blank_cycles  = 3  # Need to blank for 3 cycles between Sync Low and Valid high (tSD from pg. 14 datasheet)
     end_of_line_blank_cycles  = 4  # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
     waiting_for_data_window_cycles = 60   # We wait 100 cycles to see if any data gets clocked out, gives plenty of window for FT601 buffer switches which are beyond our control
@@ -248,13 +248,16 @@ def bluejay_data(
                     else:
                         # No, go back to LINE_OUT_IDLE to continue clocking out more lines
                         state.next = t_state.LINE_OUT_IDLE
+                        state_timeout_counter.next = 3
 
             elif state == t_state.LINE_OUT_IDLE:
                 # In this state, we have already started clocking out lines but might have to wait for additional lines to come out of the USB
-                # No timing requirements here, we are simply waiting until we are certain data is available
-                if line_of_data_available==True:
-                    # Move onto clocking out data in LINE_OUT_ENTER
-                    state.next = t_state.LINE_OUT_ENTER
+                # Wait a couple of cycles between checking to reduce the chance of nasty edge conditions (I have seen them)
+                state_timeout_counter.next = state_timeout_counter - 1
+                if state_timeout_counter == 1:
+                    if line_of_data_available==True:
+                        # Move onto clocking out data in LINE_OUT_ENTER
+                        state.next = t_state.LINE_OUT_ENTER
 
     return update, falling_edge_outputs
 

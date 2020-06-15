@@ -187,7 +187,7 @@ def usb3_if(
                 # Temp for Debug:
                 # DEBUG_WAITING_FOR_BUFFER_SWITCH.next = True
                 # Sit here until waiting for a buffer swithch, note that this means that we shall not be clocking data out of USB3 FIFO until the next Buffer Switch
-                if(buffer_switch_done_latched==ACTIVE_HIGH_TRUE):
+                if( (buffer_switch_done_latched==ACTIVE_HIGH_TRUE) and (dc32_fifo_empty==ACTIVE_HIGH_TRUE) ):
                     # We have received a Buffer Switch, if there is data available (FR_RXF is asserted), we start processing it
                     if(FR_RXF==ACTIVE_LOW_TRUE):
                         # Transition to WAITING_FOR_DATA and start processing data, will start processing data if any is there
@@ -196,11 +196,17 @@ def usb3_if(
                         # Do-nothing, simply stay in WAITING_FOR_BUFFER_SWITCH state, will check again after nexxt buffer switch
                         state.next = t_state.WAITING_FOR_BUFFER_SWITCH
             elif state == t_state.WAITING_FOR_DATA:
-                # Sit here until we receive some data and there is room in the FIFO to read it
-                if( (FR_RXF==ACTIVE_LOW_TRUE) ):#and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE) ):# (dc32_fifo_empty_n==ACTIVE_HIGH_TRUE) ):#(dc32_fifo_is_full==ACTIVE_HIGH_FALSE) ):
-                    # Got some new data, start clocking it out
-                    state.next = t_state.DATA_AVAILABLE
-                    # state_timeout_counter.next = 3
+                state_timeout_counter.next = state_timeout_counter - 1
+                if state_timeout_counter == 1:
+                    # Sit here until we receive some data and there is room in the FIFO to read it
+                    if( (FR_RXF==ACTIVE_LOW_TRUE) and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE) ):#and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE) ):# (dc32_fifo_empty_n==ACTIVE_HIGH_TRUE) ):#(dc32_fifo_is_full==ACTIVE_HIGH_FALSE) ):
+                        # Got some new data, start clocking it out
+                        state.next = t_state.DATA_AVAILABLE
+                        # state_timeout_counter.next = 4
+                    else:
+                        # Check again in 4 cycles
+                        state_timeout_counter.next = 4
+                        
             
             # States to clock out Data as per FT601 datasheet
             elif state == t_state.DATA_AVAILABLE:
@@ -208,6 +214,8 @@ def usb3_if(
                 # state_timeout_counter.next = state_timeout_counter - 1
                 # if state_timeout_counter == 1:
                     # Assert OE_N and then transition to next state
+                # state_timeout_counter.next = state_timeout_counter - 1
+                # if state_timeout_counter == 1:
                 FT_OE_internal.next = ACTIVE_LOW_TRUE
                 state.next = t_state.READ_ENABLE
             elif state == t_state.READ_ENABLE:
@@ -231,6 +239,7 @@ def usb3_if(
                 # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
                 elif FR_RXF==ACTIVE_LOW_FALSE:
                     state.next = t_state.WAITING_FOR_DATA
+                    state_timeout_counter.next = 4 # Delay for a couple of cycles
                     # write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
                 else:
                     # No change, keep clocking data out of the USB3 chip and into the FIFO
@@ -250,10 +259,14 @@ def usb3_if(
                         if num_lines_clocked_out == 1:
                             # Yes, all done, proceed to wait for the next buffer-switch
                             state.next = t_state.WAITING_FOR_BUFFER_SWITCH
+                            state_timeout_counter.next = 3
                         else:
                             # Not yet, keep waiting for next line of data
                             state.next = t_state.WAITING_FOR_DATA
-                            state_timeout_counter.next = 3
+                            state_timeout_counter.next = 10
+                    else:
+                        # If we're not empty yet, then stay here and check again in a few cycles
+                        state_timeout_counter.next = 4
 
 
     # state_prev = Signal(t_state.WAITING_FOR_BUFFER_SWITCH)
@@ -307,6 +320,7 @@ def usb3_if(
     # TODO: Comment properly
     # Need to do combinational here coz FPGAs are properly fucked up
     @always_comb
+    # @always(ftdi_clk.posedge)
     def write_to_dc_fifo_logic():
         # Route out outputs
         FT_RD.next = FT_RD_internal
