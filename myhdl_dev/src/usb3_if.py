@@ -325,7 +325,8 @@ def usb3_if(
         # Route out outputs
         FT_RD.next = FT_RD_internal
         FT_OE.next = FT_OE_internal
-        if( (FR_RXF==ACTIVE_LOW_TRUE) and (FT_OE_internal==ACTIVE_LOW_TRUE) and (FT_RD_internal==ACTIVE_LOW_TRUE) ):
+        # if( (FR_RXF==ACTIVE_LOW_TRUE) and (FT_OE_internal==ACTIVE_LOW_TRUE) and (FT_RD_internal==ACTIVE_LOW_TRUE) ):
+        if( (FT_OE_internal==ACTIVE_LOW_TRUE) and (FT_RD_internal==ACTIVE_LOW_TRUE) ):
             write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
         else:
             write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
