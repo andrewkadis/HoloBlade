@@ -192,6 +192,7 @@ def usb3_if(
                     if(FR_RXF==ACTIVE_LOW_TRUE):
                         # Transition to WAITING_FOR_DATA and start processing data, will start processing data if any is there
                         state.next = t_state.WAITING_FOR_DATA
+                        state_timeout_counter.next = 4
                     else:
                         # Do-nothing, simply stay in WAITING_FOR_BUFFER_SWITCH state, will check again after nexxt buffer switch
                         state.next = t_state.WAITING_FOR_BUFFER_SWITCH

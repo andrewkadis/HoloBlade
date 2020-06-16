@@ -258,6 +258,9 @@ def bluejay_data(
                     if line_of_data_available==True:
                         # Move onto clocking out data in LINE_OUT_ENTER
                         state.next = t_state.LINE_OUT_ENTER
+                    else:
+                        # Wait a few cycles before checking again
+                        state_timeout_counter.next = 4
 
     return update, falling_edge_outputs
 

@@ -58,15 +58,20 @@ def mock_dc32_fifo(
     # Number of words in buffer is super-useful for simulation debugging
     num_words_in_buffer = Signal(0)
 
-    # Reset functionality
-    @always(reset.posedge)
-    def reset():
-        if(reset==True):
-            memory.next = []
+    # # Reset functionality
+    # @always(reset.posedge)
+    # def reset():
+
 
     # Dual Clock FIFO - look at the write-side facing the FT601
     @always(ftdi_clk.posedge)
     def update_write_side():
+
+        # Reset if required, this is just a simple simulation so just simulating on write-side is fine
+        if(reset==True):
+            while len(memory)>0:
+                memory.pop()
+
         # Latch the write word register so they are synchronised, our data going into the fifo will have a 1-cycle delay and need to support this
         # write_to_dc32_fifo_r.next = write_to_dc32_fifo
         # Write to memory
@@ -106,7 +111,7 @@ def mock_dc32_fifo(
         else:
             dc32_fifo_empty.next = False
 
-    return update_write_side, update_read_side, reset#, wrClkGen, rdClkGen
+    return update_write_side, update_read_side#, wrClkGen, rdClkGen
 
 
 @block
