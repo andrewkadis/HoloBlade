@@ -13,7 +13,7 @@ ACTIVE_LOW_FALSE  = True
 
 # Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
 @block
-def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, SIM_DATA_IN_WR, maxFilling=sys.maxsize):
+def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, SIM_DATA_IN_WR, SIM_BUFFER_SWITCH, maxFilling=sys.maxsize):
 
     """ Synchronous fifo model based on a list.
     
@@ -52,6 +52,11 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
         if filling > 1: # This is 0 as we are checking before clocking anything out
             RX_F.next = ACTIVE_LOW_TRUE
         else:
+            RX_F.next = ACTIVE_LOW_FALSE
+
+        # Additionally, we use SIM_BUFFER_SWITCH to generate a simulated buffer switch, this overrides what was set above when this is explicitly high
+        # This lets us test our downstream code for handling when RXF_N goes high due to the FT601's internal buffer switch
+        if SIM_BUFFER_SWITCH==True:
             RX_F.next = ACTIVE_LOW_FALSE
 
         # Load data into the FIFO by writing from PC
@@ -121,12 +126,13 @@ def sim_mock_ft601_tb():
     GPIO1 = Signal(True)
 
     # Simulated Signals for loading Test Data
-    SIM_DATA_IN    = Signal(0)
-    SIM_DATA_IN_WR = Signal(False)
+    SIM_DATA_IN       = Signal(0)
+    SIM_DATA_IN_WR    = Signal(False)
+    SIM_BUFFER_SWITCH = Signal(False)
     # memory = []
     
     # sim_mock_ft601 = mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, GPIO0, GPIO1, SIM_DATA_IN, SIM_DATA_IN_WR)
-    sim_mock_ft601 = mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, SIM_DATA_IN_WR, maxFilling=sys.maxsize)
+    sim_mock_ft601 = mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, SIM_DATA_IN_WR, SIM_BUFFER_SWITCH, maxFilling=sys.maxsize)
 
 
     def simulate_gpio_assert(gpio_idx, value):

@@ -78,8 +78,9 @@ def bluejay_datapath_tb():
     # Simulated Signals for loading Test Data
     mock_ft601_fifo_data = Signal(0)
     SIM_DATA_IN_WR       = Signal(False)
+    SIM_BUFFER_SWITCH    = Signal(False)
     # Inst our simulate USB FIFO
-    mock_ft601_inst = mock_ft601.mock_ft601(ftdi_clk, usb3_data_in, TXE_N, FR_RXF, WR_N, FT_RD, FT_OE, RESET_N, mock_ft601_fifo_data, SIM_DATA_IN_WR, maxFilling=sys.maxsize)
+    mock_ft601_inst = mock_ft601.mock_ft601(ftdi_clk, usb3_data_in, TXE_N, FR_RXF, WR_N, FT_RD, FT_OE, RESET_N, mock_ft601_fifo_data, SIM_DATA_IN_WR, SIM_BUFFER_SWITCH, maxFilling=sys.maxsize)
     # Function to simulate loading data into FIFO with USB3 Drivers on the PC
     def simulate_load_fifo_data(data_to_load):
         # Load all our data into internal fifo
@@ -92,8 +93,33 @@ def bluejay_datapath_tb():
         yield ftdi_clk.negedge
         SIM_DATA_IN_WR.next = False
         yield(ftdi_clk.posedge)
+    # # Function to simulate loading data into FIFO with USB3 Drivers on the PC except where we get an interruption half way through due to data not being available (RX_F goes high) and have to wait
+    # def simulate_load_fifo_data_interrupt_half_way(data_to_load):
+    #     # First 3 words clock out normally
+    #     pre_glitch_lines = 3
+    #     print(data_to_load)
+    #     for data_word in data_to_load[0:pre_glitch_lines]:
+    #         print(data_word)
+    #         yield ftdi_clk.negedge
+    #         mock_ft601_fifo_data.next = data_word
+    #         SIM_DATA_IN_WR.next = True
+    #         yield ftdi_clk.posedge
+    #     # Here, we have no more data available, RX_F goes high for 
 
+    #     # Remaining words clock out normally
+    #     post_glitch_lines = len(data_to_load) - pre_glitch_lines - 1
+    #     for data_word in data_to_load[-post_glitch_lines:]:
+    #         print(data_word)
+    #         yield ftdi_clk.negedge
+    #         mock_ft601_fifo_data.next = data_word
+    #         SIM_DATA_IN_WR.next = True
+    #         yield ftdi_clk.posedge
+    #     # De-assert once all data clocked in
+    #     yield ftdi_clk.negedge
+    #     SIM_DATA_IN_WR.next = False
+    #     yield(ftdi_clk.posedge)
 
+            # print("Index: %s Data: %s" % data_to_load.index(data_word), (hex(data_word))
 
     # Instantiate our timing controller
     # Block to control timing of display updates, blujay updats and clocking data out of FT601 chip
@@ -236,24 +262,37 @@ def bluejay_datapath_tb():
         yield delay(FULL_CLOCK_PERIOD)
         yield delay(FULL_CLOCK_PERIOD)
 
-        # Put some data in the mocked FT601 chip ready to be clocked out when we get a buffer switch
-        # Temp for debug
-        total_lines = 0
+        ###########################################
+        ############### FRAME 1 ###################
+        ###########################################
+
+        # # Put some data in the mocked FT601 chip ready to be clocked out when we get a buffer switch
+        # # Temp for debug
+        # print("Simulating Frame 1...")
+        # total_lines = 0
         lines_per_frame = 16 # Note that this does not execute the maximum
-        for i in range(0, lines_per_frame): 
-            # Load line
-            yield simulate_load_fifo_data(test_line)
-            yield delay(500)
-            # For debug
-            print(total_lines)
-            total_lines = total_lines + 1
-        # Wait until we have a buffer switch
-        yield buffer_switch_done.posedge
+        # for i in range(0, lines_per_frame): 
+        #     # Load line
+        #     yield simulate_load_fifo_data(test_line)
+        #     yield delay(500)
+        # # Wait until we have a buffer switch
+        # yield buffer_switch_done.posedge
+        # # Wait for our lines to be clocked out
+        # for i in range(0, lines_per_frame):
+        #     yield valid.negedge
+        # # Wait for another buffer switch
+        # yield buffer_switch_done.posedge
 
-        # Wait for our lines to be clocked out
-        for i in range(0, lines_per_frame):
-            yield valid.negedge
 
+
+
+        ###########################################
+        ############### FRAME 2 ###################
+        ###########################################
+        # Here, we want to simulate an internal buffer switch in the FT601 half-way through line 4
+        # This happens when the USB-FIFO is managing its data, it pulls RX_F high and stops sending data
+        # There is quite a lot of subtlety here (see pg. 16 of datasheet for proper timing diagram)
+        # Basically, all the issues + complex logic comes from this edge-case so we simulate it explicitly here to ensure we are handling
         # Prep another frame of data
         yield delay(6000)
         for i in range(0, lines_per_frame): 
@@ -262,27 +301,167 @@ def bluejay_datapath_tb():
             yield delay(500)
         # Wait until we have a buffer switch
         yield buffer_switch_done.posedge
-        # Wait for our lines to be clocked out
-        for i in range(0, lines_per_frame):
-            yield valid.negedge
-
-        # Wait for another buffer switch
-        yield buffer_switch_done.posedge
-
-        # Wait for another buffer switch
-        yield buffer_switch_done.posedge
-
-        # Prep another frame of data
-        yield delay(6000)
+        # Clock out each line 1 at a time, manually controlling FR_RXF
         for i in range(0, lines_per_frame): 
-            # Load line
-            yield simulate_load_fifo_data(test_line)
-            yield delay(500)
+            SIM_BUFFER_SWITCH.next = True
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            SIM_BUFFER_SWITCH.next = False
+            # yield dc32_fifo_almost_full.posedge
+            yield dc32_fifo_empty.posedge
+            # yield write_to_dc32_fifo.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+
+
+        # SIM_BUFFER_SWITCH.next = True
+        # yield ftdi_clk.posedge
+        # yield ftdi_clk.posedge
+        # SIM_BUFFER_SWITCH.next = False
+        # # yield dc32_fifo_almost_full.posedge
+        # yield dc32_fifo_empty.posedge
+        # # yield write_to_dc32_fifo.posedge
+        # yield ftdi_clk.posedge
+        # yield ftdi_clk.posedge
+
+        # SIM_BUFFER_SWITCH.next = True
+        # yield ftdi_clk.posedge
+        # yield ftdi_clk.posedge
+        # SIM_BUFFER_SWITCH.next = False
+        # # yield dc32_fifo_almost_full.posedge
+        # yield dc32_fifo_empty.posedge
+        # # yield write_to_dc32_fifo.posedge
+        # yield ftdi_clk.posedge
+        # yield ftdi_clk.posedge
+
+        # SIM_BUFFER_SWITCH.next = True
+        # yield ftdi_clk.posedge
+        # yield ftdi_clk.posedge
+        # SIM_BUFFER_SWITCH.next = False
+        # # yield dc32_fifo_almost_full.posedge
+        # yield dc32_fifo_empty.posedge
+        # # yield write_to_dc32_fifo.posedge
+        # yield ftdi_clk.posedge
+        # yield ftdi_clk.posedge
+
+        # Wait a bit and then terminate
+        yield delay(5000)
+        raise StopSimulation()
+
+
+        # # Now we do our simulated buffer-switch
+        # # Clock out our first 3 lines
+        # pre_glitch_num_lines = 3
+        # for i in range(0, pre_glitch_num_lines):
+        #     yield valid.negedge
+        # #########################################################
+        # #########################################################
+        # # INSERT INTERUPTION CODE HERE
+        # #        yield valid.negedge
+        # #########################################################
+
+        # # Clock out remaining lines
+        # for i in range(pre_glitch_num_lines+1, lines_per_frame):
+        #     yield valid.negedge
+        # # Wait for another buffer switch
+        # yield buffer_switch_done.posedge
+
+
+
+
+        # yield delay(6000)        
+        # # Load signgle line
+        # for data_word in test_line:
+        #     yield ftdi_clk.negedge
+        #     mock_ft601_fifo_data.next = data_word
+        #     SIM_DATA_IN_WR.next = True
+        #     yield ftdi_clk.posedge
+        # # De-assert once all data clocked in
+        # yield ftdi_clk.negedge
+        # SIM_DATA_IN_WR.next = False
+        # yield(ftdi_clk.posedge)
+        # yield delay(500)
+
+
+        # Pump out the first three lines as normal
+        # pre_glitch_num_lines = 3
+        # for i in range(0, pre_glitch_num_lines): 
+        #     # Load line
+        #     yield simulate_load_fifo_data(test_line)
+        #     yield delay(500)
+        # Now send a line which gets interrupted half-way through
+        # yield simulate_load_fifo_data_interrupt_half_way(test_line)
+        # yield delay(500)
+        # Pump out the remaining lines as normal
+        # post_glitch_num_lines = lines_per_frame - pre_glitch_num_lines - 1
+        # for i in range(0, post_glitch_num_lines): 
+        #     # Load line
+        #     yield simulate_load_fifo_data(test_line)
+        #     yield delay(500)
         # Wait until we have a buffer switch
-        yield buffer_switch_done.posedge
+        # yield buffer_switch_done.posedge
         # Wait for our lines to be clocked out
-        for i in range(0, lines_per_frame):
-            yield valid.negedge
+        # for i in range(0, lines_per_frame-1):
+        #     yield valid.negedge
+        # yield valid.negedge            
+        # Wait for another buffer switch
+        # yield buffer_switch_done.posedge
+
+
+
+        # ###########################################
+        # ############### FRAME 2 ###################
+        # ###########################################
+        # # Here, we want to simulate an internal buffer switch in the FT601 half-way through line 4
+        # # This happens when the USB-FIFO is managing its data, it pulls RX_F high and stops sending data
+        # # There is quite a lot of subtlety here (see pg. 16 of datasheet for proper timing diagram)
+        # # Basically, all the issues + complex logic comes from this edge-case so we simulate it explicitly here to ensure we are handling
+        # print("Simulating Frame 2...")
+        # # Prep another frame of data
+        # yield delay(6000)
+        # # Pump out the first three lines as normal
+        # # pre_glitch_num_lines = 3
+        # # for i in range(0, pre_glitch_num_lines): 
+        # #     # Load line
+        # #     yield simulate_load_fifo_data(test_line)
+        # #     yield delay(500)
+        # # Now send a line which gets interrupted half-way through
+        # yield simulate_load_fifo_data_interrupt_half_way(test_line)
+        # yield delay(500)
+        # # Pump out the remaining lines as normal
+        # # post_glitch_num_lines = lines_per_frame - pre_glitch_num_lines - 1
+        # # for i in range(0, post_glitch_num_lines): 
+        # #     # Load line
+        # #     yield simulate_load_fifo_data(test_line)
+        # #     yield delay(500)
+        # # Wait until we have a buffer switch
+        # yield buffer_switch_done.posedge
+        # # Wait for our lines to be clocked out
+        # # for i in range(0, lines_per_frame-1):
+        # #     yield valid.negedge
+        # # yield valid.negedge            
+        # # Wait for another buffer switch
+        # yield buffer_switch_done.posedge
+
+
+
+        # ###########################################
+        # ############### FRAME 3 ###################
+        # ###########################################
+        # print("Simulating Frame 3...")
+        # # Prep another frame of data
+        # yield delay(6000)
+        # for i in range(0, lines_per_frame):
+        #     # Load line
+        #     yield simulate_load_fifo_data(test_line)
+        #     yield delay(500)
+        # # Wait until we have a buffer switch
+        # yield buffer_switch_done.posedge
+        # # Wait for our lines to be clocked out
+        # for i in range(0, lines_per_frame):
+        #     yield valid.negedge
+        # # Wait for another buffer switch
+        # yield buffer_switch_done.posedge
 
         # Wait a bit and then terminate
         yield delay(5000)
