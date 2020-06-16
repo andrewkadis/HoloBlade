@@ -21,6 +21,7 @@ t_state = enum(
     'DATA_AVAILABLE',
     'READ_ENABLE',
     'READING_DATA',
+    'READING_DATA_INTERRUPTED',
 )
    
 
@@ -97,16 +98,24 @@ def usb3_if(
     state_timeout_counter = Signal(intbv(0)[4:]) 
 
 
-    # Internal Signals to allow us to latch the USB3 Chip FIFO values to handle DC_FIFO timing requirements
-    usb3_data_in_latched        = Signal(intbv(0)[32:]) 
+
     # write_to_dc32_fifo_latched  = Signal(ACTIVE_HIGH_FALSE) 
 
     # Keep track of the number of lines clocked out
     num_lines_clocked_out = Signal(intbv(0)[11:])
 
     # Internal signals as we need to output and use for internal timing
-    FT_OE_internal = Signal(False)
-    FT_RD_internal = Signal(False)
+    FT_OE_internal                  = Signal(False)
+    FT_RD_internal                  = Signal(False)
+    latch_fifo_data                 = Signal(False) 
+    # Internal Signals to allow us to latch the USB3 Chip FIFO values to handle DC_FIFO timing requirements
+    # Basically we need this because the USB3 chip makes data available on a negedge but the fifo needs it on posedge
+    # Hence we need to latch after a half-cycle and then output a full cycle later or will get metastability issues
+    usb3_data_in_latched                 = Signal(intbv(0)[32:]) 
+    # Need 1-cycle delays as otherwise our sequential logic won't be able to handle the situation where RXF_N goes high and data is invalid next cycle
+    # Originally this was done with combinational logic but lead to all sorts of metastability issues, so really do need these 1-cycle delays for reliable operation
+    usb3_data_in_latched_one_cycle_delay = Signal(intbv(0)[32:]) 
+    latch_fifo_data_one_cycle_delay      = Signal(False)
 
 
     # # # Combinational Logic to route these signals out and handle active high/low conversion
@@ -155,6 +164,7 @@ def usb3_if(
         # Reading from the USB3 FIFO is off by default
         FT_OE_internal.next              = ACTIVE_LOW_FALSE
         FT_RD_internal.next              = ACTIVE_LOW_FALSE   
+        latch_fifo_data.next             = ACTIVE_HIGH_FALSE
         # write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE   
 
         # Temp for Debug:
@@ -223,6 +233,7 @@ def usb3_if(
                 # Assert FT_OE, FT_RD and then transition to next state
                 FT_OE_internal.next = ACTIVE_LOW_TRUE
                 FT_RD_internal.next = ACTIVE_LOW_TRUE
+                # Data is good, latch it
                 # write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
                 # FT_RD_internal.next = ACTIVE_LOW_TRUE   
                 # Clock next line of data to USB3 Fifo output, but do not assert DC_FIFO-write line yet as we have to handle the 1-cycle delay
@@ -237,16 +248,27 @@ def usb3_if(
                     # Move to state where we wait for the line of FIFO data to be clocked out
                     state.next = t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ
                     state_timeout_counter.next = 3 # Delay for a couple of cycles
+                    latch_fifo_data.next = ACTIVE_HIGH_TRUE
                 # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
                 elif FR_RXF==ACTIVE_LOW_FALSE:
-                    state.next = t_state.WAITING_FOR_DATA
-                    state_timeout_counter.next = 4 # Delay for a couple of cycles
+                    state.next = t_state.READING_DATA_INTERRUPTED
+                    # Need to latch the last word of data when exiting state of will miss this
+                    latch_fifo_data.next = ACTIVE_HIGH_TRUE
                     # write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
                 else:
                     # No change, keep clocking data out of the USB3 chip and into the FIFO
                     FT_OE_internal.next = ACTIVE_LOW_TRUE
                     FT_RD_internal.next = ACTIVE_LOW_TRUE
+                    # Data is good, latch it
+                    latch_fifo_data.next = ACTIVE_HIGH_TRUE
 
+            # Single-cycle state which is needed when READING_DATA is interrupted because RX_F goes high and no data available
+            elif state == t_state.READING_DATA_INTERRUPTED:
+                # Latch output for one more cycle and then auto-transition to waiting for more data
+                # Need this level of depth to handle our pipelining
+                latch_fifo_data.next = ACTIVE_HIGH_TRUE
+                state.next = t_state.WAITING_FOR_DATA
+                state_timeout_counter.next = 4 # Delay for a couple of cycles
 
             # Wait States for more Data
             elif state == t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ:
@@ -294,6 +316,8 @@ def usb3_if(
             STATE_DEBUG_B0.next = intbv(5)[3:]
         elif state == t_state.READING_DATA:
             STATE_DEBUG_B0.next = intbv(6)[3:]
+        elif state == t_state.READING_DATA_INTERRUPTED:
+            STATE_DEBUG_B0.next = intbv(7)[3:]
         else:
             STATE_DEBUG_B0.next = intbv(0)[3:]
 
@@ -314,8 +338,9 @@ def usb3_if(
     # The next chance to clock this latched data out is the following falling edge, we do it here so it is ready for the DC_FIFO which shall sample on subsequent rising edge
     @always(ftdi_clk.negedge)
     def output_latched_data_for_fifo():
-        # Data
-        dc32_fifo_data_in.next  = usb3_data_in_latched
+        # Data - we have a 1-cycle ripple delay so our data output aligns with our write_to_dc_fifo signal
+        usb3_data_in_latched_one_cycle_delay.next  = usb3_data_in_latched
+        dc32_fifo_data_in.next                     = usb3_data_in_latched_one_cycle_delay
 
 
     # TODO: Comment properly
@@ -326,8 +351,10 @@ def usb3_if(
         # Route out outputs
         FT_RD.next = FT_RD_internal
         FT_OE.next = FT_OE_internal
+        # 1-cycle delay for latching
+        latch_fifo_data_one_cycle_delay.next = latch_fifo_data
         # if( (FR_RXF==ACTIVE_LOW_TRUE) and (FT_OE_internal==ACTIVE_LOW_TRUE) and (FT_RD_internal==ACTIVE_LOW_TRUE) ):
-        if( (FT_OE_internal==ACTIVE_LOW_TRUE) and (FT_RD_internal==ACTIVE_LOW_TRUE) ):
+        if( latch_fifo_data_one_cycle_delay==ACTIVE_HIGH_TRUE ):
             write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
         else:
             write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
