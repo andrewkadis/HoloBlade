@@ -56,7 +56,7 @@ reg [7:0] state_timeout_counter;
 always @(posedge fpga_clk) begin: BLUEJAY_DATA_UPDATE
     if ((buffer_switch_done == 1'b1)) begin
         state <= 4'b0000;
-        v_counter <= 40;
+        v_counter <= 128;
     end
     else begin
         if ((state == 4'b0000)) begin
