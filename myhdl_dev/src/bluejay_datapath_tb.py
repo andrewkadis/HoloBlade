@@ -299,14 +299,96 @@ def bluejay_datapath_tb():
         # Prep another frame of data
         print("Simulating Frame 2...")
         yield delay(6000)
+        # Define where we are getting our glitches and how long they are
+        glitched_line_one_index  = 3
+        glitched_line_two_index  = 13
+        glitched_line_one_width  = 4
+        glitched_line_two_width  = 7
+        glitched_line_one_pos    = 7
+        glitched_line_two_posA   = 7   # Have 2 glitches occur in second glitched line
+        glitched_line_two_posB   = 13  # Have 2 glitches occur in second glitched line
+        # Load data into our simulated ft601 as per normal
         for i in range(0, lines_per_frame): 
             # Load line
             yield simulate_load_fifo_data(test_line)
             yield delay(500)
         # Wait until we have a buffer switch
         yield buffer_switch_done.posedge
-        # Clock out each line 1 at a time, manually controlling FR_RXF
-        for i in range(0, lines_per_frame): 
+        #######################################
+        ############## GOOD LINES #############
+        #######################################
+        # These lines are good
+        for i in range(0, glitched_line_one_index):
+            SIM_BUFFER_SWITCH.next = True
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            SIM_BUFFER_SWITCH.next = False
+            yield dc32_fifo_empty.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+        #######################################
+        ############ GLITCHED LINE ############
+        #######################################
+        # First Glitched Line
+        # First few words are fine, wait for them to be clocked out
+        yield FT_RD.negedge
+        for i in range(0, glitched_line_one_pos):
+            yield ftdi_clk.posedge
+        # Glitch
+        SIM_BUFFER_SWITCH.next = True
+        for i in range(0, glitched_line_one_width):
+            yield ftdi_clk.posedge
+        SIM_BUFFER_SWITCH.next = False
+        # Now finish line execution as normal
+        yield dc32_fifo_empty.posedge
+        yield ftdi_clk.posedge
+        yield ftdi_clk.posedge
+        #######################################
+        ############## GOOD LINES #############
+        #######################################
+        # These lines are good
+        for i in range(glitched_line_one_index+1, glitched_line_two_index):
+            SIM_BUFFER_SWITCH.next = True
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            SIM_BUFFER_SWITCH.next = False
+            yield dc32_fifo_empty.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+        #######################################
+        ############ GLITCHED LINE ############
+        #######################################
+        # Second Glitched Line
+        # First few words are fine, wait for them to be clocked out
+        yield FT_RD.negedge
+        for i in range(0, glitched_line_two_posA):
+            yield ftdi_clk.posedge
+        # Glitch
+        SIM_BUFFER_SWITCH.next = True
+        for i in range(0, glitched_line_two_width):
+            yield ftdi_clk.posedge
+        SIM_BUFFER_SWITCH.next = False
+        # Now finish line execution as normal
+        yield dc32_fifo_empty.posedge
+        yield ftdi_clk.posedge
+        yield ftdi_clk.posedge
+        # # Then get some more good words
+        # for i in range(glitched_line_two_posA+1, glitched_line_two_posB):
+        #     yield ftdi_clk.posedge
+        # # Second glitch on this line
+        # SIM_BUFFER_SWITCH.next = True
+        # for i in range(0, glitched_line_two_width):
+        #     yield ftdi_clk.posedge
+        # SIM_BUFFER_SWITCH.next = False
+        # # Now finish execution as normal
+        # yield dc32_fifo_empty.posedge
+        # yield ftdi_clk.posedge
+        # yield ftdi_clk.posedge
+        #######################################
+        ############## GOOD LINES #############
+        #######################################
+        # Clock out the rest of the good lines in this frame
+        for i in range(glitched_line_two_index+1, lines_per_frame):
             SIM_BUFFER_SWITCH.next = True
             yield ftdi_clk.posedge
             yield ftdi_clk.posedge
@@ -315,6 +397,9 @@ def bluejay_datapath_tb():
             yield ftdi_clk.posedge
             yield ftdi_clk.posedge
 
+
+        # yield delay(5000)
+        raise StopSimulation()
 
 
         ###########################################
@@ -339,6 +424,8 @@ def bluejay_datapath_tb():
             yield dc32_fifo_empty.posedge
             yield ftdi_clk.posedge
             yield ftdi_clk.posedge
+
+
 
 
 
