@@ -251,6 +251,8 @@ def usb3_if(
                 # write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
                 # If our FIFO has got 40 words in it, we have succesfully read a whole line, stop reading and go to WAITING_FOR_FIFO_LINE_TO_BE_READ
                 if dc32_fifo_almost_full==ACTIVE_HIGH_TRUE:
+                    dc32_fifo_data_in_latched.next  = usb3_data_in
+                    write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                     # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                     # Move to state where we wait for the line of FIFO data to be clocked out
                     state.next = t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ
@@ -271,7 +273,7 @@ def usb3_if(
                     # No change, keep clocking data out of the USB3 chip and into the FIFO
                     FT_OE.next = ACTIVE_LOW_TRUE
                     FT_RD.next = ACTIVE_LOW_TRUE
-                    # Data is good, latch it
+                    # Data is good, latch it2
                     dc32_fifo_data_in_latched.next  = usb3_data_in
                     write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
 
