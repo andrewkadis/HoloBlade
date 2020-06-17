@@ -36,13 +36,6 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
     # Skip every 41st byte counter
     skip_every_41st_byte = Signal(0)
 
-    # Clock is always outputting at 100 MHz
-    @instance
-    def gen_clk():
-        while True:
-            yield delay(5)
-            CLK.next = not CLK
-
     # Read Data from the mock_ft601 with the FPGA
     @always(CLK.negedge)
     def access():
@@ -93,7 +86,7 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
     # def comb_fifo_empty_flag():
 
 
-    return gen_clk, access
+    return access
 
 
 

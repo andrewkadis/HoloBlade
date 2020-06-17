@@ -27,7 +27,7 @@ from bluejay_data import t_state
 # Constants
 ACTIVE_LOW_TRUE   = False
 ACTIVE_LOW_FALSE  = True
-PERIOD = 10 # clk frequency = 50 MHz
+# PERIOD = 10 # clk frequency = 50 MHz
 lines_per_frame = 16 # Note that this does not execute the maximum
 
 # Simulated Clcok Generation - this needs to be external to datapath of simulated fifos will get corrupted
@@ -36,7 +36,6 @@ def bluejay_datapath_clkGen(ftdi_clk, fpga_clk):
 
     # Global Control signals
     # FT601 part of the design has its own 66 MHz oscialltor
-    ftdi_clk  = Signal(False)
     # FTDI Clock - runs at 66MHz so comes out at 15.15ns. Here we run at 14ns so we can look for weirdness between this and main clock
     @instance
     def wrClkGen():
@@ -256,12 +255,12 @@ def bluejay_datapath_tb():
 
         ]
 
-        # Startup
-        # Wait an initial period
-        FULL_CLOCK_PERIOD = 2*PERIOD
-        yield delay(FULL_CLOCK_PERIOD)
-        yield delay(FULL_CLOCK_PERIOD)
-        yield delay(FULL_CLOCK_PERIOD)
+        # # Startup
+        # # Wait an initial period
+        # FULL_CLOCK_PERIOD = 2*PERIOD
+        # yield delay(FULL_CLOCK_PERIOD)
+        # yield delay(FULL_CLOCK_PERIOD)
+        # yield delay(FULL_CLOCK_PERIOD)
 
         # ###########################################
         # ############### FRAME 1 ###################
