@@ -49,7 +49,7 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
 
         # Need to check empty status first to be consistent with FT601 documentation
         filling = len(memory)
-        if filling > 1: # This is 0 as we are checking before clocking anything out
+        if filling > 0: # This is 0 as we are checking before clocking anything out
             RX_F.next = ACTIVE_LOW_TRUE
         else:
             RX_F.next = ACTIVE_LOW_FALSE
