@@ -69,7 +69,7 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
         # Every time we assert RD_N, we assert OE_N 1-cycle before. The datasheet shows that OE_N and the data appearing are at the same time.
         # So we dont have to deal with combinational logic (which messes up pythons popping of lists), we just pump out data off OE_N. Gives us the same behaviour as datasheet in the way we're using
         # We also use a counter to make sure that after 40 bytes output, we don't output the 41st, this stops the last byte at the end being output
-        if OE_N==ACTIVE_LOW_TRUE:
+        if RD_N==ACTIVE_LOW_TRUE:
             # Only output if not at 41st byte - note that we actually check for 40 as 1-cycle delay due to sequential logic
             if(skip_every_41st_byte!=40):
                 try:
