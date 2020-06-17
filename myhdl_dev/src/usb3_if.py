@@ -21,6 +21,9 @@ t_state = enum(
     'DATA_AVAILABLE',
     'READ_ENABLE',
     'READING_DATA',
+    'RECOVERY_WAITING_FOR_DATA',
+    'RECOVERY_DATA_AVAILABLE',
+    'RECOVERY_READ_ENABLE',
 )
    
 
@@ -255,7 +258,9 @@ def usb3_if(
                     # latch_fifo_data.next = ACTIVE_HIGH_TRUE
                 # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
                 elif FR_RXF==ACTIVE_LOW_FALSE:
-                    state.next = t_state.WAITING_FOR_DATA
+                    # dc32_fifo_data_in_latched.next  = usb3_data_in
+                    # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                    state.next = t_state.RECOVERY_WAITING_FOR_DATA
                     state_timeout_counter.next = 4 # Delay for a couple of cycles
                     # Need to latch the last word of data when exiting state of will miss this
                     # latch_fifo_data.next = ACTIVE_HIGH_TRUE
@@ -275,6 +280,25 @@ def usb3_if(
             #     # latch_fifo_data.next = ACTIVE_HIGH_TRUE
             #     state.next = t_state.WAITING_FOR_DATA
             #     state_timeout_counter.next = 4 # Delay for a couple of cycles
+
+            # Recovery states for when a line of data being clocked out has been interrupted
+            elif state == t_state.RECOVERY_WAITING_FOR_DATA:
+                # Sit here until we receive some data and there is room in the FIFO to read it
+                if( (FR_RXF==ACTIVE_LOW_TRUE) and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE) ):#and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE) ):# (dc32_fifo_empty_n==ACTIVE_HIGH_TRUE) ):#(dc32_fifo_is_full==ACTIVE_HIGH_FALSE) ):
+                    # Got some new data, start clocking it out
+                    state.next = t_state.RECOVERY_DATA_AVAILABLE
+            elif state == t_state.RECOVERY_DATA_AVAILABLE:
+                FT_OE.next = ACTIVE_LOW_TRUE
+                state.next = t_state.RECOVERY_READ_ENABLE
+            elif state == t_state.RECOVERY_READ_ENABLE:
+                # This particular state is why we need a separate execution path, here, FT_RD is low as the buffer interrupt means that said byte has already been clocked out
+                # If we clock out here, we shall skip a byte from the FIFO, hence hold-off here
+                FT_OE.next = ACTIVE_LOW_TRUE
+                # FT_RD.next = ACTIVE_LOW_TRUE
+                # Data is good, latch it
+                dc32_fifo_data_in_latched.next  = usb3_data_in
+                # We have now successfully recovered, back to regular clocking out line data
+                state.next = t_state.READING_DATA
 
             # Wait States for more Data
             elif state == t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ:
