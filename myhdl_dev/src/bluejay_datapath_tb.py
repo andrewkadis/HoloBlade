@@ -263,28 +263,28 @@ def bluejay_datapath_tb():
         yield delay(FULL_CLOCK_PERIOD)
         yield delay(FULL_CLOCK_PERIOD)
 
-        ###########################################
-        ############### FRAME 1 ###################
-        ###########################################
-        print("Simulating Frame 1...")
-        yield delay(6000)
-        # Put some data in the mocked FT601 chip ready to be clocked out when we get a buffer switch
-        for i in range(0, lines_per_frame): 
-            # Load line
-            yield simulate_load_fifo_data(test_line)
-            yield delay(500)
-        # Wait until we have a buffer switch
-        yield buffer_switch_done.posedge
-        # Now clock out each line 1 at a time into usb_if.v, manually controlling FR_RXF
-        # This will then auto-clock through to DATA Interface and output just like actual system
-        for i in range(0, lines_per_frame): 
-            SIM_BUFFER_SWITCH.next = True
-            yield ftdi_clk.posedge
-            yield ftdi_clk.posedge
-            SIM_BUFFER_SWITCH.next = False
-            yield dc32_fifo_empty.posedge
-            yield ftdi_clk.posedge
-            yield ftdi_clk.posedge
+        # ###########################################
+        # ############### FRAME 1 ###################
+        # ###########################################
+        # print("Simulating Frame 1...")
+        # yield delay(6000)
+        # # Put some data in the mocked FT601 chip ready to be clocked out when we get a buffer switch
+        # for i in range(0, lines_per_frame): 
+        #     # Load line
+        #     yield simulate_load_fifo_data(test_line)
+        #     yield delay(500)
+        # # Wait until we have a buffer switch
+        # yield buffer_switch_done.posedge
+        # # Now clock out each line 1 at a time into usb_if.v, manually controlling FR_RXF
+        # # This will then auto-clock through to DATA Interface and output just like actual system
+        # for i in range(0, lines_per_frame): 
+        #     SIM_BUFFER_SWITCH.next = True
+        #     yield ftdi_clk.posedge
+        #     yield ftdi_clk.posedge
+        #     SIM_BUFFER_SWITCH.next = False
+        #     yield dc32_fifo_empty.posedge
+        #     yield ftdi_clk.posedge
+        #     yield ftdi_clk.posedge
 
 
 

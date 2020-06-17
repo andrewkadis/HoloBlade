@@ -65,6 +65,8 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
             memory.insert(0, SIM_DATA_IN.val)
 
         # Only read Data if OE_N is Asserted
+        # Default is 0 - note should stricly be 0xFFFFFFFF from datasheet but this is easier to read on simulator
+        DATA.next = 0x00000000
         # Note that we do a massive hack here, but it works well enough for our purposes
         # Every time we assert RD_N, we assert OE_N 1-cycle before. The datasheet shows that OE_N and the data appearing are at the same time.
         # So we dont have to deal with combinational logic (which messes up pythons popping of lists), we just pump out data off OE_N. Gives us the same behaviour as datasheet in the way we're using
@@ -81,6 +83,8 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
             else:
                 # Special counter is just 0
                 skip_every_41st_byte.next = 0
+
+
 
 
 

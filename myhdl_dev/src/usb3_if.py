@@ -258,7 +258,8 @@ def usb3_if(
                     # latch_fifo_data.next = ACTIVE_HIGH_TRUE
                 # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
                 elif FR_RXF==ACTIVE_LOW_FALSE:
-                    # dc32_fifo_data_in_latched.next  = usb3_data_in
+                    dc32_fifo_data_in_latched.next  = usb3_data_in
+                    write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                     # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                     state.next = t_state.RECOVERY_WAITING_FOR_DATA
                     # state.next = t_state.WAITING_FOR_DATA
