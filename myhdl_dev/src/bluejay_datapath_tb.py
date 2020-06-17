@@ -28,7 +28,7 @@ from bluejay_data import t_state
 ACTIVE_LOW_TRUE   = False
 ACTIVE_LOW_FALSE  = True
 # PERIOD = 10 # clk frequency = 50 MHz
-lines_per_frame = 16 # Note that this does not execute the maximum
+lines_per_frame = 32 # Note that this does not execute the maximum
 
 # Simulated Clcok Generation - this needs to be external to datapath of simulated fifos will get corrupted
 @block
