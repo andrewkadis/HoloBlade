@@ -12,7 +12,7 @@ ACTIVE_LOW_TRUE   = False
 ACTIVE_LOW_FALSE  = True
 ACTIVE_HIGH_TRUE  = True
 ACTIVE_HIGH_FALSE = False
-NUM_OF_LINES_PER_FRAME = 64# 1280
+NUM_OF_LINES_PER_FRAME = 256# 1280
 
 t_state = enum(
     'WAITING_FOR_BUFFER_SWITCH',
@@ -140,6 +140,8 @@ def usb3_if(
     # As buffer_switch_done and reset_per_frame are both on the main FPGA clock, we latch their values so we can clock on the ftdi_clk
     buffer_switch_done_latched = Signal(False)
     reset_per_frame_latched    = Signal(False)
+    # Also need to latch whether or not the FIFO is empty as this is also driven by the main FPGA clock
+    dc32_fifo_empty_latched    = Signal(False)
     @always(fpga_clk.posedge)
     def latch_from_fpga_clock():
         buffer_switch_done_latched.next = ACTIVE_HIGH_FALSE
@@ -149,6 +151,8 @@ def usb3_if(
             buffer_switch_done_latched.next = ACTIVE_HIGH_TRUE
         if(reset_per_frame==ACTIVE_HIGH_TRUE):
             reset_per_frame_latched.next = ACTIVE_HIGH_TRUE
+        # Just latch value
+        dc32_fifo_empty_latched.next    = dc32_fifo_empty
         
 
 
@@ -202,7 +206,7 @@ def usb3_if(
                 # Temp for Debug:
                 # DEBUG_WAITING_FOR_BUFFER_SWITCH.next = True
                 # Sit here until waiting for a buffer swithch, note that this means that we shall not be clocking data out of USB3 FIFO until the next Buffer Switch
-                if( (buffer_switch_done_latched==ACTIVE_HIGH_TRUE) and (dc32_fifo_empty==ACTIVE_HIGH_TRUE) ):
+                if( (buffer_switch_done_latched==ACTIVE_HIGH_TRUE) and (dc32_fifo_empty_latched==ACTIVE_HIGH_TRUE) ):
                     # We have received a Buffer Switch, if there is data available (FR_RXF is asserted), we start processing it
                     if(FR_RXF==ACTIVE_LOW_TRUE):
                         # Transition to WAITING_FOR_DATA and start processing data, will start processing data if any is there
@@ -314,7 +318,7 @@ def usb3_if(
                 state_timeout_counter.next = state_timeout_counter - 1
                 if state_timeout_counter == 1:
                     # Just wait here until our FIFO is empty
-                    if dc32_fifo_empty==ACTIVE_HIGH_TRUE:
+                    if dc32_fifo_empty_latched==ACTIVE_HIGH_TRUE:
                         # Decrement our row count as we have just finished clocking out a line
                         num_lines_clocked_out.next = num_lines_clocked_out - 1
                         # Have we clocked out the entire frame?
