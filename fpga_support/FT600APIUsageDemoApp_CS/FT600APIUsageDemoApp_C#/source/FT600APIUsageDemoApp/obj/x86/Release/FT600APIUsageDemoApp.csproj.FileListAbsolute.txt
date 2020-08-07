@@ -1,8 +1,0 @@
-C:\Users\User\Documents\Dev\awesome-board-support\FT600APIUsageDemoApp_CS\FT600APIUsageDemoApp_C#\source\FT600APIUsageDemoApp\bin\x86\Release\FT600APIUsageDemoApp.exe.config
-C:\Users\User\Documents\Dev\awesome-board-support\FT600APIUsageDemoApp_CS\FT600APIUsageDemoApp_C#\source\FT600APIUsageDemoApp\bin\x86\Release\FT600APIUsageDemoApp.exe
-C:\Users\User\Documents\Dev\awesome-board-support\FT600APIUsageDemoApp_CS\FT600APIUsageDemoApp_C#\source\FT600APIUsageDemoApp\bin\x86\Release\FT600APIUsageDemoApp.pdb
-C:\Users\User\Documents\Dev\awesome-board-support\FT600APIUsageDemoApp_CS\FT600APIUsageDemoApp_C#\source\FT600APIUsageDemoApp\obj\x86\Release\FT600APIUsageDemoApp.csprojAssemblyReference.cache
-C:\Users\User\Documents\Dev\awesome-board-support\FT600APIUsageDemoApp_CS\FT600APIUsageDemoApp_C#\source\FT600APIUsageDemoApp\obj\x86\Release\FT600APIUsageDemoApp.csproj.CoreCompileInputs.cache
-C:\Users\User\Documents\Dev\awesome-board-support\FT600APIUsageDemoApp_CS\FT600APIUsageDemoApp_C#\source\FT600APIUsageDemoApp\obj\x86\Release\FT600APIUsageDemoApp.csproj.CopyComplete
-C:\Users\User\Documents\Dev\awesome-board-support\FT600APIUsageDemoApp_CS\FT600APIUsageDemoApp_C#\source\FT600APIUsageDemoApp\obj\x86\Release\FT600APIUsageDemoApp.exe
-C:\Users\User\Documents\Dev\awesome-board-support\FT600APIUsageDemoApp_CS\FT600APIUsageDemoApp_C#\source\FT600APIUsageDemoApp\obj\x86\Release\FT600APIUsageDemoApp.pdb
