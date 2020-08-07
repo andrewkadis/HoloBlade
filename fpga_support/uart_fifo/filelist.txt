@@ -1,3 +1,0 @@
-platform_setup.tcl
-filelist.txt
-baseline_c5gx.v

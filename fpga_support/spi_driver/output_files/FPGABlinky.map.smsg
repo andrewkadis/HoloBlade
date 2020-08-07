@@ -1,1 +1,0 @@
-Warning (10268): Verilog HDL information at spi.v(127): always construct contains both blocking and non-blocking assignments File: C:/Users/User/Documents/Dev/FPGA_Blinky/spi.v Line: 127
