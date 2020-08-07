@@ -1,26 +1,26 @@
 module tb_bluejay_data;
 
 reg fpga_clk;
-reg start_clocking_frame_data;
+reg buffer_switch_done;
 reg [31:0] fifo_data_out;
 reg line_of_data_available;
-reg fifo_empty;
+reg dc32_fifo_almost_empty;
 wire get_next_word;
-wire [31:0] data_o;
+wire [31:0] bluejay_data_out;
 wire sync;
 wire valid;
 
 initial begin
     $from_myhdl(
         fpga_clk,
-        start_clocking_frame_data,
+        buffer_switch_done,
         fifo_data_out,
         line_of_data_available,
-        fifo_empty
+        dc32_fifo_almost_empty
     );
     $to_myhdl(
         get_next_word,
-        data_o,
+        bluejay_data_out,
         sync,
         valid
     );
@@ -28,12 +28,12 @@ end
 
 bluejay_data dut(
     fpga_clk,
-    start_clocking_frame_data,
+    buffer_switch_done,
     fifo_data_out,
     line_of_data_available,
-    fifo_empty,
+    dc32_fifo_almost_empty,
     get_next_word,
-    data_o,
+    bluejay_data_out,
     sync,
     valid
 );

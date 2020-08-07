@@ -12,7 +12,7 @@ ACTIVE_LOW_TRUE   = False
 ACTIVE_LOW_FALSE  = True
 ACTIVE_HIGH_TRUE  = True
 ACTIVE_HIGH_FALSE = False
-NUM_OF_LINES_PER_FRAME = 256# 1280
+NUM_OF_LINES_PER_FRAME = 1280
 
 t_state = enum(
     'WAITING_FOR_BUFFER_SWITCH',
@@ -68,7 +68,7 @@ def usb3_if(
     reset_per_frame           : Reset line which allows us to reset state after each buffer switch
     buffer_switch_done        : Line to tell the object that a buffer switch has occured
     USB-Fifo Side:  
-    ftdi_clk                  : 100MHz input clock from USB Chip to synchronise with reading from FT601 32-bit FIFOs
+    ftdi_clk                  : 66MHz input clock from USB Chip to synchronise with reading from FT601 32-bit FIFOs
     FR_RXF                    : RXF_N tells us if data is available on the USB3 Chip and is an input
     FT_OE                     : OE_N is an active low output signal to tell the USB3 Chip that the FPGA is the bus master while asserted
     FT_RD                     : RD_N is an active low output signal to tell that USB3 Chip that data is being read (ie: it is the RD signal for the USB3 FIFO)

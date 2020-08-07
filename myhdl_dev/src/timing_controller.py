@@ -30,6 +30,7 @@ def timing_controller(
     
     # Control
     fpga_clk,
+    ftdi_clk,
     reset_all,
     reset_per_frame,
     buffer_switch_done,
@@ -49,7 +50,8 @@ def timing_controller(
     I/O pins:
     --------
     Control:
-    fpga_clk                       : clock to drive this module
+    fpga_clk                       : Clock to drive this module
+    ftdi_clk                       : Clock for FT601 32-bit FIFOs, need as dc32_fifo_almost_full is crossing clock domains
     reset_all                      : Output reset line for all other modules
     reset_per_frame                : Output line to reset relevant components ready for a new frame
     buffer_switch_done             : Line which goes high for 1-cycle to tell modules that a buffer switch has just completed, this timing drives several modules - usb3_if and bluejay_data
@@ -61,8 +63,8 @@ def timing_controller(
     invert                         : Used to enable DC_Balancing
     """
 
-    # If there are sufficient words available in the DC-FIFO, then flag this
-    @always_comb
+    # If there are sufficient words available in the DC-FIFO, then flag this, not that we latch off of ftdi_clk as crossing clock domains
+    @always(ftdi_clk.negedge)
     def check_line_available():
         if(dc32_fifo_almost_full==True):
             line_of_data_available.next = True
@@ -198,6 +200,7 @@ def timing_controller_gen_verilog():
     # Signals for Bluejay Data Module
     # Control
     fpga_clk                = Signal(False)
+    ftdi_clk                = Signal(False)
     reset_all               = Signal(False)
     reset_per_frame         = Signal(False)
     buffer_switch_done      = Signal(False)
@@ -212,6 +215,7 @@ def timing_controller_gen_verilog():
     timing_controller_inst = timing_controller(
         # Control
         fpga_clk,
+        ftdi_clk,
         reset_all,
         reset_per_frame,
         buffer_switch_done,

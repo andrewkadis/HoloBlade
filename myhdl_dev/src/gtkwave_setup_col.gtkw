@@ -1,0 +1,91 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Wed Jun 17 16:41:59 2020
+[*]
+[dumpfile] "D:\Dev\awesome-board-support\myhdl_dev\src\bluejay_datapath_tb.vcd"
+[dumpfile_mtime] "Wed Jun 17 16:21:33 2020"
+[dumpfile_size] 660491
+[savefile] "D:\Dev\awesome-board-support\myhdl_dev\src\gtkwave_setup_col.gtkw"
+[timestart] 52757
+[size] 2560 1377
+[pos] -2561 -1
+*-8.000000 53460 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] bluejay_datapath_tb.
+[sst_width] 197
+[signals_width] 278
+[sst_expanded] 1
+[sst_vpaned_height] 426
+@28
+bluejay_datapath_tb.usb3_if0.FR_RXF
+bluejay_datapath_tb.usb3_if0.FT_OE
+bluejay_datapath_tb.usb3_if0.FT_RD
+bluejay_datapath_tb.usb3_if0.write_to_dc32_fifo_latched
+[color] 2
+bluejay_datapath_tb.usb3_if0.write_to_dc32_fifo
+bluejay_datapath_tb.usb3_if0.usb3_data_in
+@c00024
+bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+@28
+(0)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(1)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(2)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(3)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(4)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(5)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(6)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(7)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(8)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(9)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(10)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(11)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(12)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(13)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(14)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(15)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(16)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(17)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(18)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(19)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(20)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(21)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(22)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(23)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(24)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(25)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(26)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(27)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(28)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(29)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(30)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+(31)bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in_latched[31:0]
+@1401200
+-group_end
+@28
+[color] 2
+bluejay_datapath_tb.usb3_if0.dc32_fifo_data_in
+bluejay_datapath_tb.usb3_if0.dc32_fifo_almost_full
+bluejay_datapath_tb.usb3_if0.dc32_fifo_empty
+[color] 6
+bluejay_datapath_tb.mock_dc32_fifo0.num_words_in_buffer
+bluejay_datapath_tb.ftdi_clk
+bluejay_datapath_tb.bluejay_data0.fifo_data_out
+bluejay_datapath_tb.bluejay_data0.valid
+@29
+[color] 1
+bluejay_datapath_tb.usb3_if0.FR_RXF
+[color] 1
+bluejay_datapath_tb.usb3_if0.FT_RD
+@23
+[color] 1
+bluejay_datapath_tb.bluejay_data0.bluejay_data_out[31:0]
+@29
+[color] 1
+bluejay_datapath_tb.usb3_if0.dc32_fifo_empty
+[color] 1
+bluejay_datapath_tb.usb3_if0.write_to_dc32_fifo
+[color] 1
+bluejay_datapath_tb.usb3_if0.usb3_data_in
+[color] 1
+bluejay_datapath_tb.usb3_if0.ftdi_clk
+[pattern_trace] 1
+[pattern_trace] 0

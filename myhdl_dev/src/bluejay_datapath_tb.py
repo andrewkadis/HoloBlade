@@ -136,6 +136,7 @@ def bluejay_datapath_tb():
     timing_controller_inst = timing_controller.timing_controller(
         # Control
         fpga_clk,
+        ftdi_clk,
         reset_all,
         reset_per_frame,
         buffer_switch_done,
