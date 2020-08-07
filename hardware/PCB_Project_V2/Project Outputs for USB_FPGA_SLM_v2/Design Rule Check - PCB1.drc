@@ -1,0 +1,102 @@
+Protel Design System Design Rule Check
+PCB File : E:\GitLab\awesomeboard\USB_FPGA_v1\Project\PCB_Project_V2\PCB1.PcbDoc
+Date     : 8/31/2019
+Time     : 1:39:22 PM
+
+Processing Rule : Clearance Constraint (Gap=0.102mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.254mm) (InNamedPolygon('Top Layer-GND') Or  InNamedPolygon('Top Layer-GND 4') Or  InNamedPolygon('Top Layer-GND 3') Or  InNamedPolygon('Top Layer-GND 2')),(All)
+Rule Violations :0
+
+Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
+Rule Violations :0
+
+Processing Rule : Un-Routed Net Constraint ( (All) )
+Rule Violations :0
+
+Processing Rule : Modified Polygon (Allow modified: No), (Allow shelved: No)
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=0.014mm) (Max=1.37mm) (Preferred=0.254mm) (All)
+Rule Violations :0
+
+Processing Rule : Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (Conductor Width=0.254mm) (Air Gap=0.254mm) (Entries=4) (All)
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=0.2mm) (Max=2.54mm) (All)
+Rule Violations :0
+
+Processing Rule : Hole To Hole Clearance (Gap=0.1mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Net Antennae (Tolerance=0mm) (All)
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA15'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA14'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA9'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA31'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA8'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA13'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA16'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=24.5mm) (InNetClass('FT601FIFO'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA10'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA12'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA11'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA26'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=0.127mm) (InDifferentialPairClass('Diff90'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA24'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=1mm) (InDifferentialPair ('USB_D'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=1mm) (All)
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('SDAT'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA17'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA28'))
+Rule Violations :0
+
+Processing Rule : Matched Lengths(Tolerance=5mm) (InNet('DATA25'))
+Rule Violations :0
+
+Processing Rule : Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)
+Rule Violations :0
+
+
+Violations Detected : 0
+Waived Violations : 0
+Time Elapsed        : 00:00:01
