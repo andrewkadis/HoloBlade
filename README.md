@@ -1,6 +1,6 @@
-###################################################################
-HoloBlade: An Open-Hardware Spatial Light Modulator Driver Platform
-###################################################################
+###################################################################<br/>
+HoloBlade: An Open-Hardware Spatial Light Modulator Driver Platform<br/>
+###################################################################<br/>
 
 Overview:
 Spatial light modulators (SLMs) are an important tool for applied optics research across a range of diverse fields such as holographic  displays, telecommunications, astronomy, microscopy and optical computing. However, contemporary SLMs are very much a
