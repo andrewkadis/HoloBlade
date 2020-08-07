@@ -7,7 +7,7 @@ Spatial light modulators (SLMs) are an important tool for applied optics researc
 
 The primary application for HoloBlade is holographic display applications, but it is also applicable to adjacent research fields utilising SLMs. By providing an open-source SLM driver-stack, it is hoped to makes SLMs lower-cost, more accessbile and to use HoloBlade as a foundation platform to catalyse the development of Holographic Display Systems.
 
-Directory Structure:<br/>
+Directory Structure
 - fpga_firmware<br/>
   - verilog:   Main executable code for the FPGA is in here. Several components are generated from myHDL and have to be copied into here.<br/>
   - myHDL:     Most of the individual compoennts are designed, tested and simulated using myHDL and then sythesised to verilog. The myHDL components are in this directory along with scripts for generating them.<br/>
