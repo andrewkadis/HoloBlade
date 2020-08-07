@@ -1,0 +1,19 @@
+	component uart is
+		port (
+			clk_clk                               : in  std_logic                     := 'X';             -- clk
+			reset_reset_n                         : in  std_logic                     := 'X';             -- reset_n
+			rs232_0_avalon_rs232_slave_address    : in  std_logic                     := 'X';             -- address
+			rs232_0_avalon_rs232_slave_chipselect : in  std_logic                     := 'X';             -- chipselect
+			rs232_0_avalon_rs232_slave_byteenable : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			rs232_0_avalon_rs232_slave_read       : in  std_logic                     := 'X';             -- read
+			rs232_0_avalon_rs232_slave_write      : in  std_logic                     := 'X';             -- write
+			rs232_0_avalon_rs232_slave_writedata  : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			rs232_0_avalon_rs232_slave_readdata   : out std_logic_vector(31 downto 0);                    -- readdata
+			rs232_0_clk_clk                       : in  std_logic                     := 'X';             -- clk
+			rs232_0_external_interface_RXD        : in  std_logic                     := 'X';             -- RXD
+			rs232_0_external_interface_TXD        : out std_logic;                                        -- TXD
+			rs232_0_interrupt_irq                 : out std_logic;                                        -- irq
+			rs232_0_reset_reset                   : in  std_logic                     := 'X'              -- reset
+		);
+	end component uart;
+

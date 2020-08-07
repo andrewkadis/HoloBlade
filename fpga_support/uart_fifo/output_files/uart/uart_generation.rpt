@@ -1,0 +1,34 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate C:\Users\Kadds\Documents\Dev\FPGA_Blinky\output_files\uart.qsys --block-symbol-file --output-directory=C:\Users\Kadds\Documents\Dev\FPGA_Blinky\output_files\uart --family="Cyclone V" --part=5CGXFC5C6F27C7
+Progress: Loading output_files/uart.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding rs232_0 [altera_up_avalon_rs232 17.1]
+Progress: Parameterizing module rs232_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\Users\Kadds\Documents\Dev\FPGA_Blinky\output_files\uart.qsys --synthesis=VERILOG --output-directory=C:\Users\Kadds\Documents\Dev\FPGA_Blinky\output_files\uart\synthesis --family="Cyclone V" --part=5CGXFC5C6F27C7
+Progress: Loading output_files/uart.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding rs232_0 [altera_up_avalon_rs232 17.1]
+Progress: Parameterizing module rs232_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: uart: Generating uart "uart" for QUARTUS_SYNTH
+Info: rs232_0: Starting Generation of RS232 UART
+Error: rs232_0: The input clock frequency must be known at generation time.
+Info: rs232_0: "uart" instantiated altera_up_avalon_rs232 "rs232_0"
+Info: uart: Done "uart" with 2 modules, 6 files
+Error: qsys-generate failed with exit code 1: 1 Error, 0 Warnings
+Info: Finished: Create HDL design files for synthesis

@@ -1,0 +1,105 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "HEX0[0]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX0[1]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX0[2]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX0[3]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX0[4]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX0[5]",
+					"strict" : false
+				},
+				{
+					"name" : "HEX0[6]",
+					"strict" : false
+				},
+				{
+					"name" : "UART_TX",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[1]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[2]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[4]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[6]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[8]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[10]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[11]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[12]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[13]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[14]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[15]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[16]",
+					"strict" : false
+				},
+				{
+					"name" : "GPIO[35]",
+					"strict" : false
+				},
+				{
+					"name" : "CLOCK_50_B5B",
+					"strict" : false
+				},
+				{
+					"name" : "KEY[1]",
+					"strict" : false
+				},
+				{
+					"name" : "UART_RX",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

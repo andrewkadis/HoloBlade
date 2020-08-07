@@ -1,0 +1,35 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate C:\Users\User\Documents\Dev\FPGA_Blinky\unsaved.qsys --block-symbol-file --output-directory=C:\Users\User\Documents\Dev\FPGA_Blinky\gen_uart_test --family="Cyclone V" --part=5CGXFC5C6F27C7
+Progress: Loading FPGA_Blinky/unsaved.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding rs232_0 [altera_up_avalon_rs232 17.1]
+Progress: Parameterizing module rs232_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\Users\User\Documents\Dev\FPGA_Blinky\unsaved.qsys --synthesis=VERILOG --greybox --output-directory=C:\Users\User\Documents\Dev\FPGA_Blinky\gen_uart_test\synthesis --family="Cyclone V" --part=5CGXFC5C6F27C7
+Progress: Loading FPGA_Blinky/unsaved.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding rs232_0 [altera_up_avalon_rs232 17.1]
+Progress: Parameterizing module rs232_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: unsaved: Generating unsaved "unsaved" for QUARTUS_SYNTH
+Info: rs232_0: Starting Generation of RS232 UART
+Info: rs232_0: "unsaved" instantiated altera_up_avalon_rs232 "rs232_0"
+Info: unsaved: Done "unsaved" with 2 modules, 6 files
+Info: Generating third-party timing and resource estimation model ...
+Info: Done generating third-party timing and resource estimation model.
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

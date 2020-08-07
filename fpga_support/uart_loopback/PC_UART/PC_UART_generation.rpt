@@ -1,0 +1,32 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate C:\Users\User\Documents\Dev\FPGA_Blinky\PC_UART.qsys --block-symbol-file --output-directory=C:\Users\User\Documents\Dev\FPGA_Blinky\PC_UART --family="Cyclone V" --part=5CGXFC5C6F27C7
+Progress: Loading FPGA_Blinky/PC_UART.qsys
+Progress: Reading input file
+Progress: Adding rs232_0 [altera_up_avalon_rs232 17.1]
+Progress: Parameterizing module rs232_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\Users\User\Documents\Dev\FPGA_Blinky\PC_UART.qsys --synthesis=VERILOG --greybox --output-directory=C:\Users\User\Documents\Dev\FPGA_Blinky\PC_UART\synthesis --family="Cyclone V" --part=5CGXFC5C6F27C7
+Progress: Loading FPGA_Blinky/PC_UART.qsys
+Progress: Reading input file
+Progress: Adding rs232_0 [altera_up_avalon_rs232 17.1]
+Progress: Parameterizing module rs232_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: PC_UART: Generating PC_UART "PC_UART" for QUARTUS_SYNTH
+Info: rs232_0: Starting Generation of RS232 UART
+Error: rs232_0: The input clock frequency must be known at generation time.
+Info: rs232_0: "PC_UART" instantiated altera_up_avalon_rs232 "rs232_0"
+Info: PC_UART: Done "PC_UART" with 2 modules, 6 files
+Info: Generating third-party timing and resource estimation model ...
+Info: Done generating third-party timing and resource estimation model.
+Error: qsys-generate failed with exit code 1: 1 Error, 0 Warnings
+Info: Finished: Create HDL design files for synthesis

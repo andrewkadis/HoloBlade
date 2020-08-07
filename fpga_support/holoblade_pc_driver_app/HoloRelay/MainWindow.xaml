@@ -1,0 +1,114 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HoloRelay"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="HoloRelay.MainWindow"
+        mc:Ignorable="d"
+        Title="HoloBlade" SizeToContent="WidthAndHeight" Topmost="True" d:DesignHeight="478" WindowStartupLocation="CenterScreen" Width="654">
+    <TabControl HorizontalAlignment="Left" Margin="0" SelectionChanged="TabControl_SelectionChanged">
+        <TabItem x:Name="___TabItem___FPGA_Debug_" Margin="0" Header="FPGA Debug">
+            <StackPanel x:Name="FPGADebugStackPanel" Margin="0" Orientation="Horizontal" HorizontalAlignment="Left" Width="631">
+                <Border x:Name="PacketDebugBorder_Copy" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
+                    <StackPanel x:Name="PacketDebugStackPanel1" HorizontalAlignment="Left" Margin="5">
+                        <Label x:Name="PacketDebugLabel1" Content="Control (SPI)" FontWeight="Bold"/>
+                        <Button x:Name="startup_SLM1" Content="Startup SLM" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Margin="10,5" Click="startup_SLM_Click"/>
+                        <Button x:Name="enter_standby" Content="Enter Standby" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5" Click="enter_standby_Click"/>
+                        <Button x:Name="enter_normal_spi" Content="Enter Normal (SPI)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="enter_normal_spi_Click" Margin="10,5"/>
+                        <Button x:Name="enter_normal_ext" Content="Enter Normal (Ext)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="enter_normal_ext_Click" Margin="10,5"/>
+                        <Button x:Name="poll_mode_and_status" Content="Poll Mode + Status" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="poll_mode_and_status_Click" Margin="10,5"/>
+                        <Button x:Name="poll_hw_info" Content="Poll HWInfo" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="poll_hw_info_Click" Margin="10,5"/>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="SPIBridgeBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
+                    <StackPanel x:Name="UARTDebugStackPanel1" HorizontalAlignment="Left" Margin="5">
+                        <Label x:Name="UARTDebugLabel1" Content="Test Mode" FontWeight="Bold"/>
+                        <Button x:Name="display_buffer_A" Content="Display Buffer A" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Click="display_buffer_A_Click" Margin="10,5"/>
+                        <Button x:Name="display_buffer_B" Content="Display Buffer B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="display_buffer_B_Click" Margin="10,5"/>
+                        <Button x:Name="read_dest_buffer_a" Content="Read Dest Buffer A" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_dest_buffer_a_Click" Margin="10,5"/>
+                        <Button x:Name="read_dest_buffer_b" Content="Read Dest Buffer B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="read_dest_buffer_b_Click" Margin="10,5"/>
+                        <Button x:Name="all_pixels_off" Content="All Pixels Off" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="all_pixels_off_Click" Margin="10,5"/>
+                        <Button x:Name="all_pixels_on" Content="All Pxels On" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="all_pixels_on_Click" Margin="10,5"/>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="SPIBridgeBorder_Copy" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
+                    <StackPanel x:Name="UARTDebugStackPanel2" HorizontalAlignment="Left" Margin="5">
+                        <Label x:Name="UARTDebugLabel2" Content="Test Patterns" FontWeight="Bold"/>
+                        <Button x:Name="halves" Content="Halves" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Click="halves_Click" Margin="10,5"/>
+                        <Button x:Name="row_counter" Content="Row Counter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="row_counter_Click" Margin="10,5"/>
+                        <Button x:Name="col_counter" Content="Column Counter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="col_counter_Click" Margin="10,5"/>
+                        <Button x:Name="checkerboard" Content="Checkerboard" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="checkerboard_Click" Margin="10,5"/>
+                        <Button x:Name="horizontal_grating" Content="Horizontal Grating" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="horizontal_grating_Click" Margin="10,5"/>
+                        <Button x:Name="vertical_grating" Content="Vertical Grating" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Click="vertical_grating_Click" Margin="10,5"/>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="UARTDebugBorder" BorderBrush="Black" BorderThickness="1" Margin="5" HorizontalAlignment="Center">
+                    <StackPanel x:Name="UARTDebugStackPanel" HorizontalAlignment="Left" Margin="5">
+                        <Label x:Name="UARTDebugLabel" Content="USB3 Data Output" FontWeight="Bold"/>
+                        <Button x:Name="output_test_frameA" Content="Output Test Frame A" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="115" Margin="10,5" Click="output_test_frameA_Click"/>
+                        <Button x:Name="output_test_frameB" Content="Output Test Frame B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5" Click="output_test_frameB_Click"/>
+                        <Button x:Name="send_start_of_packet" Content="Start of Packet" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5"/>
+                        <Button x:Name="send_complex_test_1" Content="Complex Test 1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5"/>
+                        <Button x:Name="send_complex_test_2" Content="Complex Test 2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5"/>
+                        <Button x:Name="send_raw_data" Content="Raw Data" HorizontalAlignment="Left" VerticalAlignment="Top" Width="115" Height="50" Margin="10,5"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </TabItem>
+        <TabItem x:Name="___TabItem___TestImages_" Header="Test Images">
+            <StackPanel x:Name="FPGADebugStackPanel_Copy" Margin="0" Orientation="Horizontal" HorizontalAlignment="Left" Height="300">
+                <Border x:Name="UARTDebugBorder1" BorderBrush="Black" BorderThickness="1" Margin="5,5,5,85" HorizontalAlignment="Center">
+                    <Grid Margin="0,0,0,-1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="VerticalLinesImage" Content="Vertical Lines" Margin="10,5,10,0" Grid.Column="1" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="FullImage" Content="All On" Margin="10,5,10,0" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="BlankImage" Content="All Blank" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="HorizontalLinesImage" Content="Horizontal Lines" Grid.Column="1" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="HalvesImage" Content="Halves" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="SingleHorizontalLineImage" Content="Single Line" Grid.Column="1" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="CheckerboardImage" Content="Checkboard" Grid.Column="2" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="VerticalGratingImage" Content="Vertical Grating" Grid.Column="2" Margin="10,5,10,0" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="HorizontalGratingImage" Content="Horizontal Grating" Grid.Column="2" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </TabItem>
+        <TabItem x:Name="___TabItem___Status_" Header="TabItem" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="54">
+            <StackPanel x:Name="StatusStackPanel" Margin="0,55.5" Orientation="Horizontal" HorizontalAlignment="Left" Height="300">
+                <Border x:Name="StatusBorder" BorderBrush="Black" BorderThickness="1" Margin="5,5,5,85" HorizontalAlignment="Center">
+                    <Grid Margin="0,0,0,-1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="ReadBufA" Content="Read BufA" Margin="10,5,10,0" Grid.Column="1" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="FullImage1" Content="All On" Margin="10,5,10,0" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="BlankImage1" Content="All Blank" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="TBD" Content="TBD" Grid.Column="1" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="TBD1" Content="TBD" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="TBD2" Content="TBD" Grid.Column="1" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="TBD3" Content="TBD" Grid.Column="2" Margin="10,5,10,10" Grid.Row="2" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="TBD4" Content="TBD" Grid.Column="2" Margin="10,5,10,0" Grid.Row="1" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Button x:Name="TBD5" Content="TBD" Grid.Column="2" Margin="10,10,10,0" Width="115" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+</Window>
