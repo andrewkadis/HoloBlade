@@ -64,7 +64,7 @@ def timing_controller(
     """
 
     # If there are sufficient words available in the DC-FIFO, then flag this, not that we latch off of ftdi_clk as crossing clock domains
-    @always(ftdi_clk.negedge)
+    @always(ftdi_clk)
     def check_line_available():
         if(dc32_fifo_almost_full==True):
             line_of_data_available.next = True

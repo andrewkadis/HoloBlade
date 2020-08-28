@@ -1,6 +1,7 @@
 module tb_timing_controller;
 
 reg fpga_clk;
+reg ftdi_clk;
 wire reset_all;
 wire reset_per_frame;
 wire buffer_switch_done;
@@ -12,6 +13,7 @@ wire invert;
 initial begin
     $from_myhdl(
         fpga_clk,
+        ftdi_clk,
         dc32_fifo_almost_full
     );
     $to_myhdl(
@@ -26,6 +28,7 @@ end
 
 timing_controller dut(
     fpga_clk,
+    ftdi_clk,
     reset_all,
     reset_per_frame,
     buffer_switch_done,
