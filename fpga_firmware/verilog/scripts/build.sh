@@ -5,7 +5,7 @@
 # Make sure you get the latest because key info is not in older versions!!!
 
 # Execution Directory - should be from the project root directory 
-EXEC_DIR=/d/Dev/awesome-board-firmware
+EXEC_DIR=/d/Dev/HoloBlade/fpga_firmware/verilog
 cd $EXEC_DIR
 pwd
 

@@ -19,8 +19,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>D:/Dev/awesome-board-firmware/bin/top_bitmap.hex</File>
-			<FileTime>03/27/20 15:21:40</FileTime>
+			<File>D:/Dev/HoloBlade/fpga_firmware/verilog/bin/top_bitmap.hex</File>
+			<FileTime>08/28/20 11:28:08</FileTime>
 			<Operation>Fast Program</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>

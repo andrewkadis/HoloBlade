@@ -3,7 +3,7 @@ Copyright (c) 1995 AT&T Corp.   All rights reserved.
 Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
 Copyright (c) 2001 Agere Systems   All rights reserved.
 Copyright (c) 2002-2015 Lattice Semiconductor Corporation,  All rights reserved.
-Mon Jun 15 23:03:00 2020
+Fri Aug 28 16:25:55 2020
 
 
 Command Line:  D:\ProgramFiles\Lattice\LSE\bin\nt\synthesis.exe -f HoloBlade_lse.prj 
@@ -85,14 +85,13 @@ Analyzing Verilog file D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS
 Compile design.
 Compile Design Begin
 Analyzing Verilog file src/top.v. VERI-1482
-WARNING - synthesis: src/top.v(522): STATE_DEBUG_B0 is already implicitly declared earlier. VERI-1362
-WARNING - synthesis: src/top.v(869): spi_rx_byte_ready is already implicitly declared earlier. VERI-1362
-WARNING - synthesis: src/top.v(897): pc_data_tx is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(532): STATE_DEBUG_B0 is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(879): spi_rx_byte_ready is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(907): pc_data_tx is already implicitly declared earlier. VERI-1362
 WARNING - synthesis: src/top.v(202): identifier fpga_clk is used before its declaration. VERI-1875
 WARNING - synthesis: src/top.v(242): identifier reset_countdown is used before its declaration. VERI-1875
-WARNING - synthesis: src/top.v(375): identifier dc32_fifo_almost_full is used before its declaration. VERI-1875
-WARNING - synthesis: src/top.v(376): identifier dc32_fifo_empty is used before its declaration. VERI-1875
-WARNING - synthesis: src/top.v(377): identifier write_to_dc32_fifo is used before its declaration. VERI-1875
+WARNING - synthesis: src/top.v(374): identifier dc32_fifo_empty is used before its declaration. VERI-1875
+WARNING - synthesis: src/top.v(376): identifier write_to_dc32_fifo is used before its declaration. VERI-1875
 Analyzing Verilog file src/clock.v. VERI-1482
 Analyzing Verilog file src/uart_rx.v. VERI-1482
 WARNING - synthesis: src/uart_rx.v(23): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
@@ -132,9 +131,11 @@ INFO - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_i
 WARNING - synthesis: src/clock.v(59): input port EXTFEEDBACK is not connected on this instance. VDB-1013
 INFO - synthesis: src/timing_controller.v(8): compiling module timing_controller. VERI-1018
 INFO - synthesis: src/usb3_if.v(8): compiling module usb3_if. VERI-1018
-WARNING - synthesis: src/usb3_if.v(92): expression size 32 truncated to fit in target size 4. VERI-1209
-WARNING - synthesis: src/usb3_if.v(126): expression size 32 truncated to fit in target size 4. VERI-1209
-WARNING - synthesis: src/usb3_if.v(129): expression size 32 truncated to fit in target size 11. VERI-1209
+WARNING - synthesis: src/usb3_if.v(111): expression size 32 truncated to fit in target size 4. VERI-1209
+WARNING - synthesis: src/usb3_if.v(150): expression size 32 truncated to fit in target size 4. VERI-1209
+WARNING - synthesis: src/usb3_if.v(171): expression size 32 truncated to fit in target size 4. VERI-1209
+WARNING - synthesis: src/usb3_if.v(174): expression size 32 truncated to fit in target size 11. VERI-1209
+WARNING - synthesis: src/top.v(529): actual bit length 3 differs from formal bit length 4 for port STATE_DEBUG_B0. VERI-1330
 INFO - synthesis: src/fifo_dc_32_lut_gen.v(10): compiling module fifo_dc_32_lut_gen2. VERI-1018
 INFO - synthesis: src/fifo_dc_32_lut_gen.v(129): compiling module fifo_dc_32_lut_gen2_ipgen_lscc_fifo_dc_renamed_due_excessive_length_1. VERI-1018
 Removed duplicate sequential element wr_addr_arith_r(7 bit), because it is equivalent to wr_addr_r
@@ -164,25 +165,25 @@ WARNING - synthesis: src/spi.v(183): expression size 32 truncated to fit in targ
 WARNING - synthesis: src/spi.v(216): expression size 32 truncated to fit in target size 8. VERI-1209
 INFO - synthesis: src/fifo_quad_word_mod.v(10): compiling module FIFO_Quad_Word. VERI-1018
 INFO - synthesis: src/fifo_quad_word_mod.v(25): compiling module FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_2. VERI-1018
-WARNING - synthesis: src/top.v(930): actual bit length 8 differs from formal bit length 32 for port wr_data_i. VERI-1330
-WARNING - synthesis: src/top.v(1108): expression size 32 truncated to fit in target size 1. VERI-1209
-WARNING - synthesis: src/top.v(1131): Register reset_all_cmd_r_85 is stuck at Zero. VDB-5013
-WARNING - synthesis: src/top.v(463): net usb3_data_in[31] does not have a driver. VDB-1002
-WARNING - synthesis: src/top.v(531): net reset_ptr does not have a driver. VDB-1002
-WARNING - synthesis: src/top.v(847): input port i_reset is not connected on this instance. VDB-1013
+WARNING - synthesis: src/top.v(940): actual bit length 8 differs from formal bit length 32 for port wr_data_i. VERI-1330
+WARNING - synthesis: src/top.v(1118): expression size 32 truncated to fit in target size 1. VERI-1209
+WARNING - synthesis: src/top.v(1141): Register reset_all_cmd_r_85 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/top.v(473): net usb3_data_in[31] does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(541): net reset_ptr does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(857): input port i_reset is not connected on this instance. VDB-1013
 Loading NGL library 'D:/ProgramFiles/Lattice/LSE/xo2c00/data/xo2clib.ngl'...
 Loading NGL library 'D:/ProgramFiles/Lattice/LSE/or5g00/data/orc5glib.ngl'...
 Top-level module name = top.
-WARNING - synthesis: Initial value found on net n279 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net n280 will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net wr_addr_nxt_r[2] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net wr_addr_nxt_r[1] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net wr_addr_nxt_r[0] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net rd_addr_nxt_r[2] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net rd_addr_nxt_r[1] will be ignored due to unrecognized driver type
 WARNING - synthesis: Initial value found on net rd_addr_nxt_r[0] will be ignored due to unrecognized driver type
-WARNING - synthesis: src/top.v(463): net usb3_data_in[31] does not have a driver. VDB-1002
-WARNING - synthesis: src/top.v(531): net reset_ptr does not have a driver. VDB-1002
-WARNING - synthesis: src/top.v(847): input port i_reset is not connected on this instance. VDB-1013
+WARNING - synthesis: src/top.v(473): net usb3_data_in[31] does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(541): net reset_ptr does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(857): input port i_reset is not connected on this instance. VDB-1013
 WARNING - synthesis: src/clock.v(59): input port EXTFEEDBACK is not connected on this instance. VDB-1013
 WARNING - synthesis: src/spi.v(49): net \spi0/i_reset does not have a driver. VDB-1002
 ######## Missing driver on net usb3_data_in[31]. Patching with GND.
@@ -204,33 +205,45 @@ WARNING - synthesis: src/spi.v(49): net \spi0/i_reset does not have a driver. VD
 ######## Missing driver on net reset_ptr. Patching with GND.
 ######## Missing driver on net \spi0/i_reset. Patching with GND.
 INFO - synthesis: Extracted state machine for register '\usb3_if_inst/state' with one-hot encoding
-State machine has 6 reachable states with original encodings of:
+State machine has 9 reachable states with original encodings of:
 
- 000 
+ 0000 
 
- 001 
+ 0001 
 
- 010 
+ 0010 
 
- 011 
+ 0011 
 
- 100 
+ 0100 
 
- 101 
+ 0101 
+
+ 0110 
+
+ 0111 
+
+ 1000 
 
 original encoding -> new encoding (one-hot encoding)
 
- 000 -> 000001
+ 0000 -> 000000001
 
- 001 -> 000010
+ 0001 -> 000000010
 
- 010 -> 000100
+ 0010 -> 000000100
 
- 011 -> 001000
+ 0011 -> 000001000
 
- 100 -> 010000
+ 0100 -> 000010000
 
- 101 -> 100000
+ 0101 -> 000100000
+
+ 0110 -> 001000000
+
+ 0111 -> 010000000
+
+ 1000 -> 100000000
 
 INFO - synthesis: Extracted state machine for register '\bluejay_data_inst/state' with one-hot encoding
 State machine has 9 reachable states with original encodings of:
@@ -276,28 +289,35 @@ original encoding -> new encoding (one-hot encoding)
 
 
 
-WARNING - synthesis: Bit 0 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 1 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 2 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 3 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 4 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 5 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 6 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 7 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 8 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 9 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 10 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 11 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 12 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 13 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 14 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
-WARNING - synthesis: Bit 15 of Register \usb3_if_inst/usb3_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 0 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 1 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 2 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 3 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 4 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 5 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 6 of Register \usb3_if_inst/state_FSM is stuck at Zero
 WARNING - synthesis: Bit 0 of Register \bluejay_data_inst/state_FSM is stuck at Zero
 WARNING - synthesis: Bit 1 of Register \bluejay_data_inst/state_FSM is stuck at Zero
 WARNING - synthesis: Bit 2 of Register \bluejay_data_inst/state_FSM is stuck at Zero
 WARNING - synthesis: Bit 3 of Register \bluejay_data_inst/state_FSM is stuck at Zero
 WARNING - synthesis: Bit 4 of Register \bluejay_data_inst/state_FSM is stuck at Zero
 WARNING - synthesis: Bit 5 of Register \bluejay_data_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 0 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 1 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 2 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 3 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 4 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 5 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 6 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 7 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 8 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 9 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 10 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 11 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 12 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 13 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 14 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
+WARNING - synthesis: Bit 15 of Register \usb3_if_inst/dc32_fifo_data_in_latched is stuck at Zero
 WARNING - synthesis: Bit 0 of Register \usb3_if_inst/dc32_fifo_data_in is stuck at Zero
 WARNING - synthesis: Bit 1 of Register \usb3_if_inst/dc32_fifo_data_in is stuck at Zero
 WARNING - synthesis: Bit 2 of Register \usb3_if_inst/dc32_fifo_data_in is stuck at Zero
@@ -314,13 +334,13 @@ WARNING - synthesis: Bit 12 of Register \usb3_if_inst/dc32_fifo_data_in is stuck
 WARNING - synthesis: Bit 13 of Register \usb3_if_inst/dc32_fifo_data_in is stuck at Zero
 WARNING - synthesis: Bit 14 of Register \usb3_if_inst/dc32_fifo_data_in is stuck at Zero
 WARNING - synthesis: Bit 15 of Register \usb3_if_inst/dc32_fifo_data_in is stuck at Zero
-WARNING - synthesis: src/fifo_dc_32_lut_gen.v(878): Register \i1209/i131_132 is stuck at Zero. VDB-5013
-WARNING - synthesis: src/fifo_quad_word_mod.v(448): Register \i1210/i62_63 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/fifo_dc_32_lut_gen.v(878): Register \i1292/i182_183 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/fifo_quad_word_mod.v(448): Register \i1293/i62_63 is stuck at Zero. VDB-5013
 WARNING - synthesis: Bit 0 of Register \tx_fifo/lscc_fifo_inst/mem_LUT.data_raw_r_ is stuck at Zero
 WARNING - synthesis: Bit 0 of Register \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/REG.out_raw_ is stuck at Zero
 Duplicate register/latch removal. \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_grey_sync_r__i6 is a one-to-one match with \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r__i6.
 Duplicate register/latch removal. \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r__i6 is a one-to-one match with \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_grey_sync_r__i6.
-Duplicate register/latch removal. \usb3_if_inst/buffer_switch_done_latched_81 is a one-to-one match with \bluejay_data_inst/state_FSM_i1.
+Duplicate register/latch removal. \usb3_if_inst/buffer_switch_done_latched_88 is a one-to-one match with \bluejay_data_inst/state_FSM_i1.
 Applying 1.000000 MHz constraint to all clocks
 
 Writing scf file : HoloBlade_Implmnt/HoloBlade.scf
@@ -328,44 +348,40 @@ Writing scf file : HoloBlade_Implmnt/HoloBlade.scf
 Results of NGD DRC are available in top_drc.log.
 
 ################### Begin Area Report (top)######################
-Number of register bits => 1481 of 3520 (42 % )
+Number of register bits => 1486 of 3520 (42 % )
 SB_CARRY => 140
-SB_DFF => 1218
-SB_DFFE => 79
-SB_DFFESR => 83
-SB_DFFESS => 11
-SB_DFFN => 36
-SB_DFFNE => 3
-SB_DFFNESR => 11
-SB_DFFNESS => 1
-SB_DFFNSR => 4
-SB_DFFNSS => 3
+SB_DFF => 1223
+SB_DFFE => 76
+SB_DFFESR => 95
+SB_DFFESS => 15
+SB_DFFN => 21
+SB_DFFNESR => 15
 SB_DFFS => 1
-SB_DFFSR => 30
-SB_DFFSS => 1
+SB_DFFSR => 37
+SB_DFFSS => 3
 SB_GB => 1
 SB_GB_IO => 1
 SB_IO => 82
-SB_LUT4 => 2566
+SB_LUT4 => 2573
 SB_PLL40_CORE => 1
 ################### End Area Report ##################
 
 ################### Begin Clock Report ######################
 Clock Nets
 Number of Clocks: 2
-  Net : DEBUG_6_c_c, loads : 1109
+  Net : FIFO_CLK_c, loads : 1113
   Net : SLM_CLK_c, loads : 374
 Clock Enable Nets
 Number of Clock Enables: 0
 Top 0 highest fanout Clock Enables:
 Highest fanout non-clock nets
 Top 10 highest fanout non-clock nets:
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r_5, loads : 462
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_1, loads : 394
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r_5, loads : 430
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_1, loads : 393
   Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_0, loads : 344
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_2, loads : 150
-  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_3, loads : 80
-  Net : timing_controller_inst/reset_all, loads : 74
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_2, loads : 152
+  Net : timing_controller_inst/reset_per_frame, loads : 75
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_3, loads : 73
   Net : usb3_if_inst/dc32_fifo_data_in_15, loads : 63
   Net : usb3_if_inst/dc32_fifo_data_in_14, loads : 63
   Net : usb3_if_inst/dc32_fifo_data_in_13, loads : 63
@@ -379,7 +395,7 @@ Constraint                              |   Constraint|       Actual|Levels
 --------------------------------------------------------------------------------
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
-clk1 [get_nets DEBUG_6_c_c]             |    1.000 MHz|   45.595 MHz|     6  
+clk1 [get_nets FIFO_CLK_c]              |    1.000 MHz|   48.596 MHz|    13  
                                         |             |             |
 create_clock -period 1000.000000 -name  |             |             |
 clk0 [get_nets SLM_CLK_c]               |    1.000 MHz|   19.352 MHz|    33  
@@ -390,8 +406,8 @@ clk0 [get_nets SLM_CLK_c]               |    1.000 MHz|   19.352 MHz|    33
 All constraints were met.
 
 
-Peak Memory Usage: 56.570  MB
+Peak Memory Usage: 57.465  MB
 
 --------------------------------------------------------------
-Elapsed CPU time for LSE flow : 3.438  secs
+Elapsed CPU time for LSE flow : 3.500  secs
 --------------------------------------------------------------

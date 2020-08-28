@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 16:52:36
 
-* File Generated:     Jun 15 2020 23:04:09
+* File Generated:     Aug 28 2020 16:27:05
 
 * Purpose:            Detailed IO and package pin info
 
@@ -107,7 +107,7 @@ Pin Number, Pin Type Name, Signal Name, Direction, Global Buffer, IO Standard, P
 91, PIO, INVERT, Output, , SB_LVCMOS, No Pull Up, Output Registered, rightBank
 92, VCC, not used, , , , , , UnknownBank
 93, PIO_GBIN, ICE_SYSCLK, Input, , SB_LVCMOS, No Pull Up, Simple Input, rightBank
-94, PIO_GBIN, VALID, Output, , SB_LVCMOS, No Pull Up, Output Registered, rightBank
+94, PIO_GBIN, VALID, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
 95, PIO, SLM_CLK, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
 96, PIO, DATA10, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
 97, PIO, DATA11, Output, , SB_LVCMOS, No Pull Up, Simple Output, rightBank
