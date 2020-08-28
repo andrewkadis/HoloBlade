@@ -146,13 +146,14 @@ def usb3_if(
     def latch_from_fpga_clock():
         buffer_switch_done_latched.next = ACTIVE_HIGH_FALSE
         reset_per_frame_latched.next    = ACTIVE_HIGH_FALSE
+        dc32_fifo_empty_latched.next    = ACTIVE_HIGH_FALSE
         # Latch for single-cycle if either is high
         if(buffer_switch_done==ACTIVE_HIGH_TRUE):
             buffer_switch_done_latched.next = ACTIVE_HIGH_TRUE
         if(reset_per_frame==ACTIVE_HIGH_TRUE):
             reset_per_frame_latched.next = ACTIVE_HIGH_TRUE
-        # Just latch value
-        dc32_fifo_empty_latched.next    = dc32_fifo_empty
+        if(dc32_fifo_empty==ACTIVE_HIGH_TRUE):
+            dc32_fifo_empty_latched.next = ACTIVE_HIGH_TRUE
         
 
 
