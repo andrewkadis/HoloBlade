@@ -74,7 +74,7 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
                     DATA.next = 0x00000000 # Should stricly be 0xFFFFFFFF from datasheet but this is easier to read on simulator
 
             else:
-                # Special counter is just 0
+                # Special counter just resets to 0
                 skip_every_41st_byte.next = 0
 
 
