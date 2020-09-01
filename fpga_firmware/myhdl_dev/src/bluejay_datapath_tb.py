@@ -353,8 +353,9 @@ def bluejay_datapath_tb():
         #     yield ftdi_clk.posedge
 
 
-        # yield delay(5000)
-        # raise StopSimulation()
+        yield delay(5000)
+        print("Ending simulation...")
+        raise StopSimulation()
 
 
         # ###########################################
