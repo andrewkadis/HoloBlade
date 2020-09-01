@@ -8,8 +8,8 @@ class Error(Exception):
     pass
 
 # Constants - We flag the the FIFO is almost full after 40 words, matches 1-line for our SLM
-FIFO_ALMOST_FULL_LEVEL = 40-1 # Need to take 2 off here, 1 for the 1-cycle register update delay, 1 for the fact that our output is pipelined by 1 cycle
-FIFO_DEPTH             = 64
+FIFO_DEPTH             = 32
+FIFO_ALMOST_FULL_LEVEL = FIFO_DEPTH-2 # Need to take 2 off here, 1 for the 1-cycle register update delay, 1 for the pipelining
 
 # Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
 @block
@@ -25,6 +25,7 @@ def mock_dc32_fifo(
         dc32_fifo_almost_full,
         dc32_fifo_empty,
         # FPGA-side
+        dc32_fifo_full,
         dc32_fifo_almost_empty,
         get_next_word,
         dc32_fifo_data_out
@@ -43,6 +44,7 @@ def mock_dc32_fifo(
     dc32_fifo_almost_full   : Goes high when there are at least 40 lines of data available in the internal FIFO
     dc32_fifo_empty         : Is our fifo empty? Need this for usb3_if.py
     # FPGA-side
+    dc32_fifo_full          : Goes high when the FIFO is full
     dc32_fifo_almost_empty  : Is our fifo almost empty? Goes high when 1 word in FIFO, need this so bluejay_data knows 1-cycle in advance and doesn't read from emtpy FIFO
     get_next_word           : Line to pull data from FIFO
     dc32_fifo_data_out      : 32-bit Data Out from internal 32-wide, 64-deep FIFO
@@ -78,12 +80,21 @@ def mock_dc32_fifo(
         if write_to_dc32_fifo==True:
             memory.insert(0, dc32_fifo_data_in.val)
             num_words_in_buffer.next = num_words_in_buffer + 1
+
         # Update if we are almost-full
         filling = len(memory)
         if filling>=FIFO_ALMOST_FULL_LEVEL:
             dc32_fifo_almost_full.next = True
         else:
             dc32_fifo_almost_full.next = False
+        
+        # Update if we are full
+        if filling>=FIFO_DEPTH:
+            dc32_fifo_full.next = True
+        else:
+            dc32_fifo_full.next = False
+
+        # Exception check
         if filling > FIFO_DEPTH:
             raise Exception("Overflow -- Max filling %s exceeded" % FIFO_DEPTH)
 
@@ -129,6 +140,7 @@ def mock_dc32_fifo_tb():
     dc32_fifo_almost_full   = Signal(False)
     dc32_fifo_empty         = Signal(False)
     # FPGA-side
+    dc32_fifo_full          = Signal(False)
     dc32_fifo_almost_empty  = Signal(False)
     get_next_word           = Signal(False)
     dc32_fifo_data_out      = Signal(0)
@@ -145,6 +157,7 @@ def mock_dc32_fifo_tb():
         dc32_fifo_almost_full,
         dc32_fifo_empty,
         # FPGA-side
+        dc32_fifo_full,
         dc32_fifo_almost_empty,
         get_next_word,
         dc32_fifo_data_out

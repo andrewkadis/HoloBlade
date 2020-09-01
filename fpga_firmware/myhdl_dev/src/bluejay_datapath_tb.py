@@ -127,7 +127,7 @@ def bluejay_datapath_tb():
     # Control
     buffer_switch_done     = Signal(False)
     # DC32 FIFO
-    dc32_fifo_almost_full  = Signal(False)
+    dc32_fifo_full         = Signal(False)
     # Bluejay Display
     line_of_data_available        = Signal(False)
     update                        = Signal(False)
@@ -141,7 +141,7 @@ def bluejay_datapath_tb():
         reset_per_frame,
         buffer_switch_done,
         # DC32 FIFO
-        dc32_fifo_almost_full,
+        dc32_fifo_full,
         # Bluejay Display
         line_of_data_available,
         update,
@@ -154,9 +154,8 @@ def bluejay_datapath_tb():
     # FPGA side
     write_to_dc32_fifo     = Signal(False)
     dc32_fifo_data_in      = Signal(0)
+    dc32_fifo_almost_full  = Signal(False)
     dc32_fifo_empty        = Signal(False)
-
-    STATE_DEBUG_B0 =  Signal(0)
 
     # Instantiate
     usb3_if_inst = usb3_if.usb3_if(
@@ -175,7 +174,6 @@ def bluejay_datapath_tb():
         dc32_fifo_data_in,
         dc32_fifo_almost_full,
         dc32_fifo_empty,
-        STATE_DEBUG_B0
     )
 
 
@@ -200,6 +198,7 @@ def bluejay_datapath_tb():
         dc32_fifo_almost_full,
         dc32_fifo_empty,
         # FPGA-side
+        dc32_fifo_full,
         dc32_fifo_almost_empty,
         get_next_word,
         dc32_fifo_data_out
@@ -496,7 +495,7 @@ def bluejay_datapath_tb():
         # yield ftdi_clk.posedge
         # yield ftdi_clk.posedge
         # SIM_BUFFER_SWITCH.next = False
-        # # yield dc32_fifo_almost_full.posedge
+        # # yield dc32_fifo_full.posedge
         # yield dc32_fifo_empty.posedge
         # # yield write_to_dc32_fifo.posedge
         # yield ftdi_clk.posedge
@@ -506,7 +505,7 @@ def bluejay_datapath_tb():
         # yield ftdi_clk.posedge
         # yield ftdi_clk.posedge
         # SIM_BUFFER_SWITCH.next = False
-        # # yield dc32_fifo_almost_full.posedge
+        # # yield dc32_fifo_full.posedge
         # yield dc32_fifo_empty.posedge
         # # yield write_to_dc32_fifo.posedge
         # yield ftdi_clk.posedge
@@ -516,7 +515,7 @@ def bluejay_datapath_tb():
         # yield ftdi_clk.posedge
         # yield ftdi_clk.posedge
         # SIM_BUFFER_SWITCH.next = False
-        # # yield dc32_fifo_almost_full.posedge
+        # # yield dc32_fifo_full.posedge
         # yield dc32_fifo_empty.posedge
         # # yield write_to_dc32_fifo.posedge
         # yield ftdi_clk.posedge

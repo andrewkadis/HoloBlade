@@ -13,6 +13,7 @@ ACTIVE_LOW_FALSE  = True
 ACTIVE_HIGH_TRUE  = True
 ACTIVE_HIGH_FALSE = False
 NUM_OF_LINES_PER_FRAME = 1280
+NUM_OF_WORDS_PER_LINE  = 40
 
 t_state = enum(
     'WAITING_FOR_BUFFER_SWITCH',
@@ -53,8 +54,6 @@ def usb3_if(
     dc32_fifo_data_in,
     dc32_fifo_almost_full,
     dc32_fifo_empty,
-
-    STATE_DEBUG_B0
 
     ):
     
@@ -102,6 +101,9 @@ def usb3_if(
 
 
     # write_to_dc32_fifo_latched  = Signal(ACTIVE_HIGH_FALSE) 
+
+    # Keep track of the number of words clocked out for current line
+    num_words_curr_line   = Signal(intbv(0)[6:])
 
     # Keep track of the number of lines clocked out
     num_lines_clocked_out = Signal(intbv(0)[11:])
@@ -193,6 +195,7 @@ def usb3_if(
             # usb3_data_in_latched.next  = 0x00000000
             # state_timeout_counter.next = 0
             # Also reset out line-count
+            num_words_curr_line.next   = NUM_OF_WORDS_PER_LINE
             num_lines_clocked_out.next = NUM_OF_LINES_PER_FRAME
 
         else:
@@ -239,12 +242,16 @@ def usb3_if(
                 # if state_timeout_counter == 1:
                 FT_OE.next = ACTIVE_LOW_TRUE
                 state.next = t_state.READ_ENABLE
+                # Reset the number of bytes in our line
+                num_words_curr_line.next = NUM_OF_WORDS_PER_LINE
             elif state == t_state.READ_ENABLE:
                 # Assert FT_OE, FT_RD and then transition to next state
                 FT_OE.next = ACTIVE_LOW_TRUE
                 FT_RD.next = ACTIVE_LOW_TRUE
                 # Data is good, latch it
                 dc32_fifo_data_in_latched.next  = usb3_data_in
+                write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                num_words_curr_line.next = num_words_curr_line - 1
                 # write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
                 # FT_RD_internal.next = ACTIVE_LOW_TRUE   
                 # Clock next line of data to USB3 Fifo output, but do not assert DC_FIFO-write line yet as we have to handle the 1-cycle delay
@@ -258,6 +265,7 @@ def usb3_if(
                 if dc32_fifo_almost_full==ACTIVE_HIGH_TRUE:
                     dc32_fifo_data_in_latched.next  = usb3_data_in
                     write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                    num_words_curr_line.next        = num_words_curr_line - 1
                     # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                     # Move to state where we wait for the line of FIFO data to be clocked out
                     state.next = t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ
@@ -281,6 +289,7 @@ def usb3_if(
                     # Data is good, latch it2
                     dc32_fifo_data_in_latched.next  = usb3_data_in
                     write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                    num_words_curr_line.next        = num_words_curr_line - 1
 
             # # Single-cycle state which is needed when READING_DATA is interrupted because RX_F goes high and no data available
             # elif state == t_state.READING_DATA_INTERRUPTED:
@@ -346,28 +355,28 @@ def usb3_if(
     #         DEBUG_WAITING_FOR_BUFFER_SWITCH.next = True
 
 
-    @always(ftdi_clk.posedge)
-    def flag_state_change_debug():
-        if state == t_state.WAITING_FOR_BUFFER_SWITCH:
-            STATE_DEBUG_B0.next = intbv(1)[4:]
-        elif state == t_state.WAITING_FOR_DATA:
-            STATE_DEBUG_B0.next = intbv(2)[4:]
-        elif state == t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ:
-            STATE_DEBUG_B0.next = intbv(3)[4:]
-        elif state == t_state.DATA_AVAILABLE:
-            STATE_DEBUG_B0.next = intbv(4)[4:]
-        elif state == t_state.READ_ENABLE:
-            STATE_DEBUG_B0.next = intbv(5)[4:]
-        elif state == t_state.READING_DATA:
-            STATE_DEBUG_B0.next = intbv(6)[4:]
-        elif state == t_state.RECOVERY_WAITING_FOR_DATA:
-            STATE_DEBUG_B0.next = intbv(7)[4:]
-        elif state == t_state.RECOVERY_DATA_AVAILABLE:
-            STATE_DEBUG_B0.next = intbv(8)[4:]
-        elif state == t_state.RECOVERY_READ_ENABLE:
-            STATE_DEBUG_B0.next = intbv(9)[4:]
-        else:
-            STATE_DEBUG_B0.next = intbv(0)[4:]
+    # @always(ftdi_clk.posedge)
+    # def flag_state_change_debug():
+    #     if state == t_state.WAITING_FOR_BUFFER_SWITCH:
+    #         STATE_DEBUG_B0.next = intbv(1)[4:]
+    #     elif state == t_state.WAITING_FOR_DATA:
+    #         STATE_DEBUG_B0.next = intbv(2)[4:]
+    #     elif state == t_state.WAITING_FOR_FIFO_LINE_TO_BE_READ:
+    #         STATE_DEBUG_B0.next = intbv(3)[4:]
+    #     elif state == t_state.DATA_AVAILABLE:
+    #         STATE_DEBUG_B0.next = intbv(4)[4:]
+    #     elif state == t_state.READ_ENABLE:
+    #         STATE_DEBUG_B0.next = intbv(5)[4:]
+    #     elif state == t_state.READING_DATA:
+    #         STATE_DEBUG_B0.next = intbv(6)[4:]
+    #     elif state == t_state.RECOVERY_WAITING_FOR_DATA:
+    #         STATE_DEBUG_B0.next = intbv(7)[4:]
+    #     elif state == t_state.RECOVERY_DATA_AVAILABLE:
+    #         STATE_DEBUG_B0.next = intbv(8)[4:]
+    #     elif state == t_state.RECOVERY_READ_ENABLE:
+    #         STATE_DEBUG_B0.next = intbv(9)[4:]
+    #     else:
+    #         STATE_DEBUG_B0.next = intbv(0)[4:]
 
 
     # We clock out our data to the FIFO on the falling edge after registering them and before the DC32 FIFO is ready ot be clocked on the subsequent clock cycle
@@ -445,7 +454,7 @@ def usb3_if(
         #     write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
         #     # dc32_fifo_data_in.next  = usb3_data_in
 
-    return latch_from_fpga_clock, usb3_readout_logic_state, pre_clock_dc32_outputs, flag_state_change_debug#latch_data_as_soon_as_valid, output_latched_data_for_fifo, #, flag_state_change_debug, write_to_dc_fifo_logic#, usb3_readout_logic_output
+    return latch_from_fpga_clock, usb3_readout_logic_state, pre_clock_dc32_outputs#, flag_state_change_debug#latch_data_as_soon_as_valid, output_latched_data_for_fifo, #, flag_state_change_debug, write_to_dc_fifo_logic#, usb3_readout_logic_output
 
 
 
@@ -468,7 +477,7 @@ def usb3_if_gen_verilog():
     dc32_fifo_almost_full     = Signal(False)
     dc32_fifo_empty           = Signal(False)
 
-    STATE_DEBUG_B0 =  Signal(intbv(0)[4:])
+    # STATE_DEBUG_B0 =  Signal(intbv(0)[4:])
     # STATE_DEBUG_B1 =  Signal(False)
     # STATE_DEBUG_B2 =  Signal(False)
 
@@ -488,10 +497,7 @@ def usb3_if_gen_verilog():
         write_to_dc32_fifo,
         dc32_fifo_data_in,
         dc32_fifo_almost_full,
-        dc32_fifo_empty,
-        STATE_DEBUG_B0
-        # STATE_DEBUG_B1,
-        # STATE_DEBUG_B2
+        dc32_fifo_empty
     )
 
     # Convert
