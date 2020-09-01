@@ -284,8 +284,9 @@ def usb3_if(
                     # write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
                 # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
                 elif FR_RXF==ACTIVE_LOW_FALSE:
-                    # dc32_fifo_data_in_latched.next  = usb3_data_in
-                    # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                    dc32_fifo_data_in_latched.next  = usb3_data_in
+                    write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                    num_words_curr_line.next        = num_words_curr_line - 1
                     # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                     state.next = t_state.RECOVERY_WAITING_FOR_DATA
                     # state.next = t_state.WAITING_FOR_DATA
@@ -360,7 +361,8 @@ def usb3_if(
                 FT_OE.next = ACTIVE_LOW_TRUE
                 FT_RD.next = ACTIVE_LOW_TRUE # WTF NEED THIS OR GET METASTABILKITY
                 # Data is good, latch it
-                dc32_fifo_data_in_latched.next  = usb3_data_in
+                # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE
+                # dc32_fifo_data_in_latched.next  = usb3_data_in
                 # We have now successfully recovered, back to regular clocking out line data
                 state.next = t_state.READING_DATA
 
