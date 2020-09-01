@@ -40,6 +40,13 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
     @always(CLK.negedge)
     def access():
 
+        # Reset if required, this is just a simple simulation so just simulating on write-side is fine
+        if(RESET_N==False):
+            # Special counter just resets to 0
+            skip_every_41st_byte.next = 0
+            while len(memory)>0:
+                memory.pop()
+
         # Need to check empty status first to be consistent with FT601 documentation
         filling = len(memory)
         if filling >= 1: # This is 1 as we are checking before clocking anything out, ie: sequential logic so need to check for 1 or higher
