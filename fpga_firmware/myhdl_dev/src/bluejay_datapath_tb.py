@@ -288,68 +288,70 @@ def bluejay_datapath_tb():
 
 
 
-        # ###########################################
-        # ############### FRAME 2 ###################
-        # ###########################################
-        # # Here, we want to simulate an internal buffer switch in the FT601 half-way through line 4
-        # # This happens when the USB-FIFO is managing its data, it pulls RX_F high and stops sending data
-        # # There is quite a lot of subtlety here (see pg. 16 of datasheet for proper timing diagram)
-        # # Basically, all the issues + complex logic comes from this edge-case so we simulate it explicitly here to ensure we are handling
-        # # Prep another frame of data
-        # print("Simulating Frame 2...")
-        # yield delay(6000)
-        # # Define where we are getting our glitches and how long they are
-        # glitched_line_one_index  = 3
-        # glitched_line_one_width  = 4
-        # glitched_line_one_pos    = 7
-        # # Load data into our simulated ft601 as per normal
-        # for i in range(0, lines_per_frame): 
-        #     # Load line
-        #     yield simulate_load_fifo_data(test_line)
-        #     yield delay(500)
-        # # Wait until we have a buffer switch
+        ###########################################
+        ############### FRAME 2 ###################
+        ###########################################
+        # Here, we want to simulate an internal buffer switch in the FT601 half-way through line 4
+        # This happens when the USB-FIFO is managing its data, it pulls RX_F high and stops sending data
+        # There is quite a lot of subtlety here (see pg. 16 of datasheet for proper timing diagram)
+        # Basically, all the issues + complex logic comes from this edge-case so we simulate it explicitly here to ensure we are handling
+        # Prep another frame of data
+        # Wait until we have a buffer switch
         # yield buffer_switch_done.posedge
-        # #######################################
-        # ############## GOOD LINES #############
-        # #######################################
-        # # These lines are good
-        # for i in range(0, glitched_line_one_index):
-        #     SIM_BUFFER_SWITCH.next = True
-        #     yield ftdi_clk.posedge
-        #     yield ftdi_clk.posedge
-        #     SIM_BUFFER_SWITCH.next = False
-        #     yield dc32_fifo_empty.posedge
-        #     yield ftdi_clk.posedge
-        #     yield ftdi_clk.posedge
-        # #######################################
-        # ############ GLITCHED LINE ############
-        # #######################################
-        # # First Glitched Line
-        # # First few words are fine, wait for them to be clocked out
-        # yield FT_RD.negedge
-        # for i in range(0, glitched_line_one_pos):
-        #     yield ftdi_clk.posedge
-        # # Glitch
-        # SIM_BUFFER_SWITCH.next = True
-        # for i in range(0, glitched_line_one_width):
-        #     yield ftdi_clk.posedge
-        # SIM_BUFFER_SWITCH.next = False
-        # # Now finish line execution as normal
-        # yield dc32_fifo_empty.posedge
-        # yield ftdi_clk.posedge
-        # yield ftdi_clk.posedge
-        # #######################################
-        # ############## GOOD LINES #############
-        # #######################################
-        # # Clock out the rest of the good lines in this frame
-        # for i in range(glitched_line_one_index+1, lines_per_frame):
-        #     SIM_BUFFER_SWITCH.next = True
-        #     yield ftdi_clk.posedge
-        #     yield ftdi_clk.posedge
-        #     SIM_BUFFER_SWITCH.next = False
-        #     yield dc32_fifo_empty.posedge
-        #     yield ftdi_clk.posedge
-        #     yield ftdi_clk.posedge
+        print("Simulating Frame 2...")
+        yield delay(6000)
+        # Define where we are getting our glitches and how long they are
+        glitched_line_one_index  = 3
+        glitched_line_one_width  = 4
+        glitched_line_one_pos    = 7
+        # Load data into our simulated ft601 as per normal
+        for i in range(0, lines_per_frame): 
+            # Load line
+            yield simulate_load_fifo_data(test_line)
+            yield delay(500)
+        # Wait until we have a buffer switch
+        # yield buffer_switch_done.posedge
+        #######################################
+        ############## GOOD LINES #############
+        #######################################
+        # These lines are good
+        for i in range(0, glitched_line_one_index):
+            SIM_BUFFER_SWITCH.next = True
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            SIM_BUFFER_SWITCH.next = False
+            yield dc32_fifo_empty.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+        #######################################
+        ############ GLITCHED LINE ############
+        #######################################
+        # First Glitched Line
+        # First few words are fine, wait for them to be clocked out
+        yield FT_RD.negedge
+        for i in range(0, glitched_line_one_pos):
+            yield ftdi_clk.posedge
+        # Glitch
+        SIM_BUFFER_SWITCH.next = True
+        for i in range(0, glitched_line_one_width):
+            yield ftdi_clk.posedge
+        SIM_BUFFER_SWITCH.next = False
+        # Now finish line execution as normal
+        yield dc32_fifo_empty.posedge
+        yield ftdi_clk.posedge
+        yield ftdi_clk.posedge
+        #######################################
+        ############## GOOD LINES #############
+        #######################################
+        # Clock out the rest of the good lines in this frame
+        for i in range(glitched_line_one_index+1, lines_per_frame):
+            SIM_BUFFER_SWITCH.next = True
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            SIM_BUFFER_SWITCH.next = False
+            yield dc32_fifo_empty.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
 
 
         yield delay(5000)
