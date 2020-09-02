@@ -370,8 +370,8 @@ wire fsm_change;
 
 // Debugging Values for trying to catch extra bytes sneaking into FIFO
 assign DEBUG_1 = FR_RXF;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
-assign DEBUG_2 = FT_RD;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_2 = dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = dc32_fifo_empty;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = dc32_fifo_almost_full; // DO NOT CHANGE THIS OR DOESNT WORK
 assign DEBUG_5 = write_to_dc32_fifo;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
 assign DEBUG_7 = FIFO_D0;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
@@ -443,7 +443,7 @@ wire reset_all;
 wire reset_per_frame;
 wire buffer_switch_done;
 // DC32 FIFO
-wire dc32_fifo_almost_full;
+wire dc32_fifo_full;
 // Bluejay Display
 wire line_of_data_available;
 wire update;
@@ -456,7 +456,7 @@ timing_controller timing_controller_inst(
   .reset_per_frame(reset_per_frame),
   .buffer_switch_done(buffer_switch_done),
   // DC32 FIFO
-  .dc32_fifo_almost_full(dc32_fifo_almost_full),
+  .dc32_fifo_full(dc32_fifo_full),
   // Bluejay Display
   .line_of_data_available(line_of_data_available),
   .update(UPDATE),
@@ -476,18 +476,18 @@ wire[31:0] usb3_data_in;
 // assign usb3_data_in[30] = FIFO_D30;
 // assign usb3_data_in[29] = FIFO_D29;
 // assign usb3_data_in[28] = FIFO_D28;
-// assign usb3_data_in[27] = FIFO_D27;
-// assign usb3_data_in[26] = FIFO_D26;
-// assign usb3_data_in[25] = FIFO_D25;
-// assign usb3_data_in[24] = FIFO_D24;
-// assign usb3_data_in[23] = FIFO_D23;
-// assign usb3_data_in[22] = FIFO_D22;
-// assign usb3_data_in[21] = FIFO_D21;
-// assign usb3_data_in[20] = FIFO_D20;
-// assign usb3_data_in[19] = FIFO_D19;
-// assign usb3_data_in[18] = FIFO_D18;
-// assign usb3_data_in[17] = FIFO_D17;
-// assign usb3_data_in[16] = FIFO_D16;
+assign usb3_data_in[27] = FIFO_D27;
+assign usb3_data_in[26] = FIFO_D26;
+assign usb3_data_in[25] = FIFO_D25;
+assign usb3_data_in[24] = FIFO_D24;
+assign usb3_data_in[23] = FIFO_D23;
+assign usb3_data_in[22] = FIFO_D22;
+assign usb3_data_in[21] = FIFO_D21;
+assign usb3_data_in[20] = FIFO_D20;
+assign usb3_data_in[19] = FIFO_D19;
+assign usb3_data_in[18] = FIFO_D18;
+assign usb3_data_in[17] = FIFO_D17;
+assign usb3_data_in[16] = FIFO_D16;
 assign usb3_data_in[15] = FIFO_D15;
 assign usb3_data_in[14] = FIFO_D14;
 assign usb3_data_in[13] = FIFO_D13;
@@ -525,11 +525,8 @@ usb3_if usb3_if_inst(
   .write_to_dc32_fifo(write_to_dc32_fifo),
   .dc32_fifo_data_in(dc32_fifo_data_in),
   .dc32_fifo_almost_full(dc32_fifo_almost_full),
-  .dc32_fifo_empty(dc32_fifo_empty),
-  .STATE_DEBUG_B0(STATE_DEBUG_B0)
+  .dc32_fifo_empty(dc32_fifo_empty)
  );
-
-wire[2:0] STATE_DEBUG_B0;
 
 ///////////////////////////////////////////////////////////////////////////
 /////////// DualClock 32-bit Wide FIFO Chip Interfacing ///////////////////
@@ -554,8 +551,9 @@ fifo_dc_32_lut_gen2 fifo_dc_32_lut_gen_inst(
   .wr_en_i(write_to_dc32_fifo),
   .wr_data_i(dc32_fifo_data_in),
   .almost_full_o(dc32_fifo_almost_full),
-  // FPGA-side
   .empty_o(dc32_fifo_empty),
+  // FPGA-side
+  .full_o(dc32_fifo_full),
   .almost_empty_o(dc32_fifo_almost_empty),
   .rd_en_i(get_next_word),
   .rd_data_o(fifo_data_out)
@@ -574,38 +572,38 @@ fifo_dc_32_lut_gen2 fifo_dc_32_lut_gen_inst(
 // Data Lines
 wire[31:0] bluejay_data_out;
 // TODO: Temp, we just double match until we work out how to make our FIFO fit into LUTs
-assign DATA31 = bluejay_data_out[15];
-assign DATA30 = bluejay_data_out[14];
-assign DATA29 = bluejay_data_out[13];
-assign DATA28 = bluejay_data_out[12];
-assign DATA27 = bluejay_data_out[11];
-assign DATA26 = bluejay_data_out[10];
-assign DATA25 = bluejay_data_out[9];
-assign DATA24 = bluejay_data_out[8];
-assign DATA23 = bluejay_data_out[7];
-assign DATA22 = bluejay_data_out[6];
-assign DATA21 = bluejay_data_out[5];
-assign DATA20 = bluejay_data_out[4];
-assign DATA19 = bluejay_data_out[3];
-assign DATA18 = bluejay_data_out[2];
-assign DATA17 = bluejay_data_out[1];
-assign DATA16 = bluejay_data_out[0];
-// assign DATA31 = bluejay_data_out[31];
-// assign DATA30 = bluejay_data_out[30];
-// assign DATA29 = bluejay_data_out[29];
-// assign DATA28 = bluejay_data_out[28];
-// assign DATA27 = bluejay_data_out[27];
-// assign DATA26 = bluejay_data_out[26];
-// assign DATA25 = bluejay_data_out[25];
-// assign DATA24 = bluejay_data_out[24]; 
-// assign DATA23 = bluejay_data_out[23];
-// assign DATA22 = bluejay_data_out[22];
-// assign DATA21 = bluejay_data_out[21];
-// assign DATA20 = bluejay_data_out[20];
-// assign DATA19 = bluejay_data_out[19];
-// assign DATA18 = bluejay_data_out[18];
-// assign DATA17 = bluejay_data_out[17];
-// assign DATA16 = bluejay_data_out[16];
+// assign DATA31 = bluejay_data_out[15];
+// assign DATA30 = bluejay_data_out[14];
+// assign DATA29 = bluejay_data_out[13];
+// assign DATA28 = bluejay_data_out[12];
+// assign DATA27 = bluejay_data_out[11];
+// assign DATA26 = bluejay_data_out[10];
+// assign DATA25 = bluejay_data_out[9];
+// assign DATA24 = bluejay_data_out[8];
+// assign DATA23 = bluejay_data_out[7];
+// assign DATA22 = bluejay_data_out[6];
+// assign DATA21 = bluejay_data_out[5];
+// assign DATA20 = bluejay_data_out[4];
+// assign DATA19 = bluejay_data_out[3];
+// assign DATA18 = bluejay_data_out[2];
+// assign DATA17 = bluejay_data_out[1];
+// assign DATA16 = bluejay_data_out[0];
+assign DATA31 = bluejay_data_out[31];
+assign DATA30 = bluejay_data_out[30];
+assign DATA29 = bluejay_data_out[29];
+assign DATA28 = bluejay_data_out[28];
+assign DATA27 = bluejay_data_out[27];
+assign DATA26 = bluejay_data_out[26];
+assign DATA25 = bluejay_data_out[25];
+assign DATA24 = bluejay_data_out[24]; 
+assign DATA23 = bluejay_data_out[23];
+assign DATA22 = bluejay_data_out[22];
+assign DATA21 = bluejay_data_out[21];
+assign DATA20 = bluejay_data_out[20];
+assign DATA19 = bluejay_data_out[19];
+assign DATA18 = bluejay_data_out[18];
+assign DATA17 = bluejay_data_out[17];
+assign DATA16 = bluejay_data_out[16];
 assign DATA15 = bluejay_data_out[15];
 assign DATA14 = bluejay_data_out[14];
 assign DATA13 = bluejay_data_out[13];

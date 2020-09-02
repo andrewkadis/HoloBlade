@@ -29,9 +29,9 @@ module fifo_dc_32_lut_gen (wr_clk_i,
     output empty_o ; 
     output [6:0] rd_data_cnt_o ; 
     output [31:0] rd_data_o ; 
-    fifo_dc_32_lut_gen_ipgen_lscc_fifo_dc #(.WADDR_DEPTH(64),
+    fifo_dc_32_lut_gen_ipgen_lscc_fifo_dc #(.WADDR_DEPTH(40),
             .WDATA_WIDTH(32),
-            .RADDR_DEPTH(64),
+            .RADDR_DEPTH(40),
             .RDATA_WIDTH(32),
             .WADDR_WIDTH(6),
             .RADDR_WIDTH(6),
