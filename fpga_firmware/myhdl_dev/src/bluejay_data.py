@@ -69,7 +69,7 @@ def bluejay_data(
 
     # Timing constants
     num_words_per_line = 40
-    num_lines          = 1280#16#40#1280
+    num_lines          = 32#1280#16#40#1280
     end_of_sync_blank_cycles  = 3  # Need to blank for 3 cycles between Sync Low and Valid high (tSD from pg. 14 datasheet)
     end_of_line_blank_cycles  = 4  # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
     waiting_for_data_window_cycles = 60   # We wait 100 cycles to see if any data gets clocked out, gives plenty of window for FT601 buffer switches which are beyond our control
@@ -206,7 +206,7 @@ def bluejay_data(
             elif state == t_state.LINE_OUT_ENTER:     
                 # Need this wait state when entering a line as it will take 1 cycle to start getting data from FIFO
                 # Reset counter and Valid line so they will start in-sync with FIFO Data - we clock out 1 word per clock cycle so simply set timeout_counter to words_per_line
-                state_timeout_counter.next = num_words_per_line        
+                state_timeout_counter.next = num_words_per_line - 1        
                 # valid.next = True
                 # Command to get next word out of FIFO also has to happen 1-cycle earlier (makes sense as synched with VALID)
                 # get_next_word.next = True
@@ -221,8 +221,8 @@ def bluejay_data(
                 # Keep timing how many words clocked out and keep Valid high
                 state_timeout_counter.next = state_timeout_counter - 1
                 # valid.next = True
-                # Are we at end of line?
-                if state_timeout_counter == 1:
+                # Are we at end of line? Timeout is main check but also need to make sure we aren't going to clock out from empty fifo on subsequent negedge
+                if (state_timeout_counter == 1) or (dc32_fifo_almost_empty==True):
                     # Yes, advance state machine to end of line with appropriate blanking timing
                     # state_timeout_counter.next = end_of_line_blank_cycles
                     state.next = t_state.LINE_OUT_DATA_EXIT

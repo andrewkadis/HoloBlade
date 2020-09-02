@@ -12,7 +12,7 @@ ACTIVE_LOW_TRUE   = False
 ACTIVE_LOW_FALSE  = True
 ACTIVE_HIGH_TRUE  = True
 ACTIVE_HIGH_FALSE = False
-NUM_OF_LINES_PER_FRAME = 1280
+NUM_OF_LINES_PER_FRAME = 32#1280
 NUM_OF_WORDS_PER_LINE  = 40
 DOWNSTREAM_LOGIC_WAIT_CYCLES = 4
 
@@ -262,22 +262,20 @@ def usb3_if(
                 # We always assert the DC_FIFO write line, even if we have to stop in this instance of the state machine, this is because it is 1-cycle behind dc32_fifo_data_in
                 # If our FIFO has got 40 words in it, we have succesfully read a whole line, stop reading and go to WAITING_FOR_FIFO_DATA_TO_CLOCK_OUT
                 if dc32_fifo_almost_full==ACTIVE_HIGH_TRUE:
-                    # Need to clouck out last word because of our pipelining
-                    # dc32_fifo_data_in_latched.next  = usb3_data_in
-                    # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
-                    # num_words_curr_line.next        = num_words_curr_line - 1
+                    # Because of the timing, this is our last chance to store the ft601 data, but we don't have the FIFO space, hence we latch it so we dont lose it and pop it in when we have room
+                    dc32_fifo_data_in_latched.next  = usb3_data_in
                     # Move to state where we wait for the line of FIFO data to be clocked out
                     state.next = t_state.WAITING_FOR_FIFO_DATA_TO_CLOCK_OUT
-                    state_timeout_counter.next = 4 # Delay for a couple of cycles
+                    # Delay for a couple of cycles so we can let the downstream logic start clearing data
+                    state_timeout_counter.next = DOWNSTREAM_LOGIC_WAIT_CYCLES
                 # We have clocked an entire line into the FIFO, no more clocking data until the entire line has been clocked out
                 elif num_words_curr_line==0:
-                    # dc32_fifo_data_in_latched.next  = usb3_data_in
-                    # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                    # Because of the timing, this is our last chance to store the ft601 data, but we don't have the FIFO space, hence we latch it so we dont lose it and pop it in when we have room
+                    dc32_fifo_data_in_latched.next  = usb3_data_in
+                    # Move to state where we wait for the line of FIFO data to be clocked out
                     state.next = t_state.WAITING_FOR_FIFO_DATA_TO_CLOCK_OUT
-                    # state.next = t_state.WAITING_FOR_DATA
-                    state_timeout_counter.next = DOWNSTREAM_LOGIC_WAIT_CYCLES # Delay for a couple of cycles
-                    # Need to latch the last word of data when exiting state of will miss this
-                    # latch_fifo_data.next = ACTIVE_HIGH_TRUE
+                    # Delay for a couple of cycles so we can let the downstream logic start clearing data
+                    state_timeout_counter.next = DOWNSTREAM_LOGIC_WAIT_CYCLES
                     # Reset number of words clocked out in this line for subsequent loop
                     num_words_curr_line.next   = NUM_OF_WORDS_PER_LINE
                 # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
@@ -310,15 +308,18 @@ def usb3_if(
 
             # Wait States for more Data
             elif state == t_state.WAITING_FOR_FIFO_DATA_TO_CLOCK_OUT:
-                state_timeout_counter.next = state_timeout_counter - 1
+                state_timeout_counter.next     = state_timeout_counter - 1
+                # When we entered this state, we latched the input data from the ft601, keep track of it so we don't lose it and we'll put in in the FIFO when there is room
+                dc32_fifo_data_in_latched.next = dc32_fifo_data_in_latched
                 if state_timeout_counter == 1:
                     # Have we still got data in this line to clock out?
                     if (num_words_curr_line>0) and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE):
                         # Assert FT_OE, FT_RD and then transition to next state
                         FT_OE.next = ACTIVE_LOW_TRUE
                         FT_RD.next = ACTIVE_LOW_TRUE # WTF NEED THIS OR GET METASTABILKITY
-                        # Data is good, latch it
-                        dc32_fifo_data_in_latched.next  = usb3_data_in
+                        # Now there is room in the FIFO, clock out the data we've been storing for awhile
+                        write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                        num_words_curr_line.next        = num_words_curr_line - 1
                         # We have now successfully recovered, back to regular clocking out line data
                         state.next = t_state.READING_DATA
                     # Has the entire line been clocked out by downstream logic?
