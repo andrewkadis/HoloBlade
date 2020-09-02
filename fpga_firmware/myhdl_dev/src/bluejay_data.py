@@ -82,6 +82,9 @@ def bluejay_data(
     # data_output_active_cmd  = Signal(False)
     state                   = Signal(t_state.IDLE)
 
+    # Keep track of the number of words clocked out for current line
+    num_words_curr_line   = Signal(intbv(0)[6:])
+
     # Combinational Logic to ensure that we only ever get data from FIFO when not empty
     # @always_comb
     # def check_fifo_not_empty():
@@ -215,11 +218,11 @@ def bluejay_data(
             elif state == t_state.LINE_OUT_DATA: 
                 # Keep reading from FIFO and maintain state
                 # get_next_word.next = True
-                #  Keep timing how many words clocked out and keep Valid high
-                # state_timeout_counter.next = state_timeout_counter - 1
+                # Keep timing how many words clocked out and keep Valid high
+                state_timeout_counter.next = state_timeout_counter - 1
                 # valid.next = True
-                # Are we at end of line? We keep clocking until fifo is empty as usb3_if ensured that only exactly one line was put
-                if (dc32_fifo_almost_empty==True):#state_timeout_counter == 1:
+                # Are we at end of line?
+                if state_timeout_counter == 1:
                     # Yes, advance state machine to end of line with appropriate blanking timing
                     # state_timeout_counter.next = end_of_line_blank_cycles
                     state.next = t_state.LINE_OUT_DATA_EXIT
