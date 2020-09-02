@@ -12,7 +12,7 @@ ACTIVE_LOW_TRUE   = False
 ACTIVE_LOW_FALSE  = True
 ACTIVE_HIGH_TRUE  = True
 ACTIVE_HIGH_FALSE = False
-NUM_OF_LINES_PER_FRAME = 32#1280
+NUM_OF_LINES_PER_FRAME = 1280
 NUM_OF_WORDS_PER_LINE  = 40
 DOWNSTREAM_LOGIC_WAIT_CYCLES = 4
 
@@ -253,7 +253,6 @@ def usb3_if(
                 dc32_fifo_data_in_latched.next  = usb3_data_in
                 # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                 num_words_curr_line.next = num_words_curr_line - 1
-                # write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
                 # FT_RD_internal.next = ACTIVE_LOW_TRUE   
                 # Clock next line of data to USB3 Fifo output, but do not assert DC_FIFO-write line yet as we have to handle the 1-cycle delay
                 # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE
@@ -261,7 +260,6 @@ def usb3_if(
                 state.next = t_state.READING_DATA
             elif state == t_state.READING_DATA:
                 # We always assert the DC_FIFO write line, even if we have to stop in this instance of the state machine, this is because it is 1-cycle behind dc32_fifo_data_in
-                # write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
                 # If our FIFO has got 40 words in it, we have succesfully read a whole line, stop reading and go to WAITING_FOR_FIFO_DATA_TO_CLOCK_OUT
                 if dc32_fifo_almost_full==ACTIVE_HIGH_TRUE:
                     # Need to clouck out last word because of our pipelining
@@ -275,13 +273,13 @@ def usb3_if(
                 elif num_words_curr_line==0:
                     # dc32_fifo_data_in_latched.next  = usb3_data_in
                     # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
-                    # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                     state.next = t_state.WAITING_FOR_FIFO_DATA_TO_CLOCK_OUT
                     # state.next = t_state.WAITING_FOR_DATA
                     state_timeout_counter.next = DOWNSTREAM_LOGIC_WAIT_CYCLES # Delay for a couple of cycles
                     # Need to latch the last word of data when exiting state of will miss this
                     # latch_fifo_data.next = ACTIVE_HIGH_TRUE
-                    # write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
+                    # Reset number of words clocked out in this line for subsequent loop
+                    num_words_curr_line.next   = NUM_OF_WORDS_PER_LINE
                 # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
                 elif FR_RXF==ACTIVE_LOW_FALSE:
                     dc32_fifo_data_in_latched.next  = usb3_data_in
@@ -293,7 +291,6 @@ def usb3_if(
                     state_timeout_counter.next = DOWNSTREAM_LOGIC_WAIT_CYCLES # Delay for a couple of cycles
                     # Need to latch the last word of data when exiting state of will miss this
                     # latch_fifo_data.next = ACTIVE_HIGH_TRUE
-                    # write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
                 else:
                     # No change, keep clocking data out of the USB3 chip and into the FIFO
                     FT_OE.next = ACTIVE_LOW_TRUE
@@ -356,13 +353,16 @@ def usb3_if(
             elif state == t_state.RECOVERY_DATA_AVAILABLE:
                 FT_OE.next = ACTIVE_LOW_TRUE
                 state.next = t_state.RECOVERY_READ_ENABLE
+                # # Reset the number of bytes in our line
+                # num_words_curr_line.next = NUM_OF_WORDS_PER_LINE
             elif state == t_state.RECOVERY_READ_ENABLE:
                 # Assert FT_OE, FT_RD and then transition to next state
                 FT_OE.next = ACTIVE_LOW_TRUE
                 FT_RD.next = ACTIVE_LOW_TRUE # WTF NEED THIS OR GET METASTABILKITY
                 # Data is good, latch it
-                # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE
-                # dc32_fifo_data_in_latched.next  = usb3_data_in
+                dc32_fifo_data_in_latched.next  = usb3_data_in
+                write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                num_words_curr_line.next        = num_words_curr_line - 1
                 # We have now successfully recovered, back to regular clocking out line data
                 state.next = t_state.READING_DATA
 
@@ -428,55 +428,6 @@ def usb3_if(
     #     # Data - we have a 1-cycle ripple delay so our data output aligns with our write_to_dc_fifo signal
     #     usb3_data_in_latched_one_cycle_delay.next  = usb3_data_in_latched
     #     dc32_fifo_data_in.next                     = usb3_data_in_latched_one_cycle_delay
-
-
-    # # TODO: Comment properly
-    # # Need to do combinational here coz FPGAs are properly fucked up
-    # # @always_comb
-    # @always(ftdi_clk.negedge)
-    # def write_to_dc_fifo_logic():
-    #     # Route out outputs
-    #     FT_RD.next = FT_RD_internal
-    #     FT_OE.next = FT_OE_internal
-    #     # 1-cycle delay for latching
-    #     latch_fifo_data_one_cycle_delay.next = latch_fifo_data
-    #     # if( (FR_RXF==ACTIVE_LOW_TRUE) and (FT_OE_internal==ACTIVE_LOW_TRUE) and (FT_RD_internal==ACTIVE_LOW_TRUE) ):
-    #     if( latch_fifo_data_one_cycle_delay==ACTIVE_HIGH_TRUE ):
-    #         write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
-    #     else:
-    #         write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
-
-
-        # Decide whether or not we are outputting the above value based on current state
-        # if( state == t_state.READING_DATA ):
-        #     write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
-        # else:
-        #     write_to_dc32_fifo.next = ACTIVE_HIGH_FALSE
-
-
-        # Run our input pipeline with 1-cycle delay due to latching (this avoids metastability problems)
-        # Interim latched value
-        
-        # Output
-
-    #     if FT_RD_internal==True:
-    #         write_to_dc32_fifo.next = False
-    #     else:
-    #         write_to_dc32_fifo.next = True
-
-        # # Output Data if we are in approrpiate state
-        # # if state==t_state.DATA_AVAILABLE:
-        # #     FT_OE.next              = ACTIVE_LOW_TRUE
-        # if state==t_state.READ_ENABLE:
-        #     # FT_OE.next              = ACTIVE_LOW_TRUE
-        #     # FT_RD.next              = ACTIVE_LOW_TRUE   
-        #     write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
-        #     # dc32_fifo_data_in.next  = usb3_data_in
-        # elif state==t_state.READING_DATA:
-        #     # FT_OE.next              = ACTIVE_LOW_TRUE
-        #     # FT_RD.next              = ACTIVE_LOW_TRUE   
-        #     write_to_dc32_fifo.next = ACTIVE_HIGH_TRUE
-        #     # dc32_fifo_data_in.next  = usb3_data_in
 
     return latch_from_fpga_clock, usb3_readout_logic_state, pre_clock_dc32_outputs#, flag_state_change_debug#latch_data_as_soon_as_valid, output_latched_data_for_fifo, #, flag_state_change_debug, write_to_dc_fifo_logic#, usb3_readout_logic_output
 
