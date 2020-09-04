@@ -370,8 +370,8 @@ wire fsm_change;
 
 // Debugging Values for trying to catch extra bytes sneaking into FIFO
 assign DEBUG_1 = FR_RXF;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
-assign DEBUG_2 = dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = write_to_dc32_fifo;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_2 = get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = fifo_data_out[0];//write_to_dc32_fifo;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = dc32_fifo_almost_full; // DO NOT CHANGE THIS OR DOESNT WORK
 assign DEBUG_5 = VALID;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
 assign DEBUG_7 = FIFO_D0;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
@@ -472,10 +472,10 @@ timing_controller timing_controller_inst(
 // Wire up our 32-bit data connection from the FT601 chip
 wire[31:0] usb3_data_in;
 // TODO: Temp, we just double match until we work out how to make our FIFO fit into LUTs
-// assign usb3_data_in[31] = FIFO_D31;
-// assign usb3_data_in[30] = FIFO_D30;
-// assign usb3_data_in[29] = FIFO_D29;
-// assign usb3_data_in[28] = FIFO_D28;
+assign usb3_data_in[31] = FIFO_D31;
+assign usb3_data_in[30] = FIFO_D30;
+assign usb3_data_in[29] = FIFO_D29;
+assign usb3_data_in[28] = FIFO_D28;
 assign usb3_data_in[27] = FIFO_D27;
 assign usb3_data_in[26] = FIFO_D26;
 assign usb3_data_in[25] = FIFO_D25;
