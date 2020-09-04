@@ -257,11 +257,27 @@ def bluejay_datapath_tb():
             # 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000,
             # 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000, 0xFFFFFFFF, 0x00000000
 
-            # Alternate
-            1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
-            11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-            21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-            31, 32, 33, 34, 35, 36, 37, 38, 39, 40
+            # # Alternate
+            # 1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+            # 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+            # 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+            # 31, 32, 33, 34, 35, 36, 37, 38, 39, 40
+
+            # All On
+            0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
+            0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
+            0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
+            0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
+
+        ]
+
+        test_line2 = [
+
+            # All Off
+            0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+            0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+            0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+            0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
 
         ]
 
@@ -278,9 +294,11 @@ def bluejay_datapath_tb():
         print("Simulating Frame 1...")
         yield delay(6000)
         # Put some data in the mocked FT601 chip ready to be clocked out when we get a buffer switch
-        for i in range(0, lines_per_frame): 
+        for i in range(0, lines_per_frame/2): 
             # Load line
             yield simulate_load_fifo_data(test_line)
+            yield delay(500)
+            yield simulate_load_fifo_data(test_line2)
             yield delay(500)
         # Wait until we have a buffer switch
         yield buffer_switch_done.posedge
