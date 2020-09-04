@@ -277,7 +277,7 @@ def usb3_if(
                     # Delay for a couple of cycles so we can let the downstream logic start clearing data
                     state_timeout_counter.next = DOWNSTREAM_LOGIC_WAIT_CYCLES
                     # Reset number of words clocked out in this line for subsequent loop
-                    num_words_curr_line.next   = NUM_OF_WORDS_PER_LINE
+                    # num_words_curr_line.next   = NUM_OF_WORDS_PER_LINE
                 # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
                 elif FR_RXF==ACTIVE_LOW_FALSE:
                     dc32_fifo_data_in_latched.next  = usb3_data_in
@@ -323,7 +323,11 @@ def usb3_if(
                         # We have now successfully recovered, back to regular clocking out line data
                         state.next = t_state.READING_DATA
                     # Has the entire line been clocked out by downstream logic?
-                    elif dc32_fifo_empty_latched==ACTIVE_HIGH_TRUE:
+                    elif (num_words_curr_line==0):
+                        # Now there is room in the FIFO, clock out the data we've been storing for awhile
+                        write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                        # Reset the line count for subsequent line
+                        num_words_curr_line.next   = NUM_OF_WORDS_PER_LINE
                         # Decrement our row count as we have just finished clocking out a line
                         num_lines_clocked_out.next = num_lines_clocked_out - 1
                         # Have we clocked out the entire frame?
