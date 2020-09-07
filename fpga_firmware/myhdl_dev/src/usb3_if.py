@@ -97,7 +97,7 @@ def usb3_if(
     # RD_N_r = Signal(False)
     # FSM state
     state                 = Signal(t_state.WAITING_FOR_BUFFER_SWITCH)
-    state_timeout_counter = Signal(intbv(0)[4:]) 
+    state_timeout_counter = Signal(intbv(0)[5:]) 
 
 
 
@@ -341,7 +341,7 @@ def usb3_if(
                         else:
                             # Not yet, go wait for the next line of data
                             state.next = t_state.WAITING_FOR_DATA
-                            state_timeout_counter.next = 10
+                            state_timeout_counter.next = 31
                     else:
                         # If nothing has happened yet, then we wait a bit and check again in a few cycles
                         state_timeout_counter.next = DOWNSTREAM_LOGIC_WAIT_CYCLES
