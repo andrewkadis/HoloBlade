@@ -474,7 +474,7 @@ timing_controller timing_controller_inst(
   .reset_per_frame(reset_per_frame),
   .buffer_switch_done(buffer_switch_done),
   // DC32 FIFO
-  .dc32_fifo_full(dc32_fifo_full),
+  .dc32_fifo_almost_full(dc32_fifo_almost_full),
   // Bluejay Display
   .line_of_data_available(line_of_data_available),
   .update(UPDATE),
