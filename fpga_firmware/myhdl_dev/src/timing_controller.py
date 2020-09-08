@@ -36,7 +36,7 @@ def timing_controller(
     buffer_switch_done,
     
     # DC32-FIFO
-    dc32_fifo_full,
+    dc32_fifo_almost_full,
     
     # Bluejay Data Interface
     line_of_data_available,
@@ -56,7 +56,7 @@ def timing_controller(
     reset_per_frame                : Output line to reset relevant components ready for a new frame
     buffer_switch_done             : Line which goes high for 1-cycle to tell modules that a buffer switch has just completed, this timing drives several modules - usb3_if and bluejay_data
     DC32-FIFO Side
-    dc32_fifo_full                 : Line out of the FIFO which shall go high when the FIFO is full (32 words)
+    dc32_fifo_almost_full          : Line out of the FIFO which shall go high when the FIFO is full (32 words)
     Bluejay Data Interface:
     line_of_data_available         : Flag to indicate to the bluejay FSM that there is at least a line of data available in the FIFO currently (ie: more than 40 words)
     update                         : Used to assert when a Buffer Switch shall take place
@@ -66,7 +66,7 @@ def timing_controller(
     # If there are sufficient words available in the DC-FIFO, then flag this, not that we latch off of ftdi_clk as crossing clock domains
     @always(ftdi_clk)
     def check_line_available():
-        if(dc32_fifo_full==True):
+        if(dc32_fifo_almost_full==True):
             line_of_data_available.next = True
         else:
             line_of_data_available.next = False

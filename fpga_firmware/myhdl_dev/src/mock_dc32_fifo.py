@@ -61,9 +61,9 @@ def mock_dc32_fifo(
     num_words_in_buffer = Signal(0)
    
     # Have a 1-cycle write delay, so need to look for edge
-    write_to_dc32_fifo_prev            = Signal(0)
+    # write_to_dc32_fifo_prev            = Signal(0)
     # Internal bool to keep our code cleaner
-    write_to_dc32_fifo_low_to_high_edge = False
+    # write_to_dc32_fifo_low_to_high_edge = False
 
 
     # # Reset functionality
@@ -72,7 +72,7 @@ def mock_dc32_fifo(
 
 
     # Dual Clock FIFO - look at the write-side facing the FT601
-    @always(ftdi_clk)
+    @always(ftdi_clk.posedge)
     def update_write_side():
 
         # Reset if required, this is just a simple simulation so just simulating on write-side is fine
@@ -82,40 +82,38 @@ def mock_dc32_fifo(
                 memory.pop()
 
         # Insert on +ive edge
-        if ftdi_clk==True:
+        # if ftdi_clk==True:
 
-            # Need to detect a high to low edge
-            write_to_dc32_fifo_prev.next = write_to_dc32_fifo
-            if (write_to_dc32_fifo_prev==False) and (write_to_dc32_fifo==True):
-                write_to_dc32_fifo_low_to_high_edge = True
-            else:
-                write_to_dc32_fifo_low_to_high_edge = False
-
-            # Latch the write word register so they are synchronised, our data going into the fifo will have a 1-cycle delay and need to support this
-            # write_to_dc32_fifo_r.next = write_to_dc32_fifo
-            # Write to memory
-            if (write_to_dc32_fifo==True) and (write_to_dc32_fifo_low_to_high_edge==False):
-                memory.insert(0, dc32_fifo_data_in.val)
-                num_words_in_buffer.next = num_words_in_buffer + 1
+        # Need to detect a high to low edge
+        # write_to_dc32_fifo_prev.next = write_to_dc32_fifo
+        # if (write_to_dc32_fifo_prev==False) and (write_to_dc32_fifo==True):
+        #     write_to_dc32_fifo_low_to_high_edge = True
+        # else:
+        #     write_to_dc32_fifo_low_to_high_edge = False
+        # Latch the write word register so they are synchronised, our data going into the fifo will have a 1-cycle delay and need to support this
+        # write_to_dc32_fifo_r.next = write_to_dc32_fifo
+        # Write to memory
+        if write_to_dc32_fifo==True:# and (write_to_dc32_fifo_low_to_high_edge==False):
+            memory.insert(0, dc32_fifo_data_in.val)
+            num_words_in_buffer.next = num_words_in_buffer + 1
 
         # Check on -ive edge
-        if ftdi_clk==False:
-            # Update if we are almost-full
-            # filling = len(memory)
-            if num_words_in_buffer>=FIFO_ALMOST_FULL_LEVEL:
-                dc32_fifo_almost_full.next = True
-            else:
-                dc32_fifo_almost_full.next = False
-            
-            # Update if we are full
-            if num_words_in_buffer>=FIFO_DEPTH:
-                dc32_fifo_full.next = True
-            else:
-                dc32_fifo_full.next = False
-
-            # Exception check
-            if num_words_in_buffer > FIFO_DEPTH:
-                raise Exception("Overflow -- Max filling %s exceeded" % FIFO_DEPTH)
+        # if ftdi_clk==False:
+        # Update if we are almost-full
+        filling = len(memory)
+        if filling>=FIFO_ALMOST_FULL_LEVEL:
+            dc32_fifo_almost_full.next = True
+        else:
+            dc32_fifo_almost_full.next = False
+        
+        # Update if we are full
+        if filling>=FIFO_DEPTH:
+            dc32_fifo_full.next = True
+        else:
+            dc32_fifo_full.next = False
+        # Exception check
+        if filling > FIFO_DEPTH:
+            raise Exception("Overflow -- Max filling %s exceeded" % FIFO_DEPTH)
 
 
     # Dual Clock FIFO - look at the read-side facing the FPGA
@@ -137,10 +135,10 @@ def mock_dc32_fifo(
             # Update if we are empty or almost empty
             filling = len(memory)
             # Almost-Empty is asserted at 1
-            if filling<=1:
-                dc32_fifo_almost_empty.next = True
-            else:
+            if filling>=2:
                 dc32_fifo_almost_empty.next = False
+            else:
+                dc32_fifo_almost_empty.next = True
             # Empty is asserted at 0
             if filling==0:
                 dc32_fifo_empty.next = True

@@ -273,7 +273,7 @@ def usb3_if(
                     # Because of the timing, this is our last chance to store the ft601 data, but we don't have the FIFO space, hence we latch it so we dont lose it and pop it in when we have room
                     dc32_fifo_data_in_latched.next  = usb3_data_in
                     # Save this data now
-                    write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                    # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                     # Move to state where we wait for the line of FIFO data to be clocked out
                     state.next = t_state.WAITING_FOR_FIFO_DATA_TO_CLOCK_OUT
                     # Delay for a couple of cycles so we can let the downstream logic start clearing data
@@ -323,11 +323,13 @@ def usb3_if(
                         write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                         num_words_curr_line.next        = num_words_curr_line - 1
                         # We have now successfully recovered, back to regular clocking out line data
-                        state.next = t_state.READING_DATA
+                        # However, we can't gon back directly, need to wait 1-cycle for ftdi601 chip (datasheet is nebulous here, but you need to wait!), so go to READ_ENABLE instead
+                        state.next = t_state.RECOVERY_READ_ENABLE
+                        # state_timeout_counter.next = 2
                     # Has the entire line been clocked out by downstream logic?
                     elif (num_words_curr_line==0):
                         # Now there is room in the FIFO, clock out the data we've been storing for awhile
-                        # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                        write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                         # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_FALSE
                         # Reset the line count for subsequent line
                         num_words_curr_line.next   = NUM_OF_WORDS_PER_LINE
@@ -368,9 +370,9 @@ def usb3_if(
                 FT_OE.next = ACTIVE_LOW_TRUE
                 FT_RD.next = ACTIVE_LOW_TRUE # WTF NEED THIS OR GET METASTABILKITY
                 # Data is good, latch it
-                dc32_fifo_data_in_latched.next  = usb3_data_in
-                write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
-                num_words_curr_line.next        = num_words_curr_line - 1
+                # dc32_fifo_data_in_latched.next  = usb3_data_in
+                # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                # num_words_curr_line.next        = num_words_curr_line - 1
                 # We have now successfully recovered, back to regular clocking out line data
                 state.next = t_state.READING_DATA
 

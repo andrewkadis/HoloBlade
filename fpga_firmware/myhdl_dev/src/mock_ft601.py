@@ -39,6 +39,7 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
 
     # Internal bool to keep our code cleaner
     RD_N_edge_high_to_low_edge = False
+    RD_N_edge_low_to_high_edge = False
 
     # Read Data from the mock_ft601 with the FPGA
     @always(CLK.negedge)
@@ -76,10 +77,17 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
         else:
             RD_N_edge_high_to_low_edge = False
 
+        # Need to detect a low to high edge
+        RD_N_prev.next = RD_N
+        if (RD_N_prev==ACTIVE_LOW_TRUE) and (RD_N==ACTIVE_LOW_FALSE):
+            RD_N_edge_low_to_high_edge = True
+        else:
+            RD_N_edge_low_to_high_edge = False
+
 
         # Only read Data if OE_N is Asserted
         # Default is 0 - note should stricly be 0xFFFFFFFF from datasheet but this is easier to read on simulator
-        DATA.next = 0x00000000
+        DATA.next = DATA
         # Note that we do a massive hack here, but it works well enough for our purposes
         # Every time we assert RD_N, we assert OE_N 1-cycle before. The datasheet shows that OE_N and the data appearing are at the same time.
         # So we dont have to deal with combinational logic (which messes up pythons popping of lists), we just pump out data off OE_N. Gives us the same behaviour as datasheet in the way we're using
@@ -90,6 +98,12 @@ def mock_ft601(CLK, DATA, TXE_N, RX_F, WR_N, RD_N, OE_N, RESET_N, SIM_DATA_IN, S
             if RD_N_edge_high_to_low_edge==False:
                 # Pop out our data like normal
                 DATA.next = memory.pop()
+
+        # We also pop on a high to low transition, anopther feature not documented by the datasheet...
+        if (RD_N_edge_low_to_high_edge==True) and (filling>0):
+                # Pop out our data like normal
+                DATA.next = memory.pop()
+        
 
             #     data_out_delay_after_high_to_low_RD_N_edge.next = True
             # else:

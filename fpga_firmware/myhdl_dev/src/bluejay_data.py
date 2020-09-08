@@ -128,7 +128,7 @@ def bluejay_data(
             get_next_word.next = True
         elif state == t_state.LINE_OUT_DATA_EXIT:
             # 1-cycle lag for clocking data out of FIFO - output data with 1-cycle lag
-            valid.next            = True    
+            valid.next            = True   
             bluejay_data_out.next = fifo_data_out
 
 

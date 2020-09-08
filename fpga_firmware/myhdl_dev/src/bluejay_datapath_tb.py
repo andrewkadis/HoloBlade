@@ -138,6 +138,7 @@ def bluejay_datapath_tb():
     buffer_switch_done     = Signal(False)
     # DC32 FIFO
     dc32_fifo_full         = Signal(False)
+    dc32_fifo_almost_full         = Signal(False)
     # Bluejay Display
     line_of_data_available        = Signal(False)
     update                        = Signal(False)
@@ -151,7 +152,7 @@ def bluejay_datapath_tb():
         reset_per_frame,
         buffer_switch_done,
         # DC32 FIFO
-        dc32_fifo_full,
+        dc32_fifo_almost_full,
         # Bluejay Display
         line_of_data_available,
         update,
@@ -164,7 +165,7 @@ def bluejay_datapath_tb():
     # FPGA side
     write_to_dc32_fifo     = Signal(False)
     dc32_fifo_data_in      = Signal(0)
-    dc32_fifo_almost_full  = Signal(False)
+    # dc32_fifo_almost_full  = Signal(False)
     dc32_fifo_empty        = Signal(False)
 
     # Instantiate
