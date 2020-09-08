@@ -282,9 +282,8 @@ def usb3_if(
                     # num_words_curr_line.next   = NUM_OF_WORDS_PER_LINE
                 # Sometimes, the USB-FIFO has to swap its 4K buffers and data won't be available so we have to wait for it
                 elif FR_RXF==ACTIVE_LOW_FALSE:
+                    # Because of the timing, this is our last chance to store the ft601 data, but we don't have the FIFO space, hence we latch it so we dont lose it and pop it in when we have room
                     dc32_fifo_data_in_latched.next  = usb3_data_in
-                    write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
-                    num_words_curr_line.next        = num_words_curr_line - 1
                     # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
                     state.next = t_state.RECOVERY_WAITING_FOR_DATA
                     # state.next = t_state.WAITING_FOR_DATA
@@ -351,9 +350,14 @@ def usb3_if(
             # Recovery states for when a line of data being clocked out has been interrupted
             elif state == t_state.RECOVERY_WAITING_FOR_DATA:
                 state_timeout_counter.next = state_timeout_counter - 1
+                # Because of the timing, this is our last chance to store the ft601 data, but we don't have the FIFO space, hence we latch it so we dont lose it and pop it in when we have room
+                dc32_fifo_data_in_latched.next  = usb3_data_in
                 if state_timeout_counter == 1:
                     # Sit here until we receive some data and there is room in the FIFO to read it
                     if( (FR_RXF==ACTIVE_LOW_TRUE) and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE) ):#and (dc32_fifo_almost_full==ACTIVE_HIGH_FALSE) ):# (dc32_fifo_empty_n==ACTIVE_HIGH_TRUE) ):#(dc32_fifo_is_full==ACTIVE_HIGH_FALSE) ):
+                        # Now there is room in the FIFO, clock out the data we've been storing for awhile
+                        # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
+                        # num_words_curr_line.next        = num_words_curr_line - 1
                         # Got some new data, start clocking it out
                         state.next = t_state.RECOVERY_DATA_AVAILABLE
                         # state_timeout_counter.next = 4
