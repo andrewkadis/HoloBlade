@@ -8,7 +8,7 @@ class Error(Exception):
     pass
 
 # Constants - We flag the the FIFO is almost full after 8 words, matches 1-line for our SLM
-FIFO_DEPTH             = 8
+FIFO_DEPTH             = 16
 FIFO_ALMOST_FULL_LEVEL = FIFO_DEPTH-1 # Need to take 1 off here for the 1-cycle register update delay
 
 # Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
@@ -17,8 +17,8 @@ def mock_sc32_fifo(
         # Control Lines
         reset,
         fpga_clk,
-        sc32_write_enable,
-        sc32_read_enable,
+        sc32_fifo_write_enable,
+        sc32_fifo_read_enable,
         # Data
         sc32_fifo_data_in,
         sc32_fifo_data_out,
@@ -36,8 +36,8 @@ def mock_sc32_fifo(
     # Control Signals
     reset                   : Reset Line
     fpga_clk                : Main FPGA clock
-    sc32_write_enable       : Signal to write to the interfacing FIFO
-    sc32_read_enable        : Line to pull data from FIFO
+    sc32_fifo_write_enable  : Signal to write to the interfacing FIFO
+    sc32_fifo_read_enable   : Line to pull data from FIFO
     # Data:
     sc32_fifo_data_in       : 32-bit Input Data
     sc32_fifo_data_out      : 32-bit Output Data
@@ -65,8 +65,10 @@ def mock_sc32_fifo(
             while len(memory)>0:
                 memory.pop()
 
+        # Pop from
+
         # Write to memory
-        if sc32_write_enable==True:
+        if sc32_fifo_write_enable==True:
             memory.insert(0, sc32_fifo_data_in.val)
             num_words_in_buffer.next = num_words_in_buffer + 1
 
@@ -93,7 +95,7 @@ def mock_sc32_fifo(
 
         # Pop on +ive edge
         # if fpga_clk==True:
-        if sc32_read_enable:
+        if sc32_fifo_read_enable:
             try:
                 popMe = memory.pop()
                 sc32_fifo_data_out.next = popMe
@@ -125,8 +127,8 @@ def mock_sc32_fifo_tb():
     # Control Lines
     reset                   = Signal(False)
     fpga_clk                = Signal(False)
-    sc32_write_enable       = Signal(False)
-    sc32_read_enable        = Signal(False)
+    sc32_fifo_write_enable       = Signal(False)
+    sc32_fifo_read_enable        = Signal(False)
     # Data
     sc32_fifo_data_in       = Signal(0)
     sc32_fifo_data_out      = Signal(0)
@@ -140,8 +142,8 @@ def mock_sc32_fifo_tb():
         # Control Lines
         reset,
         fpga_clk,
-        sc32_write_enable,
-        sc32_read_enable,
+        sc32_fifo_write_enable,
+        sc32_fifo_read_enable,
         # Data
         sc32_fifo_data_in,
         sc32_fifo_data_out,
@@ -160,39 +162,39 @@ def mock_sc32_fifo_tb():
         yield delay(100)
         yield fpga_clk.negedge
         sc32_fifo_data_in.next = 0x55555555
-        sc32_write_enable.next = 1
+        sc32_fifo_write_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        sc32_write_enable.next = 0
+        sc32_fifo_write_enable.next = 0
         print("dout: %s empty: %s full: %s" % (hex(sc32_fifo_data_out), sc32_fifo_empty, sc32_fifo_almost_full))
 
         # Write
         yield delay(100)
         yield fpga_clk.negedge
         sc32_fifo_data_in.next = 0x33333333
-        sc32_write_enable.next = 1
+        sc32_fifo_write_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        sc32_write_enable.next = 0
+        sc32_fifo_write_enable.next = 0
         print("dout: %s empty: %s full: %s" % (hex(sc32_fifo_data_out), sc32_fifo_empty, sc32_fifo_almost_full))
 
         # Write
         yield delay(100)
         yield fpga_clk.negedge
         sc32_fifo_data_in.next = 0x99999999
-        sc32_write_enable.next = 1
+        sc32_fifo_write_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        sc32_write_enable.next = 0
+        sc32_fifo_write_enable.next = 0
         print("dout: %s empty: %s full: %s" % (hex(sc32_fifo_data_out), sc32_fifo_empty, sc32_fifo_almost_full))
 
         # Read
         yield delay(100)
         yield fpga_clk.negedge
-        sc32_read_enable.next = 1
+        sc32_fifo_read_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        sc32_read_enable.next = 0
+        sc32_fifo_read_enable.next = 0
         fpga_clk.next = 0
         print("dout: %s empty: %s full: %s" % (hex(sc32_fifo_data_out), sc32_fifo_empty, sc32_fifo_almost_full))
 
@@ -200,59 +202,59 @@ def mock_sc32_fifo_tb():
         yield delay(100)
         yield fpga_clk.negedge
         sc32_fifo_data_in.next = 0x44444444
-        sc32_write_enable.next = 1
+        sc32_fifo_write_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        sc32_write_enable.next = 0
+        sc32_fifo_write_enable.next = 0
         print("dout: %s empty: %s full: %s" % (hex(sc32_fifo_data_out), sc32_fifo_empty, sc32_fifo_almost_full))
 
         # Write
         yield delay(100)
         yield fpga_clk.negedge
         sc32_fifo_data_in.next = 0x77777777
-        sc32_write_enable.next = 1
+        sc32_fifo_write_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        sc32_write_enable.next = 0
+        sc32_fifo_write_enable.next = 0
         print("dout: %s empty: %s full: %s" % (hex(sc32_fifo_data_out), sc32_fifo_empty, sc32_fifo_almost_full))
 
         # Read
         yield delay(100)
         yield fpga_clk.negedge
-        sc32_read_enable.next = 1
+        sc32_fifo_read_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        sc32_read_enable.next = 0
+        sc32_fifo_read_enable.next = 0
         fpga_clk.next = 0
         print("dout: %s empty: %s full: %s" % (hex(sc32_fifo_data_out), sc32_fifo_empty, sc32_fifo_almost_full))
 
         # Read
         yield delay(100)
         yield fpga_clk.negedge
-        sc32_read_enable.next = 1
+        sc32_fifo_read_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        sc32_read_enable.next = 0
+        sc32_fifo_read_enable.next = 0
         fpga_clk.next = 0
         print("dout: %s empty: %s full: %s" % (hex(sc32_fifo_data_out), sc32_fifo_empty, sc32_fifo_almost_full))
 
         # Read
         yield delay(100)
         yield fpga_clk.negedge
-        sc32_read_enable.next = 1
+        sc32_fifo_read_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        sc32_read_enable.next = 0
+        sc32_fifo_read_enable.next = 0
         fpga_clk.next = 0
         print("dout: %s empty: %s full: %s" % (hex(sc32_fifo_data_out), sc32_fifo_empty, sc32_fifo_almost_full))
 
         # Read
         yield delay(100)
         yield fpga_clk.negedge
-        sc32_read_enable.next = 1
+        sc32_fifo_read_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        sc32_read_enable.next = 0
+        sc32_fifo_read_enable.next = 0
         fpga_clk.next = 0
         print("dout: %s empty: %s full: %s" % (hex(sc32_fifo_data_out), sc32_fifo_empty, sc32_fifo_almost_full))
 

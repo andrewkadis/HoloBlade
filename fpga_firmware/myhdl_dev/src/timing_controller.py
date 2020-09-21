@@ -10,6 +10,7 @@ class Error(Exception):
 # Constants
 NUMBER_OF_WORDS_IN_SINGLE_LINE = 40
 
+# States to control system-wide timing
 t_state = enum(
     'INITING',
     'RESET_PULSE',
@@ -20,8 +21,16 @@ t_state = enum(
     'UPDATE_INVERT_PRE',
     'UPDATE_INVERT_ASSERTED',
     'UPDATE_INVERT_POST',
-    )
+)
 
+# States to control FIFO
+t_fifo_state = enum(
+    'WAITING_FOR_FIRST_32_WORDS',
+    'CLOCKING_FIRST_8_WORDS_TO_SC_FIFO',
+    'WAITING_FOR_LAST_8_WORDS',
+    'BOTH_FIFOS_LOADED',
+    'CLOCKING_OUT_ENTIRE_LINE',
+)
     
 
 # Block to control timing of display updates, controls reset, frame-rate, next-line_of_data_available-rdy, next-frame-rdy and update/invert DC balance functionality
@@ -37,9 +46,17 @@ def timing_controller(
     
     # DC32-FIFO
     dc32_fifo_almost_full,
+    dc32_fifo_read_enable,
+    dc32_fifo_data_out,
+
+    # SC32-FIFO
+    sc32_fifo_write_enable,
+    sc32_fifo_read_enable,
+    sc32_fifo_data_in,
     
     # Bluejay Data Interface
     line_of_data_available,
+    get_next_word,
     update,
     invert
 
@@ -57,19 +74,29 @@ def timing_controller(
     buffer_switch_done             : Line which goes high for 1-cycle to tell modules that a buffer switch has just completed, this timing drives several modules - usb3_if and bluejay_data
     DC32-FIFO Side
     dc32_fifo_almost_full          : Line out of the FIFO which shall go high when the FIFO is full (32 words)
+    dc32_fifo_read_enable          : Line to get data out of the dc32 fifo
+    dc32_fifo_data_out             : 32-bit Data out of the dc32 fifo
+    SC32-FIFO Side
+    sc32_fifo_write_enable         : Line to write data int of the dc32 fifo
+    sc32_fifo_read_enable          : Line to read data out of the dc32 fifo
+    sc32_fifo_data_in              : 32-bit Data into the dc32 fifo
     Bluejay Data Interface:
     line_of_data_available         : Flag to indicate to the bluejay FSM that there is at least a line of data available in the FIFO currently (ie: more than 40 words)
+    get_next_word                  : Line to instruct the TimingController that it should be clocking out data from the FIFOs
     update                         : Used to assert when a Buffer Switch shall take place
     invert                         : Used to enable DC_Balancing
     """
 
-    # If there are sufficient words available in the DC-FIFO, then flag this, not that we latch off of ftdi_clk as crossing clock domains
-    @always(ftdi_clk)
-    def check_line_available():
-        if(dc32_fifo_almost_full==True):
-            line_of_data_available.next = True
-        else:
-            line_of_data_available.next = False
+    # # If there are sufficient words available in the DC-FIFO, then flag this, not that we latch off of ftdi_clk as crossing clock domains
+    # @always(ftdi_clk)
+    # def check_line_available():
+    #     if(dc32_fifo_almost_full==True):
+    #         line_of_data_available.next = True
+    #     else:
+    #         line_of_data_available.next = False
+
+
+
 
     # If the bluejay_data object is not currently clocking out a line, then tell the usb3_if that it is okay to clock the subsequent line into the FIFO, use VALID line to determine this
     # @always_comb
@@ -79,6 +106,11 @@ def timing_controller(
     #     else:
     #         next_line_clock_into_fifo.next = False
 
+
+
+    ########################################################################################################################
+    ################################################### Signals ############################################################
+    ########################################################################################################################
 
     # Timing constants to handle our UPDATE + INVERT + Blanking Timing
     # Values below are for 1Hz update at 62.5 MHz # TODO: Make this programmatic
@@ -98,6 +130,104 @@ def timing_controller(
     # Signals for FSM
     state                 = Signal(t_state.INITING)
     state_timeout_counter = Signal(intbv(0)[32:]) 
+
+    # Signal for FSM to manage the FIFOs
+    fifo_state                 = Signal(t_fifo_state.WAITING_FOR_FIRST_32_WORDS)
+    fifo_state_timeout_counter = Signal(intbv(0)[5:]) 
+
+
+
+
+
+
+
+    ########################################################################################################################
+    ############################################# Manage FIFO Data ########################################################
+    ########################################################################################################################
+
+    # Output of our dc32 fifo goes into the input of our sc32 fifo, combinational logic to realise this
+    @always_comb
+    def connect_fifo_io():
+        sc32_fifo_data_in.next = dc32_fifo_data_out
+    
+    # State Machine to manage data in our FIFOs
+    @always(fpga_clk.posedge)
+    def run_fifo_management():
+
+        # Off by default
+        dc32_fifo_read_enable.next   = False
+        sc32_fifo_write_enable.next  = False
+        sc32_fifo_read_enable.next   = False
+        line_of_data_available.next  = False
+
+        #######################################################
+        ##################### Init + Reset ####################
+        #######################################################
+        # Which state are we in?
+        if fifo_state == t_fifo_state.WAITING_FOR_FIRST_32_WORDS:
+            # Idle until we have received at least 31 words into our dual clock FIFO
+            # We determine that this is the case by the almost_full flag going high our DC fifo is full (means we have at least 31 words in it)
+            if dc32_fifo_almost_full:
+                # Data is ready, start clocking our of DC_FIFO into SC_FIFO
+                fifo_state.next = t_fifo_state.CLOCKING_FIRST_8_WORDS_TO_SC_FIFO
+                dc32_fifo_read_enable.next   = True
+                sc32_fifo_write_enable.next  = True
+                # Do this for exactly 8 cycles
+                fifo_state_timeout_counter.next = 8
+
+        elif fifo_state == t_fifo_state.CLOCKING_FIRST_8_WORDS_TO_SC_FIFO:
+            # Keep clocking data from DC_FIFO to SC_FIFO for 8 cycles
+            dc32_fifo_read_enable.next   = True
+            sc32_fifo_write_enable.next  = True
+            # reset_all.next = True
+            # All done?
+            fifo_state_timeout_counter.next = fifo_state_timeout_counter - 1
+            if fifo_state_timeout_counter == 1:
+                # All clocked out, wait for the last 8 bytes to go into the DC FIFO
+                fifo_state.next = t_fifo_state.WAITING_FOR_LAST_8_WORDS
+                # Need to stop reading now or will read from empty buffer
+                dc32_fifo_read_enable.next   = False
+                sc32_fifo_write_enable.next  = False
+
+        elif fifo_state == t_fifo_state.WAITING_FOR_LAST_8_WORDS:
+            # Wait until our DC32 Fifo is almost full
+            if dc32_fifo_almost_full:
+                # Great, both FIFOs are loaded, we let bluejay_data know that we have a line loaded
+                line_of_data_available.next  = True
+                fifo_state.next = t_fifo_state.BOTH_FIFOS_LOADED
+
+        elif fifo_state == t_fifo_state.BOTH_FIFOS_LOADED:
+            # Wait until we get the signal from bluejay_data
+            line_of_data_available.next  = True
+            if get_next_word==True:
+                fifo_state.next = t_fifo_state.CLOCKING_OUT_ENTIRE_LINE
+                # Start pumping out data
+                sc32_fifo_read_enable.next   = True
+                dc32_fifo_read_enable.next   = True
+                sc32_fifo_write_enable.next  = True
+
+        elif fifo_state == t_fifo_state.CLOCKING_OUT_ENTIRE_LINE:
+            # Keep pulling data across both FIFOs until bluejay_data tells us to stop
+            sc32_fifo_read_enable.next   = True
+            dc32_fifo_read_enable.next   = True
+            sc32_fifo_write_enable.next  = True
+            if get_next_word==False:
+                # All done, wait for next line
+                fifo_state.next = t_fifo_state.WAITING_FOR_FIRST_32_WORDS
+                # Need to stop reading now or will read from empty buffer
+                dc32_fifo_read_enable.next   = False
+                sc32_fifo_write_enable.next  = False
+
+
+
+
+
+
+
+    ########################################################################################################################
+    ########################################### Manage System Timing #######################################################
+    ########################################################################################################################
+    
     @always(fpga_clk.posedge)
     def run_timing():
 
@@ -189,7 +319,7 @@ def timing_controller(
                 state_timeout_counter.next = invert_to_bufswitch_blanking_cycles
                 state.next = t_state.INVERT_TO_BUFSWITCH_BLANKING
 
-    return run_timing, check_line_available
+    return connect_fifo_io, run_fifo_management, run_timing
 
 
 
@@ -206,8 +336,15 @@ def timing_controller_gen_verilog():
     buffer_switch_done      = Signal(False)
     # DC32 FIFO
     dc32_fifo_almost_full   = Signal(False)
+    dc32_fifo_read_enable   = Signal(False)
+    dc32_fifo_data_out      = Signal(intbv(0)[32:])
+    # DC32 FIFO
+    sc32_fifo_write_enable  = Signal(False)
+    sc32_fifo_read_enable   = Signal(False)
+    sc32_fifo_data_in       = Signal(intbv(0)[32:])
     # Bluejay Display
     line_of_data_available  = Signal(False)
+    get_next_word           = Signal(False)
     update                  = Signal(False)
     invert                  = Signal(False)
     # dc32_fifo_is_empty            = Signal(False)
@@ -221,8 +358,15 @@ def timing_controller_gen_verilog():
         buffer_switch_done,
         # DC32-FIFO
         dc32_fifo_almost_full,
-        # Bluejay Data Interface
+        dc32_fifo_read_enable,
+        dc32_fifo_data_out,
+        # SC32-FIFO
+        sc32_fifo_write_enable,
+        sc32_fifo_read_enable,
+        sc32_fifo_data_in,
+        # Bluejay Display
         line_of_data_available,
+        get_next_word,
         update,
         invert
     )

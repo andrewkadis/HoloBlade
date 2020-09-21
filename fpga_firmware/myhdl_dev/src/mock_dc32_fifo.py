@@ -27,7 +27,7 @@ def mock_dc32_fifo(
         # FPGA-side
         dc32_fifo_full,
         dc32_fifo_almost_empty,
-        get_next_word,
+        dc32_fifo_read_enable,
         dc32_fifo_data_out
     ):
     
@@ -46,7 +46,7 @@ def mock_dc32_fifo(
     # FPGA-side
     dc32_fifo_full          : Goes high when the FIFO is full
     dc32_fifo_almost_empty  : Is our fifo almost empty? Goes high when 1 word in FIFO, need this so bluejay_data knows 1-cycle in advance and doesn't read from emtpy FIFO
-    get_next_word           : Line to pull data from FIFO
+    dc32_fifo_read_enable   : Line to pull data from FIFO
     dc32_fifo_data_out      : 32-bit Data Out from internal 32-wide, 64-deep FIFO
 
     """
@@ -122,7 +122,7 @@ def mock_dc32_fifo(
 
         # Pop on +ive edge
         if fpga_clk==True:
-            if get_next_word:
+            if dc32_fifo_read_enable:
                 try:
                     popMe = memory.pop()
                     dc32_fifo_data_out.next = popMe
@@ -165,7 +165,7 @@ def mock_dc32_fifo_tb():
     # FPGA-side
     dc32_fifo_full          = Signal(False)
     dc32_fifo_almost_empty  = Signal(False)
-    get_next_word           = Signal(False)
+    dc32_fifo_read_enable   = Signal(False)
     dc32_fifo_data_out      = Signal(0)
     # DUTs
     dut = mock_dc32_fifo(
@@ -182,7 +182,7 @@ def mock_dc32_fifo_tb():
         # FPGA-side
         dc32_fifo_full,
         dc32_fifo_almost_empty,
-        get_next_word,
+        dc32_fifo_read_enable,
         dc32_fifo_data_out
     )
 
@@ -222,10 +222,10 @@ def mock_dc32_fifo_tb():
         # Read
         yield delay(100)
         yield fpga_clk.negedge
-        get_next_word.next = 1
+        dc32_fifo_read_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        get_next_word.next = 0
+        dc32_fifo_read_enable.next = 0
         fpga_clk.next = 0
         print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
@@ -252,43 +252,42 @@ def mock_dc32_fifo_tb():
         # Read
         yield delay(100)
         yield fpga_clk.negedge
-        get_next_word.next = 1
+        dc32_fifo_read_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        get_next_word.next = 0
+        dc32_fifo_read_enable.next = 0
         fpga_clk.next = 0
         print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Read
         yield delay(100)
         yield fpga_clk.negedge
-        get_next_word.next = 1
+        dc32_fifo_read_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        get_next_word.next = 0
+        dc32_fifo_read_enable.next = 0
         fpga_clk.next = 0
         print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Read
         yield delay(100)
         yield fpga_clk.negedge
-        get_next_word.next = 1
+        dc32_fifo_read_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        get_next_word.next = 0
+        dc32_fifo_read_enable.next = 0
         fpga_clk.next = 0
         print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
 
         # Read
         yield delay(100)
         yield fpga_clk.negedge
-        get_next_word.next = 1
+        dc32_fifo_read_enable.next = 1
         yield fpga_clk.posedge
         yield delay(1)
-        get_next_word.next = 0
+        dc32_fifo_read_enable.next = 0
         fpga_clk.next = 0
         print("dout: %s empty: %s full: %s" % (hex(dc32_fifo_data_out), fifo_empty, dc32_fifo_almost_full))
-
     
     return test_protocol, dut
     
