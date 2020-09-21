@@ -46,7 +46,8 @@ def timing_controller(
     buffer_switch_done,
     
     # DC32-FIFO
-    dc32_fifo_almost_full,
+    dc32_fifo_full,
+    dc32_fifo_almost_empty,
     dc32_fifo_read_enable,
     dc32_fifo_data_out,
 
@@ -69,12 +70,13 @@ def timing_controller(
     --------
     Control:
     fpga_clk                       : Clock to drive this module
-    ftdi_clk                       : Clock for FT601 32-bit FIFOs, need as dc32_fifo_almost_full is crossing clock domains
+    ftdi_clk                       : Clock for FT601 32-bit FIFOs, need as dc32_fifo_full is crossing clock domains
     reset_all                      : Output reset line for all other modules
     reset_per_frame                : Output line to reset relevant components ready for a new frame
     buffer_switch_done             : Line which goes high for 1-cycle to tell modules that a buffer switch has just completed, this timing drives several modules - usb3_if and bluejay_data
     DC32-FIFO Side
-    dc32_fifo_almost_full          : Line out of the FIFO which shall go high when the FIFO is full (32 words)
+    dc32_fifo_full                 : Line out of the FIFO which shall go high when the FIFO is full (32 words)
+    dc32_fifo_almost_empty         : Line which is high when the FIFO has 8 or less words in it, use this as a flag to drive logic for clocking the first 8 words of a line
     dc32_fifo_read_enable          : Line to get data out of the dc32 fifo
     dc32_fifo_data_out             : 32-bit Data out of the dc32 fifo
     SC32-FIFO Side
@@ -166,15 +168,17 @@ def timing_controller(
         #######################################################
         # Which state are we in?
         if fifo_state == t_fifo_state.WAITING_FOR_FIRST_32_WORDS:
-            # Idle until we have received at least 31 words into our dual clock FIFO
-            # We determine that this is the case by the almost_full flag going high our DC fifo is full (means we have at least 31 words in it)
-            if dc32_fifo_almost_full:
-                # Data is ready, start clocking our of DC_FIFO into SC_FIFO
-                fifo_state.next = t_fifo_state.CLOCKING_FIRST_8_WORDS_TO_SC_FIFO
-                dc32_fifo_read_enable.next   = True
-                sc32_fifo_write_enable.next  = True
-                # Do this for exactly 8 cycles
-                fifo_state_timeout_counter.next = 8
+            # Do-nothing if we are still in the INITING state
+            if state != t_state.INITING:
+                # Idle until we have received at least 8 words into our dual clock FIFO
+                # We determine that this is the case by the checking the almost_empty flag, it shall be true if there are 8 or less words in the FIFO
+                if dc32_fifo_almost_empty==False:
+                    # Data is ready, start clocking our of DC_FIFO into SC_FIFO
+                    fifo_state.next = t_fifo_state.CLOCKING_FIRST_8_WORDS_TO_SC_FIFO
+                    dc32_fifo_read_enable.next   = True
+                    sc32_fifo_write_enable.next  = True
+                    # Do this for exactly 8 cycles
+                    fifo_state_timeout_counter.next = 8
 
         elif fifo_state == t_fifo_state.CLOCKING_FIRST_8_WORDS_TO_SC_FIFO:
             # Keep clocking data from DC_FIFO to SC_FIFO for 8 cycles
@@ -191,8 +195,8 @@ def timing_controller(
                 sc32_fifo_write_enable.next  = False
 
         elif fifo_state == t_fifo_state.WAITING_FOR_LAST_8_WORDS:
-            # Wait until our DC32 Fifo is almost full
-            if dc32_fifo_almost_full:
+            # Wait until our DC32 Fifo is full
+            if dc32_fifo_full==True:
                 # Great, both FIFOs are loaded, we let bluejay_data know that we have a line loaded
                 line_of_data_available.next  = True
                 fifo_state.next = t_fifo_state.BOTH_FIFOS_LOADED
@@ -207,7 +211,7 @@ def timing_controller(
                 dc32_fifo_read_enable.next   = True
                 sc32_fifo_write_enable.next  = True
                 # Do this for exactly 32 cycles
-                fifo_state_timeout_counter.next = 31
+                fifo_state_timeout_counter.next = 32
 
         elif fifo_state == t_fifo_state.CLOCKING_OUT_LINE_FIRST_CHUNK:
             # For the first chunk, we keep pulling data out of both FIFOs
@@ -351,7 +355,8 @@ def timing_controller_gen_verilog():
     reset_per_frame         = Signal(False)
     buffer_switch_done      = Signal(False)
     # DC32 FIFO
-    dc32_fifo_almost_full   = Signal(False)
+    dc32_fifo_full          = Signal(False)
+    dc32_fifo_almost_empty  = Signal(False)
     dc32_fifo_read_enable   = Signal(False)
     dc32_fifo_data_out      = Signal(intbv(0)[32:])
     # DC32 FIFO
@@ -373,7 +378,8 @@ def timing_controller_gen_verilog():
         reset_per_frame,
         buffer_switch_done,
         # DC32-FIFO
-        dc32_fifo_almost_full,
+        dc32_fifo_full,
+        dc32_fifo_almost_empty,
         dc32_fifo_read_enable,
         dc32_fifo_data_out,
         # SC32-FIFO

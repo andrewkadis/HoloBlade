@@ -8,8 +8,9 @@ class Error(Exception):
     pass
 
 # Constants - We flag the the FIFO is almost full after 40 words, matches 1-line for our SLM
-FIFO_DEPTH             = 32
-FIFO_ALMOST_FULL_LEVEL = FIFO_DEPTH-2 # Need to take 1 off here for the 1-cycle register update delay
+FIFO_DEPTH              = 32
+FIFO_ALMOST_FULL_LEVEL  = FIFO_DEPTH-1 # Need to take 1 off here for the 1-cycle register update delay
+FIFO_ALMOST_EMPTY_LEVEL = 8            # We set this to 8 so downstream logic can use it to know there are at least 8 words available
 
 # Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
 @block
@@ -135,10 +136,10 @@ def mock_dc32_fifo(
             # Update if we are empty or almost empty
             filling = len(memory)
             # Almost-Empty is asserted at 1
-            if filling>=2:
-                dc32_fifo_almost_empty.next = False
-            else:
+            if filling<=FIFO_ALMOST_EMPTY_LEVEL:
                 dc32_fifo_almost_empty.next = True
+            else:
+                dc32_fifo_almost_empty.next = False
             # Empty is asserted at 0
             if filling==0:
                 dc32_fifo_empty.next = True

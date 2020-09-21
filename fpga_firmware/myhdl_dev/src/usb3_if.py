@@ -252,7 +252,7 @@ def usb3_if(
                 # Data is good, latch it
                 dc32_fifo_data_in_latched.next  = usb3_data_in
                 # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
-                num_words_curr_line.next = num_words_curr_line - 1
+                # num_words_curr_line.next = num_words_curr_line - 1
                 # FT_RD_internal.next = ACTIVE_LOW_TRUE   
                 # Clock next line of data to USB3 Fifo output, but do not assert DC_FIFO-write line yet as we have to handle the 1-cycle delay
                 # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE
@@ -261,10 +261,10 @@ def usb3_if(
             elif state == t_state.READING_DATA:
                 # We always assert the DC_FIFO write line, even if we have to stop in this instance of the state machine, this is because it is 1-cycle behind dc32_fifo_data_in
                 # If our FIFO has got 40 words in it, we have succesfully read a whole line, stop reading and go to WAITING_FOR_FIFO_DATA_TO_CLOCK_OUT
-                if dc32_fifo_almost_full==ACTIVE_HIGH_TRUE:
-                    # Possible that we get 2 FTDI clocks before FPGA clock can trigger due to jitter and the FTDI clock's shorter period, just do-nothing if this happens
-                    # TODO: current code just drops a byte for now
-                    write_to_dc32_fifo_latched.next = ACTIVE_HIGH_FALSE
+                # if dc32_fifo_almost_full==ACTIVE_HIGH_TRUE:
+                #     # Possible that we get 2 FTDI clocks before FPGA clock can trigger due to jitter and the FTDI clock's shorter period, just do-nothing if this happens
+                #     # TODO: current code just drops a byte for now
+                #     write_to_dc32_fifo_latched.next = ACTIVE_HIGH_FALSE
                 #     # Because of the timing, this is our last chance to store the ft601 data, but we don't have the FIFO space, hence we latch it so we dont lose it and pop it in when we have room
                 #     dc32_fifo_data_in_latched.next  = usb3_data_in
                 #     # write_to_dc32_fifo_latched.next = ACTIVE_HIGH_TRUE 
@@ -281,7 +281,7 @@ def usb3_if(
                     # # Delay for a couple of cycles so we can let the downstream logic start clearing data
                     # state_timeout_counter.next = DOWNSTREAM_LOGIC_WAIT_CYCLES
                 # We have clocked an entire line into the FIFO, no more clocking data until the entire line has been clocked out
-                elif num_words_curr_line==0:
+                if num_words_curr_line==0:
                     # Because of the timing, this is our last chance to store the ft601 data, but we don't have the FIFO space, hence we latch it so we dont lose it and pop it in when we have room
                     dc32_fifo_data_in_latched.next  = usb3_data_in
                     # Save this data now

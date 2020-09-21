@@ -239,7 +239,8 @@ def bluejay_datapath_tb():
         reset_per_frame,
         buffer_switch_done,
         # DC32-FIFO
-        dc32_fifo_almost_full,
+        dc32_fifo_full,
+        dc32_fifo_almost_empty,
         dc32_fifo_read_enable,
         dc32_fifo_data_out,
         # SC32-FIFO
@@ -252,7 +253,6 @@ def bluejay_datapath_tb():
         update,
         invert
     )
-
 
     # Connect up the FIFOs
     # TODO: Put in a common python module
