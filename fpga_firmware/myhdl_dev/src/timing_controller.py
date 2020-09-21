@@ -29,7 +29,8 @@ t_fifo_state = enum(
     'CLOCKING_FIRST_8_WORDS_TO_SC_FIFO',
     'WAITING_FOR_LAST_8_WORDS',
     'BOTH_FIFOS_LOADED',
-    'CLOCKING_OUT_ENTIRE_LINE',
+    'CLOCKING_OUT_LINE_FIRST_CHUNK',
+    'CLOCKING_OUT_LINE_SECOND_CHUNK'
 )
     
 
@@ -133,7 +134,7 @@ def timing_controller(
 
     # Signal for FSM to manage the FIFOs
     fifo_state                 = Signal(t_fifo_state.WAITING_FOR_FIRST_32_WORDS)
-    fifo_state_timeout_counter = Signal(intbv(0)[5:]) 
+    fifo_state_timeout_counter = Signal(intbv(0)[6:]) 
 
 
 
@@ -200,24 +201,40 @@ def timing_controller(
             # Wait until we get the signal from bluejay_data
             line_of_data_available.next  = True
             if get_next_word==True:
-                fifo_state.next = t_fifo_state.CLOCKING_OUT_ENTIRE_LINE
+                fifo_state.next = t_fifo_state.CLOCKING_OUT_LINE_FIRST_CHUNK
                 # Start pumping out data
                 sc32_fifo_read_enable.next   = True
                 dc32_fifo_read_enable.next   = True
                 sc32_fifo_write_enable.next  = True
+                # Do this for exactly 32 cycles
+                fifo_state_timeout_counter.next = 31
 
-        elif fifo_state == t_fifo_state.CLOCKING_OUT_ENTIRE_LINE:
-            # Keep pulling data across both FIFOs until bluejay_data tells us to stop
+        elif fifo_state == t_fifo_state.CLOCKING_OUT_LINE_FIRST_CHUNK:
+            # For the first chunk, we keep pulling data out of both FIFOs
             sc32_fifo_read_enable.next   = True
             dc32_fifo_read_enable.next   = True
             sc32_fifo_write_enable.next  = True
-            if get_next_word==False:
+            # All done?
+            fifo_state_timeout_counter.next = fifo_state_timeout_counter - 1
+            if fifo_state_timeout_counter == 1:
+                # Now clock out the second chunk, note that no longer reading from dc32
+                fifo_state.next              = t_fifo_state.CLOCKING_OUT_LINE_SECOND_CHUNK
+                dc32_fifo_read_enable.next   = False
+                # Do this for exactly 8 cycles
+                fifo_state_timeout_counter.next = 8
+
+        elif fifo_state == t_fifo_state.CLOCKING_OUT_LINE_SECOND_CHUNK:
+            # Keep pulling data out of FIFO
+            sc32_fifo_read_enable.next   = True
+            sc32_fifo_write_enable.next  = True
+            # All done?
+            fifo_state_timeout_counter.next = fifo_state_timeout_counter - 1
+            if fifo_state_timeout_counter == 1:
                 # All done, wait for next line
                 fifo_state.next = t_fifo_state.WAITING_FOR_FIRST_32_WORDS
                 # Need to stop reading now or will read from empty buffer
-                dc32_fifo_read_enable.next   = False
                 sc32_fifo_write_enable.next  = False
-
+                sc32_fifo_read_enable.next   = False
 
 
 

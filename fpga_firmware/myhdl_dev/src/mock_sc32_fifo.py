@@ -57,7 +57,7 @@ def mock_sc32_fifo(
    
     # Single Clock FIFO - write-side facing
     @always(fpga_clk.posedge)
-    def update_write_side():
+    def update():
 
         # Reset if required, this is just a simple simulation so just simulating on write-side is fine
         if(reset==True):
@@ -70,7 +70,7 @@ def mock_sc32_fifo(
         # Write to memory
         if sc32_fifo_write_enable==True:
             memory.insert(0, sc32_fifo_data_in.val)
-            num_words_in_buffer.next = num_words_in_buffer + 1
+            # num_words_in_buffer.next = num_words_in_buffer + 1
 
         # Update if we are almost-full
         filling = len(memory)
@@ -89,9 +89,9 @@ def mock_sc32_fifo(
             raise Exception("Overflow -- Max filling %s exceeded" % FIFO_DEPTH)
 
 
-    # Single Clock FIFO - look at the read-side facing the FPGA
-    @always(fpga_clk.posedge)
-    def update_read_side():
+    # # Single Clock FIFO - look at the read-side facing the FPGA
+    # @always(fpga_clk.posedge)
+    # def update_read_side():
 
         # Pop on +ive edge
         # if fpga_clk==True:
@@ -99,7 +99,7 @@ def mock_sc32_fifo(
             try:
                 popMe = memory.pop()
                 sc32_fifo_data_out.next = popMe
-                num_words_in_buffer.next = num_words_in_buffer - 1
+                # num_words_in_buffer.next = num_words_in_buffer - 1
             except IndexError:
                 raise Exception("Underflow -- Read from empty fifo")
 
@@ -118,7 +118,10 @@ def mock_sc32_fifo(
         else:
             sc32_fifo_empty.next = False
 
-    return update_write_side, update_read_side#, wrClkGen, rdClkGen
+        # Update the number of words in our buffer
+        num_words_in_buffer.next = len(memory)
+
+    return update#update_write_side, update_read_side#, wrClkGen, rdClkGen
 
 @block
 def mock_sc32_fifo_tb():
