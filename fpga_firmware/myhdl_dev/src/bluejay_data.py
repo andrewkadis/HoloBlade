@@ -36,7 +36,7 @@ def bluejay_data(
         # FPGA-side
         fifo_data_out,
         line_of_data_available,
-        dc32_fifo_almost_empty,
+        sc32_fifo_almost_empty,
         get_next_word,
 
         # SLM-side
@@ -57,7 +57,7 @@ def bluejay_data(
     Read-Side:
     fifo_data_out              : 32-bit input data to be shown on SLM
     line_of_data_available     : line to indicate that a new line of data is available, active-high for 1 cycle
-    dc32_fifo_almost_empty     : flag to indicate whether or not the FIFO is empty
+    sc32_fifo_almost_empty     : flag to indicate whether or not the FIFO is empty
     get_next_word              : line to pull next data word out of fifo 
     Write-Side:
     bluejay_data_out           : 32-bit output line to data interface on Bluejay SLM
@@ -222,7 +222,7 @@ def bluejay_data(
                 state_timeout_counter.next = state_timeout_counter - 1
                 # valid.next = True
                 # Are we at end of line? Timeout is main check but also need to make sure we aren't going to clock out from empty fifo on subsequent negedge
-                if (state_timeout_counter == 1) or (dc32_fifo_almost_empty==True):
+                if (state_timeout_counter == 1) or (sc32_fifo_almost_empty==True):
                     # Yes, advance state machine to end of line with appropriate blanking timing
                     # state_timeout_counter.next = end_of_line_blank_cycles
                     state.next = t_state.LINE_OUT_DATA_EXIT
@@ -389,7 +389,7 @@ def bluejay_gen_verilog():
     # Read-Side
     fifo_data_out             = Signal(intbv(0)[32:])
     line_of_data_available    = Signal(False)
-    dc32_fifo_almost_empty    = Signal(False)
+    sc32_fifo_almost_empty    = Signal(False)
     get_next_word             = Signal(False)
     # SLM-Side
     bluejay_data_out = Signal(intbv(0)[32:])
@@ -403,7 +403,7 @@ def bluejay_gen_verilog():
         # FPGA-side
         fifo_data_out,
         line_of_data_available,
-        dc32_fifo_almost_empty,
+        sc32_fifo_almost_empty,
         get_next_word,
         # SLM-side
         bluejay_data_out,

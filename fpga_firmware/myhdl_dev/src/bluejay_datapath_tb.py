@@ -274,7 +274,7 @@ def bluejay_datapath_tb():
         # FPGA-side
         sc32_fifo_data_out,
         line_of_data_available,
-        dc32_fifo_almost_empty,
+        sc32_fifo_almost_empty,
         get_next_word,
         # SLM-side
         bluejay_data_out,

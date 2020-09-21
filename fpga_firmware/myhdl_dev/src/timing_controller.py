@@ -211,29 +211,28 @@ def timing_controller(
 
         elif fifo_state == t_fifo_state.CLOCKING_OUT_LINE_FIRST_CHUNK:
             # For the first chunk, we keep pulling data out of both FIFOs
-            sc32_fifo_read_enable.next   = True
             dc32_fifo_read_enable.next   = True
             sc32_fifo_write_enable.next  = True
+            sc32_fifo_read_enable.next   = True
             # All done?
             fifo_state_timeout_counter.next = fifo_state_timeout_counter - 1
             if fifo_state_timeout_counter == 1:
-                # Now clock out the second chunk, note that no longer reading from dc32
+                # Now clock out the second chunk, note that no longer reading from dc32 and into sc32
                 fifo_state.next              = t_fifo_state.CLOCKING_OUT_LINE_SECOND_CHUNK
                 dc32_fifo_read_enable.next   = False
+                sc32_fifo_write_enable.next  = False
                 # Do this for exactly 8 cycles
                 fifo_state_timeout_counter.next = 8
 
         elif fifo_state == t_fifo_state.CLOCKING_OUT_LINE_SECOND_CHUNK:
             # Keep pulling data out of FIFO
             sc32_fifo_read_enable.next   = True
-            sc32_fifo_write_enable.next  = True
             # All done?
             fifo_state_timeout_counter.next = fifo_state_timeout_counter - 1
             if fifo_state_timeout_counter == 1:
                 # All done, wait for next line
                 fifo_state.next = t_fifo_state.WAITING_FOR_FIRST_32_WORDS
                 # Need to stop reading now or will read from empty buffer
-                sc32_fifo_write_enable.next  = False
                 sc32_fifo_read_enable.next   = False
 
 

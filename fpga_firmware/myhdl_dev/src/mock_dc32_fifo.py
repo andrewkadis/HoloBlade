@@ -9,7 +9,7 @@ class Error(Exception):
 
 # Constants - We flag the the FIFO is almost full after 40 words, matches 1-line for our SLM
 FIFO_DEPTH             = 32
-FIFO_ALMOST_FULL_LEVEL = FIFO_DEPTH-1 # Need to take 1 off here for the 1-cycle register update delay
+FIFO_ALMOST_FULL_LEVEL = FIFO_DEPTH-2 # Need to take 1 off here for the 1-cycle register update delay
 
 # Simulation of the USB FIFO, currently only simulates writing data to FPGA (ie: Data from USB3 to FPGA)
 @block
