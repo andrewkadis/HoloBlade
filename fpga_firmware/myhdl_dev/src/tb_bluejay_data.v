@@ -4,7 +4,7 @@ reg fpga_clk;
 reg buffer_switch_done;
 reg [31:0] fifo_data_out;
 reg line_of_data_available;
-reg dc32_fifo_almost_empty;
+reg sc32_fifo_almost_empty;
 wire get_next_word;
 wire [31:0] bluejay_data_out;
 wire sync;
@@ -16,7 +16,7 @@ initial begin
         buffer_switch_done,
         fifo_data_out,
         line_of_data_available,
-        dc32_fifo_almost_empty
+        sc32_fifo_almost_empty
     );
     $to_myhdl(
         get_next_word,
@@ -31,7 +31,7 @@ bluejay_data dut(
     buffer_switch_done,
     fifo_data_out,
     line_of_data_available,
-    dc32_fifo_almost_empty,
+    sc32_fifo_almost_empty,
     get_next_word,
     bluejay_data_out,
     sync,

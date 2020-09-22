@@ -176,7 +176,7 @@ def timing_controller(
                     # Data is ready, start clocking our of DC_FIFO into SC_FIFO
                     fifo_state.next = t_fifo_state.CLOCKING_FIRST_8_WORDS_TO_SC_FIFO
                     dc32_fifo_read_enable.next   = True
-                    sc32_fifo_write_enable.next  = True
+                    # sc32_fifo_write_enable.next  = True
                     # Do this for exactly 8 cycles
                     fifo_state_timeout_counter.next = 8
 
@@ -192,7 +192,7 @@ def timing_controller(
                 fifo_state.next = t_fifo_state.WAITING_FOR_LAST_8_WORDS
                 # Need to stop reading now or will read from empty buffer
                 dc32_fifo_read_enable.next   = False
-                sc32_fifo_write_enable.next  = False
+                sc32_fifo_write_enable.next  = True
 
         elif fifo_state == t_fifo_state.WAITING_FOR_LAST_8_WORDS:
             # Wait until our DC32 Fifo is full

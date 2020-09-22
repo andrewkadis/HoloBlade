@@ -96,7 +96,7 @@ always @(posedge fpga_clk) begin: TIMING_CONTROLLER_RUN_FIFO_MANAGEMENT
                 if ((dc32_fifo_almost_empty == 1'b0)) begin
                     fifo_state <= 3'b001;
                     dc32_fifo_read_enable <= 1'b1;
-                    sc32_fifo_write_enable <= 1'b1;
+                    sc32_fifo_write_enable <= 1'b0;
                     fifo_state_timeout_counter <= 8;
                 end
             end
@@ -108,7 +108,7 @@ always @(posedge fpga_clk) begin: TIMING_CONTROLLER_RUN_FIFO_MANAGEMENT
             if ((fifo_state_timeout_counter == 1)) begin
                 fifo_state <= 3'b010;
                 dc32_fifo_read_enable <= 1'b0;
-                sc32_fifo_write_enable <= 1'b0;
+                sc32_fifo_write_enable <= 1'b1;
             end
         end
         3'b010: begin

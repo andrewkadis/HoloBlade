@@ -130,7 +130,7 @@ always @(posedge ftdi_clk) begin: USB3_IF_USB3_READOUT_LOGIC_STATE
             end
             4'b0101: begin
                 if ((num_words_curr_line == 0)) begin
-                    dc32_fifo_data_in_latched <= usb3_data_in;
+                    dc32_fifo_data_in_latched <= 32'hFFFFFFFF;
                     state <= 4'b0010;
                     state_timeout_counter <= 4;
                 end
