@@ -362,12 +362,12 @@ wire fsm_change;
 
 // Debugging Values for trying to catch extra bytes sneaking into FIFO
 assign DEBUG_1 = dc32_fifo_almost_full; // DO NOT CHANGE THIS OR DOESNT WORK
-//assign DEBUG_2 = sc32_fifo_write_enable;//get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = dc32_fifo_data_in[0];//sc32_fifo_write_enable;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-assign DEBUG_4 = dc32_fifo_empty;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
-assign DEBUG_5 = fifo_data_out[0];//VALID;//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
-assign DEBUG_6 = dc32_fifo_almost_empty;//DATA0;//FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
-assign DEBUG_7 = get_next_word;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_2 = sc32_fifo_write_enable;//get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = FIFO_D0;//sc32_fifo_write_enable;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_4 = sc32_fifo_data_out[0];//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
+assign DEBUG_5 = dc32_fifo_data_out[0];//VALID;//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+assign DEBUG_6 = VALID;//DATA0;//FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
+assign DEBUG_7 = DATA0;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 // START
 // assign DEBUG_1 = FIFO_D0;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
@@ -574,7 +574,7 @@ wire reset_ptr; // Never changes, unused only here because generated FIFO from L
 // FPGA-side
 wire       dc32_fifo_almost_empty;
 wire       dc32_fifo_read_enable;
-wire[31:0] fifo_data_out;
+wire[31:0] dc32_fifo_data_out;
 // Instantiate FIFO
 fifo_dc_32_lut_gen2 fifo_dc_32_lut_gen_inst(
   // Signals
@@ -591,7 +591,7 @@ fifo_dc_32_lut_gen2 fifo_dc_32_lut_gen_inst(
   .full_o(dc32_fifo_full),
   .almost_empty_o(dc32_fifo_almost_empty),
   .rd_en_i(dc32_fifo_read_enable),
-  .rd_data_o(fifo_data_out)
+  .rd_data_o(dc32_fifo_data_out)
 );
 
 
