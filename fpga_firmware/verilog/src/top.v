@@ -354,44 +354,44 @@ wire fsm_change;
 // // Debugging Values for trying to catch extra bytes sneaking into FIFO
 // assign DEBUG_1 = dc32_fifo_almost_full; // DO NOT CHANGE THIS OR DOESNT WORK
 // assign DEBUG_2 = FR_RXF;//get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-// assign DEBUG_3 = FT_RD;//write_to_dc32_fifo;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+// assign DEBUG_3 = FT_RD;//sc32_fifo_write_enable;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 // assign DEBUG_4 = usb3_data_in[0];//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
-// assign DEBUG_5 = write_to_dc32_fifo;//VALID;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+// assign DEBUG_5 = sc32_fifo_write_enable;//VALID;//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
 // assign DEBUG_6 = dc32_fifo_data_in;//DATA0;//FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // assign DEBUG_7 = FIFO_CLK;//FT_OE;//dc32_fifo_empty;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 // Debugging Values for trying to catch extra bytes sneaking into FIFO
 assign DEBUG_1 = dc32_fifo_almost_full; // DO NOT CHANGE THIS OR DOESNT WORK
-assign DEBUG_2 = write_to_dc32_fifo;//get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = dc32_fifo_data_in[0];//write_to_dc32_fifo;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+//assign DEBUG_2 = sc32_fifo_write_enable;//get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = dc32_fifo_data_in[0];//sc32_fifo_write_enable;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = dc32_fifo_empty;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
-assign DEBUG_5 = fifo_data_out[0];//VALID;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+assign DEBUG_5 = fifo_data_out[0];//VALID;//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
 assign DEBUG_6 = dc32_fifo_almost_empty;//DATA0;//FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 assign DEBUG_7 = get_next_word;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 // START
 // assign DEBUG_1 = FIFO_D0;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
 // assign DEBUG_2 = dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-// assign DEBUG_3 = write_to_dc32_fifo;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+// assign DEBUG_3 = sc32_fifo_write_enable;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 // assign DEBUG_4 = FT_RD;//dc32_fifo_almost_full;//;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
-// assign DEBUG_5 = DATA0;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+// assign DEBUG_5 = DATA0;//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
 // assign DEBUG_7 = dc32_fifo_almost_full;//VALID;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // assign DEBUG_6 = FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 // assign DEBUG_1 = FIFO_D0;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
-// assign DEBUG_2 = write_to_dc32_fifo;//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+// assign DEBUG_2 = sc32_fifo_write_enable;//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
 // assign DEBUG_3 = get_next_word;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 // assign DEBUG_4 = buffer_switch_done;//dc32_fifo_almost_full;//;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
-// assign DEBUG_5 = FR_RXF;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+// assign DEBUG_5 = FR_RXF;//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
 // assign DEBUG_7 = VALID;//VALID;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // assign DEBUG_6 = FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 // // Debugging Values for trying to catch extra bytes sneaking into FIFO
 // assign DEBUG_1 = FR_RXF;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
 // assign DEBUG_2 = FT_OE;//get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-// assign DEBUG_3 = fifo_data_out[0];//write_to_dc32_fifo;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+// assign DEBUG_3 = fifo_data_out[0];//sc32_fifo_write_enable;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 // assign DEBUG_4 = dc32_fifo_almost_full; // DO NOT CHANGE THIS OR DOESNT WORK
-// assign DEBUG_5 = write_to_dc32_fifo;//VALID;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+// assign DEBUG_5 = sc32_fifo_write_enable;//VALID;//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
 // assign DEBUG_7 = FIFO_D0;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // assign DEBUG_6 = dc32_fifo_data_in[0];//DATA0;//FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
@@ -400,17 +400,17 @@ assign DEBUG_7 = get_next_word;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;/
 // assign DEBUG_1 = FIFO_D0;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
 // assign DEBUG_2 = FR_RXF;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
 // assign DEBUG_3 = FT_RD;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-// assign DEBUG_4 = dc32_fifo_almost_full;//write_to_dc32_fifo;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
-// assign DEBUG_5 = dc32_fifo_empty;//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
-// assign DEBUG_7 = write_to_dc32_fifo;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+// assign DEBUG_4 = dc32_fifo_almost_full;//sc32_fifo_write_enable;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
+// assign DEBUG_5 = dc32_fifo_empty;//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+// assign DEBUG_7 = sc32_fifo_write_enable;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // assign DEBUG_6 = FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 // // Debugging Values for usb3 states
 // assign DEBUG_1 = FR_RXF;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
 // assign DEBUG_2 = FT_RD;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
 // assign DEBUG_3 = dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
-// assign DEBUG_4 = dc32_fifo_almost_full;//write_to_dc32_fifo;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
-// assign DEBUG_5 = STATE_DEBUG_B0[2];//write_to_dc32_fifo;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
+// assign DEBUG_4 = dc32_fifo_almost_full;//sc32_fifo_write_enable;//dc32_fifo_almost_full;//line_of_data_available;//usb3_data_in[0];//get_next_word;//UPDATE;//num_words_in_buffer[1];//usb3_fifo_read_enable;
+// assign DEBUG_5 = STATE_DEBUG_B0[2];//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
 // assign DEBUG_7 = STATE_DEBUG_B0[1];//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 // assign DEBUG_6 = STATE_DEBUG_B0[0];//FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
@@ -418,7 +418,7 @@ assign DEBUG_7 = get_next_word;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;/
 
 // assign DEBUG_1 = FR_RXF;
 // assign DEBUG_2 = FT_RD;
-// assign DEBUG_3 = write_to_dc32_fifo;//next_line_clock_into_fifo;
+// assign DEBUG_3 = sc32_fifo_write_enable;//next_line_clock_into_fifo;
 // assign DEBUG_4 = dc32_fifo_almost_full;
 // assign DEBUG_5 = reset_per_frame;
 // assign DEBUG_7 = buffer_switch_done;//DATA0;
@@ -426,7 +426,7 @@ assign DEBUG_7 = get_next_word;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;/
 
 
 // assign DEBUG_1 = FR_RXF;
-// assign DEBUG_2 = write_to_dc32_fifo;
+// assign DEBUG_2 = sc32_fifo_write_enable;
 // assign DEBUG_3 = DATA0;//next_line_clock_into_fifo;
 // assign DEBUG_4 = dc32_fifo_almost_full;
 // assign DEBUG_5 = FT_OE;
@@ -438,7 +438,7 @@ assign DEBUG_7 = get_next_word;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;/
 // assign DEBUG_3 = FT_RD;
 // assign DEBUG_4 = FIFO_D0;//;
 // assign DEBUG_5 = dc32_fifo_almost_full;
-// assign DEBUG_7 = write_to_dc32_fifo;
+// assign DEBUG_7 = sc32_fifo_write_enable;
 // assign DEBUG_6 = FIFO_CLK;//DATA0;;
 
 
@@ -447,6 +447,8 @@ assign DEBUG_7 = get_next_word;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;/
   // .rd_en_i(get_next_word),
   // .rd_data_o(fifo_data_out), 
   // .rd_data_cnt_o(num_words_in_buffer)
+
+
 
 
 
@@ -470,16 +472,27 @@ wire invert;
 timing_controller timing_controller_inst(
   // Control
   .fpga_clk(fpga_clk),
+  .ftdi_clk(ftdi_clk),
   .reset_all(reset_all),
   .reset_per_frame(reset_per_frame),
   .buffer_switch_done(buffer_switch_done),
   // DC32 FIFO
-  .dc32_fifo_almost_full(dc32_fifo_almost_full),
+  .dc32_fifo_full(dc32_fifo_full),
+  .dc32_fifo_almost_empty(dc32_fifo_almost_empty),
+  .dc32_fifo_read_enable(dc32_fifo_read_enable),
+  .dc32_fifo_data_out(dc32_fifo_data_out),
+  // SC32 FIFO
+  .sc32_fifo_write_enable(sc32_fifo_write_enable),
+  .sc32_fifo_read_enable(sc32_fifo_read_enable),
+  .sc32_fifo_data_in(sc32_fifo_data_in),
   // Bluejay Display
   .line_of_data_available(line_of_data_available),
+  .get_next_word(get_next_word),
   .update(UPDATE),
   .invert(INVERT)
 );
+
+
 
 
 
@@ -524,7 +537,7 @@ assign usb3_data_in[1]  = FIFO_D1;
 assign usb3_data_in[0]  = FIFO_D0;
 // Implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
 // FPGA side
-wire        write_to_dc32_fifo;
+wire        dc32_fifo_write_enable;
 wire[31:0]  dc32_fifo_data_in;
 wire        dc32_fifo_empty;
 // Instantiate
@@ -540,11 +553,15 @@ usb3_if usb3_if_inst(
   .FT_RD(FT_RD),
   .usb3_data_in(usb3_data_in),
   // FPGA side
-  .write_to_dc32_fifo(write_to_dc32_fifo),
+  .write_to_dc32_fifo(dc32_fifo_write_enable),
   .dc32_fifo_data_in(dc32_fifo_data_in),
   .dc32_fifo_almost_full(dc32_fifo_almost_full),
   .dc32_fifo_empty(dc32_fifo_empty)
  );
+
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////
 /////////// DualClock 32-bit Wide FIFO Chip Interfacing ///////////////////
@@ -556,7 +573,7 @@ usb3_if usb3_if_inst(
 wire reset_ptr; // Never changes, unused only here because generated FIFO from Lattice tools includes it
 // FPGA-side
 wire       dc32_fifo_almost_empty;
-wire       get_next_word;
+wire       dc32_fifo_read_enable;
 wire[31:0] fifo_data_out;
 // Instantiate FIFO
 fifo_dc_32_lut_gen2 fifo_dc_32_lut_gen_inst(
@@ -566,20 +583,78 @@ fifo_dc_32_lut_gen2 fifo_dc_32_lut_gen_inst(
   .wr_clk_i(FIFO_CLK),
   .rd_clk_i(fpga_clk),
   // FT601-side
-  .wr_en_i(write_to_dc32_fifo),
+  .wr_en_i(dc32_fifo_write_enable),
   .wr_data_i(dc32_fifo_data_in),
   .almost_full_o(dc32_fifo_almost_full),
   .empty_o(dc32_fifo_empty),
   // FPGA-side
   .full_o(dc32_fifo_full),
   .almost_empty_o(dc32_fifo_almost_empty),
-  .rd_en_i(get_next_word),
+  .rd_en_i(dc32_fifo_read_enable),
   .rd_data_o(fifo_data_out)
 );
 
 
 
 
+
+
+///////////////////////////////////////////////////////////////////////////
+/////////////////// SingleClock 32-bit Wide FIFO  /////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// We don't have enough LUTs to make our DC FIFO big enough for a single line (we can fit 32-deep but not 64-deep and they have to be powers of 2)
+// Hence we have to use a second FIFO on the FPGA clock domain side so that we can buffer up an entire line before clocking out to the SLM
+// This is a 8-word deep FIFO so it fits, generated from Lattice's tools
+// Control Lines
+wire sc32_fifo_write_enable;
+wire sc32_fifo_read_enable;
+// Data
+wire[31:0] sc32_fifo_data_in;
+wire[31:0] sc32_fifo_data_out;
+// Flags
+wire sc32_fifo_full;
+wire sc32_fifo_almost_full;
+wire sc32_fifo_empty;
+wire sc32_fifo_almost_empty;
+// Instantiate
+fifo_sc_32_lut_gen fifo_sc_32_lut_gen_inst(
+  // Control Lines
+  .rst_i(reset_all),
+  .clk_i(fpga_clk),
+  .wr_en_i(sc32_fifo_write_enable),
+  .rd_en_i(sc32_fifo_read_enable),
+  // Data
+  .wr_data_i(sc32_fifo_data_in),
+  .rd_data_o(sc32_fifo_data_out),
+  // Flags
+  .full_o(sc32_fifo_full),
+  .almost_full_o(sc32_fifo_almost_full),
+  .empty_o(sc32_fifo_empty),
+  .almost_empty_o(sc32_fifo_almost_empty)
+);
+
+    // input clk_i ; 
+    // input rst_i ; 
+    // input wr_en_i ; 
+    // input rd_en_i ; 
+    // input [31:0] wr_data_i ; 
+    // output full_o ; 
+    // output empty_o ; 
+    // output almost_full_o ; 
+    // output almost_empty_o ; 
+    // output [31:0] rd_data_o ; 
+
+
+// clk_i, 
+//         rst_i, 
+//         wr_en_i, 
+//         rd_en_i, 
+//         wr_data_i, 
+//         full_o, 
+//         empty_o, 
+//         almost_full_o, 
+//         almost_empty_o, 
+//         rd_data_o) ;
 
 
 
@@ -644,9 +719,9 @@ bluejay_data bluejay_data_inst(
   .fpga_clk(fpga_clk),
   .buffer_switch_done(buffer_switch_done),
   // FPGA-side
-  .fifo_data_out(fifo_data_out),
+  .fifo_data_out(sc32_fifo_data_out),
   .line_of_data_available(line_of_data_available),
-  .dc32_fifo_almost_empty(dc32_fifo_almost_empty),
+  .sc32_fifo_almost_empty(sc32_fifo_almost_empty),
   .get_next_word(get_next_word),
   // SLM-side
   .bluejay_data_out(bluejay_data_out),
