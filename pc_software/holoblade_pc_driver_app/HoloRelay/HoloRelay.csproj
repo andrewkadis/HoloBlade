@@ -61,6 +61,7 @@
     </ApplicationDefinition>
     <Compile Include="SerialComms.cs" />
     <Compile Include="SLMImageLoader.cs" />
+    <Compile Include="TestImages.cs" />
     <Compile Include="USB3Comms.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

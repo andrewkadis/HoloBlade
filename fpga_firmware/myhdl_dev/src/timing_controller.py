@@ -166,15 +166,17 @@ def timing_controller(
         #######################################################
         # Which state are we in?
         if fifo_state == t_fifo_state.WAITING_FOR_FIRST_32_WORDS:
-            # Idle until we have received at least 31 words into our dual clock FIFO
-            # We determine that this is the case by the almost_full flag going high our DC fifo is full (means we have at least 31 words in it)
-            if dc32_fifo_almost_full:
-                # Data is ready, start clocking our of DC_FIFO into SC_FIFO
-                fifo_state.next = t_fifo_state.CLOCKING_FIRST_8_WORDS_TO_SC_FIFO
-                dc32_fifo_read_enable.next   = True
-                sc32_fifo_write_enable.next  = True
-                # Do this for exactly 8 cycles
-                fifo_state_timeout_counter.next = 8
+            # Do-nothing if we are still in the INITING state
+            if state != t_state.INITING:
+                # Idle until we have received at least 8 words into our dual clock FIFO
+                # We determine that this is the case by the checking the almost_empty flag, it shall be true if there are 8 or less words in the FIFO
+                if dc32_fifo_almost_empty==False:
+                    # Data is ready, start clocking our of DC_FIFO into SC_FIFO
+                    fifo_state.next = t_fifo_state.CLOCKING_FIRST_8_WORDS_TO_SC_FIFO
+                    dc32_fifo_read_enable.next   = True
+                    # sc32_fifo_write_enable.next  = True
+                    # Do this for exactly 8 cycles
+                    fifo_state_timeout_counter.next = 8
 
         elif fifo_state == t_fifo_state.CLOCKING_FIRST_8_WORDS_TO_SC_FIFO:
             # Keep clocking data from DC_FIFO to SC_FIFO for 8 cycles
@@ -188,7 +190,7 @@ def timing_controller(
                 fifo_state.next = t_fifo_state.WAITING_FOR_LAST_8_WORDS
                 # Need to stop reading now or will read from empty buffer
                 dc32_fifo_read_enable.next   = False
-                sc32_fifo_write_enable.next  = False
+                sc32_fifo_write_enable.next  = True
 
         elif fifo_state == t_fifo_state.WAITING_FOR_LAST_8_WORDS:
             # Wait until our DC32 Fifo is almost full

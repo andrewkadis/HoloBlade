@@ -69,7 +69,7 @@ def bluejay_data(
 
     # Timing constants
     num_words_per_line = 40
-    num_lines          = 128#1280#16#40#1280
+    num_lines          = 32#128#1280#16#40#1280
     end_of_sync_blank_cycles  = 3  # Need to blank for 3 cycles between Sync Low and Valid high (tSD from pg. 14 datasheet)
     end_of_line_blank_cycles  = 4  # Need to blank for 4 cycles between subsequent line writes (tBLANK from pg. 14 datasheet)
     waiting_for_data_window_cycles = 100   # We wait 100 cycles to see if any data gets clocked out, gives plenty of window for FT601 buffer switches which are beyond our control

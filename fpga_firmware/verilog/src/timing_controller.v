@@ -53,6 +53,76 @@ reg [31:0] state_timeout_counter;
 
 
 
+
+assign sc32_fifo_data_in = dc32_fifo_data_out;
+
+
+always @(posedge fpga_clk) begin: TIMING_CONTROLLER_RUN_FIFO_MANAGEMENT
+    dc32_fifo_read_enable <= 1'b0;
+    sc32_fifo_write_enable <= 1'b0;
+    sc32_fifo_read_enable <= 1'b0;
+    line_of_data_available <= 1'b0;
+    case (fifo_state)
+        3'b000: begin
+            if ((state != 4'b0000)) begin
+                if ((dc32_fifo_almost_empty == 1'b0)) begin
+                    fifo_state <= 3'b001;
+                    dc32_fifo_read_enable <= 1'b1;
+                    sc32_fifo_write_enable <= 1'b0;
+                    fifo_state_timeout_counter <= 8;
+                end
+            end
+        end
+        3'b001: begin
+            dc32_fifo_read_enable <= 1'b1;
+            sc32_fifo_write_enable <= 1'b1;
+            fifo_state_timeout_counter <= (fifo_state_timeout_counter - 1);
+            if ((fifo_state_timeout_counter == 1)) begin
+                fifo_state <= 3'b010;
+                dc32_fifo_read_enable <= 1'b0;
+                sc32_fifo_write_enable <= 1'b1;
+            end
+        end
+        3'b010: begin
+            if ((dc32_fifo_full == 1'b1)) begin
+                line_of_data_available <= 1'b1;
+                fifo_state <= 3'b011;
+            end
+        end
+        3'b011: begin
+            line_of_data_available <= 1'b1;
+            if ((get_next_word == 1'b1)) begin
+                fifo_state <= 3'b100;
+                sc32_fifo_read_enable <= 1'b1;
+                dc32_fifo_read_enable <= 1'b1;
+                sc32_fifo_write_enable <= 1'b1;
+                fifo_state_timeout_counter <= 32;
+            end
+        end
+        3'b100: begin
+            dc32_fifo_read_enable <= 1'b1;
+            sc32_fifo_write_enable <= 1'b1;
+            sc32_fifo_read_enable <= 1'b1;
+            fifo_state_timeout_counter <= (fifo_state_timeout_counter - 1);
+            if ((fifo_state_timeout_counter == 1)) begin
+                fifo_state <= 3'b101;
+                dc32_fifo_read_enable <= 1'b0;
+                sc32_fifo_write_enable <= 1'b0;
+                fifo_state_timeout_counter <= 8;
+            end
+        end
+        3'b101: begin
+            sc32_fifo_read_enable <= 1'b1;
+            fifo_state_timeout_counter <= (fifo_state_timeout_counter - 1);
+            if ((fifo_state_timeout_counter == 1)) begin
+                fifo_state <= 3'b000;
+                sc32_fifo_read_enable <= 1'b0;
+            end
+        end
+    endcase
+end
+
+
 always @(posedge fpga_clk) begin: TIMING_CONTROLLER_RUN_TIMING
     reset_all <= 1'b0;
     reset_per_frame <= 1'b0;

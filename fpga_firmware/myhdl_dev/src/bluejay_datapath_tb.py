@@ -238,11 +238,12 @@ def bluejay_datapath_tb():
         reset_all,
         reset_per_frame,
         buffer_switch_done,
-        # DC32-FIFO
-        dc32_fifo_almost_full,
+        # DC32 FIFO
+        dc32_fifo_full,
+        dc32_fifo_almost_empty,
         dc32_fifo_read_enable,
         dc32_fifo_data_out,
-        # SC32-FIFO
+        # SC32 FIFO
         sc32_fifo_write_enable,
         sc32_fifo_read_enable,
         sc32_fifo_data_in,
@@ -256,7 +257,7 @@ def bluejay_datapath_tb():
 
     # Connect up the FIFOs
     # TODO: Put in a common python module
-    sc32_fifo_data_in = dc32_fifo_data_out
+    # sc32_fifo_data_in = dc32_fifo_data_out
 
 
     # Signals for Bluejay Data Module
@@ -353,17 +354,17 @@ def bluejay_datapath_tb():
             yield valid.negedge
             yield ftdi_clk.posedge
             yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
-            # yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
+            yield ftdi_clk.posedge
 
 
 

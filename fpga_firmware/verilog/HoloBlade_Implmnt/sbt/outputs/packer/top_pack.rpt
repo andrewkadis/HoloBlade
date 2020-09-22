@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 16:52:36
 
-* File Generated:     Aug 28 2020 16:27:06
+* File Generated:     Sep 22 2020 17:00:32
 
 * Purpose:            General info of design implementation
 
@@ -17,7 +17,7 @@
 Synthesis/Placement Summary:
 ----------------------------
     Status:  Successful
-    Runtime: 1 seconds
+    Runtime: 2 seconds
 
 Device Info:
 ------------
@@ -27,27 +27,27 @@ Device Info:
 
 Design statistics:
 ------------------
-    FFs:                  1479
-    LUTs:                 2630
+    FFs:                  1846
+    LUTs:                 3197
     RAMs:                 0
-    IOBs:                 83
+    IOBs:                 99
     GBs:                  2
     PLLs:                 1
     Warm Boots:           0
 
 Logic Resource Utilization:
 ---------------------------
-    Total Logic Cells: 2656/3520
-        Combinational Logic Cells: 1177     out of   3520      33.4375%
-        Sequential Logic Cells:    1479     out of   3520      42.017%
-        Logic Tiles:               370      out of   440       84.0909%
+    Total Logic Cells: 3197/3520
+        Combinational Logic Cells: 1351     out of   3520      38.3807%
+        Sequential Logic Cells:    1846     out of   3520      52.4432%
+        Logic Tiles:               429      out of   440       97.5%
     Registers: 
-        Logic Registers:           1479     out of   3520      42.017%
+        Logic Registers:           1846     out of   3520      52.4432%
         IO Registers:              7        out of   880       0.795455
     Block RAMs:                    0        out of   20        0%
     Warm Boots:                    0        out of   1         0%
     Pins:
-        Input Pins:                21       out of   107       19.6262%
+        Input Pins:                37       out of   107       34.5794%
         Output Pins:               62       out of   107       57.9439%
         InOut Pins:                0        out of   107       0%
     Global Buffers:                2        out of   8         25%
@@ -55,7 +55,7 @@ Logic Resource Utilization:
 
 IO Bank Utilization:
 --------------------
-    Bank 3: 8        out of   28        28.5714%
+    Bank 3: 24       out of   28        85.7143%
     Bank 1: 29       out of   29        100%
     Bank 0: 27       out of   27        100%
     Bank 2: 19       out of   23        82.6087%
@@ -66,7 +66,23 @@ Detailed I/O Info:
     Pin Number  Direction  IO Standard  Pull Up  IO Bank  IO Function                   Signal Name 
     ----------  ---------  -----------  -------  -------  -----------                   ----------- 
     8           Input      SB_LVCMOS    No       3        Simple Input                  FR_RXF      
+    16          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D31    
+    17          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D30    
+    18          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D29    
+    19          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D28    
+    20          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D27    
     21          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_CLK    
+    22          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D26    
+    23          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D25    
+    24          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D24    
+    25          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D23    
+    26          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D22    
+    28          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D21    
+    29          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D20    
+    31          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D19    
+    32          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D18    
+    33          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D17    
+    34          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D16    
     37          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D15    
     38          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D14    
     39          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D13    
@@ -94,8 +110,8 @@ Detailed I/O Info:
     3           Output     SB_LVCMOS    No       3        Simple Output                 FT_RD       
     4           Output     SB_LVCMOS    No       3        Simple Output                 FT_WR       
     7           Output     SB_LVCMOS    No       3        Simple Output                 FT_SIWU     
-    23          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CREST   
-    34          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CDONE   
+    10          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CREST   
+    15          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CDONE   
     52          Output     SB_LVCMOS    No       2        Output Tristatable by Enable  ICE_CLK     
     63          Output     SB_LVCMOS    No       2        Simple Output                 DEBUG_8     
     64          Output     SB_LVCMOS    No       2        Simple Output                 DEBUG_9     
@@ -157,5 +173,5 @@ Detailed Global Buffer Info:
 ----------------------------
     Buffer Number  IO Bank  Driven By  Fanout  Signal Name 
     -------------  -------  ---------  ------  ----------- 
-    1              3        IO         1099    FIFO_CLK_c  
-    3              3                   372     SLM_CLK_c   
+    1              3        IO         1120    FIFO_CLK_c  
+    3              3                   704     SLM_CLK_c   

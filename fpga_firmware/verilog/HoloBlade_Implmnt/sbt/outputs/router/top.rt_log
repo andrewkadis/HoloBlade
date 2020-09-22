@@ -6,7 +6,7 @@
 
 * Build Date:         Sep 11 2017 17:03:42
 
-* File Generated:     Aug 28 2020 16:27:07
+* File Generated:     Sep 22 2020 17:00:32
 
 * Purpose:            Router runtime info
 
@@ -19,15 +19,15 @@ I1203: Reading Design top
 I1202: Reading Architecture of device iCE40HX4K
 Warning-1403: No clock is reaching the reference clock pin 'REFERENCECLK' of PLL instance 'clock_inst.pll_config'. So, no clocks will be inferred at output of this PLL
 I1209: Started routing
-I1223: Total Nets : 2864 
-I1212: Iteration  1 :  1023 unrouted : 8 seconds
-I1212: Iteration  2 :   250 unrouted : 5 seconds
-I1212: Iteration  3 :    84 unrouted : 2 seconds
-I1212: Iteration  4 :     4 unrouted : 1 seconds
+I1223: Total Nets : 3449 
+I1212: Iteration  1 :  1237 unrouted : 9 seconds
+I1212: Iteration  2 :   287 unrouted : 6 seconds
+I1212: Iteration  3 :    50 unrouted : 2 seconds
+I1212: Iteration  4 :     3 unrouted : 0 seconds
 I1212: Iteration  5 :     0 unrouted : 1 seconds
 I1215: Routing is successful
 I1206: Completed routing
 I1204: Writing Design top
 I1210: Writing routes
 I1218: Exiting the router
-I1224: Router run-time : 27 seconds
+I1224: Router run-time : 29 seconds
