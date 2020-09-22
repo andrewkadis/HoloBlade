@@ -38,7 +38,10 @@
 -ver "src/usb3_if.v"
 -ver "src/fifo_dc_32_lut_gen.v"
 -ver "src/timing_controller.v"
+<<<<<<< Updated upstream
 -ver "src/fifo_sc_32_lut_gen.v"
+=======
+>>>>>>> Stashed changes
 -p "D:/Dev/HoloBlade/fpga_firmware/verilog"
 
 #set result format/file last
