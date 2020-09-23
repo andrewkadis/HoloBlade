@@ -91,7 +91,7 @@ always @(posedge ftdi_clk) begin: USB3_IF_USB3_READOUT_LOGIC_STATE
     if ((reset_per_frame_latched == 1'b1)) begin
         state <= 4'b0000;
         num_words_curr_line <= 40;
-        num_lines_clocked_out <= 640;
+        num_lines_clocked_out <= 1280;
     end
     else begin
         case (state)
