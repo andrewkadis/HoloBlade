@@ -362,8 +362,8 @@ wire fsm_change;
 
 // Debugging Values for trying to catch extra bytes sneaking into FIFO
 assign DEBUG_1 = dc32_fifo_almost_full; // DO NOT CHANGE THIS OR DOESNT WORK
-assign DEBUG_2 = sc32_fifo_write_enable;//get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
-assign DEBUG_3 = FIFO_D0;//sc32_fifo_write_enable;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
+assign DEBUG_2 = dc32_fifo_empty;//get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_3 = sc32_fifo_empty;//sc32_fifo_write_enable;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = sc32_fifo_data_out[0];//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
 assign DEBUG_5 = dc32_fifo_data_out[0];//VALID;//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
 assign DEBUG_6 = VALID;//DATA0;//FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
