@@ -5,7 +5,10 @@
 # Make sure you get the latest because key info is not in older versions!!!
 
 # Execution Directory - should be from the project root directory 
-EXEC_DIR=/d/Dev/HoloBlade/fpga_firmware/verilog
+# Dev PC
+# EXEC_DIR=/d/Dev/HoloBlade/fpga_firmware/verilog
+# Lab PC
+EXEC_DIR=/c/Users/User/Documents/Dev/HoloBlade/fpga_firmware/verilog
 cd $EXEC_DIR
 pwd
 
@@ -16,7 +19,10 @@ pwd
 # export SBT_DIR=$ICE_ROOT/sbt_backend/
 
 # LSE Versions
-export ICE_ROOT=/d/ProgramFiles/Lattice
+# Dev PC
+# export ICE_ROOT=/d/ProgramFiles/Lattice
+# Lab PC
+export ICE_ROOT=/c/lscc/iCEcube2.2017.08
 export LD_LIBRARY_PATH=$ICE_ROOT/LSE:$LD_LIBRARY_PATH
 export FOUNDRY=$ICE_ROOT/LSE
 export SBT_DIR=$ICE_ROOT/sbt_backend
