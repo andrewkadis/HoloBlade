@@ -231,7 +231,7 @@ namespace HoloRelay
             //uint lines_per_frame = 256+2+3;// 1280;// 1304;// 66;// 1304;// 1280;
             //uint lines_per_frame = 256+2+3;
             //uint lines_per_frame = 512 - 4; // This can varyu, no idea why or how
-            uint lines_per_frame = 32;// 512;// 1280;//512;// 256;// 64;//32;// 64;// 2;// 16;// 6;// 64; // This can varyu, no idea why or how
+            uint lines_per_frame = 1280;// 32;// 512;// 1280;//512;// 256;// 64;//32;// 64;// 2;// 16;// 6;// 64; // This can varyu, no idea why or how
             uint bytes_per_line = words_per_line * 4;
             uint total_bytes_per_frame = lines_per_frame * bytes_per_line;
             byte[] Frame1 = new byte[total_bytes_per_frame];
@@ -338,15 +338,26 @@ namespace HoloRelay
                     //Frame1[curr_byte + 6] = TestImages.all_on[curr_byte + 6];
                     //Frame1[curr_byte + 7] = TestImages.all_on[curr_byte + 7];
 
-                    // Incrementing Words
-                    Frame1[curr_byte + 0] = TestImages.incr_words[curr_byte + 0];
-                    Frame1[curr_byte + 1] = TestImages.incr_words[curr_byte + 1];
-                    Frame1[curr_byte + 2] = TestImages.incr_words[curr_byte + 2];
-                    Frame1[curr_byte + 3] = TestImages.incr_words[curr_byte + 3];
-                    Frame1[curr_byte + 4] = TestImages.incr_words[curr_byte + 4];
-                    Frame1[curr_byte + 5] = TestImages.incr_words[curr_byte + 5];
-                    Frame1[curr_byte + 6] = TestImages.incr_words[curr_byte + 6];
-                    Frame1[curr_byte + 7] = TestImages.incr_words[curr_byte + 7];
+                    //// Incrementing Words
+                    //Frame1[curr_byte + 0] = TestImages.incr_words[curr_byte + 0];
+                    //Frame1[curr_byte + 1] = TestImages.incr_words[curr_byte + 1];
+                    //Frame1[curr_byte + 2] = TestImages.incr_words[curr_byte + 2];
+                    //Frame1[curr_byte + 3] = TestImages.incr_words[curr_byte + 3];
+                    //Frame1[curr_byte + 4] = TestImages.incr_words[curr_byte + 4];
+                    //Frame1[curr_byte + 5] = TestImages.incr_words[curr_byte + 5];
+                    //Frame1[curr_byte + 6] = TestImages.incr_words[curr_byte + 6];
+                    //Frame1[curr_byte + 7] = TestImages.incr_words[curr_byte + 7];
+
+                    // Smiley Face
+                    Frame1[curr_byte + 0] = TestImages.smiley_face[curr_byte + 0];
+                    Frame1[curr_byte + 1] = TestImages.smiley_face[curr_byte + 1];
+                    Frame1[curr_byte + 2] = TestImages.smiley_face[curr_byte + 2];
+                    Frame1[curr_byte + 3] = TestImages.smiley_face[curr_byte + 3];
+                    Frame1[curr_byte + 4] = TestImages.smiley_face[curr_byte + 4];
+                    Frame1[curr_byte + 5] = TestImages.smiley_face[curr_byte + 5];
+                    Frame1[curr_byte + 6] = TestImages.smiley_face[curr_byte + 6];
+                    Frame1[curr_byte + 7] = TestImages.smiley_face[curr_byte + 7];
+
 
                 }
 
