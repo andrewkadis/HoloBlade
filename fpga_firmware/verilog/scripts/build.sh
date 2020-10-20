@@ -20,9 +20,9 @@ pwd
 
 # LSE Versions
 # Dev PC
-# export ICE_ROOT=/d/ProgramFiles/Lattice
+export ICE_ROOT=/d/ProgramFiles/Lattice
 # Lab PC
-export ICE_ROOT=/c/lscc/iCEcube2.2017.08
+# export ICE_ROOT=/c/lscc/iCEcube2.2017.08
 export LD_LIBRARY_PATH=$ICE_ROOT/LSE:$LD_LIBRARY_PATH
 export FOUNDRY=$ICE_ROOT/LSE
 export SBT_DIR=$ICE_ROOT/sbt_backend

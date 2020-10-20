@@ -1,5 +1,5 @@
 #-- Lattice, Inc.
-#-- Project file C:\Users\User\Documents\Dev\HoloBlade\fpga_firmware\verilog\HoloBlade_lse.prj
+#-- Project file D:\Dev\HoloBlade\fpga_firmware\verilog\HoloBlade_lse.prj
 
 #device
 -a SBTiCE40
@@ -39,7 +39,7 @@
 -ver "src/fifo_dc_32_lut_gen.v"
 -ver "src/timing_controller.v"
 -ver "src/fifo_sc_32_lut_gen.v"
--p "C:/Users/User/Documents/Dev/HoloBlade/fpga_firmware/verilog"
+-p "D:/Dev/HoloBlade/fpga_firmware/verilog"
 
 #set result format/file last
 -output_edif HoloBlade_Implmnt/HoloBlade.edf

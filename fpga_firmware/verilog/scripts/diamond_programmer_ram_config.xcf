@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
-<ispXCF version="3.11.0">
+<ispXCF version="3.11.1">
 	<Comment></Comment>
 	<Chain>
 		<Comm>JTAG</Comm>
@@ -19,8 +19,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/User/Documents/Dev/HoloBlade/fpga_firmware/verilog/top_bitmap.hex</File>
-			<FileTime>09/25/20 13:27:08</FileTime>
+			<File>D:/Dev/HoloBlade/fpga_firmware/verilog/bin/top_bitmap.hex</File>
+			<FileTime>10/20/20 10:21:37</FileTime>
 			<Operation>Fast Program</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -42,7 +42,7 @@
 	</ProjectOptions>
 	<CableOptions>
 		<CableName>USB2</CableName>
-		<PortAdd>FTUSB-0</PortAdd>
-		<USBID>USB --- Serial Converter A Location 0000 Serial FT42E55KA</USBID>
+		<PortAdd>FTUSB-1</PortAdd>
+		<USBID>USB --- Serial Converter A Location 0001 Serial FT4DSHWTA</USBID>
 	</CableOptions>
 </ispXCF>

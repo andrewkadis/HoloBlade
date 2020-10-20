@@ -9,7 +9,16 @@ This firmware can either be run using the Lattice iCEcube2 tools or from the cli
   - when running these tools, need to edit scripts/build.sh to point to root location of this project
   - i also put in the following symbolic link to deal with lattice installation issues: 'ln -s /c/lscc/iCEcube2.2017.08 /c/lscc/iCEcube2.2017.08'
 
-From the CLI, I can compile the entire toolchain with the script with 'source scripts/build.sh'
+From the CLI, I can compile the entire toolchain with the script with 'source scripts/build.sh'. To do this, need to make sure that the build script knows where the LSE toolchain is installed:
+ie, set the following correctly in scripts/build.sh:
+# LSE Versions
+# Dev PC
+# export ICE_ROOT=/d/ProgramFiles/Lattice
+# Lab PC
+export ICE_ROOT=/c/lscc/iCEcube2.2017.08
+
+Also need to make sure that the programmer is set to the correct binary location and the correct COM port for programming is set. The programmer settings need to be configured in the Diamond Programmer App as a one-off, and then they can be saved and
+the programmer can subsequently be run from the scripts here.
 
 The directories are the following:
     - src: verilog code
