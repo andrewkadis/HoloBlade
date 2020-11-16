@@ -1218,7 +1218,7 @@ always @ (posedge fpga_clk) begin
 
       if(tx_addr_byte_r==8'hBC) begin
         // We use a '0xBD' to doi a hard reset
-        multi_byte_spi_trans_flag_r = 1;
+        multi_byte_spi_trans_flag_r = 1; // TODO: Bug here
       end
 
       // even_byte_flag = 1;
