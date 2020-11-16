@@ -14,6 +14,7 @@ Directory Structure:
 - electronics: Contains the HoloBlade bespoke electronics design files<br/>
 - pc_software: Contains the GUI and driver calls to drive the HoloBlade driver-stack. Currently just supports .NET on Windows.<br/>
 - mechanical:  STL files for the optomechanical mount for the main electornics board and SLM<br/>
+- docs:        Any key supporting documentation (eg: datasheet)<br/>
 
 License:<br/>
 HoloBlade is released under the CERN Open Hardware Licence’s permissive variant, CERN-OHL-P v2, see https://cern.ch/cern-ohl.
