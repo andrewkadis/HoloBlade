@@ -361,13 +361,14 @@ wire fsm_change;
 // assign DEBUG_7 = FIFO_CLK;//FT_OE;//dc32_fifo_empty;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
 
 // Debugging Values for trying to catch extra bytes sneaking into FIFO
-assign DEBUG_1 = 1;//dc32_fifo_almost_full; // DO NOT CHANGE THIS OR DOESNT WORK
-assign DEBUG_2 = 1;//dc32_fifo_empty;//get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
+assign DEBUG_1 = UART_TX;//1;//dc32_fifo_almost_full; // DO NOT CHANGE THIS OR DOESNT WORK
+assign DEBUG_2 = UART_RX;//1;//dc32_fifo_empty;//get_next_word;//dc32_fifo_almost_empty;//dc32_fifo_data_in[0];//dc32_fifo_data_in[0];//DATA7;//UART_TX;//fifo_data_out[0];//get_next_word;//FT_OE;//next_frame_rdy_w;
 assign DEBUG_3 = sc32_fifo_empty;//sc32_fifo_write_enable;//FT_OE;//dc32_fifo_full;//dc32_fifo_empty;//;//SYNC//num_words_in_buffer[0];//buffer_switch_done;//SYNC;//valid_o;//reset_all_w;//FT_OE;//get_next_word_o;
 assign DEBUG_4 = FR_RXF;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
 assign DEBUG_5 = dc32_fifo_write_enable;//VALID;//sc32_fifo_write_enable;//fifo_empty;//num_words_in_buffer[2];//DATA0;//SEN;
 assign DEBUG_6 = VALID;//DATA0;//FIFO_CLK;//SLM_CLK;//fpga_clk;//update_o;//reset_all;//usb_fifo_get_next_word;//FIFO_D22;//get_next_word_o;//FIFO_D22;
 assign DEBUG_7 = DATA0;//DATA0;//;//buffer_switch_done;//VALID;//DATA0;//FR_RXF;//DATA0;//VALID;//get_next_word;//UPDATE;//next_frame_rdy;//bluejay_data_out[22];//FIFO_D22;//get_next_word_o;//FIFO_D22;
+
 
 // START
 // assign DEBUG_1 = FIFO_D0;//FR_RXF;//DATA0;//FR_RXF;//line_of_data_available;
@@ -503,38 +504,70 @@ timing_controller timing_controller_inst(
 // Wire up our 32-bit data connection from the FT601 chip
 wire[31:0] usb3_data_in;
 // TODO: Temp, we just double match until we work out how to make our FIFO fit into LUTs
-assign usb3_data_in[31] = FIFO_D31;
-assign usb3_data_in[30] = FIFO_D30;
-assign usb3_data_in[29] = FIFO_D29;
-assign usb3_data_in[28] = FIFO_D28;
-assign usb3_data_in[27] = FIFO_D27;
-assign usb3_data_in[26] = FIFO_D26;
-assign usb3_data_in[25] = FIFO_D25;
-assign usb3_data_in[24] = FIFO_D24;
-assign usb3_data_in[23] = FIFO_D23;
-assign usb3_data_in[22] = FIFO_D22;
-assign usb3_data_in[21] = FIFO_D21;
-assign usb3_data_in[20] = FIFO_D20;
-assign usb3_data_in[19] = FIFO_D19;
-assign usb3_data_in[18] = FIFO_D18;
-assign usb3_data_in[17] = FIFO_D17;
-assign usb3_data_in[16] = FIFO_D16;
-assign usb3_data_in[15] = FIFO_D15;
-assign usb3_data_in[14] = FIFO_D14;
-assign usb3_data_in[13] = FIFO_D13;
-assign usb3_data_in[12] = FIFO_D12;
-assign usb3_data_in[11] = FIFO_D11;
-assign usb3_data_in[10] = FIFO_D10;
-assign usb3_data_in[9]  = FIFO_D9;
-assign usb3_data_in[8]  = FIFO_D8;
-assign usb3_data_in[7]  = FIFO_D7;
-assign usb3_data_in[6]  = FIFO_D6;
-assign usb3_data_in[5]  = FIFO_D5;
-assign usb3_data_in[4]  = FIFO_D4;
-assign usb3_data_in[3]  = FIFO_D3;
-assign usb3_data_in[2]  = FIFO_D2;
-assign usb3_data_in[1]  = FIFO_D1;
-assign usb3_data_in[0]  = FIFO_D0;
+// assign usb3_data_in[31] = FIFO_D31;
+// assign usb3_data_in[30] = FIFO_D30;
+// assign usb3_data_in[29] = FIFO_D29;
+// assign usb3_data_in[28] = FIFO_D28;
+// assign usb3_data_in[27] = FIFO_D27;
+// assign usb3_data_in[26] = FIFO_D26;
+// assign usb3_data_in[25] = FIFO_D25;
+// assign usb3_data_in[24] = FIFO_D24;
+// assign usb3_data_in[23] = FIFO_D23;
+// assign usb3_data_in[22] = FIFO_D22;
+// assign usb3_data_in[21] = FIFO_D21;
+// assign usb3_data_in[20] = FIFO_D20;
+// assign usb3_data_in[19] = FIFO_D19;
+// assign usb3_data_in[18] = FIFO_D18;
+// assign usb3_data_in[17] = FIFO_D17;
+// assign usb3_data_in[16] = FIFO_D16;
+// assign usb3_data_in[15] = FIFO_D15;
+// assign usb3_data_in[14] = FIFO_D14;
+// assign usb3_data_in[13] = FIFO_D13;
+// assign usb3_data_in[12] = FIFO_D12;
+// assign usb3_data_in[11] = FIFO_D11;
+// assign usb3_data_in[10] = FIFO_D10;
+// assign usb3_data_in[9]  = FIFO_D9;
+// assign usb3_data_in[8]  = FIFO_D8;
+// assign usb3_data_in[7]  = FIFO_D7;
+// assign usb3_data_in[6]  = FIFO_D6;
+// assign usb3_data_in[5]  = FIFO_D5;
+// assign usb3_data_in[4]  = FIFO_D4;
+// assign usb3_data_in[3]  = FIFO_D3;
+// assign usb3_data_in[2]  = FIFO_D2;
+// assign usb3_data_in[1]  = FIFO_D1;
+// assign usb3_data_in[0]  = FIFO_D0;
+assign usb3_data_in[0] = FIFO_D31;
+assign usb3_data_in[1] = FIFO_D30;
+assign usb3_data_in[2] = FIFO_D29;
+assign usb3_data_in[3] = FIFO_D28;
+assign usb3_data_in[4] = FIFO_D27;
+assign usb3_data_in[5] = FIFO_D26;
+assign usb3_data_in[6] = FIFO_D25;
+assign usb3_data_in[7] = FIFO_D24;
+assign usb3_data_in[8] = FIFO_D23;
+assign usb3_data_in[9] = FIFO_D22;
+assign usb3_data_in[10] = FIFO_D21;
+assign usb3_data_in[11] = FIFO_D20;
+assign usb3_data_in[12] = FIFO_D19;
+assign usb3_data_in[13] = FIFO_D18;
+assign usb3_data_in[14] = FIFO_D17;
+assign usb3_data_in[15] = FIFO_D16;
+assign usb3_data_in[16] = FIFO_D15;
+assign usb3_data_in[17] = FIFO_D14;
+assign usb3_data_in[18] = FIFO_D13;
+assign usb3_data_in[19] = FIFO_D12;
+assign usb3_data_in[20] = FIFO_D11;
+assign usb3_data_in[21] = FIFO_D10;
+assign usb3_data_in[22]  = FIFO_D9;
+assign usb3_data_in[23]  = FIFO_D8;
+assign usb3_data_in[24]  = FIFO_D7;
+assign usb3_data_in[25]  = FIFO_D6;
+assign usb3_data_in[26]  = FIFO_D5;
+assign usb3_data_in[27]  = FIFO_D4;
+assign usb3_data_in[28]  = FIFO_D3;
+assign usb3_data_in[29]  = FIFO_D2;
+assign usb3_data_in[30]  = FIFO_D1;
+assign usb3_data_in[31]  = FIFO_D0;
 // Implementation of the glue logic between the USB3 Chip and the FPGA's internal FIFO
 // FPGA side
 wire        dc32_fifo_write_enable;
