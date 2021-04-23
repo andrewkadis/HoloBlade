@@ -1,0 +1,22 @@
+			Lattice Semiconductor Corporation.
+			Lattice Programmer Diamond (64-bit) 3.11.2.446.1 Command Line (Database V3.11.1)
+
+
+
+System Information:
+-----------------------------------------------------
+ Microsoft(R) Windows(R) 10.0  64-bit
+Connected to Lattice Cable Server.
+Board with FTDI USB Host Chip detected.
+
+
+Frequency setting= 15000000 Hz
+Check configuration setup: Start.
+Check configuration setup: Successful (Ignored JTAG Connection Checking).
+Device1 iCE40HX4K: Fast Program
+
+	"Device detection failed. Cannot continue."
+Execution time: 00 min : 01 sec
+Process Operation Failed.
+Elapsed time: 00 min : 01 sec
+Operation: unsuccessful.

@@ -1,11 +1,39 @@
-Output: Generates pick and place files
-Type  : Pick Place
+Output: Gerber Files
+Type  : Gerber
 From  : Variant [[No Variations]] of Project [USB_FPGA_SLM_v2.PrjPcb]
-   Generated File[Pick Place for PCB_Rev1.1.txt]
-   Generated File[Pick Place for PCB_Rev1.1.csv]
+   Generated File[PCB_Rev1.1.GTO]
+   Generated File[PCB_Rev1.1.GTP]
+   Generated File[PCB_Rev1.1.GTS]
+   Generated File[PCB_Rev1.1.GTL]
+   Generated File[PCB_Rev1.1.GP1]
+   Generated File[PCB_Rev1.1.GP2]
+   Generated File[PCB_Rev1.1.GBL]
+   Generated File[PCB_Rev1.1.GBS]
+   Generated File[PCB_Rev1.1.GBP]
+   Generated File[PCB_Rev1.1.GBO]
+   Generated File[PCB_Rev1.1.GM1]
+   Generated File[PCB_Rev1.1.GM2]
+   Generated File[PCB_Rev1.1.GM3]
+   Generated File[PCB_Rev1.1.GM4]
+   Generated File[PCB_Rev1.1.GM5]
+   Generated File[PCB_Rev1.1.GM6]
+   Generated File[PCB_Rev1.1.GM7]
+   Generated File[PCB_Rev1.1.GM8]
+   Generated File[PCB_Rev1.1.GM9]
+   Generated File[PCB_Rev1.1.GM10]
+   Generated File[PCB_Rev1.1.GM13]
+   Generated File[PCB_Rev1.1.GM15]
+   Generated File[PCB_Rev1.1.GKO]
+   Generated File[PCB_Rev1.1.GPT]
+   Generated File[PCB_Rev1.1.GPB]
+   Generated File[PCB_Rev1.1.GD1]
+   Generated File[PCB_Rev1.1.GG1]
+   Generated File[PCB_Rev1.1.RUL]
+   Generated File[PCB_Rev1.1.EXTREP]
+   Generated File[PCB_Rev1.1.REP]
 
 
-Files Generated   : 2
+Files Generated   : 30
 Documents Printed : 0
 
-Finished Output Generation At 1:55:15 PM On 8/31/2019
+Finished Output Generation At 00:31:49 On 21/10/2020

@@ -1,0 +1,145 @@
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2015 Lattice Semiconductor Corporation,  All rights reserved.
+Tue Sep 22 17:09:33 2020
+
+
+Command Line:  D:\ProgramFiles\Lattice\LSE\bin\nt\synthesis.exe -f HoloBlade_lse.prj 
+
+Synthesis options:
+The -a option is SBTiCE40.
+The -t option is TQ144.
+The -d option is iCE40HX4K.
+                                                          
+
+##########################################################
+
+### Lattice Family : SBTiCE40
+
+### Device  : iCE40HX4K
+
+### Package : TQ144
+
+### Number of Logic Cells: 3520
+
+### Number of RAM4k Blocks: 20
+
+### Number of DSP Blocks: 0
+
+### Number of PLLs: 2
+
+### Number of IO Pins: 95
+
+##########################################################
+
+                                                          
+
+Optimization goal = Area
+Top-level module name = top.
+Target frequency = 1.000000 MHz.
+Maximum fanout = 10000.
+Timing path count = 3
+RWCheckOnRam = 0
+
+BRAM utilization = 100.000000 %
+DSP usage = true (default)
+DSP utilization = 100 % (default)
+fsm_encoding_style = auto
+resolve_mixed_drivers = 0
+fix_gated_clocks = 1
+
+Mux style = auto (Default)
+Use Carry Chain = true
+carry_chain_length = 0
+Loop Limit = 1950.
+Use IO Insertion = TRUE
+Use IO Reg = AUTO
+
+Resource Sharing = TRUE
+Propagate Constants = TRUE
+Remove Duplicate Registers = TRUE
+Output EDIF file name = HoloBlade_Implmnt/HoloBlade.edf.
+WARNING - synthesis: Option -force_gsr will be set to false when option -output_edif/-ngo are set
+ROM style = auto
+RAM style = auto
+The -comp option is FALSE.
+The -syn option is FALSE.
+-p D:/Dev/HoloBlade/fpga_firmware/verilog (searchpath added)
+Verilog design file = src/top.v
+Verilog design file = src/clock.v
+Verilog design file = src/uart_rx.v
+Verilog design file = src/uart_tx.v
+Verilog design file = src/spi.v
+Verilog design file = src/FIFO_Quad_Word_mod.v
+Verilog design file = src/bluejay_data.v
+Verilog design file = src/usb3_if.v
+Verilog design file = src/fifo_dc_32_lut_gen.v
+Verilog design file = src/timing_controller.v
+-sdc option: SDC file input not used.
+Technology check ok...
+
+Analyzing Verilog file D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/machxo2.v. VERI-1482
+Analyzing Verilog file D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v. VERI-1482
+Compile design.
+Compile Design Begin
+Analyzing Verilog file src/top.v. VERI-1482
+WARNING - synthesis: src/top.v(575): dc32_fifo_almost_empty is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(576): dc32_fifo_read_enable is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(577): dc32_fifo_data_out is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(609): sc32_fifo_write_enable is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(610): sc32_fifo_read_enable is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(612): sc32_fifo_data_in is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(970): spi_rx_byte_ready is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(998): pc_data_tx is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(202): identifier fpga_clk is used before its declaration. VERI-1875
+WARNING - synthesis: src/top.v(242): identifier reset_countdown is used before its declaration. VERI-1875
+WARNING - synthesis: src/top.v(365): identifier sc32_fifo_write_enable is used before its declaration. VERI-1875
+WARNING - synthesis: src/top.v(367): identifier sc32_fifo_data_out is used before its declaration. VERI-1875
+WARNING - synthesis: src/top.v(368): identifier dc32_fifo_data_out is used before its declaration. VERI-1875
+Analyzing Verilog file src/clock.v. VERI-1482
+Analyzing Verilog file src/uart_rx.v. VERI-1482
+WARNING - synthesis: src/uart_rx.v(23): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_rx.v(24): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_rx.v(25): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_rx.v(26): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_rx.v(27): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
+Analyzing Verilog file src/uart_tx.v. VERI-1482
+WARNING - synthesis: src/uart_tx.v(25): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_tx.v(26): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_tx.v(27): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_tx.v(28): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_tx.v(29): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
+Analyzing Verilog file src/spi.v. VERI-1482
+Analyzing Verilog file src/fifo_quad_word_mod.v. VERI-1482
+Analyzing Verilog file src/bluejay_data.v. VERI-1482
+Analyzing Verilog file src/usb3_if.v. VERI-1482
+Analyzing Verilog file src/fifo_dc_32_lut_gen.v. VERI-1482
+Analyzing Verilog file src/timing_controller.v. VERI-1482
+Analyzing Verilog file D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v. VERI-1482
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(79): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(88): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(98): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(108): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(118): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(170): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(179): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(189): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(199): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(209): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(3725): empty port in module declaration. VERI-1294
+Top module name (Verilog): top
+INFO - synthesis: src/top.v(5): compiling module top. VERI-1018
+INFO - synthesis: src/clock.v(4): compiling module clock. VERI-1018
+INFO - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(699): compiling module SB_PLL40_CORE(DIVR=4'b01,DIVF=7'b1010010,DIVQ=3'b100,FILTER_RANGE=3'b01). VERI-1018
+INFO - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(579): compiling module SB_GB. VERI-1018
+WARNING - synthesis: src/clock.v(59): input port EXTFEEDBACK is not connected on this instance. VDB-1013
+INFO - synthesis: src/timing_controller.v(8): compiling module timing_controller. VERI-1018
+WARNING - synthesis: src/timing_controller.v(107): expression size 32 truncated to fit in target size 6. VERI-1209
+WARNING - synthesis: src/timing_controller.v(134): expression size 32 truncated to fit in target size 6. VERI-1209
+WARNING - synthesis: src/timing_controller.v(144): expression size 32 truncated to fit in target size 6. VERI-1209
+INFO - synthesis: src/usb3_if.v(8): compiling module usb3_if. VERI-1018
+WARNING - synthesis: src/usb3_if.v(110): expression size 32 truncated to fit in target size 5. VERI-1209
+WARNING - synthesis: src/usb3_if.v(147): expression size 32 truncated to fit in target size 6. VERI-1209
+WARNING - synthes

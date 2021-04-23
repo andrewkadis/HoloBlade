@@ -1,0 +1,424 @@
+Copyright (c) 1991-1994 by NeoCAD Inc. All rights reserved.
+Copyright (c) 1995 AT&T Corp.   All rights reserved.
+Copyright (c) 1995-2001 Lucent Technologies Inc.  All rights reserved.
+Copyright (c) 2001 Agere Systems   All rights reserved.
+Copyright (c) 2002-2015 Lattice Semiconductor Corporation,  All rights reserved.
+Tue Mar 30 03:01:16 2021
+
+
+Command Line:  D:\ProgramFiles\Lattice\LSE\bin\nt\synthesis.exe -f HoloBlade_lse.prj 
+
+Synthesis options:
+The -a option is SBTiCE40.
+The -t option is TQ144.
+The -d option is iCE40HX4K.
+                                                          
+
+##########################################################
+
+### Lattice Family : SBTiCE40
+
+### Device  : iCE40HX4K
+
+### Package : TQ144
+
+### Number of Logic Cells: 3520
+
+### Number of RAM4k Blocks: 20
+
+### Number of DSP Blocks: 0
+
+### Number of PLLs: 2
+
+### Number of IO Pins: 95
+
+##########################################################
+
+                                                          
+
+Optimization goal = Area
+Top-level module name = top.
+Target frequency = 1.000000 MHz.
+Maximum fanout = 10000.
+Timing path count = 3
+RWCheckOnRam = 0
+
+BRAM utilization = 100.000000 %
+DSP usage = true (default)
+DSP utilization = 100 % (default)
+fsm_encoding_style = auto
+resolve_mixed_drivers = 0
+fix_gated_clocks = 1
+
+Mux style = auto (Default)
+Use Carry Chain = true
+carry_chain_length = 0
+Loop Limit = 1950.
+Use IO Insertion = TRUE
+Use IO Reg = AUTO
+
+Resource Sharing = TRUE
+Propagate Constants = TRUE
+Remove Duplicate Registers = TRUE
+Output EDIF file name = HoloBlade_Implmnt/HoloBlade.edf.
+WARNING - synthesis: Option -force_gsr will be set to false when option -output_edif/-ngo are set
+ROM style = auto
+RAM style = auto
+The -comp option is FALSE.
+The -syn option is FALSE.
+-p D:/Dev/HoloBlade/fpga_firmware/verilog (searchpath added)
+Verilog design file = src/top.v
+Verilog design file = src/clock.v
+Verilog design file = src/uart_rx.v
+Verilog design file = src/uart_tx.v
+Verilog design file = src/spi.v
+Verilog design file = src/FIFO_Quad_Word_mod.v
+Verilog design file = src/bluejay_data.v
+Verilog design file = src/usb3_if.v
+Verilog design file = src/fifo_dc_32_lut_gen.v
+Verilog design file = src/timing_controller.v
+Verilog design file = src/fifo_sc_32_lut_gen.v
+-sdc option: SDC file input not used.
+Technology check ok...
+
+Analyzing Verilog file D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/machxo2.v. VERI-1482
+Analyzing Verilog file D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v. VERI-1482
+Compile design.
+Compile Design Begin
+Analyzing Verilog file src/top.v. VERI-1482
+WARNING - synthesis: src/top.v(608): dc32_fifo_almost_empty is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(609): dc32_fifo_read_enable is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(610): dc32_fifo_data_out is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(642): sc32_fifo_write_enable is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(643): sc32_fifo_read_enable is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(645): sc32_fifo_data_in is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(1003): spi_rx_byte_ready is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(1031): pc_data_tx is already implicitly declared earlier. VERI-1362
+WARNING - synthesis: src/top.v(202): identifier fpga_clk is used before its declaration. VERI-1875
+WARNING - synthesis: src/top.v(242): identifier reset_countdown is used before its declaration. VERI-1875
+WARNING - synthesis: src/top.v(366): identifier sc32_fifo_empty is used before its declaration. VERI-1875
+WARNING - synthesis: src/top.v(368): identifier dc32_fifo_write_enable is used before its declaration. VERI-1875
+Analyzing Verilog file src/clock.v. VERI-1482
+Analyzing Verilog file src/uart_rx.v. VERI-1482
+WARNING - synthesis: src/uart_rx.v(23): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_rx.v(24): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_rx.v(25): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_rx.v(26): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_rx.v(27): parameter declaration becomes local in uart_rx with formal parameter declaration list. VERI-1199
+Analyzing Verilog file src/uart_tx.v. VERI-1482
+WARNING - synthesis: src/uart_tx.v(25): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_tx.v(26): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_tx.v(27): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_tx.v(28): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
+WARNING - synthesis: src/uart_tx.v(29): parameter declaration becomes local in uart_tx with formal parameter declaration list. VERI-1199
+Analyzing Verilog file src/spi.v. VERI-1482
+Analyzing Verilog file src/fifo_quad_word_mod.v. VERI-1482
+Analyzing Verilog file src/bluejay_data.v. VERI-1482
+Analyzing Verilog file src/usb3_if.v. VERI-1482
+Analyzing Verilog file src/fifo_dc_32_lut_gen.v. VERI-1482
+Analyzing Verilog file src/timing_controller.v. VERI-1482
+Analyzing Verilog file src/fifo_sc_32_lut_gen.v. VERI-1482
+Analyzing Verilog file D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v. VERI-1482
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(79): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(88): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(98): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(108): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(118): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(170): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(179): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(189): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(199): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(209): assignment to input EVERI-1214
+WARNING - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(3725): empty port in module declaration. VERI-1294
+Top module name (Verilog): top
+INFO - synthesis: src/top.v(5): compiling module top. VERI-1018
+INFO - synthesis: src/clock.v(4): compiling module clock. VERI-1018
+INFO - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(699): compiling module SB_PLL40_CORE(DIVR=4'b01,DIVF=7'b1010010,DIVQ=3'b100,FILTER_RANGE=3'b01). VERI-1018
+INFO - synthesis: D:/ProgramFiles/Lattice/LSE/userware/NT/SYNTHESIS_HEADERS/sb_ice40.v(579): compiling module SB_GB. VERI-1018
+WARNING - synthesis: src/clock.v(59): input port EXTFEEDBACK is not connected on this instance. VDB-1013
+INFO - synthesis: src/timing_controller.v(8): compiling module timing_controller. VERI-1018
+WARNING - synthesis: src/timing_controller.v(106): expression size 32 truncated to fit in target size 6. VERI-1209
+WARNING - synthesis: src/timing_controller.v(133): expression size 32 truncated to fit in target size 6. VERI-1209
+WARNING - synthesis: src/timing_controller.v(143): expression size 32 truncated to fit in target size 6. VERI-1209
+INFO - synthesis: src/usb3_if.v(8): compiling module usb3_if. VERI-1018
+WARNING - synthesis: src/usb3_if.v(110): expression size 32 truncated to fit in target size 5. VERI-1209
+WARNING - synthesis: src/usb3_if.v(129): expression size 32 truncated to fit in target size 6. VERI-1209
+WARNING - synthesis: src/usb3_if.v(137): expression size 6 truncated to fit in target size 5. VERI-1209
+WARNING - synthesis: src/usb3_if.v(141): expression size 6 truncated to fit in target size 5. VERI-1209
+WARNING - synthesis: src/usb3_if.v(148): expression size 32 truncated to fit in target size 6. VERI-1209
+WARNING - synthesis: src/usb3_if.v(152): expression size 32 truncated to fit in target size 5. VERI-1209
+WARNING - synthesis: src/usb3_if.v(159): expression size 32 truncated to fit in target size 6. VERI-1209
+WARNING - synthesis: src/usb3_if.v(164): expression size 32 truncated to fit in target size 11. VERI-1209
+WARNING - synthesis: src/usb3_if.v(175): expression size 6 truncated to fit in target size 5. VERI-1209
+WARNING - synthesis: src/usb3_if.v(180): expression size 32 truncated to fit in target size 5. VERI-1209
+WARNING - synthesis: src/usb3_if.v(186): expression size 6 truncated to fit in target size 5. VERI-1209
+INFO - synthesis: src/fifo_dc_32_lut_gen.v(10): compiling module fifo_dc_32_lut_gen2. VERI-1018
+INFO - synthesis: src/fifo_dc_32_lut_gen.v(129): compiling module fifo_dc_32_lut_gen2_ipgen_lscc_fifo_dc_renamed_due_excessive_length_1. VERI-1018
+Removed duplicate sequential element wr_addr_arith_r(6 bit), because it is equivalent to wr_addr_r
+
+Removed duplicate sequential element rd_addr_arith_r(6 bit), because it is equivalent to rd_addr_r
+
+INFO - synthesis: src/fifo_sc_32_lut_gen.v(10): compiling module fifo_sc_32_lut_gen. VERI-1018
+INFO - synthesis: src/fifo_sc_32_lut_gen.v(64): compiling module fifo_sc_32_lut_gen_ipgen_lscc_fifo_renamed_due_excessive_length_2. VERI-1018
+INFO - synthesis: src/bluejay_data.v(8): compiling module bluejay_data. VERI-1018
+WARNING - synthesis: src/bluejay_data.v(68): expression size 32 truncated to fit in target size 8. VERI-1209
+WARNING - synthesis: src/bluejay_data.v(86): expression size 32 truncated to fit in target size 8. VERI-1209
+WARNING - synthesis: src/bluejay_data.v(96): expression size 32 truncated to fit in target size 8. VERI-1209
+WARNING - synthesis: src/bluejay_data.v(106): expression size 32 truncated to fit in target size 8. VERI-1209
+WARNING - synthesis: src/bluejay_data.v(108): expression size 32 truncated to fit in target size 11. VERI-1209
+WARNING - synthesis: src/bluejay_data.v(119): expression size 32 truncated to fit in target size 8. VERI-1209
+INFO - synthesis: src/uart_rx.v(14): compiling module uart_rx(CLKS_PER_BIT=20). VERI-1018
+WARNING - synthesis: src/uart_rx.v(80): expression size 32 truncated to fit in target size 10. VERI-1209
+WARNING - synthesis: src/uart_rx.v(91): expression size 32 truncated to fit in target size 10. VERI-1209
+WARNING - synthesis: src/uart_rx.v(102): expression size 32 truncated to fit in target size 3. VERI-1209
+WARNING - synthesis: src/uart_rx.v(120): expression size 32 truncated to fit in target size 10. VERI-1209
+INFO - synthesis: src/uart_tx.v(14): compiling module uart_tx(CLKS_PER_BIT=20). VERI-1018
+WARNING - synthesis: src/uart_tx.v(68): expression size 32 truncated to fit in target size 10. VERI-1209
+WARNING - synthesis: src/uart_tx.v(86): expression size 32 truncated to fit in target size 10. VERI-1209
+WARNING - synthesis: src/uart_tx.v(96): expression size 32 truncated to fit in target size 3. VERI-1209
+WARNING - synthesis: src/uart_tx.v(116): expression size 32 truncated to fit in target size 10. VERI-1209
+INFO - synthesis: src/spi.v(8): compiling module spi. VERI-1018
+WARNING - synthesis: src/spi.v(108): expression size 32 truncated to fit in target size 10. VERI-1209
+WARNING - synthesis: src/spi.v(128): expression size 32 truncated to fit in target size 10. VERI-1209
+WARNING - synthesis: src/spi.v(162): expression size 32 truncated to fit in target size 10. VERI-1209
+WARNING - synthesis: src/spi.v(183): expression size 32 truncated to fit in target size 10. VERI-1209
+WARNING - synthesis: src/spi.v(216): expression size 32 truncated to fit in target size 8. VERI-1209
+INFO - synthesis: src/fifo_quad_word_mod.v(10): compiling module FIFO_Quad_Word. VERI-1018
+INFO - synthesis: src/fifo_quad_word_mod.v(25): compiling module FIFO_Quad_Word_ipgen_lscc_fifo_renamed_due_excessive_length_3. VERI-1018
+WARNING - synthesis: src/top.v(1064): actual bit length 8 differs from formal bit length 32 for port wr_data_i. VERI-1330
+WARNING - synthesis: src/top.v(1242): expression size 32 truncated to fit in target size 1. VERI-1209
+WARNING - synthesis: src/top.v(1265): Register reset_all_cmd_r_85 is stuck at Zero. VDB-5013
+WARNING - synthesis: src/top.v(606): net reset_ptr does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(476): net ftdi_clk does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(981): input port i_reset is not connected on this instance. VDB-1013
+Loading NGL library 'D:/ProgramFiles/Lattice/LSE/xo2c00/data/xo2clib.ngl'...
+Loading NGL library 'D:/ProgramFiles/Lattice/LSE/or5g00/data/orc5glib.ngl'...
+Top-level module name = top.
+WARNING - synthesis: Initial value found on net n348 will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net wr_addr_nxt_r[2] will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net wr_addr_nxt_r[1] will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net wr_addr_nxt_r[0] will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net rd_addr_nxt_r[2] will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net rd_addr_nxt_r[1] will be ignored due to unrecognized driver type
+WARNING - synthesis: Initial value found on net rd_addr_nxt_r[0] will be ignored due to unrecognized driver type
+WARNING - synthesis: src/top.v(606): net reset_ptr does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(476): net ftdi_clk does not have a driver. VDB-1002
+WARNING - synthesis: src/top.v(981): input port i_reset is not connected on this instance. VDB-1013
+WARNING - synthesis: src/clock.v(59): input port EXTFEEDBACK is not connected on this instance. VDB-1013
+WARNING - synthesis: src/spi.v(49): net \spi0/i_reset does not have a driver. VDB-1002
+######## Missing driver on net reset_ptr. Patching with GND.
+######## Missing driver on net \spi0/i_reset. Patching with GND.
+INFO - synthesis: Extracted state machine for register '\usb3_if_inst/state' with one-hot encoding
+State machine has 9 reachable states with original encodings of:
+
+ 0000 
+
+ 0001 
+
+ 0010 
+
+ 0011 
+
+ 0100 
+
+ 0101 
+
+ 0110 
+
+ 0111 
+
+ 1000 
+
+original encoding -> new encoding (one-hot encoding)
+
+ 0000 -> 000000001
+
+ 0001 -> 000000010
+
+ 0010 -> 000000100
+
+ 0011 -> 000001000
+
+ 0100 -> 000010000
+
+ 0101 -> 000100000
+
+ 0110 -> 001000000
+
+ 0111 -> 010000000
+
+ 1000 -> 100000000
+
+INFO - synthesis: Extracted state machine for register '\bluejay_data_inst/state' with one-hot encoding
+State machine has 9 reachable states with original encodings of:
+
+ 0001 
+
+ 0010 
+
+ 0011 
+
+ 0100 
+
+ 0101 
+
+ 0110 
+
+ 0111 
+
+ 1000 
+
+ 1001 
+
+original encoding -> new encoding (one-hot encoding)
+
+ 0001 -> 000000001
+
+ 0010 -> 000000010
+
+ 0011 -> 000000100
+
+ 0100 -> 000001000
+
+ 0101 -> 000010000
+
+ 0110 -> 000100000
+
+ 0111 -> 001000000
+
+ 1000 -> 010000000
+
+ 1001 -> 100000000
+
+
+
+
+WARNING - synthesis: Bit 0 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 1 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 2 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 3 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 4 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 5 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 6 of Register \usb3_if_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 0 of Register \bluejay_data_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 1 of Register \bluejay_data_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 2 of Register \bluejay_data_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 3 of Register \bluejay_data_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 4 of Register \bluejay_data_inst/state_FSM is stuck at Zero
+WARNING - synthesis: Bit 5 of Register \bluejay_data_inst/state_FSM is stuck at Zero
+WARNING - synthesis: src/fifo_quad_word_mod.v(448): Register \i1578/i62_63 is stuck at Zero. VDB-5013
+WARNING - synthesis: Bit 0 of Register \tx_fifo/lscc_fifo_inst/mem_LUT.data_raw_r_ is stuck at Zero
+Duplicate register/latch removal. \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r__i5 is a one-to-one match with \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_grey_sync_r__i5.
+Duplicate register/latch removal. \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_grey_sync_r__i5 is a one-to-one match with \fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r__i5.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/empty_ext_r_124 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/empty_r_125.
+Duplicate register/latch removal. \usb3_if_inst/buffer_switch_done_latched_110 is a one-to-one match with \bluejay_data_inst/state_FSM_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_r_i0 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_cmpaddr_r_i0.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/full_r_122 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/full_mem_r_123.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/empty_mem_r_126 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/empty_ext_r_124.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_p1_r_i0 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_cmpaddr_p1_r_i0.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_p1cmp_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.wr_flag_addr_p1_r_i3.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/waddr_r_i0 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_r_i0.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_r_i0 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_cmpaddr_r_i0.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1_r_i0 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1cmp_r_i0.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/raddr_r_i0 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_r_i0.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.wr_flag_addr_r_i0 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/waddr_r_i0.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.wr_flag_addr_p1_r_i0 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_p1_r_i0.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.rd_flag_addr_r_i0 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/raddr_r_i0.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.rd_flag_addr_p1_r_i0 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1_r_i0.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.full_flag_r_143 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/full_r_122.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.empty_flag_r_144 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/empty_mem_r_126.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.wr_flag_addr_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_r_i2 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.wr_flag_addr_r_i2.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_r_i3 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.wr_flag_addr_r_i3.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_p1_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.wr_flag_addr_p1_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_p1_r_i2 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.wr_flag_addr_p1_r_i2.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_p1_r_i3 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_p1cmp_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_cmpaddr_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/waddr_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_cmpaddr_r_i2 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/waddr_r_i2.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_cmpaddr_p1_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_p1_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_cmpaddr_p1_r_i2 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_p1_r_i2.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.rd_flag_addr_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_r_i2 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.rd_flag_addr_r_i2.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_r_i3 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.rd_flag_addr_r_i3.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.rd_flag_addr_p1_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1_r_i2 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.rd_flag_addr_p1_r_i2.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1_r_i3 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.rd_flag_addr_p1_r_i3.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1cmp_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1cmp_r_i2 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1_r_i2.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1cmp_r_i3 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_p1_r_i3.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_cmpaddr_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/raddr_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_cmpaddr_r_i2 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/raddr_r_i2.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_cmpaddr_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_r_i2 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_cmpaddr_r_i2.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_r_i1 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_cmpaddr_r_i1.
+Duplicate register/latch removal. \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_r_i2 is a one-to-one match with \fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_cmpaddr_r_i2.
+Applying 1.000000 MHz constraint to all clocks
+
+Writing scf file : HoloBlade_Implmnt/HoloBlade.scf
+
+Results of NGD DRC are available in top_drc.log.
+
+################### Begin Area Report (top)######################
+Number of register bits => 1853 of 3520 (52 % )
+SB_CARRY => 146
+SB_DFF => 1474
+SB_DFFE => 126
+SB_DFFESR => 123
+SB_DFFESS => 20
+SB_DFFN => 37
+SB_DFFNESR => 31
+SB_DFFS => 1
+SB_DFFSR => 38
+SB_DFFSS => 3
+SB_GB => 1
+SB_GB_IO => 1
+SB_IO => 98
+SB_LUT4 => 3066
+SB_PLL40_CORE => 1
+################### End Area Report ##################
+
+################### Begin Clock Report ######################
+Clock Nets
+Number of Clocks: 2
+  Net : FIFO_CLK_c, loads : 1148
+  Net : SLM_CLK_c, loads : 706
+Clock Enable Nets
+Number of Clock Enables: 0
+Top 0 highest fanout Clock Enables:
+Highest fanout non-clock nets
+Top 10 highest fanout non-clock nets:
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/wr_addr_r_4, loads : 782
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_1, loads : 373
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_0, loads : 358
+  Net : fifo_sc_32_lut_gen_inst/lscc_fifo_inst/wr_addr_r_2, loads : 260
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_2, loads : 154
+  Net : fifo_sc_32_lut_gen_inst/lscc_fifo_inst/MISC.rd_flag_addr_r_0, loads : 98
+  Net : fifo_sc_32_lut_gen_inst/lscc_fifo_inst/rd_addr_r_1, loads : 88
+  Net : fifo_dc_32_lut_gen_inst/lscc_fifo_dc_inst/rd_addr_r_3, loads : 82
+  Net : fifo_sc_32_lut_gen_inst/lscc_fifo_inst/n7, loads : 64
+  Net : fifo_sc_32_lut_gen_inst/lscc_fifo_inst/n8, loads : 64
+################### End Clock Report ##################
+
+Timing Report Summary
+--------------
+--------------------------------------------------------------------------------
+Constraint                              |   Constraint|       Actual|Levels
+--------------------------------------------------------------------------------
+                                        |             |             |
+create_clock -period 1000.000000 -name  |             |             |
+clk1 [get_nets FIFO_CLK_c]              |    1.000 MHz|   41.859 MHz|    15  
+                                        |             |             |
+create_clock -period 1000.000000 -name  |             |             |
+clk0 [get_nets SLM_CLK_c]               |    1.000 MHz|   19.352 MHz|    33  
+                                        |             |             |
+--------------------------------------------------------------------------------
+
+
+All constraints were met.
+
+
+Peak Memory Usage: 62.527  MB
+
+--------------------------------------------------------------
+Elapsed CPU time for LSE flow : 3.734  secs
+--------------------------------------------------------------

@@ -1,0 +1,52 @@
+$date
+    Wed Sep  9 14:13:32 2020
+$end
+$version
+    MyHDL 0.11
+$end
+$timescale
+    1ns
+$end
+
+$scope module mock_sc32_fifo_tb $end
+$var reg 1 ! reset $end
+$var reg 1 " read_enable $end
+$var reg 1 # write_enable $end
+$var real 1 $ sc32_fifo_data_in $end
+$var real 1 % sc32_fifo_data_out $end
+$var reg 1 & sc32_fifo_full $end
+$var reg 1 ' sc32_fifo_almost_empty $end
+$var reg 1 ( sc32_fifo_almost_full $end
+$var reg 1 ) fpga_clk $end
+$var reg 1 * sc32_fifo_empty $end
+$scope module mock_sc32_fifo0 $end
+$var reg 1 ! reset $end
+$var reg 1 " read_enable $end
+$var reg 1 # write_enable $end
+$var real 1 $ sc32_fifo_data_in $end
+$var real 1 % sc32_fifo_data_out $end
+$var reg 1 & sc32_fifo_full $end
+$var real 1 + num_words_in_buffer $end
+$var reg 1 ' sc32_fifo_almost_empty $end
+$var reg 1 ( sc32_fifo_almost_full $end
+$var reg 1 ) fpga_clk $end
+$var reg 1 * sc32_fifo_empty $end
+$upscope $end
+$upscope $end
+
+$enddefinitions $end
+$dumpvars
+0!
+0"
+0#
+s0 $
+s0 %
+0&
+0'
+0(
+0)
+0*
+s0 +
+$end
+#100
+#3000

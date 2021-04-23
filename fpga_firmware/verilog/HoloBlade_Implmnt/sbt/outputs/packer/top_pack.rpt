@@ -1,0 +1,177 @@
+* ******************************************************************************
+
+* iCEcube Report
+
+* Version:            2017.08.27940
+
+* Build Date:         Sep 11 2017 16:52:36
+
+* File Generated:     Mar 30 2021 03:02:38
+
+* Purpose:            General info of design implementation
+
+* Copyright (C) 2006-2010 by Lattice Semiconductor Corp. All rights reserved.
+
+* ******************************************************************************
+
+Synthesis/Placement Summary:
+----------------------------
+    Status:  Successful
+    Runtime: 2 seconds
+
+Device Info:
+------------
+    Device Family: iCE40
+    Device:        iCE40HX4K
+    Package:       TQ144
+
+Design statistics:
+------------------
+    FFs:                  1847
+    LUTs:                 3173
+    RAMs:                 0
+    IOBs:                 99
+    GBs:                  2
+    PLLs:                 1
+    Warm Boots:           0
+
+Logic Resource Utilization:
+---------------------------
+    Total Logic Cells: 3173/3520
+        Combinational Logic Cells: 1326     out of   3520      37.6705%
+        Sequential Logic Cells:    1847     out of   3520      52.4716%
+        Logic Tiles:               418      out of   440       95%
+    Registers: 
+        Logic Registers:           1847     out of   3520      52.4716%
+        IO Registers:              6        out of   880       0.681818
+    Block RAMs:                    0        out of   20        0%
+    Warm Boots:                    0        out of   1         0%
+    Pins:
+        Input Pins:                37       out of   107       34.5794%
+        Output Pins:               62       out of   107       57.9439%
+        InOut Pins:                0        out of   107       0%
+    Global Buffers:                2        out of   8         25%
+    PLLs:                          1        out of   2         50%
+
+IO Bank Utilization:
+--------------------
+    Bank 3: 24       out of   28        85.7143%
+    Bank 1: 29       out of   29        100%
+    Bank 0: 27       out of   27        100%
+    Bank 2: 19       out of   23        82.6087%
+
+Detailed I/O Info:
+------------------
+    Input Pins: 
+    Pin Number  Direction  IO Standard  Pull Up  IO Bank  IO Function                   Signal Name 
+    ----------  ---------  -----------  -------  -------  -----------                   ----------- 
+    8           Input      SB_LVCMOS    No       3        Simple Input                  FR_RXF      
+    16          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D31    
+    17          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D30    
+    18          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D29    
+    19          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D28    
+    20          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D27    
+    21          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_CLK    
+    22          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D26    
+    23          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D25    
+    24          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D24    
+    25          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D23    
+    26          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D22    
+    28          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D21    
+    29          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D20    
+    31          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D19    
+    32          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D18    
+    33          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D17    
+    34          Input      SB_LVCMOS    No       3        Simple Input                  FIFO_D16    
+    37          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D15    
+    38          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D14    
+    39          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D13    
+    41          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D12    
+    42          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D11    
+    43          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D10    
+    44          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D9     
+    45          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D8     
+    47          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D7     
+    48          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D6     
+    49          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D5     
+    55          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D4     
+    56          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D3     
+    60          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D2     
+    61          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D1     
+    62          Input      SB_LVCMOS    No       2        Simple Input                  FIFO_D0     
+    80          Input      SB_LVCMOS    No       1        Simple Input                  UART_RX     
+    93          Input      SB_LVCMOS    No       1        Simple Input                  ICE_SYSCLK  
+    139         Input      SB_LVCMOS    No       0        Input Registered              SOUT        
+
+    Output Pins: 
+    Pin Number  Direction  IO Standard  Pull Up  IO Bank  IO Function                   Signal Name 
+    ----------  ---------  -----------  -------  -------  -----------                   ----------- 
+    2           Output     SB_LVCMOS    No       3        Simple Output                 FT_OE       
+    3           Output     SB_LVCMOS    No       3        Simple Output                 FT_RD       
+    4           Output     SB_LVCMOS    No       3        Simple Output                 FT_WR       
+    7           Output     SB_LVCMOS    No       3        Simple Output                 FT_SIWU     
+    10          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CREST   
+    15          Output     SB_LVCMOS    No       3        Output Tristatable by Enable  ICE_CDONE   
+    52          Output     SB_LVCMOS    No       2        Output Tristatable by Enable  ICE_CLK     
+    63          Output     SB_LVCMOS    No       2        Simple Output                 DEBUG_8     
+    64          Output     SB_LVCMOS    No       2        Simple Output                 DEBUG_9     
+    73          Output     SB_LVCMOS    No       1        Simple Output                 DCD         
+    74          Output     SB_LVCMOS    No       1        Simple Output                 DSR         
+    75          Output     SB_LVCMOS    No       1        Simple Output                 DTR         
+    76          Output     SB_LVCMOS    No       1        Simple Output                 CTS         
+    78          Output     SB_LVCMOS    No       1        Simple Output                 RST         
+    79          Output     SB_LVCMOS    No       1        Simple Output                 UART_TX     
+    81          Output     SB_LVCMOS    No       1        Simple Output                 DEBUG_5     
+    82          Output     SB_LVCMOS    No       1        Simple Output                 DEBUG_6     
+    83          Output     SB_LVCMOS    No       1        Simple Output                 DEBUG_0     
+    84          Output     SB_LVCMOS    No       1        Simple Output                 DEBUG_1     
+    85          Output     SB_LVCMOS    No       1        Simple Output                 DEBUG_2     
+    87          Output     SB_LVCMOS    No       1        Simple Output                 DEBUG_3     
+    88          Output     SB_LVCMOS    No       1        Simple Output                 UPDATE      
+    90          Output     SB_LVCMOS    No       1        Output Registered             SYNC        
+    91          Output     SB_LVCMOS    No       1        Output Registered             INVERT      
+    94          Output     SB_LVCMOS    No       1        Simple Output                 VALID       
+    95          Output     SB_LVCMOS    No       1        Simple Output                 SLM_CLK     
+    96          Output     SB_LVCMOS    No       1        Simple Output                 DATA10      
+    97          Output     SB_LVCMOS    No       1        Simple Output                 DATA11      
+    98          Output     SB_LVCMOS    No       1        Simple Output                 DATA12      
+    99          Output     SB_LVCMOS    No       1        Simple Output                 DATA9       
+    101         Output     SB_LVCMOS    No       1        Simple Output                 DATA13      
+    102         Output     SB_LVCMOS    No       1        Simple Output                 DATA14      
+    104         Output     SB_LVCMOS    No       1        Simple Output                 DATA8       
+    105         Output     SB_LVCMOS    No       1        Simple Output                 DATA15      
+    106         Output     SB_LVCMOS    No       1        Simple Output                 DATA16      
+    107         Output     SB_LVCMOS    No       1        Simple Output                 DATA7       
+    110         Output     SB_LVCMOS    No       0        Simple Output                 DATA17      
+    112         Output     SB_LVCMOS    No       0        Simple Output                 DATA18      
+    113         Output     SB_LVCMOS    No       0        Simple Output                 DATA6       
+    114         Output     SB_LVCMOS    No       0        Simple Output                 DATA19      
+    115         Output     SB_LVCMOS    No       0        Simple Output                 DATA20      
+    116         Output     SB_LVCMOS    No       0        Simple Output                 DATA5       
+    117         Output     SB_LVCMOS    No       0        Simple Output                 DATA21      
+    118         Output     SB_LVCMOS    No       0        Simple Output                 DATA22      
+    119         Output     SB_LVCMOS    No       0        Simple Output                 DATA4       
+    120         Output     SB_LVCMOS    No       0        Simple Output                 DATA23      
+    121         Output     SB_LVCMOS    No       0        Simple Output                 DATA24      
+    122         Output     SB_LVCMOS    No       0        Simple Output                 DATA3       
+    124         Output     SB_LVCMOS    No       0        Simple Output                 DATA25      
+    125         Output     SB_LVCMOS    No       0        Simple Output                 DATA26      
+    128         Output     SB_LVCMOS    No       0        Simple Output                 DATA2       
+    129         Output     SB_LVCMOS    No       0        Simple Output                 DATA27      
+    130         Output     SB_LVCMOS    No       0        Simple Output                 DATA28      
+    134         Output     SB_LVCMOS    No       0        Simple Output                 DATA1       
+    135         Output     SB_LVCMOS    No       0        Simple Output                 DATA29      
+    136         Output     SB_LVCMOS    No       0        Simple Output                 DATA30      
+    137         Output     SB_LVCMOS    No       0        Simple Output                 DATA31      
+    138         Output     SB_LVCMOS    No       0        Simple Output                 DATA0       
+    141         Output     SB_LVCMOS    No       0        Output Registered             SEN         
+    142         Output     SB_LVCMOS    No       0        Simple Output                 RESET       
+    143         Output     SB_LVCMOS    No       0        Output Registered             SDAT        
+    144         Output     SB_LVCMOS    No       0        Output Registered             SCK         
+
+Detailed Global Buffer Info:
+----------------------------
+    Buffer Number  IO Bank  Driven By  Fanout  Signal Name 
+    -------------  -------  ---------  ------  ----------- 
+    1              3        IO         1120    FIFO_CLK_c  
+    3              3                   705     SLM_CLK_c   

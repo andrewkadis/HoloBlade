@@ -348,15 +348,25 @@ namespace HoloRelay
                     //Frame1[curr_byte + 6] = TestImages.incr_words[curr_byte + 6];
                     //Frame1[curr_byte + 7] = TestImages.incr_words[curr_byte + 7];
 
-                    // Smiley Face
-                    Frame1[curr_byte + 0] = TestImages.smiley_face[curr_byte + 0];
-                    Frame1[curr_byte + 1] = TestImages.smiley_face[curr_byte + 1];
-                    Frame1[curr_byte + 2] = TestImages.smiley_face[curr_byte + 2];
-                    Frame1[curr_byte + 3] = TestImages.smiley_face[curr_byte + 3];
-                    Frame1[curr_byte + 4] = TestImages.smiley_face[curr_byte + 4];
-                    Frame1[curr_byte + 5] = TestImages.smiley_face[curr_byte + 5];
-                    Frame1[curr_byte + 6] = TestImages.smiley_face[curr_byte + 6];
-                    Frame1[curr_byte + 7] = TestImages.smiley_face[curr_byte + 7];
+                    //// Smiley Face
+                    //Frame1[curr_byte + 0] = TestImages.smiley_face[curr_byte + 0];
+                    //Frame1[curr_byte + 1] = TestImages.smiley_face[curr_byte + 1];
+                    //Frame1[curr_byte + 2] = TestImages.smiley_face[curr_byte + 2];
+                    //Frame1[curr_byte + 3] = TestImages.smiley_face[curr_byte + 3];
+                    //Frame1[curr_byte + 4] = TestImages.smiley_face[curr_byte + 4];
+                    //Frame1[curr_byte + 5] = TestImages.smiley_face[curr_byte + 5];
+                    //Frame1[curr_byte + 6] = TestImages.smiley_face[curr_byte + 6];
+                    //Frame1[curr_byte + 7] = TestImages.smiley_face[curr_byte + 7];
+
+                    // Data from Python Scripts
+                    Frame1[curr_byte + 0] = PythonImages.generated_frame_buffer[curr_byte + 0];
+                    Frame1[curr_byte + 1] = PythonImages.generated_frame_buffer[curr_byte + 1];
+                    Frame1[curr_byte + 2] = PythonImages.generated_frame_buffer[curr_byte + 2];
+                    Frame1[curr_byte + 3] = PythonImages.generated_frame_buffer[curr_byte + 3];
+                    Frame1[curr_byte + 4] = PythonImages.generated_frame_buffer[curr_byte + 4];
+                    Frame1[curr_byte + 5] = PythonImages.generated_frame_buffer[curr_byte + 5];
+                    Frame1[curr_byte + 6] = PythonImages.generated_frame_buffer[curr_byte + 6];
+                    Frame1[curr_byte + 7] = PythonImages.generated_frame_buffer[curr_byte + 7];
 
 
                 }

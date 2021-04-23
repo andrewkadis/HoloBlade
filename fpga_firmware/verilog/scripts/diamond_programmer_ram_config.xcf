@@ -42,7 +42,7 @@
 	</ProjectOptions>
 	<CableOptions>
 		<CableName>USB2</CableName>
-		<PortAdd>FTUSB-1</PortAdd>
-		<USBID>USB --- Serial Converter A Location 0001 Serial FT4DSHWTA</USBID>
+		<PortAdd>FTUSB-0</PortAdd>
+		<USBID>USB --- Serial Converter A Location 0000 Serial FT42E55KA</USBID>
 	</CableOptions>
 </ispXCF>

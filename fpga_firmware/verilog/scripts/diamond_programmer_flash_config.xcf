@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <!DOCTYPE		ispXCF	SYSTEM	"IspXCF.dtd" >
-<ispXCF version="3.11.0">
+<ispXCF version="3.11.1">
 	<Comment></Comment>
 	<Chain>
 		<Comm>JTAG</Comm>
@@ -17,8 +17,8 @@
 				<BScanLen>1</BScanLen>
 				<BScanVal>0</BScanVal>
 			</Bypass>
-			<File>C:/Users/User/Documents/Dev/awesome-board-firmware/bin/top_bitmap.hex</File>
-			<FileTime>10/14/19 21:21:56</FileTime>
+			<File>D:/Dev/HoloBlade/fpga_firmware/verilog/bin/top_bitmap.hex</File>
+			<FileTime>02/25/21 11:40:12</FileTime>
 			<Operation>SPI Flash Erase,Program,Verify</Operation>
 			<Option>
 				<SVFVendor>JTAG STANDARD</SVFVendor>
@@ -44,7 +44,7 @@
 					<Option>
 						<SVFVendor>JTAG STANDARD</SVFVendor>
 						<IOState>HighZ</IOState>
-						<IOVectorData>êGT</IOVectorData>
+						<IOVectorData>∞ÄP</IOVectorData>
 						<AccessMode>JTAG</AccessMode>
 					</Option>
 				</Device>
@@ -56,26 +56,26 @@
 					<Family>SPI Serial Flash</Family>
 					<Name>MT25QL128</Name>
 					<IDCode>0x18</IDCode>
-					<Package>16-pin SOP2</Package>
+					<Package>8-pin SOP2</Package>
 					<Operation>SPI Flash Erase,Program,Verify</Operation>
-					<File>C:/Users/User/Documents/Dev/awesome-board-firmware/bin/top_bitmap.hex</File>
+					<File>D:/Dev/HoloBlade/fpga_firmware/verilog/bin/top_bitmap.hex</File>
 					<AddressBase>0x00000000</AddressBase>
 					<EndAddress>0x00020000</EndAddress>
 					<DeviceSize>128</DeviceSize>
 					<DataSize>135179</DataSize>
 					<NumberOfDevices>1</NumberOfDevices>
-					<ReInitialize value="FALSE"/>
+					<ReInitialize value="TRUE"/>
 				</Device>
 			</FlashDevice>
 			<FPGADevice>
 				<Device>
 					<Pos>1</Pos>
 					<Name></Name>
-					<File>C:/Users/User/Documents/Dev/awesome-board-firmware/bin/top_bitmap.hex</File>
+					<File>D:/Dev/HoloBlade/fpga_firmware/verilog/bin/top_bitmap.hex</File>
 					<LocalChainList>
 						<LocalDevice index="-99"
 							name="Unknown"
-							file="C:/Users/User/Documents/Dev/awesome-board-firmware/bin/top_bitmap.hex"/>
+							file="D:/Dev/HoloBlade/fpga_firmware/verilog/bin/top_bitmap.hex"/>
 					</LocalChainList>
 					<Option>
 						<SVFVendor>JTAG STANDARD</SVFVendor>

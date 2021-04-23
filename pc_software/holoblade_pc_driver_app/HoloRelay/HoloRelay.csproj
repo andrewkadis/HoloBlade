@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="generated_frame_buffer.cs" />
     <Compile Include="SerialComms.cs" />
     <Compile Include="SLMImageLoader.cs" />
     <Compile Include="TestImages.cs" />

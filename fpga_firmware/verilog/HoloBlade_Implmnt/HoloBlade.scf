@@ -1,0 +1,1 @@
+ create_clock -period 1000.000 -waveform {0.000 500.000} -name {top|FIFO_CLK} [ get_ports {FIFO_CLK} ]
